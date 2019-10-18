@@ -4,7 +4,7 @@
 #ifndef NOYAUNOTE_H
 #define NOYAUNOTE_H
 
-#include "fen/AbstractNoyau.h"
+#include "AbstractNoyau.h"
 
 /*! \defgroup groupeFenNote Fenêtre note
  * \brief Ensemble des fenêtre et du noyau de l'application note.

@@ -6,7 +6,7 @@
 
 #include "NoyauNote.h"
 #include "ZoneCentraleNote.h"
-#include "fen/FenPrincipale.h"
+#include "FenPrincipale.h"
 
 /*! \ingroup groupeFenNote
  * \brief Fenêtre principale de l'application note.
@@ -19,7 +19,7 @@ class FenPrincipaleNote : public FenPrincipale
 {
 public:
     //! Constructeur.
-    FenPrincipaleInv(NoyauNote * noyau, ZoneCentraleNote * centralZone, QWidget *parent = nullptr);
+    FenPrincipaleNote(NoyauNote * noyau, ZoneCentraleNote * centralZone, QWidget *parent = nullptr);
 };
 
 #endif // FENPRINCIPALENOTE_H

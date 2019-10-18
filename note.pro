@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    FenNote \
-    ManagerNote
+    note \
+    library

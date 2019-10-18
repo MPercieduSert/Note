@@ -5,7 +5,7 @@
 #define ZONECENTRALENOTE_H
 
 #include "TabNote.h"
-#include "fen/AbstractTabZoneCentrale.h"
+#include "AbstractTabZoneCentrale.h"
 
 /*! \ingroup groupeFenNote
  * \brief Zone centrale de l'application note.

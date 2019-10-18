@@ -4,7 +4,7 @@
 #ifndef TABNOTE_H
 #define TABNOTE_H
 
-#include "fen/AbstractTab.h"
+#include "AbstractTab.h"
 
 /*! \ingroup groupeFenInv
  * \brief Fenêtre à onglet de l'application inventaire.
