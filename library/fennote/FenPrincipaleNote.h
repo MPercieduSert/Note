@@ -8,6 +8,7 @@
 #include "ZoneCentraleNote.h"
 #include "FenPrincipale.h"
 
+namespace noteMPS {
 /*! \ingroup groupeFenNote
  * \brief Fenêtre principale de l'application note.
  *
@@ -15,11 +16,12 @@
  *  + Crée les différents menus.
  *
  */
-class FenPrincipaleNote : public FenPrincipale
-{
+class FenPrincipaleNote : public fmps::FenPrincipale {
 public:
     //! Constructeur.
-    FenPrincipaleNote(NoyauNote * noyau, ZoneCentraleNote * centralZone, QWidget *parent = nullptr);
+    FenPrincipaleNote(NoyauNote * noyau = new NoyauNote, BddNote * bdd = new BddNote, ZoneCentraleNote * centralZone = new ZoneCentraleNote,
+                     const QString &bddPathXML = DATA_BASE, const QString & configPath = QDir::currentPath().append("/Config.xml"),
+                     QWidget *parent = nullptr);
 };
-
+}
 #endif // FENPRINCIPALENOTE_H

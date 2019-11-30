@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    fennote \
-    managernote
+    managernote \
+    fennote
+
+CONFIG += ordered

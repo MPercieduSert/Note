@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    note \
-    library
+    library \
+    note
+
+CONFIG += ordered

@@ -1,7 +1,10 @@
 #include "FenPrincipaleNote.h"
 
-FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, ZoneCentraleNote * centralZone, QWidget *parent)
-    : FenPrincipale (noyau,centralZone,parent)
+using namespace noteMPS;
+
+FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, BddNote *bdd, ZoneCentraleNote * centralZone,
+                                   const QString &bddPathXML, const QString & configPath, QWidget *parent)
+    : FenPrincipale (noyau,bdd,centralZone,bddPathXML,configPath,parent)
 {
 
 }

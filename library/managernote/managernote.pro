@@ -25,11 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         ManagersNote.cpp \
-    EntityNote.cpp
+    EntityNote.cpp \
+    BddNote.cpp \
+    ConfigNote.cpp
 
 HEADERS += \
         ManagersNote.h \
-    EntityNote.h
+    EntityNote.h \
+    BddNote.h \
+    ConfigNote.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
