@@ -19,9 +19,12 @@ namespace noteMPS {
 class FenPrincipaleNote : public fmps::FenPrincipale {
 public:
     //! Constructeur.
-    FenPrincipaleNote(NoyauNote * noyau = new NoyauNote, BddNote * bdd = new BddNote, ZoneCentraleNote * centralZone = new ZoneCentraleNote,
-                     const QString &bddPathXML = DATA_BASE, const QString & configPath = QDir::currentPath().append("/Config.xml"),
-                     QWidget *parent = nullptr);
+    FenPrincipaleNote(NoyauNote * noyau = new NoyauNote,
+                      std::unique_ptr<BddNote>  bdd = std::make_unique<BddNote>(),
+                      ZoneCentraleNote * centralZone = new ZoneCentraleNote,
+                      const QString &bddPathXML = DATA_BASE,
+                      const QString & configPath = QDir::currentPath().append("/Config.xml"),
+                      QWidget *parent = nullptr);
 };
 }
 #endif // FENPRINCIPALENOTE_H

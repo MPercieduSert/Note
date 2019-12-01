@@ -24,7 +24,7 @@ public:
 
     //Constructeur.
     BddNote()
-        :BddPredef("QSQLITE",bmps::bddVersion::NbrVersionBddNote - 1, new ManagersNote)
+        :BddPredef("QSQLITE",bmps::bddVersion::NbrVersionBddNote - 1, std::make_unique<ManagersNote>())
     {}
 
     //! Destructeur. Referme la base de donnée.

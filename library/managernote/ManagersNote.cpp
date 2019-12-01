@@ -8,27 +8,27 @@ ManagersNote::ManagersNote()
 {
     enableRestriction("RestModif");
     enableType("Type","PermType",
-               new GestionAutorisationCibleCode<Type,Restriction>(bmps::cibleId::Type,get<Restriction>()),
-               new GestionAutorisationCibleCode<TypePermission,Restriction>(bmps::cibleId::TypePermission,get<Restriction>()));
+               std::make_unique<GestionAutorisationCibleCode<Type,Restriction>>(bmps::cibleId::Type,get<Restriction>()),
+               std::make_unique<GestionAutorisationCibleCode<TypePermission,Restriction>>(bmps::cibleId::TypePermission,get<Restriction>()));
     enableCommentaire("Commentaire","CbCommentaire");
     enableDonnee("Donnee","ArbDonnee","CbDonnee","CardDonnee",
-                 new GestionAutorisationCibleCode<Donnee,Restriction>(bmps::cibleId::Donnee,get<Restriction>()),
-                 new GestionAutorisationCibleCode<DonneeCible,Restriction>(bmps::cibleId::DonneeCible,get<Restriction>()),
-                 new GestionAutorisationCibleCode<DonneeCard,Restriction>(bmps::cibleId::DonneeCard,get<Restriction>()));
+                 std::make_unique<GestionAutorisationCibleCode<Donnee,Restriction>>(bmps::cibleId::Donnee,get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<DonneeCible,Restriction>>(bmps::cibleId::DonneeCible,get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,get<Restriction>()));
     enableMotCle("MotCle","ArbMotCle","CbMotCle","CbMotProg","PermMotCle","PermMotProg",
-                 new GestionAutorisationCibleCode<MotCle,Restriction>(bmps::cibleId::MotCle,get<Restriction>()),
-                 new GestionAutorisationCibleCode<MotClePermission,Restriction>(bmps::cibleId::MotClePermission,get<Restriction>()),
-                 new GestionAutorisationCibleCode<MotProgPermission,Restriction>(bmps::cibleId::MotProgPermission,get<Restriction>()));
+                 std::make_unique<GestionAutorisationCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<MotClePermission,Restriction>>(bmps::cibleId::MotClePermission,get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<MotProgPermission,Restriction>>(bmps::cibleId::MotProgPermission,get<Restriction>()));
     enableTexte("Texte","CbTexte","Source","TexteSource");
     enableUtilisation("Utilisation","Usage","ArbUsage",
-                      new GestionAutorisationCibleCode<Usage,Restriction>(bmps::cibleId::Usage,get<Restriction>()));
+                      std::make_unique<GestionAutorisationCibleCode<Usage,Restriction>>(bmps::cibleId::Usage,get<Restriction>()));
     
     //Annee
     using UniqueAn = NumUniqueSql<Annee>;
     InfoBdd infoAn("Annee",Annee::NbrAtt,{UniqueAn::NbrUnique});
     infoAn.setAttribut(Annee::Num,"num");
     infoAn.setUnique(Annee::Num,UniqueAn::NumUnique);
-    setManager(new ManagerSql<Annee>(infoAn, new UniqueAn));
+    setManager<Annee>(std::make_unique<ManagerSql<Annee>>(infoAn, std::make_unique<UniqueAn>()));
     setCible<Annee>(bmps::cibleIdNote::Annee);
     
     //Bareme
@@ -40,7 +40,7 @@ ManagersNote::ManagersNote()
     infoBareme.setAttribut(Bareme::Valeur,"vl",bmps::typeAttributBdd::Double);
     infoBareme.setForeignKey(Bareme::Id,infoArbBareme);
     setTypeForeignKey<Bareme>(infoBareme);
-    setManager(new ManagerArbre<Bareme>(infoBareme,infoArbBareme));
+    setManager<Bareme>(std::make_unique<ManagerArbre<Bareme>>(infoBareme,infoArbBareme));
     setCible<Bareme>(bmps::cibleIdNote::Bareme);
 
     //TypeEtablissement
@@ -49,9 +49,9 @@ ManagersNote::ManagersNote()
     infoTpEtab.setAttribut(TypeEtablissement::Nc,"nc",bmps::typeAttributBdd::Text);
     infoTpEtab.setAttribut(TypeEtablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoTpEtab.setUnique(TypeEtablissement::Nom,UniqueTpEtab::NomUnique);
-    setManager(new ManagerModifControle<TypeEtablissement>(infoTpEtab,
-               new GestionAutorisationCibleCode<TypeEtablissement,Restriction>(bmps::cibleIdNote::TypeEtablissement,get<Restriction>()),
-               new UniqueTpEtab));
+    setManager<TypeEtablissement>(std::make_unique<ManagerModifControle<TypeEtablissement>>(infoTpEtab,
+               std::make_unique<GestionAutorisationCibleCode<TypeEtablissement,Restriction>>(bmps::cibleIdNote::TypeEtablissement,get<Restriction>()),
+               std::make_unique<UniqueTpEtab>()));
     setCible<TypeEtablissement>(bmps::cibleIdNote::TypeEtablissement);
 
     //Etablissement
@@ -62,7 +62,7 @@ ManagersNote::ManagersNote()
     infoEtab.setAttribut(Etablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoEtab.setUnique(Etablissement::Nom,UniqueEtab::NomUnique);
     infoEtab.setForeignKey(Etablissement::IdTpEtab,infoTpEtab);
-    setManager(new ManagerSql<Etablissement>(infoEtab, new UniqueEtab));
+    setManager<Etablissement>(std::make_unique<ManagerSql<Etablissement>>(infoEtab, std::make_unique<UniqueEtab>()));
     setCible<Etablissement>(bmps::cibleIdNote::Etablissement);
 
     //Niveau
@@ -73,7 +73,7 @@ ManagersNote::ManagersNote()
     infoNiveau.setAttribut(Niveau::Type,"tp");
     infoNiveau.setUnique(Niveau::Nom,UniqueNiveau::NomUnique);
     setTypeForeignKey<Niveau>(infoNiveau);
-    setManager(new ManagerSql<Niveau>(infoNiveau, new UniqueNiveau));
+    setManager<Niveau>(std::make_unique<ManagerSql<Niveau>>(infoNiveau, std::make_unique<UniqueNiveau>()));
     setCible<Niveau>(bmps::cibleIdNote::Niveau);
     
     //Classe
@@ -90,7 +90,7 @@ ManagersNote::ManagersNote()
     infoClasse.setForeignKey(Classe::IdAn,infoAn);
     infoClasse.setForeignKey(Classe::IdEtab,infoEtab);
     infoClasse.setForeignKey(Classe::IdNiveau,infoNiveau);
-    setManager(new ManagerSql<Classe>(infoClasse,new UniqueClasse));
+    setManager<Classe>(std::make_unique<ManagerSql<Classe>>(infoClasse,std::make_unique<UniqueClasse>()));
     setCible<Classe>(bmps::cibleIdNote::Classe);
 
     //Eleve
@@ -102,7 +102,7 @@ ManagersNote::ManagersNote()
     infoEleve.setUnique(Eleve::Nom,UniqueEleve::NomUnique);
     infoEleve.setUnique(Eleve::Prenom,UniqueEleve::PrenomUnique);
     infoEleve.setUnique(Eleve::Date,UniqueEleve::DateUnique);
-    setManager(new ManagerSql<Eleve>(infoEleve, new UniqueEleve));
+    setManager<Eleve>(std::make_unique<ManagerSql<Eleve>>(infoEleve, std::make_unique<UniqueEleve>()));
     setCible<Eleve>(bmps::cibleIdNote::Eleve);
     
     //ClasseEleve
@@ -116,7 +116,7 @@ ManagersNote::ManagersNote()
     infoClEl.setUnique(ClasseEleve::IdEleve,UniqueClEl::Id2Unique);
     infoClEl.setForeignKey(ClasseEleve::IdClasse,infoClasse);
     infoClEl.setForeignKey(ClasseEleve::IdEleve,infoEleve);
-    setManager(new ManagerSql<ClasseEleve>(infoClEl,new UniqueClEl));
+    setManager<ClasseEleve>(std::make_unique<ManagerSql<ClasseEleve>>(infoClEl,std::make_unique<UniqueClEl>()));
     setCible<ClasseEleve>(bmps::cibleIdNote::ClasseEleve);
 
     //Groupe
@@ -128,7 +128,7 @@ ManagersNote::ManagersNote()
     infoGroupe.setAttribut(Groupe::Type,"tp");
     infoGroupe.setUnique(Groupe::Nom,UniqueGroupe::NomUnique);
     setTypeForeignKey<Groupe>(infoGroupe);
-    setManager(new ManagerSql<Groupe>(infoGroupe, new UniqueGroupe));
+    setManager<Groupe>(std::make_unique<ManagerSql<Groupe>>(infoGroupe, std::make_unique<UniqueGroupe>()));
     setCible<Groupe>(bmps::cibleIdNote::Groupe);
 
     //ClasseGroupe
@@ -144,7 +144,7 @@ ManagersNote::ManagersNote()
     infoClGr.setForeignKey(ClasseGroupe::IdAn,infoAn);
     infoClGr.setForeignKey(ClasseGroupe::IdClasse,infoClasse);
     infoClGr.setForeignKey(ClasseGroupe::IdGroupe,infoGroupe);
-    setManager(new ManagerSql<ClasseGroupe>(infoClGr, new UniqueClGr));
+    setManager<ClasseGroupe>(std::make_unique<ManagerSql<ClasseGroupe>>(infoClGr, std::make_unique<UniqueClGr>()));
     setCible<ClasseGroupe>(bmps::cibleIdNote::ClasseGroupe);
 
     //TypeControle
@@ -160,9 +160,9 @@ ManagersNote::ManagersNote()
     infoTpCtr.setAttribut(TypeControle::Parent,"pt",bmps::typeAttributBdd::Integer,false);
     infoTpCtr.setAttribut(TypeControle::Total,"tt");
     infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
-    setManager(new ManagerArbreSimpleModifControle<TypeControle>(infoTpCtr,
-                    new GestionAutorisationCibleCode<TypeControle,Restriction>(bmps::cibleIdNote::TypeControle,get<Restriction>()),
-                    new UniqueTpCtr));
+    setManager<TypeControle>(std::make_unique<ManagerArbreSimpleModifControle<TypeControle>>(infoTpCtr,
+                    std::make_unique<GestionAutorisationCibleCode<TypeControle,Restriction>>(bmps::cibleIdNote::TypeControle,get<Restriction>()),
+                    std::make_unique<UniqueTpCtr>()));
     setCible<TypeControle>(bmps::cibleIdNote::TypeControle);
 
     //Controle
@@ -179,7 +179,7 @@ ManagersNote::ManagersNote()
     infoCtr.setAttribut(Controle::Total,"tt");
     infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
     infoCtr.setForeignKey(Controle::IdType,infoTpCtr);
-    setManager(new ManagerSql<Controle>(infoCtr,new UniqueCtr));
+    setManager<Controle>(std::make_unique<ManagerSql<Controle>>(infoCtr,std::make_unique<UniqueCtr>()));
     setCible<Controle>(bmps::cibleIdNote::Controle);
 
     //Enonce
@@ -189,7 +189,7 @@ ManagersNote::ManagersNote()
     infoEnonce.setAttribut(Enonce::Version,"ver");
     infoEnonce.setForeignKey(Enonce::Id,infoArbEnonce);
     setTypeForeignKey<Enonce>(infoEnonce);
-    setManager(new ManagerArbre<Enonce>(infoEnonce,infoArbEnonce));
+    setManager<Enonce>(std::make_unique<ManagerArbre<Enonce>>(infoEnonce,infoArbEnonce));
     setCible<Enonce>(bmps::cibleIdNote::Enonce);
 
     //Epreuve
@@ -202,7 +202,7 @@ ManagersNote::ManagersNote()
     infoEpreuve.setUnique(Epreuve::EnsPoint,UniqueEpreuve::EnsPointUnique);
     infoEpreuve.setForeignKey(Epreuve::IdBareme,infoBareme);
     infoEpreuve.setForeignKey(Epreuve::IdEnonce,infoEnonce);
-    setManager(new ManagerSql<Epreuve>(infoEpreuve, new UniqueEpreuve));
+    setManager<Epreuve>(std::make_unique<ManagerSql<Epreuve>>(infoEpreuve, std::make_unique<UniqueEpreuve>()));
     setCible<Epreuve>(bmps::cibleIdNote::Epreuve);
 
     //ControleEpreuve
@@ -226,7 +226,7 @@ ManagersNote::ManagersNote()
     infoCtrEp.setForeignKey(ControleEpreuve::IdEleve,infoEleve);
     infoCtrEp.setForeignKey(ControleEpreuve::IdEpreuve,infoEpreuve);
     infoCtrEp.setForeignKey(ControleEpreuve::IdGroupe,infoGroupe);
-    setManager(new ManagerSql<ControleEpreuve>(infoCtrEp, new UniqueControleEpreuve));
+    setManager<ControleEpreuve>(std::make_unique<ManagerSql<ControleEpreuve>>(infoCtrEp, std::make_unique<UniqueControleEpreuve>()));
     setCible<ControleEpreuve>(bmps::cibleIdNote::ControleEpreuve);
 
     //EleveGroupe
@@ -239,7 +239,7 @@ ManagersNote::ManagersNote()
     infoElGr.setUnique(EleveGroupe::IdGroupe,UniqueElGr::Id2Unique);
     infoElGr.setForeignKey(EleveGroupe::IdEleve,infoEleve);
     infoElGr.setForeignKey(EleveGroupe::IdGroupe,infoGroupe);
-    setManager(new ManagerSql<EleveGroupe>(infoElGr, new UniqueElGr));
+    setManager<EleveGroupe>(std::make_unique<ManagerSql<EleveGroupe>>(infoElGr, std::make_unique<UniqueElGr>()));
     setCible<EleveGroupe>(bmps::cibleIdNote::EleveGroupe);
 
     //Point
@@ -248,7 +248,7 @@ ManagersNote::ManagersNote()
     infoPoint.setAttribut(Point::Valeur,"vl");
     infoPoint.setAttribut(Point::Version,"ver");
     setTypeForeignKey<Point>(infoPoint);
-    setManager(new ManagerSql<Point>(infoPoint));
+    setManager<Point>(std::make_unique<ManagerSql<Point>>(infoPoint));
     setCible<Point>(bmps::cibleIdNote::Point);
 
     //EnoncePoint
@@ -262,7 +262,7 @@ ManagersNote::ManagersNote()
     infoEnPt.setUnique(EnoncePoint::Num,UniqueEnoncePoint::NumUnique);
     infoEnPt.setForeignKey(EnoncePoint::IdEnonce,infoEnonce);
     infoEnPt.setForeignKey(EnoncePoint::IdPoint,infoPoint);
-    setManager(new ManagerSql<EnoncePoint>(infoEnPt,new UniqueEnoncePoint));
+    setManager<EnoncePoint>(std::make_unique<ManagerSql<EnoncePoint>>(infoEnPt,std::make_unique<UniqueEnoncePoint>()));
     setCible<EnoncePoint>(bmps::cibleIdNote::EnoncePoint);
 
     //EtablissementNiveau
@@ -274,7 +274,7 @@ ManagersNote::ManagersNote()
     infoEtabNiv.setForeignKey(EtablissementNiveau::IdNiveau,infoNiveau);
     infoEtabNiv.setUnique(EtablissementNiveau::IdEtab,UniqueEtabNiv::Id1Unique);
     infoEtabNiv.setUnique(EtablissementNiveau::IdNiveau,UniqueEtabNiv::Id2Unique);
-    setManager(new ManagerSql<EtablissementNiveau>(infoEtabNiv, new UniqueEtabNiv));
+    setManager<EtablissementNiveau>(std::make_unique<ManagerSql<EtablissementNiveau>>(infoEtabNiv, std::make_unique<UniqueEtabNiv>()));
     setCible<EtablissementNiveau>(bmps::cibleIdNote::EtablissementNiveau);
 
     //FiliationNiveau
@@ -286,9 +286,9 @@ ManagersNote::ManagersNote()
     infoFilNiv.setForeignKey(FiliationNiveau::IdSuivant,infoNiveau);
     infoFilNiv.setUnique(FiliationNiveau::IdPrecedent,UniqueFilNiv::Id1Unique);
     infoFilNiv.setUnique(FiliationNiveau::IdSuivant,UniqueFilNiv::Id2Unique);
-    setManager(new ManagerModifControle<FiliationNiveau>(infoFilNiv,
-                   new GestionAutorisationCibleCode<FiliationNiveau,Restriction>(bmps::cibleIdNote::FiliationNiveau,get<Restriction>()),
-                   new UniqueFilNiv));
+    setManager<FiliationNiveau>(std::make_unique<ManagerModifControle<FiliationNiveau>>(infoFilNiv,
+                   std::make_unique<GestionAutorisationCibleCode<FiliationNiveau,Restriction>>(bmps::cibleIdNote::FiliationNiveau,get<Restriction>()),
+                   std::make_unique<UniqueFilNiv>()));
     setCible<FiliationNiveau>(bmps::cibleIdNote::FiliationNiveau);
 
     //NiveauTypeEtablissement
@@ -300,10 +300,10 @@ ManagersNote::ManagersNote()
     infoNivTpEtab.setForeignKey(NiveauTypeEtablissement::IdTpEtab,infoTpEtab);
     infoNivTpEtab.setUnique(NiveauTypeEtablissement::IdNiveau,UniqueNivTpEtab::Id1Unique);
     infoNivTpEtab.setUnique(NiveauTypeEtablissement::IdTpEtab,UniqueNivTpEtab::Id2Unique);
-    setManager(new ManagerModifControle<NiveauTypeEtablissement>(infoNivTpEtab,
-               new GestionAutorisationCibleCode<NiveauTypeEtablissement,Restriction>
+    setManager<NiveauTypeEtablissement>(std::make_unique<ManagerModifControle<NiveauTypeEtablissement>>(infoNivTpEtab,
+               std::make_unique<GestionAutorisationCibleCode<NiveauTypeEtablissement,Restriction>>
                                                                  (bmps::cibleIdNote::NiveauTypeEtablissement,get<Restriction>()),
-               new UniqueNivTpEtab));
+               std::make_unique<UniqueNivTpEtab>()));
     setCible<NiveauTypeEtablissement>(bmps::cibleIdNote::NiveauTypeEtablissement);
 
     //Note
@@ -318,7 +318,7 @@ ManagersNote::ManagersNote()
     infoNote.setUnique(Note::IdEleve,UniqueNote::Id2Unique);
     infoNote.setForeignKey(Note::IdControle,infoCtr);
     infoNote.setForeignKey(Note::IdEleve,infoEleve);
-    setManager(new ManagerSql<Note>(infoNote,new UniqueNote));
+    setManager<Note>(std::make_unique<ManagerSql<Note>>(infoNote,std::make_unique<UniqueNote>()));
     setCible<Note>(bmps::cibleIdNote::Note);
 
     //Valide
@@ -332,6 +332,6 @@ ManagersNote::ManagersNote()
     infoValide.setUnique(Valide::IdPoint,UniqueValide::Id2Unique);
     infoValide.setForeignKey(Valide::IdNote,infoNote);
     infoValide.setForeignKey(Valide::IdPoint,infoPoint);
-    setManager(new ManagerSql<Valide>(infoValide, new UniqueValide));
+    setManager<Valide>(std::make_unique<ManagerSql<Valide>>(infoValide, std::make_unique<UniqueValide>()));
     setCible<Valide>(bmps::cibleIdNote::Valide);
 }
