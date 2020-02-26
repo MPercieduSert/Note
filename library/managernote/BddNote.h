@@ -8,10 +8,18 @@
 #include "BddPredef.h"
 
 namespace bddMPS {
-    namespace bddVersion  {
-        enum versionBddNote{initialeNote = NbrCreationBddPredef,
-                           NbrVersionBddNote};
-}}
+    namespace bddVersion {
+        enum versionBddNote{InitialeNote = NbrCreationBddPredef,
+                            IdProg001Note,
+                            NbrVersionBddNote};
+    }
+    namespace idProg {
+        enum idProgType {
+            Null = 0,
+            EtudeType = 1
+        };
+    }
+}
 
 namespace noteMPS {
 /*! \ingroup groupeManagerInv
@@ -31,6 +39,12 @@ public:
     ~BddNote() override = default;
 
 protected:
+    //! Supprime l'entité d'identifiant id de type d'identifiant idEntity de la base de données.
+    bool delP(idt id, szt idEntity) override;
+
+    //! Renvoie l'autorisation de modification de l'entité donnée en argument.
+    bool getAutorisationP(idt id, szt idEntity, bmps::autorisation autoris) override;
+
     //! Mise à jour de la base de donnée.
     void listeMiseAJourBdd(int version) override;
 };

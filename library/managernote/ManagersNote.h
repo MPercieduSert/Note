@@ -25,6 +25,7 @@ namespace bddMPS {
                         Epreuve,
                         Etablissement,
                         EtablissementNiveau,
+                        EtablissementType,
                         FiliationNiveau,
                         Groupe,
                         Niveau,

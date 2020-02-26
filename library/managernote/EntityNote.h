@@ -27,6 +27,7 @@ namespace infoEntityNote {
                   EpreuveId,
                   EtablissementId,
                   EtablissementNiveauId,
+                  EtablissementTypeId,
                   FiliationNiveauId,
                   GroupeId,
                   NiveauId,
@@ -56,9 +57,9 @@ using namespace emps::ensembleType;
 using namespace emps::ensembleUtilisation;
 
 // Entités de type prédéfinies
-ID1_ENTITY(Etablissement,IdNcNom,infoEntityNote::EtablissementId,TpEtab)
 RELATION_ENTITY(EleveGroupe,RelationNum,infoEntityNote::EleveGroupeId,Eleve,Groupe)
 RELATION_ENTITY(EtablissementNiveau,Relation,infoEntityNote::EtablissementNiveauId,Etab,Niveau)
+RELATION_ENTITY(EtablissementType,Relation,infoEntityNote::EtablissementTypeId,Etab,TpEtab)
 RELATION_ENTITY(FiliationNiveau,Relation,infoEntityNote::FiliationNiveauId,Precedent,Suivant)
 RELATION_ENTITY(NiveauTypeEtablissement,Relation,infoEntityNote::NiveauTypeEtablissementId,Niveau,TpEtab)
 RELATION_ENTITY(Note,RelationDateTimeCurrentSaisieValeurInt,infoEntityNote::NoteId,Controle,Eleve)
@@ -66,6 +67,7 @@ RELATION_ENTITY(Valide,RelationDateTimeCurrentValeurInt,infoEntityNote::ValideId
 using Annee = entityBaseMPS::NumEntity<infoEntityNote::AnneeId>;
 using Bareme = entityBaseMPS::CibleSimpleTypeValeurDoubleEntity<infoEntityNote::BaremeId>;
 using Enonce = entityBaseMPS::TypeVersionEntity<infoEntityNote::EnonceId>;
+using Etablissement = entityBaseMPS::NcNomEntity<infoEntityNote::EtablissementId>;
 using Niveau = entityBaseMPS::NcNomTypeEntity<infoEntityNote::NiveauId>;
 using Point = entityBaseMPS::TypeValeurIntVersionEntity<infoEntityNote::PointId>;
 using TypeEtablissement = entityBaseMPS::NcNomEntity<infoEntityNote::TypeEtablissementId>;

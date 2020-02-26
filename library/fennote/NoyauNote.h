@@ -21,8 +21,13 @@ namespace noteMPS {
  */
 class NoyauNote : public fenMPS::AbstractNoyau {
 public:
+    //! Constructeur.
     NoyauNote()
         : AbstractNoyau() {}
+
+    //! Accesseur de la base de donnée.
+    BddNote & bdd() override
+        {return static_cast<BddNote &>(fenMPS::AbstractNoyau::bdd());}
 
     //!Ouvre le gestionnaire de configuration au chemin indiquer.
     void setConfigByPath(const QString & configPath, QWidget * modalParent = nullptr) override;

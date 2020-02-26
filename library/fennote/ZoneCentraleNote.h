@@ -5,17 +5,17 @@
 #define ZONECENTRALENOTE_H
 
 #include "TabNote.h"
-#include "AbstractTabZoneCentrale.h"
+#include "PredefZoneCentrale.h"
 
 namespace noteMPS {
 /*! \ingroup groupeFenNote
  * \brief Zone centrale de l'application note.
  */
-class ZoneCentraleNote : public fmps::AbstractTabZoneCentrale
+class ZoneCentraleNote : public fmps::PredefZoneCentrale
 {
 public:
     //! Constructeur.
-    explicit ZoneCentraleNote(TabNote * tab = new TabNote, QWidget * parent = nullptr);
+    explicit ZoneCentraleNote(TabNote * tab, QWidget * parent = nullptr);
 };
 }
 #endif // ZONECENTRALENOTE_H

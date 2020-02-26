@@ -8,7 +8,7 @@ bool ConfigNote::creer(){
     auto iter = doc.begin();
     XmlElement elt;
     elt.setName("conf");
-    iter = doc.push_back(iter,elt);
+    *iter = elt;
     elt.setName("directories");
     iter = doc.push_back(iter, elt);
     elt.setName("default");

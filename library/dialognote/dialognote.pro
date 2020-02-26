@@ -1,12 +1,12 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-08-20T13:56:43
+# Project created by QtCreator 2020-01-16T12:03:08
 #
 #-------------------------------------------------
 
 QT       += widgets sql
 
-TARGET = fennote
+TARGET = dialognote
 TEMPLATE = lib
 CONFIG += staticlib c++17 create_prl
 
@@ -22,20 +22,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    FenPrincipaleNote.cpp \
-    NoyauNote.cpp \
-    TabNote.cpp \
-    ZoneCentraleNote.cpp
+    NewModifForm.cpp
 
 HEADERS += \
-    FenPrincipaleNote.h \
-    NoyauNote.h \
-    TabNote.h \
-    ZoneCentraleNote.h
+    NewModifForm.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/entities/release/ -lentities
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/entities/debug/ -lentities
@@ -50,7 +45,6 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/..
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/entities/debug/entities.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/entities/libentities.a
 
-
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/manager/release/ -lmanager
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/manager/debug/ -lmanager
 else:unix: LIBS += -L$$PWD/../../../../Compilation/libmps/manager/ -lmanager
@@ -63,35 +57,6 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/manager/release/manager.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/manager/debug/manager.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/manager/libmanager.a
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/fen/release/ -lfen
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/fen/debug/ -lfen
-else:unix: LIBS += -L$$PWD/../../../../Compilation/libmps/fen/ -lfen
-
-INCLUDEPATH += $$PWD/../../../libmps/fen
-DEPENDPATH += $$PWD/../../../libmps/fen
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/fen/release/libfen.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/fen/debug/libfen.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/fen/release/fen.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/fen/debug/fen.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/fen/libfen.a
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/widget/release/ -lwidget
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/widget/debug/ -lwidget
-else:unix: LIBS += -L$$PWD/../../../../Compilation/libmps/widget/ -lwidget
-
-INCLUDEPATH += $$PWD/../../../libmps/widget
-DEPENDPATH += $$PWD/../../../libmps/widget
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/release/libwidget.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/debug/libwidget.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/release/widget.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/debug/widget.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/libwidget.a
-
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../managernote/release/ -lmanagernote
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../managernote/debug/ -lmanagernote
@@ -106,15 +71,15 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../managernote/debug/managernote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../managernote/libmanagernote.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../dialognote/release/ -ldialognote
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../dialognote/debug/ -ldialognote
-else:unix: LIBS += -L$$OUT_PWD/../dialognote/ -ldialognote
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/widget/release/ -lwidget
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../Compilation/libmps/widget/debug/ -lwidget
+else:unix: LIBS += -L$$PWD/../../../../Compilation/libmps/widget/ -lwidget
 
-INCLUDEPATH += $$PWD/../dialognote
-DEPENDPATH += $$PWD/../dialognote
+INCLUDEPATH += $$PWD/../../../libmps/widget
+DEPENDPATH += $$PWD/../../../libmps/widget
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../dialognote/release/libdialognote.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../dialognote/debug/libdialognote.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../dialognote/release/dialognote.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../dialognote/debug/dialognote.lib
-else:unix: PRE_TARGETDEPS += $$OUT_PWD/../dialognote/libdialognote.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/release/libwidget.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/debug/libwidget.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/release/widget.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/debug/widget.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/libwidget.a

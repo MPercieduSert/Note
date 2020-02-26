@@ -6,7 +6,7 @@
 
 #include "Config.h"
 
-/*! \ingroup groupeManagerInv
+/*! \ingroup groupeNoyau
  * \brief Chemin XML du dossier de l'application par default.
  */
 #define DEFAULT_DIRECTORY "conf/directories/default"
@@ -15,6 +15,11 @@
  * \brief Chemin XML de la base de donnée.
  */
 #define DATA_BASE "conf/files/databases/database"
+
+/*! \ingroup groupeNoyau
+ * \brief Chemin XML de l'année par default.
+ */
+#define DEFAULT_ANNEE "conf/parametre/initialisation/anneeDefaut"
 
 namespace noteMPS {
 /*! \ingroup groupeManagerInv

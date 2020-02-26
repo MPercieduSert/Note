@@ -8,24 +8,33 @@ ManagersNote::ManagersNote()
 {
     enableRestriction("RestModif");
     enableType("Type","PermType",
-               std::make_unique<GestionAutorisationCibleCode<Type,Restriction>>(bmps::cibleId::Type,get<Restriction>()),
-               std::make_unique<GestionAutorisationCibleCode<TypePermission,Restriction>>(bmps::cibleId::TypePermission,get<Restriction>()));
+               std::make_unique<GestionAutorisationCibleCode<Type,Restriction>>(bmps::cibleId::Type,
+                                                                                get<Restriction>()),
+               std::make_unique<GestionAutorisationCibleCode<TypePermission,Restriction>>(bmps::cibleId::TypePermission,
+                                                                                          get<Restriction>()));
     enableCommentaire("Commentaire","CbCommentaire");
     enableDonnee("Donnee","ArbDonnee","CbDonnee","CardDonnee",
-                 std::make_unique<GestionAutorisationCibleCode<Donnee,Restriction>>(bmps::cibleId::Donnee,get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<DonneeCible,Restriction>>(bmps::cibleId::DonneeCible,get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,get<Restriction>()));
+                 std::make_unique<GestionAutorisationCibleCode<Donnee,Restriction>>(bmps::cibleId::Donnee,
+                                                                                    get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<DonneeCible,Restriction>>(bmps::cibleId::DonneeCible,
+                                                                                         get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,
+                                                                                        get<Restriction>()));
     enableMotCle("MotCle","ArbMotCle","CbMotCle","CbMotProg","PermMotCle","PermMotProg",
-                 std::make_unique<GestionAutorisationCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<MotClePermission,Restriction>>(bmps::cibleId::MotClePermission,get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<MotProgPermission,Restriction>>(bmps::cibleId::MotProgPermission,get<Restriction>()));
+                 std::make_unique<GestionAutorisationCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,
+                                                                                    get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<MotClePermission,Restriction>>(bmps::cibleId::MotClePermission,
+                                                                                              get<Restriction>()),
+                 std::make_unique<GestionAutorisationCibleCode<MotProgPermission,Restriction>>(bmps::cibleId::MotProgPermission,
+                                                                                               get<Restriction>()));
     enableTexte("Texte","CbTexte","Source","TexteSource");
     enableUtilisation("Utilisation","Usage","ArbUsage",
-                      std::make_unique<GestionAutorisationCibleCode<Usage,Restriction>>(bmps::cibleId::Usage,get<Restriction>()));
+                      std::make_unique<GestionAutorisationCibleCode<Usage,Restriction>>(bmps::cibleId::Usage,
+                                                                                        get<Restriction>()));
     
     //Annee
     using UniqueAn = NumUniqueSql<Annee>;
-    InfoBdd infoAn("Annee",Annee::NbrAtt,{UniqueAn::NbrUnique});
+    InfoBdd infoAn("Annee","Annee",Annee::NbrAtt,{UniqueAn::NbrUnique});
     infoAn.setAttribut(Annee::Num,"num");
     infoAn.setUnique(Annee::Num,UniqueAn::NumUnique);
     setManager<Annee>(std::make_unique<ManagerSql<Annee>>(infoAn, std::make_unique<UniqueAn>()));
@@ -33,7 +42,7 @@ ManagersNote::ManagersNote()
     
     //Bareme
     auto infoArbBareme = infoBddArbre("ArbBareme");
-    InfoBdd infoBareme("Bareme",Bareme::NbrAtt);
+    InfoBdd infoBareme("Bareme","Bareme",Bareme::NbrAtt);
     infoBareme.setAttribut(Bareme::IdCible,"idCb");
     infoBareme.setAttribut(Bareme::Cible,"cb");
     infoBareme.setAttribut(Bareme::Type,"tp");
@@ -45,40 +54,52 @@ ManagersNote::ManagersNote()
 
     //TypeEtablissement
     using UniqueTpEtab = NomUniqueSql<TypeEtablissement>;
-    InfoBdd infoTpEtab("TpEtab",TypeEtablissement::NbrAtt,{UniqueTpEtab::NbrUnique});
+    InfoBdd infoTpEtab("TypeEtablissement","TpEtab",TypeEtablissement::NbrAtt,{UniqueTpEtab::NbrUnique});
     infoTpEtab.setAttribut(TypeEtablissement::Nc,"nc",bmps::typeAttributBdd::Text);
     infoTpEtab.setAttribut(TypeEtablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoTpEtab.setUnique(TypeEtablissement::Nom,UniqueTpEtab::NomUnique);
     setManager<TypeEtablissement>(std::make_unique<ManagerModifControle<TypeEtablissement>>(infoTpEtab,
-               std::make_unique<GestionAutorisationCibleCode<TypeEtablissement,Restriction>>(bmps::cibleIdNote::TypeEtablissement,get<Restriction>()),
+               std::make_unique<GestionAutorisationCibleCode<TypeEtablissement,Restriction>>(bmps::cibleIdNote::TypeEtablissement,
+                                                                                             get<Restriction>()),
                std::make_unique<UniqueTpEtab>()));
     setCible<TypeEtablissement>(bmps::cibleIdNote::TypeEtablissement);
 
     //Etablissement
     using UniqueEtab = NomUniqueSql<Etablissement>;
-    InfoBdd infoEtab("Etab",Etablissement::NbrAtt,{UniqueEtab::NbrUnique});
-    infoEtab.setAttribut(Etablissement::IdTpEtab,"idTE");
+    InfoBdd infoEtab("Etablissement","Etab",Etablissement::NbrAtt,{UniqueEtab::NbrUnique});
     infoEtab.setAttribut(Etablissement::Nc,"nc",bmps::typeAttributBdd::Text);
     infoEtab.setAttribut(Etablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoEtab.setUnique(Etablissement::Nom,UniqueEtab::NomUnique);
-    infoEtab.setForeignKey(Etablissement::IdTpEtab,infoTpEtab);
     setManager<Etablissement>(std::make_unique<ManagerSql<Etablissement>>(infoEtab, std::make_unique<UniqueEtab>()));
     setCible<Etablissement>(bmps::cibleIdNote::Etablissement);
 
+    //EtablissementType
+    using UniqueEtabTp = RelationUniqueSql<EtablissementType>;
+    InfoBdd infoEtabTp("EtablissementType","EtabTp",EtablissementType::NbrAtt,{UniqueEtabTp::NbrUnique});
+    infoEtabTp.setAttribut(EtablissementType::IdEtab,"idEtab");
+    infoEtabTp.setAttribut(EtablissementType::IdTpEtab,"idTpEtab");
+    infoEtabTp.setUnique(EtablissementType::IdEtab,UniqueEtabTp::Id1Unique);
+    infoEtabTp.setUnique(EtablissementType::IdTpEtab,UniqueEtabTp::Id2Unique);
+    setManager<EtablissementType>(std::make_unique<ManagerSql<EtablissementType>>(infoEtabTp, std::make_unique<UniqueEtabTp>()));
+    setCible<EtablissementType>(bmps::cibleIdNote::EtablissementType);
+
     //Niveau
     using UniqueNiveau = NomUniqueSql<Niveau>;
-    InfoBdd infoNiveau("Niveau",Niveau::NbrAtt,{UniqueNiveau::NbrUnique});
+    InfoBdd infoNiveau("Niveau","Niveau",Niveau::NbrAtt,{UniqueNiveau::NbrUnique});
     infoNiveau.setAttribut(Niveau::Nc,"nc",bmps::typeAttributBdd::Text);
     infoNiveau.setAttribut(Niveau::Nom,"nm",bmps::typeAttributBdd::Text);
     infoNiveau.setAttribut(Niveau::Type,"tp");
     infoNiveau.setUnique(Niveau::Nom,UniqueNiveau::NomUnique);
     setTypeForeignKey<Niveau>(infoNiveau);
-    setManager<Niveau>(std::make_unique<ManagerSql<Niveau>>(infoNiveau, std::make_unique<UniqueNiveau>()));
+    setManager<Niveau>(std::make_unique<ManagerModifControle<Niveau>>(infoNiveau,
+               std::make_unique<GestionAutorisationCibleCode<Niveau,Restriction>>(bmps::cibleIdNote::Niveau,
+                                                                                  get<Restriction>()),
+               std::make_unique<UniqueNiveau>()));
     setCible<Niveau>(bmps::cibleIdNote::Niveau);
     
     //Classe
     using UniqueClasse = RelationTroisNumUniqueSql<Classe>;
-    InfoBdd infoClasse("Classe",Classe::NbrAtt,{UniqueClasse::NbrUnique});
+    InfoBdd infoClasse(Classe::Name(),"Classe",Classe::NbrAtt,{UniqueClasse::NbrUnique});
     infoClasse.setAttribut(Classe::IdAn,"idAn");
     infoClasse.setAttribut(Classe::IdEtab,"idEt");
     infoClasse.setAttribut(Classe::IdNiveau,"idNiv");
@@ -94,7 +115,7 @@ ManagersNote::ManagersNote()
     setCible<Classe>(bmps::cibleIdNote::Classe);
 
     //Eleve
-    InfoBdd infoEleve("Eleve",Eleve::NbrAtt,{UniqueEleve::NbrUnique});
+    InfoBdd infoEleve(Eleve::Name(),"Eleve",Eleve::NbrAtt,{UniqueEleve::NbrUnique});
     infoEleve.setAttribut(Eleve::Date,"dt",bmps::typeAttributBdd::Date);
     infoEleve.setAttribut(Eleve::Fille,"fl",bmps::typeAttributBdd::Bool);
     infoEleve.setAttribut(Eleve::Nom,"nm",bmps::typeAttributBdd::Text);
@@ -107,7 +128,7 @@ ManagersNote::ManagersNote()
     
     //ClasseEleve
     using UniqueClEl = RelationUniqueSql<ClasseEleve>;
-    InfoBdd infoClEl("ClasseEleve",ClasseEleve::NbrAtt,{UniqueClEl::NbrUnique});
+    InfoBdd infoClEl(ClasseEleve::Name(),"ClasseEleve",ClasseEleve::NbrAtt,{UniqueClEl::NbrUnique});
     infoClEl.setAttribut(ClasseEleve::IdClasse,"IdCl");
     infoClEl.setAttribut(ClasseEleve::IdEleve,"IdEl");
     infoClEl.setAttribut(ClasseEleve::Entree,"ent",bmps::typeAttributBdd::Date);
@@ -121,7 +142,7 @@ ManagersNote::ManagersNote()
 
     //Groupe
     using UniqueGroupe = NomUniqueSql<Groupe>;
-    InfoBdd infoGroupe("Groupe",Groupe::NbrAtt,{UniqueGroupe::NbrUnique});
+    InfoBdd infoGroupe(Groupe::Name(),"Groupe",Groupe::NbrAtt,{UniqueGroupe::NbrUnique});
     infoGroupe.setAttribut(Groupe::Alpha,"al");
     infoGroupe.setAttribut(Groupe::Nc,"nc",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Nom,"nm",bmps::typeAttributBdd::Text);
@@ -133,7 +154,7 @@ ManagersNote::ManagersNote()
 
     //ClasseGroupe
     using UniqueClGr = IdRelationExactOneNotNullUniqueSql<ClasseGroupe>;
-    InfoBdd infoClGr("ClasseGroupe",ClasseGroupe::NbrAtt,{UniqueClGr::NbrUnique_1,UniqueClGr::NbrUnique_2});
+    InfoBdd infoClGr(ClasseGroupe::Name(),"ClasseGroupe",ClasseGroupe::NbrAtt,{UniqueClGr::NbrUnique_1,UniqueClGr::NbrUnique_2});
     infoClGr.setAttribut(ClasseGroupe::IdAn,"idAn",bmps::typeAttributBdd::Integer,false);
     infoClGr.setAttribut(ClasseGroupe::IdClasse,"idCl",bmps::typeAttributBdd::Integer,false);
     infoClGr.setAttribut(ClasseGroupe::IdGroupe,"idGr");
@@ -149,7 +170,7 @@ ManagersNote::ManagersNote()
 
     //TypeControle
     using UniqueTpCtr = NomUniqueSql<TypeControle>;
-    InfoBdd infoTpCtr("TpControle",TypeControle::NbrAtt,{UniqueTpCtr::NbrUnique});
+    InfoBdd infoTpCtr(TypeControle::Name(),"TpControle",TypeControle::NbrAtt,{UniqueTpCtr::NbrUnique});
     infoTpCtr.setAttribut(TypeControle::Appreciation,"app");
     infoTpCtr.setAttribut(TypeControle::Code,"cd");
     infoTpCtr.setAttribut(TypeControle::Decimale,"dcm");
@@ -161,13 +182,14 @@ ManagersNote::ManagersNote()
     infoTpCtr.setAttribut(TypeControle::Total,"tt");
     infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
     setManager<TypeControle>(std::make_unique<ManagerArbreSimpleModifControle<TypeControle>>(infoTpCtr,
-                    std::make_unique<GestionAutorisationCibleCode<TypeControle,Restriction>>(bmps::cibleIdNote::TypeControle,get<Restriction>()),
+                    std::make_unique<GestionAutorisationCibleCode<TypeControle,Restriction>>(bmps::cibleIdNote::TypeControle,
+                                                                                             get<Restriction>()),
                     std::make_unique<UniqueTpCtr>()));
     setCible<TypeControle>(bmps::cibleIdNote::TypeControle);
 
     //Controle
     using UniqueCtr = NomUniqueSql<Controle>;
-    InfoBdd infoCtr("Controle",Controle::NbrAtt,{UniqueCtr::NbrUnique});
+    InfoBdd infoCtr(Controle::Name(),"Controle",Controle::NbrAtt,{UniqueCtr::NbrUnique});
     infoCtr.setAttribut(Controle::IdType,"idTp");
     infoCtr.setAttribut(Controle::Code,"cd");
     infoCtr.setAttribut(Controle::DateTime,"dt",bmps::typeAttributBdd::DateTime);
@@ -184,7 +206,7 @@ ManagersNote::ManagersNote()
 
     //Enonce
     auto infoArbEnonce = infoBddArbre("ArbEnonce");
-    InfoBdd infoEnonce("Enonce",Enonce::NbrAtt);
+    InfoBdd infoEnonce("Enonce","Enonce",Enonce::NbrAtt);
     infoEnonce.setAttribut(Enonce::Type,"tp");
     infoEnonce.setAttribut(Enonce::Version,"ver");
     infoEnonce.setForeignKey(Enonce::Id,infoArbEnonce);
@@ -193,7 +215,7 @@ ManagersNote::ManagersNote()
     setCible<Enonce>(bmps::cibleIdNote::Enonce);
 
     //Epreuve
-    InfoBdd infoEpreuve("Epreuve",Epreuve::NbrAtt,{UniqueEpreuve::NbrUnique});
+    InfoBdd infoEpreuve("Epreuve","Epreuve",Epreuve::NbrAtt,{UniqueEpreuve::NbrUnique});
     infoEpreuve.setAttribut(Epreuve::IdBareme,"idBr");
     infoEpreuve.setAttribut(Epreuve::IdEnonce,"idEn");
     infoEpreuve.setAttribut(Epreuve::EnsPoint,"ensPt");
@@ -206,7 +228,7 @@ ManagersNote::ManagersNote()
     setCible<Epreuve>(bmps::cibleIdNote::Epreuve);
 
     //ControleEpreuve
-    InfoBdd infoCtrEp("ControleEpreuve",ControleEpreuve::NbrAtt,
+    InfoBdd infoCtrEp(ControleEpreuve::Name(),"ControleEpreuve",ControleEpreuve::NbrAtt,
         {UniqueControleEpreuve::NbrUnique_1,UniqueControleEpreuve::NbrUnique_2,UniqueControleEpreuve::NbrUnique_3});
     infoCtrEp.setAttribut(ControleEpreuve::IdClasse,"idCl",bmps::typeAttributBdd::Integer,false);
     infoCtrEp.setAttribut(ControleEpreuve::IdControle,"idCtr");
@@ -231,7 +253,7 @@ ManagersNote::ManagersNote()
 
     //EleveGroupe
     using UniqueElGr = RelationUniqueSql<EleveGroupe>;
-    InfoBdd infoElGr("EleveGroupe",EleveGroupe::NbrAtt,{UniqueElGr::NbrUnique});
+    InfoBdd infoElGr(EleveGroupe::Name(),"EleveGroupe",EleveGroupe::NbrAtt,{UniqueElGr::NbrUnique});
     infoElGr.setAttribut(EleveGroupe::IdEleve,"idEl");
     infoElGr.setAttribut(EleveGroupe::IdGroupe,"idGr");
     infoElGr.setAttribut(EleveGroupe::Num,"num");
@@ -243,7 +265,7 @@ ManagersNote::ManagersNote()
     setCible<EleveGroupe>(bmps::cibleIdNote::EleveGroupe);
 
     //Point
-    InfoBdd infoPoint("Point",Point::NbrAtt);
+    InfoBdd infoPoint("Point","Point",Point::NbrAtt);
     infoPoint.setAttribut(Point::Type,"tp");
     infoPoint.setAttribut(Point::Valeur,"vl");
     infoPoint.setAttribut(Point::Version,"ver");
@@ -252,7 +274,7 @@ ManagersNote::ManagersNote()
     setCible<Point>(bmps::cibleIdNote::Point);
 
     //EnoncePoint
-    InfoBdd infoEnPt("EnoncePoint",EnoncePoint::NbrAtt,{UniqueEnoncePoint::NbrUnique});
+    InfoBdd infoEnPt(EnoncePoint::Name(),"EnoncePoint",EnoncePoint::NbrAtt,{UniqueEnoncePoint::NbrUnique});
     infoEnPt.setAttribut(EnoncePoint::IdEnonce,"idEn");
     infoEnPt.setAttribut(EnoncePoint::IdPoint,"idPt");
     infoEnPt.setAttribut(EnoncePoint::EnsPoint,"ensPt");
@@ -267,7 +289,7 @@ ManagersNote::ManagersNote()
 
     //EtablissementNiveau
     using UniqueEtabNiv = RelationUniqueSql<EtablissementNiveau>;
-    InfoBdd infoEtabNiv("EtabNiveau",EtablissementNiveau::NbrAtt,{UniqueEtabNiv::NbrUnique});
+    InfoBdd infoEtabNiv(EtablissementNiveau::Name(),"EtabNiveau",EtablissementNiveau::NbrAtt,{UniqueEtabNiv::NbrUnique});
     infoEtabNiv.setAttribut(EtablissementNiveau::IdEtab,"idEt");
     infoEtabNiv.setAttribut(EtablissementNiveau::IdNiveau,"idNiv");
     infoEtabNiv.setForeignKey(EtablissementNiveau::IdEtab,infoEtab);
@@ -279,7 +301,7 @@ ManagersNote::ManagersNote()
 
     //FiliationNiveau
     using UniqueFilNiv = RelationUniqueSql<FiliationNiveau>;
-    InfoBdd infoFilNiv("FiliationNiveau",FiliationNiveau::NbrAtt,{UniqueFilNiv::NbrUnique});
+    InfoBdd infoFilNiv(FiliationNiveau::Name(),"FiliationNiveau",FiliationNiveau::NbrAtt,{UniqueFilNiv::NbrUnique});
     infoFilNiv.setAttribut(FiliationNiveau::IdPrecedent,"idP");
     infoFilNiv.setAttribut(FiliationNiveau::IdSuivant,"idS");
     infoFilNiv.setForeignKey(FiliationNiveau::IdPrecedent,infoNiveau);
@@ -287,13 +309,14 @@ ManagersNote::ManagersNote()
     infoFilNiv.setUnique(FiliationNiveau::IdPrecedent,UniqueFilNiv::Id1Unique);
     infoFilNiv.setUnique(FiliationNiveau::IdSuivant,UniqueFilNiv::Id2Unique);
     setManager<FiliationNiveau>(std::make_unique<ManagerModifControle<FiliationNiveau>>(infoFilNiv,
-                   std::make_unique<GestionAutorisationCibleCode<FiliationNiveau,Restriction>>(bmps::cibleIdNote::FiliationNiveau,get<Restriction>()),
+                   std::make_unique<GestionAutorisationCibleCode<FiliationNiveau,Restriction>>(bmps::cibleIdNote::FiliationNiveau,
+                                                                                               get<Restriction>()),
                    std::make_unique<UniqueFilNiv>()));
     setCible<FiliationNiveau>(bmps::cibleIdNote::FiliationNiveau);
 
     //NiveauTypeEtablissement
     using UniqueNivTpEtab = RelationUniqueSql<NiveauTypeEtablissement>;
-    InfoBdd infoNivTpEtab("NiveauTpEtab",NiveauTypeEtablissement::NbrAtt,{UniqueNivTpEtab::NbrUnique});
+    InfoBdd infoNivTpEtab(NiveauTypeEtablissement::Name(),"NiveauTpEtab",NiveauTypeEtablissement::NbrAtt,{UniqueNivTpEtab::NbrUnique});
     infoNivTpEtab.setAttribut(NiveauTypeEtablissement::IdNiveau,"idNiv");
     infoNivTpEtab.setAttribut(NiveauTypeEtablissement::IdTpEtab,"idTE");
     infoNivTpEtab.setForeignKey(NiveauTypeEtablissement::IdNiveau,infoNiveau);
@@ -308,7 +331,7 @@ ManagersNote::ManagersNote()
 
     //Note
     using UniqueNote = RelationUniqueSql<Note>;
-    InfoBdd infoNote("Note",Note::NbrAtt,{UniqueNote::NbrUnique});
+    InfoBdd infoNote(Note::Name(),"Note",Note::NbrAtt,{UniqueNote::NbrUnique});
     infoNote.setAttribut(Note::IdControle,"idCtr");
     infoNote.setAttribut(Note::IdEleve,"idEl");
     infoNote.setAttribut(Note::DateTime,"dt",bmps::typeAttributBdd::DateTime);
@@ -323,7 +346,7 @@ ManagersNote::ManagersNote()
 
     //Valide
     using UniqueValide = RelationUniqueSql<Valide>;
-    InfoBdd infoValide("Valide",Valide::NbrAtt,{UniqueValide::NbrUnique});
+    InfoBdd infoValide(Valide::Name(),"Valide",Valide::NbrAtt,{UniqueValide::NbrUnique});
     infoValide.setAttribut(Valide::IdNote,"idNt");
     infoValide.setAttribut(Valide::IdPoint,"idPt");
     infoValide.setAttribut(Valide::DateTime,"dt",bmps::typeAttributBdd::DateTime);
