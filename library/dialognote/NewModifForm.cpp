@@ -57,6 +57,13 @@ void NiveauNewModifForm::save() {
     niv.setNom(nom());
     niv.setType(idType());
     m_bdd.save(niv);
+    for (auto i = 0; i != m_TEList->count(); ++i)
+        if(m_TEList->item(i)->checkState() == Qt::Checked) {
+            NiveauTypeEtablissement nivTE;
+            nivTE.setIdNiveau(niv.id());
+            nivTE.setIdTpEtab(m_TEList->item(i)->data(Qt::UserRole).toUInt());
+            m_bdd.saveUnique(nivTE);
+        }
     for (auto i = 0; i != m_nivPrecList->count(); ++i) {
         if(m_nivPrecList->item(i)->checkState() == Qt::Checked)
             m_bdd.saveUnique(FiliationNiveau(m_nivPrecList->item(i)->data(Qt::UserRole).toUInt(),niv.id()));
