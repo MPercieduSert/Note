@@ -6,17 +6,21 @@ bool BddNote::delP(idt id, szt idEntity) {
     auto controle = true;
     // Spécifique
     switch (idEntity) {
-    case Niveau::ID:
-        controle = delList<Classe>(Classe::IdNiveau,id)
-                && delList<FiliationNiveau>(FiliationNiveau::IdPrecedent,id)
-                && delList<FiliationNiveau>(FiliationNiveau::IdSuivant,id)
-                && delList<EtablissementNiveau>(EtablissementNiveau::IdNiveau,id)
-                && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,id);
-        break;
-    case TypeEtablissement::ID:
-        controle = delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,id)
-                && delList<EtablissementType>(EtablissementType::IdTpEtab,id);
-        break;
+        case Etablissement::ID:
+            controle = delList<EtablissementNiveau>(EtablissementNiveau::IdEtab,id)
+                    && delList<EtablissementType>(EtablissementType::IdEtab,id);
+            break;
+        case Niveau::ID:
+            controle = delList<Classe>(Classe::IdNiveau,id)
+                    && delList<EtablissementNiveau>(EtablissementNiveau::IdNiveau,id)
+                    && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,id)
+                    && delList<FiliationNiveau>(FiliationNiveau::IdPrecedent,id)
+                    && delList<FiliationNiveau>(FiliationNiveau::IdSuivant,id);
+            break;
+        case TypeEtablissement::ID:
+            controle = delList<EtablissementType>(EtablissementType::IdTpEtab,id)
+                    && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,id);
+            break;
     }
     return controle && BddPredef::delP(id,idEntity);
 }
@@ -25,6 +29,10 @@ bool BddNote::getAutorisationP(idt id, szt idEntity, bmps::autorisation autoris)
     auto controle = bddMPS::BddPredef::getAutorisationP(id,idEntity,autoris);
     if(controle && autoris == bddMPS::autorisation::Suppr) {
         switch (idEntity) {
+            case Etablissement::ID:
+                controle = controle && getAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
+                                    && getAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
+                break;
             case Niveau::ID:
                 controle = controle && getAutorisationList<Classe>(autoris,Classe::IdNiveau,id)
                                     && getAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdPrecedent,id)

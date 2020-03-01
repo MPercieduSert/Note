@@ -4,15 +4,56 @@
 #ifndef NEWMODIFFORM_H
 #define NEWMODIFFORM_H
 
-#include <QListWidget>
+#include "BddNote.h"
+#include "Checklist.h"
 #include "NewModifDialog.h"
 #include "SelectInListBox.h"
-#include "BddNote.h"
 
 namespace noteMPS {
 /*! \defgroup groupeDialogNote Dialogues de note
  * \brief Ensemble des dialogues de l'application note.
  */
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création des établissements.
+ */
+class EtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
+    Q_OBJECT
+protected:
+    QLabel * m_nivLabel;                    //!< Label de la liste des niveaux.
+    QLabel * m_TELabel;                     //!< Label de la liste des types d'établissement.
+    widgetMPS::Checklist * m_nivList;       //!< Liste des niveaux.
+    widgetMPS::Checklist * m_TEList;                 //!< Liste des types d'établissement.
+
+public:
+    //! Constructeur.
+    EtablissementNewModifForm(bddMPS::BddPredef &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~EtablissementNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override
+        {return m_new ? tr("Création d'un nouvel établissement") :
+                        tr("Modification d'un établissement existant");}
+
+public slots:
+    //! Supprime le type d'établissement dans la bases de donnée.
+    bool del() override
+        {return !m_new && m_bdd.del(Etablissement(id()));}
+
+    //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
+    void save() override;
+
+    //! Met à jour le formulaire.
+    void updateData() override;
+
+    //! Met à jour les niveaux disponible.
+    void updateNiveau();
+};
 
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création des niveaux.
@@ -23,9 +64,9 @@ protected:
     QLabel * m_listLabel;                 //!< Label de la liste des types d'établissement.
     QLabel * m_nivPrecLabel;                //!< Label du choix des niveaux précédents.
     QLabel * m_nivSuivLabel;                //!< Label du choix des niveaux précédents.
-    QListWidget * m_nivPrecList;            //!< Liste des niveaux précédents.
-    QListWidget * m_nivSuivList;            //!< Liste des niveaux suivants
-    QListWidget * m_TEList;                 //!< Liste des types d'établissement.
+    widgetMPS::Checklist * m_nivPrecList;            //!< Liste des niveaux précédents.
+    widgetMPS::Checklist * m_nivSuivList;            //!< Liste des niveaux suivants
+    widgetMPS::Checklist * m_TEList;                 //!< Liste des types d'établissement.
     QHBoxLayout * m_nivLayout;              //!< Calque du choix des niveaux précédents et suivants.
     QVBoxLayout * m_nivPrecLayout;          //!< Calque du choix des niveaux précédents.
     QVBoxLayout * m_nivSuivLayout;          //!< Calque du choix des niveaux suivants.
@@ -55,7 +96,7 @@ public slots:
 };
 
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création des type d'établissement.
+ * \brief Formulaire de création des types d'établissement.
  */
 class TypeEtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
     Q_OBJECT

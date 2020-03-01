@@ -14,8 +14,11 @@ void FenPrincipaleNote::createMenuModif() {
     m_menuModif = new QMenu(tr("Modification"));
     m_menuFichier->insertMenu(m_actionSave,m_menuModif);
     auto * etab = m_menuModif->addAction(tr("Établissment"));
+    connect(etab,&QAction::triggered,this, [this](){
+                            auto form = new EtablissementNewModifForm(noyau()->bdd(),false);
+                            dialogMPS::NewModifDialog diag(form,this);
+                            diag.exec();});
     auto * niveau = m_menuModif->addAction((tr("Niveau")));
-
     connect(niveau,&QAction::triggered,this, [this](){
                             auto form = new NiveauNewModifForm(noyau()->bdd(),false);                
                             dialogMPS::NewModifDialog diag(form,this);
@@ -31,6 +34,10 @@ void FenPrincipaleNote::createMenuNew() {
     m_menuNew = new QMenu(tr("Nouveau"));
     m_menuFichier->insertMenu(m_actionSave,m_menuNew);
     auto * etab = m_menuNew->addAction(tr("Établissment"));
+    connect(etab,&QAction::triggered,this, [this](){
+                            auto form = new EtablissementNewModifForm(noyau()->bdd(),true);
+                            dialogMPS::NewModifDialog diag(form,this);
+                            diag.exec();});
     auto * niveau = m_menuNew->addAction((tr("Niveau")));
     connect(niveau,&QAction::triggered,this, [this](){
                             auto form = new NiveauNewModifForm(noyau()->bdd(),true);
