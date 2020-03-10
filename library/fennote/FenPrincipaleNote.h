@@ -34,7 +34,7 @@ public:
                       QWidget *parent = nullptr);
 
     //! Destructeur.
-    ~FenPrincipaleNote() = default;
+    ~FenPrincipaleNote() override = default;
 
     //! Création du sous-menu nouvau.
     void createMenuModif();
@@ -43,7 +43,7 @@ public:
     void createMenuNew();
 
     //! Acceseur du noyau.
-    NoyauNote * noyau()
+    NoyauNote * noyau() override
         {return static_cast<NoyauNote *>(m_noyau);}
 };
 }

@@ -114,3 +114,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../libr
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/dialognote/release/dialognote.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/dialognote/debug/dialognote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/dialognote/libdialognote.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library/widgetnote/release/ -lwidgetnote
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library/widgetnote/debug/ -lwidgetnote
+else:unix: LIBS += -L$$OUT_PWD/../library/widgetnote/ -lwidgetnote
+
+INCLUDEPATH += $$PWD/../library/widgetnote
+DEPENDPATH += $$PWD/../library/widgetnote
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/release/libwidgetnote.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/debug/libwidgetnote.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/release/widgetnote.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/debug/widgetnote.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/libwidgetnote.a

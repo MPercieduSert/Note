@@ -64,7 +64,7 @@ RELATION_ENTITY(FiliationNiveau,Relation,infoEntityNote::FiliationNiveauId,Prece
 RELATION_ENTITY(NiveauTypeEtablissement,Relation,infoEntityNote::NiveauTypeEtablissementId,Niveau,TpEtab)
 RELATION_ENTITY(Note,RelationDateTimeCurrentSaisieValeurInt,infoEntityNote::NoteId,Controle,Eleve)
 RELATION_ENTITY(Valide,RelationDateTimeCurrentValeurInt,infoEntityNote::ValideId,Note,Point)
-using Annee = entityBaseMPS::NumEntity<infoEntityNote::AnneeId>;
+//using Annee = entityBaseMPS::NumEntity<infoEntityNote::AnneeId>;
 using Bareme = entityBaseMPS::CibleSimpleTypeValeurDoubleEntity<infoEntityNote::BaremeId>;
 using Enonce = entityBaseMPS::TypeVersionEntity<infoEntityNote::EnonceId>;
 using Etablissement = entityBaseMPS::NcNomEntity<infoEntityNote::EtablissementId>;
@@ -81,6 +81,33 @@ SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::AttributIntSup<-1>,Minima,minima)
 SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::AttributIntSup<-1>,Num,num)
 SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::AttributStringNotEmpty,Prenom,prenom)
 SINGLE_ATTRIBUT(SortieAttribut,attributMPS::AttributDateNull,Sortie,sortie)
+
+/*! \ingroup groupeManagerNote
+ * \brief Représentation de l'entité Annee.
+ */
+class Annee : public emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut> {
+protected:
+    template<class T> using PositionEnum = emps::PositionEnum<T,Annee>;
+public:
+using EAID = emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut>;
+
+    //! Positions des attributs.
+    enum Position {Id = PositionEnum<IdAttribut>::Position,
+                   Num = PositionEnum<NumAttribut>::Position,
+                   NbrAtt = EAID::NbrAtt};
+
+    using EAID::EntityID;
+    BASE_ENTITY(Annee)
+
+    //! Constructeur à partir des valeurs attributs.
+    Annee(int num, idt id = 0)
+        : EAID(id)
+        {setNum(num);}
+
+    //! Renvoie la chaîne de caractères "Num"-"Num+1".
+    QString texte() const
+        {return QString::number(num()).append("-").append(QString::number(num()+1));}
+};
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Classe.

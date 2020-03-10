@@ -20,14 +20,27 @@ namespace noteMPS {
  *
  */
 class NoyauNote : public fenMPS::AbstractNoyau {
+    Q_OBJECT
+protected:
+    Annee m_annee;      //!< Annee Courante.
+
 public:
     //! Constructeur.
-    NoyauNote()
-        : AbstractNoyau() {}
+    NoyauNote() {}
+
+    //! Destructeur.
+    ~NoyauNote() override = default;
+
+    //! Accesseur de l'année courante.
+    const Annee & annee() const noexcept
+        {return m_annee;}
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() override
         {return static_cast<BddNote &>(fenMPS::AbstractNoyau::bdd());}
+
+    //! Mutateur de l'année courante.
+    void setAnnee(const Annee & annee = Annee());
 
     //!Ouvre le gestionnaire de configuration au chemin indiquer.
     void setConfigByPath(const QString & configPath, QWidget * modalParent = nullptr) override;

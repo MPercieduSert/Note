@@ -13,40 +13,31 @@ FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, std::unique_ptr<BddNote>
 void FenPrincipaleNote::createMenuModif() {
     m_menuModif = new QMenu(tr("Modification"));
     m_menuFichier->insertMenu(m_actionSave,m_menuModif);
-    auto * etab = m_menuModif->addAction(tr("Établissment"));
-    connect(etab,&QAction::triggered,this, [this](){
-                            auto form = new EtablissementNewModifForm(noyau()->bdd(),false);
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
-    auto * niveau = m_menuModif->addAction((tr("Niveau")));
-    connect(niveau,&QAction::triggered,this, [this](){
-                            auto form = new NiveauNewModifForm(noyau()->bdd(),false);                
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
-    auto * typeEtab = m_menuModif->addAction(tr("Type d'étabblissement"));
-    connect(typeEtab,&QAction::triggered,this, [this](){
-                            auto form = new TypeEtablissementNewModifForm(noyau()->bdd(),false);
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
+    connect(m_menuModif->addAction(tr("Année scolaire courante")),&QAction::triggered,this,[this](){
+        auto * form = new AnneeNewModifForm(noyau()->bdd(), false);
+        dialogMPS::NewModifDialog diag(form,this);
+        if(diag.exec())
+            noyau()->setAnnee(form->annee());
+    });
+    connectActionToNewModifDialog<EtablissementNewModifForm>(m_menuModif->addAction(tr("Établissment")),false);
+    connectActionToNewModifDialog<NiveauNewModifForm>(m_menuModif->addAction((tr("Niveau"))),false);
+    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(m_menuModif->addAction(tr("Type d'étabblissement")),false);
 }
 
 void FenPrincipaleNote::createMenuNew() {
     m_menuNew = new QMenu(tr("Nouveau"));
     m_menuFichier->insertMenu(m_actionSave,m_menuNew);
-    auto * etab = m_menuNew->addAction(tr("Établissment"));
-    connect(etab,&QAction::triggered,this, [this](){
-                            auto form = new EtablissementNewModifForm(noyau()->bdd(),true);
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
-    auto * niveau = m_menuNew->addAction((tr("Niveau")));
-    connect(niveau,&QAction::triggered,this, [this](){
-                            auto form = new NiveauNewModifForm(noyau()->bdd(),true);
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
-    auto * typeEtab = m_menuNew->addAction(tr("Type d'étabblissement"));
-    connect(typeEtab,&QAction::triggered,this,[this](){
-                            auto form = new TypeEtablissementNewModifForm(noyau()->bdd(),true);
-                            dialogMPS::NewModifDialog diag(form,this);
-                            diag.exec();});
+    connect(m_menuNew->addAction(tr("Année scolaire")),&QAction::triggered,this,[this](){
+        auto * form = new AnneeNewModifForm(noyau()->bdd(), true);
+        dialogMPS::NewModifDialog diag(form,this);
+        if(diag.exec() && form->anneeCourante()) {
+            auto an = form->annee();
+            noyau()->bdd().getUnique(an);
+            noyau()->setAnnee(an);
+        }
+    });
+    connectActionToNewModifDialog<EtablissementNewModifForm>(m_menuNew->addAction(tr("Établissment")),true);
+    connectActionToNewModifDialog<NiveauNewModifForm>(m_menuNew->addAction((tr("Niveau"))),true);
+    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(m_menuNew->addAction(tr("Type d'étabblissement")),true);
 }
 

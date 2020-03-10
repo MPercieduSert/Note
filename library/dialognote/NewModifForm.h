@@ -4,10 +4,12 @@
 #ifndef NEWMODIFFORM_H
 #define NEWMODIFFORM_H
 
+#include <QCheckBox>
 #include "BddNote.h"
 #include "Checklist.h"
 #include "NewModifDialog.h"
 #include "SelectInListBox.h"
+#include "SpinBoxAnneeScolaire.h"
 
 namespace noteMPS {
 /*! \defgroup groupeDialogNote Dialogues de note
@@ -15,7 +17,57 @@ namespace noteMPS {
  */
 
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création des établissements.
+ * \brief Formulaire de création des Annees.
+ */
+class AnneeNewModifForm : public dialogMPS::AbstractNewModifForm {
+    Q_OBJECT
+protected:
+    QLabel * m_anneeLabel;                  //!< Label du choix de l'année.
+    QCheckBox * m_anneeCourante;            //!< CheckBox demandant si l'année crée devient courante.
+    SpinBoxAnneeScolaire * m_spinBox;       //!< Choix de l'année.
+    QVBoxLayout * m_mainLayout;             //!< Calque Principale.
+
+public:
+    //! Constructeur.
+    AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //! Destructeur.
+    ~AnneeNewModifForm() override = default;
+
+    //! Accesseur de l'annee courante de spinBox.
+    const Annee & annee() const
+        {return m_spinBox->value();}
+
+    //! Accesseur de l'état de la case à cocher.
+    bool anneeCourante() const
+        {return !m_new || m_anneeCourante->isChecked();}
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+    //! Évite le bouton supprimer.
+    bool delDisable() const noexcept override
+        {return true;}
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override
+        {return m_new ? tr("Création d'une nouvelle année scolaire") :
+                        tr("Choix de l'année scolaire courante");}
+
+public slots:
+    //! Supprime le type d'établissement dans la bases de donnée.
+    bool del() override
+        {return !m_new && m_bdd.del(m_spinBox->value());}
+
+    //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
+    void save() override;
+
+    //! Met à jour le formulaire.
+    void updateData() override {}
+};
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des établissements.
  */
 class EtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
     Q_OBJECT
@@ -27,7 +79,7 @@ protected:
 
 public:
     //! Constructeur.
-    EtablissementNewModifForm(bddMPS::BddPredef &bdd, bool newEnt, QWidget * parent = nullptr);
+    EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~EtablissementNewModifForm() override = default;
@@ -56,7 +108,7 @@ public slots:
 };
 
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création des niveaux.
+ * \brief Formulaire de création et modification des niveaux.
  */
 class NiveauNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
     Q_OBJECT
@@ -73,7 +125,7 @@ protected:
 
 public:
     //! Constructeur.
-    NiveauNewModifForm(bddMPS::BddPredef &bdd, bool newEnt, QWidget * parent = nullptr);
+    NiveauNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~NiveauNewModifForm() override = default;
@@ -96,7 +148,7 @@ public slots:
 };
 
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création des types d'établissement.
+ * \brief Formulaire de création et modification des types d'établissement.
  */
 class TypeEtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
     Q_OBJECT

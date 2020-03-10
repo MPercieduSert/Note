@@ -2,8 +2,54 @@
 
 using namespace noteMPS;
 
-//! Etablissement
-EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::BddPredef &bdd, bool newEnt, QWidget * parent)
+// Annee
+AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+    : dialogMPS::AbstractNewModifForm (bdd,newEnt,parent) {
+    m_anneeLabel = new QLabel(newEnt ? tr("Nouvelle année scolaire :")
+                                     : tr("Année scolaire courante :"));
+    auto date = QDate::currentDate();
+    Annee an;
+    an.setNum(date.month()<=6 ? date.year() - 1
+                              : date.year());
+    if(newEnt) {
+        m_spinBox = new SpinBoxAnneeScolaire(an);
+        m_anneeCourante = new QCheckBox(tr("Année courante"));
+    }
+    else {
+        m_spinBox = new SpinBoxAnneeScolaire(bdd.getList<Annee>(Annee::Num));
+        m_spinBox->setValue(an);
+        if(m_spinBox->value().isNew())
+            m_spinBox->setValue(m_spinBox->values().back());
+    }
+    m_mainLayout = new QVBoxLayout(this);
+    m_mainLayout->addWidget(m_anneeLabel);
+    if(m_new) {
+        m_mainLayout->addWidget(m_spinBox);
+        m_mainLayout->addWidget(m_anneeCourante);
+    }
+    else if (!m_spinBox->values().empty())
+        m_mainLayout->addWidget(m_spinBox);
+    else
+        m_anneeLabel->setText("Vous devez préalablement créer une année scolaire dans le menu :\n "
+                              "fichier>Nouveau>Année scolaire");
+}
+
+void AnneeNewModifForm::connexion() {
+    if(m_new){
+        connect(m_spinBox,&SpinBoxAnneeScolaire::valueChanged,this,[this](){emit savePermis(!m_bdd.existsUnique(m_spinBox->value()));});
+        emit savePermis(!m_bdd.existsUnique(m_spinBox->value()));
+    }
+    else if (m_spinBox->values().empty())
+        emit savePermis(false);
+}
+
+void AnneeNewModifForm::save() {
+    if(m_new)
+        m_bdd.save(m_spinBox->value());
+}
+
+// Etablissement
+EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé de l'établissement :"),
                                             tr("Nom de l'établissement :"),
@@ -87,9 +133,9 @@ void EtablissementNewModifForm::updateNiveau() {
     }
 }
 
-//! Niveau
-NiveauNewModifForm::NiveauNewModifForm(bddMPS::BddPredef & bdd, bool newEnt, QWidget * parent)
-    : dialogMPS::AbstractTypeNcNomNewModifForm (bdd,
+// Niveau
+NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
+    : dialogMPS::AbstractTypeNcNomNewModifForm (static_cast<bddMPS::BddPredef &>(bdd),
                                                 bddMPS::idProg::EtudeType,
                                                 Niveau::ID,
                                                 tr("type de niveau :"),
@@ -165,7 +211,7 @@ void NiveauNewModifForm::updateData() {
     }
 }
 
-//! TypeEtablissement
+// TypeEtablissement
 TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé du type d'établissment :"),

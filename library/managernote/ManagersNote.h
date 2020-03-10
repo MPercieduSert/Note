@@ -9,9 +9,9 @@
 #include "ManagersPredef.h"
 
 namespace bddMPS {
-    namespace cibleIdNote {
-        //! Numéro de cible des entités de l'inventaire non prédéfinies.
-        enum EntityInv {Annee = cibleId::NbrCibleEntPredef,
+    namespace cibleId {
+        //! Numéro de cible des entités de Note non prédéfinies.
+        enum EntityNote {Annee = cibleId::NbrCibleEntPredef,
                         Bareme,
                         Classe,
                         ClasseEleve,

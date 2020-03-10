@@ -83,3 +83,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/release/widget.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/debug/widget.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../Compilation/libmps/widget/libwidget.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../widgetnote/release/ -lwidgetnote
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../widgetnote/debug/ -lwidgetnote
+else:unix: LIBS += -L$$OUT_PWD/../widgetnote/ -lwidgetnote
+
+INCLUDEPATH += $$PWD/../widgetnote
+DEPENDPATH += $$PWD/../widgetnote
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/release/libwidgetnote.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/debug/libwidgetnote.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/release/widgetnote.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/debug/widgetnote.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/libwidgetnote.a
