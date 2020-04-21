@@ -127,3 +127,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../libr
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/release/widgetnote.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/debug/widgetnote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/widgetnote/libwidgetnote.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library/modeldelegatenote/release/ -lmodeldelegatenote
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library/modeldelegatenote/debug/ -lmodeldelegatenote
+else:unix: LIBS += -L$$OUT_PWD/../library/modeldelegatenote/ -lmodeldelegatenote
+
+INCLUDEPATH += $$PWD/../library/modeldelegatenote
+DEPENDPATH += $$PWD/../library/modeldelegatenote
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/release/libmodeldelegatenote.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/debug/libmodeldelegatenote.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/release/modeldelegatenote.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/debug/modeldelegatenote.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/libmodeldelegatenote.a

@@ -10,6 +10,17 @@ bool BddNote::delP(idt id, szt idEntity) {
         controle = delList<Classe>(Classe::IdAn,id)
                 && delList<ClasseGroupe>(ClasseGroupe::IdAn,id);
         break;
+    case Classe::ID:
+        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id)
+                && delList<ClasseGroupe>(ClasseGroupe::IdClasse,id)
+                && delList<ControleEpreuve>(ControleEpreuve::IdClasse,id);
+        break;
+    case Eleve::ID:
+        controle = delList<ClasseEleve>(ClasseEleve::IdEleve,id)
+                && delList<ControleEpreuve>(ControleEpreuve::IdEleve,id)
+                && delList<EleveGroupe>(EleveGroupe::IdEleve,id)
+                && delList<Note>(Note::IdEleve,id);
+        break;
     case Etablissement::ID:
         controle = delList<EtablissementNiveau>(EtablissementNiveau::IdEtab,id)
                 && delList<EtablissementType>(EtablissementType::IdEtab,id);
@@ -36,6 +47,17 @@ bool BddNote::getAutorisationP(idt id, szt idEntity, bmps::autorisation autoris)
         case Annee::ID:
             controle = controle && getAutorisationList<Classe>(autoris,Classe::IdAn,id)
                     && getAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdAn,id);
+            break;
+        case Classe::ID:
+            controle = controle && getAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id)
+                    && getAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id)
+                    && getAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
+            break;
+        case Eleve::ID:
+            controle = controle && getAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
+                    && getAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
+                    && getAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
+                    && getAutorisationList<Note>(autoris,Note::IdEleve,id);
             break;
         case Etablissement::ID:
             controle = controle && getAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)

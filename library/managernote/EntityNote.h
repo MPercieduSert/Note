@@ -80,7 +80,7 @@ SINGLE_ATTRIBUT(FilleAttribut,attributMPS::AttributBool,Fille,fille)
 SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::AttributIntSup<-1>,Minima,minima)
 SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::AttributIntSup<-1>,Num,num)
 SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::AttributStringNotEmpty,Prenom,prenom)
-SINGLE_ATTRIBUT(SortieAttribut,attributMPS::AttributDateNull,Sortie,sortie)
+SINGLE_ATTRIBUT(SortieAttribut,attributMPS::AttributDateValide,Sortie,sortie)
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Annee.
@@ -115,6 +115,8 @@ using EAID = emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut>;
 class Classe : public emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
                                                                attributMPS::Id2Attribut,
                                                                attributMPS::Id3Attribut,
+                                                               attributMPS::NcAttribut,
+                                                               attributMPS::NomAttribut,
                                                                attributMPS::NumAttribut> {
 protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,Classe>;
@@ -122,12 +124,16 @@ public:
 using EAID = emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
                                                       attributMPS::Id2Attribut,
                                                       attributMPS::Id3Attribut,
+                                                      attributMPS::NcAttribut,
+                                                      attributMPS::NomAttribut,
                                                       attributMPS::NumAttribut>;
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
                    Id1 = PositionEnum<Id1Attribut>::Position,
                    Id2 = PositionEnum<Id2Attribut>::Position,
                    Id3 = PositionEnum<Id3Attribut>::Position,
+                   Nc = PositionEnum<NcAttribut>::Position,
+                   Nom = PositionEnum<NomAttribut>::Position,
                    Num = PositionEnum<NumAttribut>::Position,
                    NbrAtt = EAID::NbrAtt,
                    IdAn = Id1,
@@ -142,11 +148,13 @@ using EAID = emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
     ALIAS_CLE(Niveau,3)
 
     //! Constructeur à partir des valeurs attributs.
-    Classe(idt idAn, idt idEtab, idt idNiveau, int num, idt id = 0)
+    Classe(idt idAn, idt idEtab, idt idNiveau, const QString & nc, const QString & nom, int num, idt id = 0)
         : EAID(id) {
         setIdAn(idAn);
         setIdEtab(idEtab);
         setIdNiveau(idNiveau);
+        setNc(nc);
+        setNom(nom);
         setNum(num);
     }
 };

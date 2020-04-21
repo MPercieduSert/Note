@@ -45,23 +45,11 @@ public:
         : SpinBoxAnneeScolaire(parent)
         {setValues(std::move(vec));}
 
-    //! Mutateur de l'année courante.
-    void setValue(const Annee & annee){
-        if(m_vec.empty()) {
-            m_value = annee;
-            m_value.setId(0);
-            printValue();
-        }
-        else {
-            szt pos = 0;
-            while(pos != m_vec.size() && annee.num() != m_vec.at(pos).num())
-                ++pos;
-            if(pos != m_vec.size()){
-                m_pos = pos;
-                printValue();
-            }
-        }
-    }
+    //! Place la valeur sur l'annee actuelle si possible ou sur la dernière année de la liste sinon.
+    void setNowValue();
+
+    //! Mutateur de l'année courante (recherche par num (byNum=true) ou par id (byNum=false).
+    void setValue(const Annee & annee, bool byNum = true);
 
     //! Mutateur de la liste des année disponible courante.
     void setValues(const conteneurMPS::VectorPtr<Annee> & vec)

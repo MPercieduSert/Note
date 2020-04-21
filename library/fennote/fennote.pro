@@ -25,13 +25,15 @@ SOURCES += \
     FenPrincipaleNote.cpp \
     NoyauNote.cpp \
     TabNote.cpp \
-    ZoneCentraleNote.cpp
+    ZoneCentraleNote.cpp \
+    ElevesTab.cpp
 
 HEADERS += \
     FenPrincipaleNote.h \
     NoyauNote.h \
     TabNote.h \
-    ZoneCentraleNote.h
+    ZoneCentraleNote.h \
+    ElevesTab.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
@@ -131,3 +133,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widg
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/release/widgetnote.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/debug/widgetnote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../widgetnote/libwidgetnote.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../modeldelegatenote/release/ -lmodeldelegatenote
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../modeldelegatenote/debug/ -lmodeldelegatenote
+else:unix: LIBS += -L$$OUT_PWD/../modeldelegatenote/ -lmodeldelegatenote
+
+INCLUDEPATH += $$PWD/../modeldelegatenote
+DEPENDPATH += $$PWD/../modeldelegatenote
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/release/libmodeldelegatenote.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/debug/libmodeldelegatenote.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/release/modeldelegatenote.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/debug/modeldelegatenote.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/libmodeldelegatenote.a

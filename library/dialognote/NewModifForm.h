@@ -4,7 +4,9 @@
 #ifndef NEWMODIFFORM_H
 #define NEWMODIFFORM_H
 
+#include <QCalendarWidget>
 #include <QCheckBox>
+#include <QSpinBox>
 #include "BddNote.h"
 #include "Checklist.h"
 #include "NewModifDialog.h"
@@ -67,6 +69,82 @@ public slots:
 };
 
 /*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des classes.
+ */
+class ClasseNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
+    Q_OBJECT
+protected:
+    szt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
+
+    //Widget
+    QLabel * m_anneeLabel;                      //!< Label du choix de l'annee.
+    QLabel * m_debutLabel;                      //!< Label du choix de la date du dédut des cours.
+    QLabel * m_etabLabel;                       //!< Label du choix de l'établissement.
+    QLabel * m_finLabel;
+    QLabel * m_nivLabel;                        //!< Label du choix du niveau.
+    QLabel * m_numLabel;                        //!< Label du numéro de la classe.
+    //QLabel * m_nbrEleveLabel;                   //!< Label du choix du nombre d'éléves.
+    QLabel * m_listeEleveLabel;                 //!< Label de la liste des éléves.
+    SpinBoxAnneeScolaire * m_anneeSpinBox;      //!< Choix de l'annee Scolaire.
+    QCalendarWidget * m_debutCalendar;          //<! Choix de la date du debut des cours.
+    QComboBox * m_etabCB;                       //!< Choix de l'établissement.
+    QCalendarWidget * m_finCalendar;            //!< Choix de la date de la fin des cours.
+    QComboBox * m_nivCB;                        //!< Choix du niveau.
+    QSpinBox * m_numSpinBox;                    //!< Choix du numéro de la classe.
+    //QSpinBox * m_nbrEleveSpinBox;               //!< Choix du nombre d'éléve.
+
+    //Calque
+    QHBoxLayout * m_calendarLayout;             //!< Calque du choix des dates de début et fin des cours.
+    QVBoxLayout * m_debutLayout;                //!< Calque du choix du début des cours.
+    QVBoxLayout * m_finLayout;                  //!< Calque du choix du fin des cours.
+
+public:
+//    struct FormValues {
+//        QDate debut;        //!< Date du début des cours.
+//        QDate fin;          //!< Date de fin des cours.
+//        szt idClasse;       //!< Identifiant de la classe créé.
+//        //int nbrEleve;       //!< Nombre d'étudiants dans la classe.
+//    };
+
+
+    //! Constructeur.
+    ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~ClasseNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override {
+        return m_new ? tr("Création d'une nouvelle classe") :
+                        tr("Modification d'une classe existante");
+    }
+
+//    //! Retourne le résultat de la fenêtre de dialogue.
+//    FormValues value() const;
+
+public slots:
+    //! Supprime la classe dans la bases de donnée.
+    bool del() override
+    {return !m_new && m_bdd.del(Classe(id()));}
+
+
+    //! Sauve la classe et les réponces du formulairs dans la bases de donnée.
+    void save() override;
+
+    //! Met à jour l'intervalle des dates.
+    void updateCalendar();
+
+    //! Met à jour le formulaire.
+    void updateData() override;
+
+    //! Met à jour les niveaux disponible.
+    void updateNiveau();
+};
+
+/*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des établissements.
  */
 class EtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
@@ -75,7 +153,7 @@ protected:
     QLabel * m_nivLabel;                    //!< Label de la liste des niveaux.
     QLabel * m_TELabel;                     //!< Label de la liste des types d'établissement.
     widgetMPS::Checklist * m_nivList;       //!< Liste des niveaux.
-    widgetMPS::Checklist * m_TEList;                 //!< Liste des types d'établissement.
+    widgetMPS::Checklist * m_TEList;        //!< Liste des types d'établissement.
 
 public:
     //! Constructeur.

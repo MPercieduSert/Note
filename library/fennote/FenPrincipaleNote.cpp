@@ -4,30 +4,14 @@ using namespace noteMPS;
 
 FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, std::unique_ptr<BddNote> bdd, ZoneCentraleNote * centralZone,
                                    const QString &bddPathXML, const QString & configPath, QWidget *parent)
-    : PredefFenPrincipale (noyau,std::move(bdd),centralZone,bddPathXML,configPath,parent)
-{
-    createMenuNew();
-    createMenuModif();
+    : PredefFenPrincipale (noyau,std::move(bdd),centralZone,bddPathXML,configPath,parent) {
+    createMenuNewModif();
 }
 
-void FenPrincipaleNote::createMenuModif() {
-    m_menuModif = new QMenu(tr("Modification"));
-    m_menuFichier->insertMenu(m_actionSave,m_menuModif);
-    connect(m_menuModif->addAction(tr("Année scolaire courante")),&QAction::triggered,this,[this](){
-        auto * form = new AnneeNewModifForm(noyau()->bdd(), false);
-        dialogMPS::NewModifDialog diag(form,this);
-        if(diag.exec())
-            noyau()->setAnnee(form->annee());
-    });
-    connectActionToNewModifDialog<EtablissementNewModifForm>(m_menuModif->addAction(tr("Établissment")),false);
-    connectActionToNewModifDialog<NiveauNewModifForm>(m_menuModif->addAction((tr("Niveau"))),false);
-    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(m_menuModif->addAction(tr("Type d'étabblissement")),false);
-}
-
-void FenPrincipaleNote::createMenuNew() {
-    m_menuNew = new QMenu(tr("Nouveau"));
-    m_menuFichier->insertMenu(m_actionSave,m_menuNew);
-    connect(m_menuNew->addAction(tr("Année scolaire")),&QAction::triggered,this,[this](){
+void FenPrincipaleNote::createMenuNewModif() {
+    //Année
+    auto * anMenu = m_newModifMenu->addMenu(tr("Année scolaire"));
+    connect(anMenu->addAction(tr("Crée une année")),&QAction::triggered,this,[this](){
         auto * form = new AnneeNewModifForm(noyau()->bdd(), true);
         dialogMPS::NewModifDialog diag(form,this);
         if(diag.exec() && form->anneeCourante()) {
@@ -36,8 +20,32 @@ void FenPrincipaleNote::createMenuNew() {
             noyau()->setAnnee(an);
         }
     });
-    connectActionToNewModifDialog<EtablissementNewModifForm>(m_menuNew->addAction(tr("Établissment")),true);
-    connectActionToNewModifDialog<NiveauNewModifForm>(m_menuNew->addAction((tr("Niveau"))),true);
-    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(m_menuNew->addAction(tr("Type d'étabblissement")),true);
+    connect(anMenu->addAction(tr("Choix de l'année courante")),&QAction::triggered,this,[this](){
+        auto * form = new AnneeNewModifForm(noyau()->bdd(), false);
+        dialogMPS::NewModifDialog diag(form,this);
+        if(diag.exec())
+            noyau()->setAnnee(form->annee());
+    });
+    //Classe
+    auto * classeMenu = m_newModifMenu->addMenu(tr("Classe"));
+    connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Modifier")),false);
+//    connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
+//        centraleZone()->openTab({TabNote::EleveClasseTabId,0});
+//    });
+    //Eleve
+    connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
+    //Établissement
+    auto * etabMenu = m_newModifMenu->addMenu(tr("Établissement"));
+    connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Modifier")),false);
+    //Niveau
+    auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
+    connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);
+    connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Modifier"))),false);
+    //Type d'établissement
+    auto * tpEtabMenu = m_newModifMenu->addMenu(tr("Type d'étabblissement"));
+    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(tpEtabMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<TypeEtablissementNewModifForm>(tpEtabMenu->addAction(tr("Modifier")),false);
 }
 

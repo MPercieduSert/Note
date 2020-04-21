@@ -2,9 +2,15 @@
 
 using namespace noteMPS;
 
-fmps::AbstractTabModule * TabNote::createTab(std::pair<int,int> pair) const {
-    if(pair.first < PredefTab::NbrTabId)
-        return PredefTab::createTab(pair);
+fmps::AbstractTabModule * TabNote::createTab(const std::pair<int,int>& pair, const std::vector<QVariant> &args) const {
+    if(pair.first < PredefTab::NbrPredefTabId)
+        return PredefTab::createTab(pair,args);
     else
-        return nullptr;
+        switch (pair.first) {
+        case ElevesTabId:
+            return new ElevesTab(bdd(),pair);
+        default:
+            return nullptr;
+        }
+
 }

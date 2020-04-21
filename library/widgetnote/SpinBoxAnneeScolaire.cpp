@@ -17,6 +17,39 @@ void SpinBoxAnneeScolaire::printValue() {
     emit valueChanged();
 }
 
+void SpinBoxAnneeScolaire::setNowValue() {
+    auto date = QDate::currentDate();
+    Annee an;
+    an.setNum(date.month()<=6 ? date.year() - 1
+                              : date.year());
+    setValue(an);
+    if(!m_vec.empty() && m_value.isNew()){
+        m_pos = static_cast<szt>(m_vec.size())-1;
+        printValue();
+    }
+}
+
+void SpinBoxAnneeScolaire::setValue(const Annee & annee, bool byNum){
+    if(m_vec.empty()) {
+        m_value = annee;
+        m_value.setId(0);
+        printValue();
+    }
+    else {
+        szt pos = 0;
+        if(byNum)
+            while(pos != m_vec.size() && annee.num() != m_vec.at(pos).num())
+                ++pos;
+        else
+            while(pos != m_vec.size() && annee.id() != m_vec.at(pos).id())
+                ++pos;
+        if(pos != m_vec.size()){
+            m_pos = pos;
+            printValue();
+        }
+    }
+}
+
 QSize SpinBoxAnneeScolaire::sizeHint() const {
     return QSize(fontMetrics().size(Qt::TextSingleLine,text()));
 }

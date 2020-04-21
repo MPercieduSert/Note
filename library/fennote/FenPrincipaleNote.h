@@ -21,8 +21,6 @@ namespace noteMPS {
 class FenPrincipaleNote : public fmps::PredefFenPrincipale {
     Q_OBJECT
 protected:
-    QMenu *m_menuNew;               //!< Menu nouveau.
-    QMenu *m_menuModif;             //!< Menu modifier.
 
 public:
     //! Constructeur.
@@ -37,10 +35,7 @@ public:
     ~FenPrincipaleNote() override = default;
 
     //! Création du sous-menu nouvau.
-    void createMenuModif();
-
-    //! Création du sous-menu nouvau.
-    void createMenuNew();
+    void createMenuNewModif();
 
     //! Acceseur du noyau.
     NoyauNote * noyau() override

@@ -5,22 +5,18 @@ using namespace noteMPS;
 // Annee
 AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNewModifForm (bdd,newEnt,parent) {
+    // Annee
     m_anneeLabel = new QLabel(newEnt ? tr("Nouvelle année scolaire :")
                                      : tr("Année scolaire courante :"));
-    auto date = QDate::currentDate();
-    Annee an;
-    an.setNum(date.month()<=6 ? date.year() - 1
-                              : date.year());
     if(newEnt) {
-        m_spinBox = new SpinBoxAnneeScolaire(an);
+        m_spinBox = new SpinBoxAnneeScolaire();
         m_anneeCourante = new QCheckBox(tr("Année courante"));
     }
-    else {
-        m_spinBox = new SpinBoxAnneeScolaire(bdd.getList<Annee>(Annee::Num));
-        m_spinBox->setValue(an);
-        if(m_spinBox->value().isNew())
-            m_spinBox->setValue(m_spinBox->values().back());
-    }
+    else
+        m_spinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
+    m_spinBox->setNowValue();
+
+    // Calque
     m_mainLayout = new QVBoxLayout(this);
     m_mainLayout->addWidget(m_anneeLabel);
     if(m_new) {
@@ -48,12 +44,164 @@ void AnneeNewModifForm::save() {
         m_bdd.save(m_spinBox->value());
 }
 
+// Classe
+ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+    : dialogMPS::AbstractNcNomNewModifForm (bdd,
+                                            tr("Nom abrégé de la classe :"),
+                                            tr("Nom de la classe :"),
+                                            newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<Classe>(Classe::Nom));
+
+    // Annee
+    m_anneeLabel = new QLabel(tr("Annee scolaire : "));
+    m_anneeSpinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
+    m_anneeSpinBox->setNowValue();
+
+    // Etab
+    m_etabLabel = new QLabel(tr("Etablissement :"));
+    m_etabCB = new QComboBox();
+    m_etabCB->setInsertPolicy(QComboBox::NoInsert);
+    auto etabs = m_bdd.getList<Etablissement>(Etablissement::Nom);
+    for(auto i = etabs.cbegin(); i != etabs.cend(); ++i) {
+        auto txt = i->nom();
+        txt.append(" (").append(i->nc()).append(")");
+        m_etabCB->addItem(txt,i->id());
+    }
+
+    // Niveau
+    m_nivLabel = new QLabel(tr("Niveau :"));
+    m_nivCB = new QComboBox();
+    m_nivCB->setInsertPolicy(QComboBox::NoInsert);
+    updateNiveau();
+
+    // Num
+    m_numLabel = new QLabel(tr("Numéro :"));
+    m_numSpinBox = new QSpinBox();
+    m_numSpinBox->setMinimum(0);
+    //m_numSpinBox->setReadOnly(true);
+    m_numSpinBox->setSpecialValueText(" ");
+
+
+    if(m_new) {
+        // Nbr Eleve
+//        m_nbrEleveLabel = new QLabel(tr("Nombre d'éléves dans la classe"));
+//        m_nbrEleveSpinBox = new QSpinBox();
+//        m_nbrEleveSpinBox->setMinimum(0);
+//        m_nbrEleveSpinBox->setValue(30);
+        // Debut et fin des cours
+        m_debutLabel = new QLabel(tr("Début des cours:"));
+        m_finLabel = new QLabel(tr("Fin des cours:"));
+        m_debutCalendar = new QCalendarWidget;
+        m_finCalendar = new QCalendarWidget;
+    }
+
+    // Calque
+    m_mainLayout->addWidget(m_anneeLabel);
+    m_mainLayout->addWidget(m_anneeSpinBox);
+    m_mainLayout->addWidget(m_etabLabel);
+    m_mainLayout->addWidget(m_etabCB);
+    m_mainLayout->addWidget(m_nivLabel);
+    m_mainLayout->addWidget(m_nivCB);
+    m_mainLayout->addWidget(m_numLabel);
+    m_mainLayout->addWidget(m_numSpinBox);
+    if(m_new) {
+//        m_mainLayout->addWidget(m_nbrEleveLabel);
+//        m_mainLayout->addWidget(m_nbrEleveSpinBox);
+        m_debutLayout = new QVBoxLayout;
+        m_debutLayout->addWidget(m_debutLabel);
+        m_debutLayout->addWidget(m_debutCalendar);
+        m_finLayout = new QVBoxLayout;
+        m_finLayout->addWidget(m_finLabel);
+        m_finLayout->addWidget(m_finCalendar);
+        m_calendarLayout = new QHBoxLayout;
+        m_calendarLayout->addLayout(m_debutLayout);
+        m_calendarLayout->addLayout(m_finLayout);
+        m_mainLayout->addLayout(m_calendarLayout);
+    }
+}
+
+void ClasseNewModifForm::connexion() {
+    AbstractNcNomNewModifForm::connexion();
+    connect(m_etabCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&ClasseNewModifForm::updateNiveau);
+    connect(m_anneeSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseNewModifForm::updateCalendar);
+}
+
+void ClasseNewModifForm::save() {
+    Classe cl;
+    if(!m_new)
+        cl.setId(id());
+    cl.setNc(nc());
+    cl.setNom(nom());
+    cl.setIdAn(m_anneeSpinBox->value().id());
+    cl.setIdEtab(m_etabCB->currentData().toUInt());
+    cl.setIdNiveau(m_nivCB->currentData().toUInt());
+    cl.setNum(m_numSpinBox->value());
+    m_bdd.save(cl);
+    if(m_new)
+        m_idClasse = cl.id();
+}
+
+void ClasseNewModifForm::updateCalendar() {
+    if(m_new) {
+        auto an = m_anneeSpinBox->value().num();
+        m_debutCalendar->setDateRange(QDate(an,9,1),QDate(an+1,8,31));
+        m_debutCalendar->setSelectedDate(QDate(an,9,1));
+        m_finCalendar->setDateRange(QDate(an,9,1),QDate(an+1,8,31));
+        m_finCalendar->setSelectedDate(QDate(an+1,8,31));
+    }
+}
+
+void ClasseNewModifForm::updateData() {
+    if(m_new) {
+        updateNiveau();
+        updateCalendar();
+    }
+    else {
+        Classe cl;
+        updateTemp<Classe>(cl);
+        m_idClasse = cl.id();
+        m_anneeSpinBox->setValue(Annee(cl.idAn()), false);
+        m_etabCB->setCurrentIndex(m_etabCB->findData(cl.idEtab()));
+        m_nivCB->setCurrentIndex(m_nivCB->findData(cl.idNiveau()));
+        m_numSpinBox->setValue(cl.num());
+    }
+}
+
+void ClasseNewModifForm::updateNiveau() {
+    auto nivs = m_bdd.getList<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,
+                                                          EtablissementNiveau::IdEtab,
+                                                          m_etabCB->currentData(Qt::UserRole).toUInt());
+    m_nivCB->clear();
+    for(auto i = nivs.cbegin(); i != nivs.cend(); ++i) {
+        auto txt = i->nom();
+        txt.append(" (").append(i->nc()).append(")");
+        m_nivCB->addItem(txt,i->id());
+    }
+}
+
+//ClasseNewModifForm::FormValues ClasseNewModifForm::value() const {
+//    FormValues res;
+//    if(m_new) {
+//        res.idClasse = m_idClasse;
+//        res.debut = m_debutCalendar->selectedDate();
+//        res.fin = m_finCalendar->selectedDate();
+//        res.nbrEleve = m_nbrEleveSpinBox->value();
+//    }
+//    return res;
+//}
+
 // Etablissement
 EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé de l'établissement :"),
                                             tr("Nom de l'établissement :"),
                                             newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<Etablissement>());
+
     // Type d'établissment
     m_TELabel = new QLabel(tr("Type(s) de l'établissement :"));
     m_TEList = new widgetMPS::Checklist(m_bdd.getList<TypeEtablissement>());
@@ -62,9 +210,7 @@ EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newE
     m_nivLabel = new QLabel(tr("Niveaux présent dans l'établissement:"));
     m_nivList = new widgetMPS::Checklist(m_bdd.getList<Niveau>());
 
-    if(!m_new)
-        setNoms(m_bdd.getList<Etablissement>());
-
+    // Calque
     m_mainLayout->addWidget(m_TELabel);
     m_mainLayout->addWidget(m_TEList);
     m_mainLayout->addWidget(m_nivLabel);
@@ -143,7 +289,11 @@ NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget *
                                                 tr("Nom du niveau"),
                                                 newEnt,parent)
 {
+
+    // Nom
     auto niveaux = m_bdd.getList<Niveau>();
+    if(!m_new)
+        setNoms(niveaux);
 
     // Type d'établissment
     m_listLabel = new QLabel(tr("Type d'établissement pouvant accueillir le niveau:"));
@@ -157,8 +307,7 @@ NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget *
     m_nivSuivLabel = new QLabel(tr("Niveaux suivants:"));
     m_nivSuivList = new widgetMPS::Checklist(niveaux);
 
-    if(!m_new)
-        setNoms(niveaux);
+    // Calques
     m_nivPrecLayout = new QVBoxLayout;
     m_nivPrecLayout->addWidget(m_nivPrecLabel);
     m_nivPrecLayout->addWidget(m_nivPrecList);
@@ -216,13 +365,16 @@ TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, 
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé du type d'établissment :"),
                                             tr("Nom du type d'établissement :"),
-                                            newEnt,parent)
-{
-    m_selectNiv = new widgetMPS::SelectInListBox(tr("Niveaux existents :"),tr("Niveaux présents :"));
+                                            newEnt,parent) {
+    // Nom
     if(!m_new)
         setNoms(m_bdd.getList<TypeEtablissement>(TypeEtablissement::Nom));
-    m_mainLayout->addWidget(m_selectNiv);
 
+    // Niveaux
+    m_selectNiv = new widgetMPS::SelectInListBox(tr("Niveaux existents :"),tr("Niveaux présents :"));
+
+    // Calque
+    m_mainLayout->addWidget(m_selectNiv);
 }
 
 void TypeEtablissementNewModifForm::save() {
