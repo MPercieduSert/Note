@@ -6,6 +6,18 @@ FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, std::unique_ptr<BddNote>
                                    const QString &bddPathXML, const QString & configPath, QWidget *parent)
     : PredefFenPrincipale (noyau,std::move(bdd),centralZone,bddPathXML,configPath,parent) {
     createMenuNewModif();
+    QDockWidget *dockWidget = new QDockWidget(tr("Rechecher"), this);
+    dockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    auto * find = new FindWidget();
+    dockWidget->setWidget(find);
+    addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+
+//    QDockWidget *dockWidget2 = new QDockWidget(tr("Dock Widget 2"), this);
+//    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea |
+//                                      Qt::RightDockWidgetArea);
+//    QLabel * label2 = new QLabel("Dock test2");
+//    dockWidget2->setWidget(label2);
+//    addDockWidget(Qt::RightDockWidgetArea, dockWidget2);
 }
 
 void FenPrincipaleNote::createMenuNewModif() {
@@ -35,6 +47,7 @@ void FenPrincipaleNote::createMenuNewModif() {
 //    });
     //Eleve
     connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
+    connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve bêta")),{TabNote::Eleves2TabId,fenMPS::AbstractTabModule::NoId});
     //Établissement
     auto * etabMenu = m_newModifMenu->addMenu(tr("Établissement"));
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Créer")),true);

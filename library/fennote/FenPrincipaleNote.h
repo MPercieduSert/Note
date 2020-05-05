@@ -4,7 +4,8 @@
 #ifndef FENPRINCIPALENOTE_H
 #define FENPRINCIPALENOTE_H
 
-#include <qobject.h>
+#include <QDockWidget>
+#include "FindWidget.h"
 #include "NewModifForm.h"
 #include "NoyauNote.h"
 #include "ZoneCentraleNote.h"

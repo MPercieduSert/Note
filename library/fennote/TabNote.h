@@ -14,7 +14,8 @@ namespace fmps = fenMPS;
  */
 class TabNote : public fmps::PredefTab {
 public:
-    enum NoteTabId {ElevesTabId = NbrPredefTabId};
+    enum NoteTabId {ElevesTabId = NbrPredefTabId,
+                   Eleves2TabId};
     using PredefTab::PredefTab;
 
     //! Connect l'onglet aux signaux commun à tous les onglets.
