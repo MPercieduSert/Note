@@ -3,7 +3,7 @@
 using namespace noteMPS;
 
 EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec)
-    : modelMPS::VectorPtrColonne<Eleve>(name, flags,modelMPS::TexteColonne,vec,
+    : modelMPS::VectorPtrColonne<Eleve>(name, flags,modelMPS::AbstractColonnesModel::TexteColonne,vec,
     [](const Eleve & eleve, int role)->QVariant{
         if(role == Qt::DisplayRole || role == Qt::EditRole)
             return eleve.nom();
@@ -39,7 +39,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
     case Nom:
         return std::make_unique<NomColonne>(info.name,info.flags,m_vec);
     case Prenom:
-        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,modelMPS::TexteColonne,m_vec,
+        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,modelMPS::AbstractColonnesModel::TexteColonne,m_vec,
             [](const Eleve & eleve,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
                     return eleve.prenom();
@@ -50,7 +50,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                     return true;}
                 return false;});
     case Naissance:
-        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,modelMPS::DateColonne,m_vec,
+        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,modelMPS::AbstractColonnesModel::DateColonne,m_vec,
            [](const Eleve & eleve,int role)->QVariant {
                if(role == Qt::DisplayRole || role == Qt::EditRole)
                    return eleve.date();
@@ -61,18 +61,10 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                    return true;}
                return false;});
     case Sexe:
-        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,modelMPS::BooleenColonne,m_vec,
-           [](const Eleve & eleve,int role)->QVariant {
-               if(role == Qt::CheckStateRole)
-                   return eleve.fille()? Qt::Checked : Qt::Unchecked;
-               if(role == Qt::DisplayRole || role == Qt::EditRole)
-                   return eleve.fille()?QString("F"):QString("M");
-               return QVariant();},
-           [](const QVariant & value, Eleve & eleve,int role)->bool {
-               if(role == Qt::CheckStateRole) {
-                   eleve.setFille(value.toBool());
-                   return true;}
-               return false;});
+        return std::make_unique<modelMPS::VectorPtrBoolColonne<Eleve>>(info.name,info.flags,modelMPS::AbstractColonnesModel::BoolColonne,m_vec,
+           [](const Eleve & eleve)->bool {return eleve.fille();},
+           [](bool value, Eleve & eleve) {eleve.setFille(value);},
+           "F","M");
     default:
         return nullptr;
     }

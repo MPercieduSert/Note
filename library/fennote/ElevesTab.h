@@ -13,11 +13,11 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QSpinBox>
+#include "AbstractFindModel.h"
 #include "AbstractTabTableau.h"
 #include "BddNote.h"
+#include "FindWidget.h"
 #include "TableauNote.h"
-
-#include "TableEntityView.h"
 
 namespace noteMPS {
 /*! \ingroup groupeDialogNote
@@ -30,7 +30,7 @@ protected:
 //    QCheckBox * m_sexeFemBox;             //!< Case à cocher de fille.
 //    QCheckBox * m_sexeMasBox;             //!< Case à cocher de garçon.
     QGroupBox * m_addGroup;         //!< Groupe du choix nombre d'éléves à ajouter.
-//    QGroupBox * m_findGroup;        //!< Groupe de recherche.
+    QGroupBox * m_findGroup;        //!< Groupe de recherche.
 //    QLabel * m_apresLabel;          //!< Label de la date de naissance après.
 //    QLabel * m_avantLabel;          //!< Label de la date de naissance avant.
 //    QLabel * m_nomLabel;            //!< Label de recherche du nom.
@@ -44,8 +44,9 @@ protected:
     QPushButton * m_delButton;      //!< Bouton de suppression d'éléves.
 //    QPushButton * m_resetFindButton;        //!< Bouton de reset de recherche.
     QSpinBox * m_addSpinBox;        //!< Choix du nombre l'éléve à ajouter.
+    widgetMPS::FindWidget * m_findWidget;      //!< Recherche dans la liste d'éléve.
 
-//    QGridLayout * m_findLayout;     //!< Claque de recherche.
+    QVBoxLayout * m_findLayout;     //!< Claque de recherche.
     QHBoxLayout * m_addLayout;      //!< Calque de l'ajout d'éléve dans le tableau.
     QHBoxLayout * m_mainLayout;     //!< Calque principal.
     QVBoxLayout * m_secondLayout;   //!< Calque secondaire.
