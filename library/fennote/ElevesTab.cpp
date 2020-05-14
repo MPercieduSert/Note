@@ -56,19 +56,6 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_mainLayout->addLayout(m_secondLayout);
 }
 
-//void ElevesTab::find() {
-//    if(m_findEnabled) {
-//        EleveModel::FindEleves fe;
-//        fe.nom.setPattern(m_nomEdit->text());
-//        fe.prenom.setPattern(m_prenomEdit->text());
-//        fe.apres = m_apresEdit->date();
-//        fe.avant = m_avantEdit->date();
-//        fe.femme = m_sexeFemBox->isChecked();
-//        fe.homme = m_sexeMasBox->isChecked();
-//        model()->find(fe);
-//    }
-//}
-
 void ElevesTab::remove(){
     if(model()->removeRowsSelected(m_view->selectionModel()->selectedIndexes()))
         m_view->selectionModel()->clear();

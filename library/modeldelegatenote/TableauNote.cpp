@@ -8,11 +8,11 @@ EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags
         if(role == Qt::DisplayRole || role == Qt::EditRole)
             return eleve.nom();
         return QVariant();},
+    [](const Eleve & eleve)->QVariant{return eleve.nom();},
     [](const QVariant & value, Eleve & eleve, int role){
         if(role == Qt::EditRole){
             eleve.setNom(value.toString());
-            return true;
-        }
+            return true;}
         return false;}) {}
 
 bool EleveVecTableau::NomColonne::compare(szt ligne1, szt ligne2) const {
@@ -44,6 +44,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
                     return eleve.prenom();
                 return QVariant();},
+            [](const Eleve & eleve)->QVariant{return eleve.prenom();},
             [](const QVariant & value, Eleve & eleve,int role)->bool {
                 if(role == Qt::EditRole) {
                     eleve.setPrenom(value.toString());
@@ -55,6 +56,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                if(role == Qt::DisplayRole || role == Qt::EditRole)
                    return eleve.date();
                return QVariant();},
+           [](const Eleve & eleve)->QVariant{return eleve.date();},
            [](const QVariant & value, Eleve & eleve,int role)->bool {
                if(role == Qt::EditRole) {
                    eleve.setDate(value.toDate());
