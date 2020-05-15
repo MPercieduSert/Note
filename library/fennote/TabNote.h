@@ -4,8 +4,10 @@
 #ifndef TABNOTE_H
 #define TABNOTE_H
 
-#include "PredefTab.h"
+#include "ClasseEleveTab.h"
 #include "ElevesTab.h"
+#include "PredefTab.h"
+
 
 namespace noteMPS {
 namespace fmps = fenMPS;
@@ -15,7 +17,7 @@ namespace fmps = fenMPS;
 class TabNote : public fmps::PredefTab {
 public:
     enum NoteTabId {ElevesTabId = NbrPredefTabId,
-                   Eleves2TabId};
+                    ClasseEleveTabId};
     using PredefTab::PredefTab;
 
     //! Connect l'onglet aux signaux commun à tous les onglets.

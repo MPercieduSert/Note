@@ -26,14 +26,16 @@ SOURCES += \
     NoyauNote.cpp \
     TabNote.cpp \
     ZoneCentraleNote.cpp \
-    ElevesTab.cpp
+    ElevesTab.cpp \
+    ClasseEleveTab.cpp
 
 HEADERS += \
     FenPrincipaleNote.h \
     NoyauNote.h \
     TabNote.h \
     ZoneCentraleNote.h \
-    ElevesTab.h
+    ElevesTab.h \
+    ClasseEleveTab.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

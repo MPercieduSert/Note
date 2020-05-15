@@ -16,9 +16,7 @@ namespace bddMPS {
     }
     namespace idProg {
         //! Identifiant de programmation de la cible configuration de la table cibleDonnéee.
-        enum idProgConfiguration {
-            AnneeCourante = 1
-        };
+        enum idProgConfiguration {AnneeCourante = 1};
 
         //! Identifiant de programmation de la table type.
         enum idProgType {

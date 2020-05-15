@@ -42,12 +42,12 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * classeMenu = m_newModifMenu->addMenu(tr("Classe"));
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Modifier")),false);
-//    connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
-//        centraleZone()->openTab({TabNote::EleveClasseTabId,0});
-//    });
+    auto anCourant =
+    connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
+        centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
+    });
     //Eleve
     connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
-    connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve bêta")),{TabNote::Eleves2TabId,fenMPS::AbstractTabModule::NoId});
     //Établissement
     auto * etabMenu = m_newModifMenu->addMenu(tr("Établissement"));
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Créer")),true);
