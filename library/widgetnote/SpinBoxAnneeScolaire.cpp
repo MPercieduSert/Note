@@ -45,14 +45,14 @@ void SpinBoxAnneeScolaire::setValue(const Annee & annee, bool byNum){
                 ++pos;
         if(pos != m_vec.size()){
             m_pos = pos;
+            m_value = m_vec.at(pos);
             printValue();
         }
     }
 }
 
-QSize SpinBoxAnneeScolaire::sizeHint() const {
-    return QSize(fontMetrics().size(Qt::TextSingleLine,text()));
-}
+QSize SpinBoxAnneeScolaire::sizeHint() const
+    {return QSize(fontMetrics().size(Qt::TextSingleLine,text()));}
 
 void SpinBoxAnneeScolaire::stepBy(int steps) {
     if(m_vec.empty()) {
