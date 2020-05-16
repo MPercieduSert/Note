@@ -110,8 +110,65 @@ void BddNote::listeMiseAJourBdd(int version) {
         m_manager->saveVersion(bmps::bddVersion::InitialeNote);
     [[clang::fallthrough]];
 
-    case bmps::bddVersion::InitialeNote:
-        save(Type(bmps::idProg::EtudeType,"Étude","Étude"));
+    case bmps::bddVersion::InitialeNote: {
+        Type etudeTp;
+        etudeTp.setNom("Étude");
+        etudeTp.setNc("Étude");
+        etudeTp.setIdProg(bmps::idProg::EtudeType);
+        save(etudeTp,bmps::Suppr);
+        TypePermission etudePerm;
+        etudePerm.setIdType(etudeTp.id());
+        etudePerm.setCible(cible<Niveau>());
+        etudePerm.setCode(bmps::code::Visible);
+        save(etudePerm,bmps::Suppr);
         m_manager->saveVersion(bmps::bddVersion::IdProg001Note);
+    }
+    [[clang::fallthrough]];
+
+    case bmps::bddVersion::IdProg001Note:{
+        Type configType;
+        configType.setNom("Configuration");
+        configType.setNc("config");
+        configType.setIdProg(bmps::idProg::ConfigurationType);
+        save(configType,bmps::Suppr);
+        TypePermission configPerm;
+        configPerm.setIdType(configType.id());
+        configPerm.setCible(cible<Donnee>());
+        configPerm.setCode(bmps::code::Visible);
+        save(configPerm);
+        Type defValType;
+        defValType.setNom("Valeur par defaut");
+        defValType.setNc("defaut");
+        defValType.setIdProg(bmps::idProg::DefaultValueType);
+        defValType.setParent(configType.id());
+        save(defValType,bmps::Suppr);
+        TypePermission defValPerm;
+        defValPerm.setIdType(defValType.id());
+        defValPerm.setCible(cible<Donnee>());
+        defValPerm.setCode(bmps::code::Visible | bmps::code::Attribuable);
+        conteneurMPS::tree<Donnee> tree;
+        auto iter = tree.begin();
+        iter->setNom("Configuration");
+        iter->setType(configType.id());
+        iter->setTpVal(donnee::NoDonnee);
+        iter->setIdProg(donnee::ConfigurationId);
+        iter = tree.push_back(iter);
+        iter->setNom("Valeurs par defaut");
+        iter->setType(configType.id());
+        iter->setTpVal(donnee::NoDonnee);
+        iter->setIdProg(donnee::DefaultValueId);
+        iter = tree.push_back(iter);
+        iter->setNom("Date par defaut");
+        iter->setType(defValType.id());
+        iter->setTpVal(donnee::Date);
+        iter->setIdProg(donnee::DefaultDateId);
+        save(tree,bmps::WithoutDelete);
+        DonneeCard dnCard;
+        dnCard.setIdDonnee(static_cast<int>(iter->id()));
+        dnCard.setCible(cible<Classe>());
+        dnCard.setCard(donnee::NbrDefaultDateClasse);
+        dnCard.setExact(donnee::Exact);
+        m_manager->saveVersion(bmps::bddVersion::IdProg002Note);
+    }
     }
 }

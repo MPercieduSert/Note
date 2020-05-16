@@ -12,6 +12,7 @@ namespace bddMPS {
         //! Version de la base de données.
         enum versionBddNote{InitialeNote = NbrCreationBddPredef,
                             IdProg001Note,
+                            IdProg002Note,
                             NbrVersionBddNote};
     }
     namespace idProg {
@@ -21,10 +22,27 @@ namespace bddMPS {
         //! Identifiant de programmation de la table type.
         enum idProgType {
             Null = 0,
-            EtudeType = 1
+            EtudeType = 1,
+            ConfigurationType = 2,
+            DefaultValueType = 3
         };
-
     }
+}
+
+namespace donnee {
+    //! Identitifant de programmation de la table donnée.
+    enum idProgDonnee {
+        ConfigurationId,
+        DefaultValueId,
+        DefaultDateId
+    };
+
+    //! Numero d'une donnée
+    enum numDonnee {
+        EntreeNum,
+        SortieNum,
+        NbrDefaultDateClasse
+    };
 }
 
 namespace noteMPS {
