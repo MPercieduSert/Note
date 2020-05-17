@@ -164,7 +164,7 @@ void BddNote::listeMiseAJourBdd(int version) {
         iter->setIdProg(donnee::DefaultDateId);
         save(tree,bmps::WithoutDelete);
         DonneeCard dnCard;
-        dnCard.setIdDonnee(static_cast<int>(iter->id()));
+        dnCard.setIdDonnee(iter->id());
         dnCard.setCible(cible<Classe>());
         dnCard.setCard(donnee::NbrDefaultDateClasse);
         dnCard.setExact(donnee::Exact);
