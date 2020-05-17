@@ -28,12 +28,15 @@ protected:
     // Widget
     QLabel * m_anLabel;                             //!< Label du choix de l'année de la classe.
     QLabel * m_classeLabel;                         //!< Label du choix de la classe.
+    QPushButton * m_addButton;                      //!< Bouton d'ajout des élèves séléctionnés.
+    QPushButton * m_delButton;                      //!< Bouton de retrait des élèves séléctionnés.
     QTableView * m_eleveView;                       //!< Vue de sélection des élèves.
     widgetMPS::FindWidget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
     widgetMPS::IdComboBox * m_classeComboBox;       //!< Selection de la classe.
     SpinBoxAnneeScolaire * m_anSpinBox;             //!< Selection de l'année de la classe.
 
     // Calque
+    QHBoxLayout * m_buttonLayout;                   //!< Calque des boutons.
     QHBoxLayout *  m_classeLayout;                  //!< Calque du choix de la classe.
     QHBoxLayout * m_eleveLayout;                    //!< Calque de séléction des éléves.
     QVBoxLayout * m_mainLayout;                     //!< Calque Principal.
