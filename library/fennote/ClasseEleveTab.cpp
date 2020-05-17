@@ -13,15 +13,40 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     updateClasseListe();
     connect(m_anSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseEleveTab::updateClasseListe);
 
+    // Eleve
+    m_eleveModel = new modelMPS::TableModel(false,false,this);
+    m_eleveModel->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve>()));
+    m_eleveModel->insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                EleveVecTableau::Nom,tr("Nom"),0});
+    m_eleveModel->insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                   EleveVecTableau::Prenom,tr("Prenom"),0});
+    m_eleveModel->insertColonne(Naissance,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                      EleveVecTableau::Naissance,tr("Date de Naissance"),0});
+    m_eleveModel->insertColonne(Sexe,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                 EleveVecTableau::Sexe,tr("Sexe"),0});
+    m_eleveView = new QTableView;
+    m_eleveView->setModel(m_eleveModel);
+    m_eleveView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_eleveView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_eleveView->setSortingEnabled(true);
+    m_eleveModel->sort(Nom);
+    m_eleveView->horizontalHeader()->setSectionsMovable(true);
+
+    m_eleveFind = new widgetMPS::FindWidget;
+    m_eleveFind->setModel(m_eleveModel);
+
     // Calque
     m_classeLayout = new QHBoxLayout;
     m_classeLayout->addWidget(m_anLabel);
     m_classeLayout->addWidget(m_anSpinBox);
     m_classeLayout->addWidget(m_classeLabel);
     m_classeLayout->addWidget(m_classeComboBox);
-
+    m_eleveLayout = new QHBoxLayout;
+    m_eleveLayout->addWidget(m_eleveView);
+    m_eleveLayout->addWidget(m_eleveFind);
     m_mainLayout = new QVBoxLayout(this);
     m_mainLayout->addLayout(m_classeLayout);
+    m_mainLayout->addLayout(m_eleveLayout);
 }
 
 void ClasseEleveTab::updateClasseListe(){

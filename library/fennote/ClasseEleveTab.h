@@ -5,6 +5,7 @@
 #define CLASSEELEVETAB_H
 
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QVBoxLayout>
 #include "AbstractTabTableau.h"
@@ -21,9 +22,14 @@ namespace noteMPS {
 class ClasseEleveTab: public fenMPS::AbstractTabTableau {
     Q_OBJECT
 protected:
+    // Model
+    modelMPS::TableModel * m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
+
     // Widget
     QLabel * m_anLabel;                             //!< Label du choix de l'année de la classe.
     QLabel * m_classeLabel;                         //!< Label du choix de la classe.
+    QTableView * m_eleveView;                       //!< Vue de sélection des élèves.
+    widgetMPS::FindWidget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
     widgetMPS::IdComboBox * m_classeComboBox;       //!< Selection de la classe.
     SpinBoxAnneeScolaire * m_anSpinBox;             //!< Selection de l'année de la classe.
 
@@ -34,7 +40,7 @@ protected:
 
 public:
     //! Position des colonnes.
-    enum colonne {Nom, Prenom, Naissance, Sexe};
+    enum colonneEleves {Nom, Prenom, Naissance, Sexe};
 
     //! Constructeur.
     ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
