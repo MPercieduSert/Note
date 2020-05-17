@@ -83,15 +83,13 @@ protected:
     QLabel * m_finLabel;
     QLabel * m_nivLabel;                        //!< Label du choix du niveau.
     QLabel * m_numLabel;                        //!< Label du numéro de la classe.
-    //QLabel * m_nbrEleveLabel;                   //!< Label du choix du nombre d'éléves.
     QLabel * m_listeEleveLabel;                 //!< Label de la liste des éléves.
     SpinBoxAnneeScolaire * m_anneeSpinBox;      //!< Choix de l'annee Scolaire.
     QCalendarWidget * m_debutCalendar;          //<! Choix de la date du debut des cours.
-    QComboBox * m_etabCB;                       //!< Choix de l'établissement.
+    widgetMPS::IdComboBox * m_etabCB;                       //!< Choix de l'établissement.
     QCalendarWidget * m_finCalendar;            //!< Choix de la date de la fin des cours.
-    QComboBox * m_nivCB;                        //!< Choix du niveau.
+    widgetMPS::IdComboBox * m_nivCB;                        //!< Choix du niveau.
     QSpinBox * m_numSpinBox;                    //!< Choix du numéro de la classe.
-    //QSpinBox * m_nbrEleveSpinBox;               //!< Choix du nombre d'éléve.
 
     //Calque
     QHBoxLayout * m_calendarLayout;             //!< Calque du choix des dates de début et fin des cours.
@@ -99,19 +97,15 @@ protected:
     QVBoxLayout * m_finLayout;                  //!< Calque du choix du fin des cours.
 
 public:
-//    struct FormValues {
-//        QDate debut;        //!< Date du début des cours.
-//        QDate fin;          //!< Date de fin des cours.
-//        szt idClasse;       //!< Identifiant de la classe créé.
-//        //int nbrEleve;       //!< Nombre d'étudiants dans la classe.
-//    };
-
-
     //! Constructeur.
     ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~ClasseNewModifForm() override = default;
+
+    //! Accesseur de la base de donnée.
+    BddNote & bdd()
+        {return static_cast<BddNote &>(m_bdd);}
 
     //! Connecte les signals et slots du formulaire.
     void connexion() override;
@@ -122,14 +116,10 @@ public:
                         tr("Modification d'une classe existante");
     }
 
-//    //! Retourne le résultat de la fenêtre de dialogue.
-//    FormValues value() const;
-
 public slots:
     //! Supprime la classe dans la bases de donnée.
     bool del() override
-    {return !m_new && m_bdd.del(Classe(id()));}
-
+        {return !m_new && m_bdd.del(Classe(id()));}
 
     //! Sauve la classe et les réponces du formulairs dans la bases de donnée.
     void save() override;

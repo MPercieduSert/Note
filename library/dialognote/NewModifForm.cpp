@@ -61,18 +61,14 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
 
     // Etab
     m_etabLabel = new QLabel(tr("Etablissement :"));
-    m_etabCB = new QComboBox();
+    m_etabCB = new widgetMPS::IdComboBox;
     m_etabCB->setInsertPolicy(QComboBox::NoInsert);
-    auto etabs = m_bdd.getList<Etablissement>(Etablissement::Nom);
-    for(auto i = etabs.cbegin(); i != etabs.cend(); ++i) {
-        auto txt = i->nom();
-        txt.append(" (").append(i->nc()).append(")");
-        m_etabCB->addItem(txt,i->id());
-    }
-
+    m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
+                      [](const Etablissement & etab)->QString
+                            {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
     // Niveau
     m_nivLabel = new QLabel(tr("Niveau :"));
-    m_nivCB = new QComboBox();
+    m_nivCB = new widgetMPS::IdComboBox;
     m_nivCB->setInsertPolicy(QComboBox::NoInsert);
     updateNiveau();
 
@@ -80,22 +76,13 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     m_numLabel = new QLabel(tr("Numéro :"));
     m_numSpinBox = new QSpinBox();
     m_numSpinBox->setMinimum(0);
-    //m_numSpinBox->setReadOnly(true);
     m_numSpinBox->setSpecialValueText(" ");
 
-
-    if(m_new) {
-        // Nbr Eleve
-//        m_nbrEleveLabel = new QLabel(tr("Nombre d'éléves dans la classe"));
-//        m_nbrEleveSpinBox = new QSpinBox();
-//        m_nbrEleveSpinBox->setMinimum(0);
-//        m_nbrEleveSpinBox->setValue(30);
-        // Debut et fin des cours
-        m_debutLabel = new QLabel(tr("Début des cours:"));
-        m_finLabel = new QLabel(tr("Fin des cours:"));
-        m_debutCalendar = new QCalendarWidget;
-        m_finCalendar = new QCalendarWidget;
-    }
+    // Debut et fin des cours
+    m_debutLabel = new QLabel(tr("Début des cours:"));
+    m_finLabel = new QLabel(tr("Fin des cours:"));
+    m_debutCalendar = new QCalendarWidget;
+    m_finCalendar = new QCalendarWidget;
 
     // Calque
     m_mainLayout->addWidget(m_anneeLabel);
@@ -106,20 +93,17 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     m_mainLayout->addWidget(m_nivCB);
     m_mainLayout->addWidget(m_numLabel);
     m_mainLayout->addWidget(m_numSpinBox);
-    if(m_new) {
-//        m_mainLayout->addWidget(m_nbrEleveLabel);
-//        m_mainLayout->addWidget(m_nbrEleveSpinBox);
-        m_debutLayout = new QVBoxLayout;
-        m_debutLayout->addWidget(m_debutLabel);
-        m_debutLayout->addWidget(m_debutCalendar);
-        m_finLayout = new QVBoxLayout;
-        m_finLayout->addWidget(m_finLabel);
-        m_finLayout->addWidget(m_finCalendar);
-        m_calendarLayout = new QHBoxLayout;
-        m_calendarLayout->addLayout(m_debutLayout);
-        m_calendarLayout->addLayout(m_finLayout);
-        m_mainLayout->addLayout(m_calendarLayout);
-    }
+    m_debutLayout = new QVBoxLayout;
+    m_debutLayout->addWidget(m_debutLabel);
+    m_debutLayout->addWidget(m_debutCalendar);
+    m_finLayout = new QVBoxLayout;
+    m_finLayout->addWidget(m_finLabel);
+    m_finLayout->addWidget(m_finCalendar);
+    m_calendarLayout = new QHBoxLayout;
+    m_calendarLayout->addLayout(m_debutLayout);
+    m_calendarLayout->addLayout(m_finLayout);
+    m_mainLayout->addLayout(m_calendarLayout);
+
 }
 
 void ClasseNewModifForm::connexion() {
@@ -141,6 +125,19 @@ void ClasseNewModifForm::save() {
     m_bdd.save(cl);
     if(m_new)
         m_idClasse = cl.id();
+    DonneeCible dnCb;
+    dnCb.setIdDonnee(bdd().idProgToId<Donnee>(donnee::DefaultDateId));
+    dnCb.setIdCible(m_idClasse);
+    dnCb.setCible(bdd().cible<Classe>());
+    dnCb.setNum(donnee::EntreeNum);
+    bdd().getUnique(dnCb);
+    dnCb.setValeur(m_debutCalendar->selectedDate());
+    bdd().save(dnCb);
+    dnCb.setId(0);
+    dnCb.setNum(donnee::SortieNum);
+    bdd().getUnique(dnCb);
+    dnCb.setValeur(m_finCalendar->selectedDate());
+    bdd().save(dnCb);
 }
 
 void ClasseNewModifForm::updateCalendar() {
@@ -166,31 +163,28 @@ void ClasseNewModifForm::updateData() {
         m_etabCB->setCurrentIndex(m_etabCB->findData(cl.idEtab()));
         m_nivCB->setCurrentIndex(m_nivCB->findData(cl.idNiveau()));
         m_numSpinBox->setValue(cl.num());
+        DonneeCible dnCb;
+        dnCb.setIdDonnee(bdd().idProgToId<Donnee>(donnee::DefaultDateId));
+        dnCb.setIdCible(m_idClasse);
+        dnCb.setCible(bdd().cible<Classe>());
+        dnCb.setNum(donnee::EntreeNum);
+        bdd().getUnique(dnCb);
+        m_debutCalendar->setSelectedDate(dnCb.valeur().toDate());
+        dnCb.setId(0);
+        dnCb.setNum(donnee::SortieNum);
+        bdd().getUnique(dnCb);
+        m_finCalendar->setSelectedDate(dnCb.valeur().toDate());
     }
 }
 
 void ClasseNewModifForm::updateNiveau() {
-    auto nivs = m_bdd.getList<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,
-                                                          EtablissementNiveau::IdEtab,
-                                                          m_etabCB->currentData(Qt::UserRole).toUInt());
     m_nivCB->clear();
-    for(auto i = nivs.cbegin(); i != nivs.cend(); ++i) {
-        auto txt = i->nom();
-        txt.append(" (").append(i->nc()).append(")");
-        m_nivCB->addItem(txt,i->id());
-    }
+    m_nivCB->addText(m_bdd.getList<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,
+                                                          EtablissementNiveau::IdEtab,
+                                                          m_etabCB->currentData(Qt::UserRole).toUInt()),
+                     [](const Niveau & niv)->QString
+                            {return QString(niv.nom()).append(" (").append(niv.nc()).append(")");});
 }
-
-//ClasseNewModifForm::FormValues ClasseNewModifForm::value() const {
-//    FormValues res;
-//    if(m_new) {
-//        res.idClasse = m_idClasse;
-//        res.debut = m_debutCalendar->selectedDate();
-//        res.fin = m_finCalendar->selectedDate();
-//        res.nbrEleve = m_nbrEleveSpinBox->value();
-//    }
-//    return res;
-//}
 
 // Etablissement
 EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
