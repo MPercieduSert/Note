@@ -14,22 +14,32 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     connect(m_anSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseEleveTab::updateClasseListe);
 
     m_model = new modelMPS::TableModel(false,false,this);
-    m_model->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,
-                                                                                             ClasseEleve::IdClasse,m_classeComboBox->id())));
-    m_model->insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+
+    auto tableaux = std::make_unique<modelMPS::CompositionTableaux>();
+    tableaux->push_back(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,
+                                                                                            ClasseEleve::IdClasse,m_classeComboBox->id())));
+    tableaux->push_back(std::make_unique<ClasseEleveVecTableau>(bdd,tableaux->size()));
+
+    m_model->setTableau(std::move(tableaux));
+
+    m_model->insertColonne(NomCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
-    m_model->insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_model->insertColonne(PrenomCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                    EleveVecTableau::Prenom,tr("Prenom"),0});
-    m_model->insertColonne(Naissance,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_model->insertColonne(NaissanceCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                       EleveVecTableau::Naissance,tr("Date de Naissance"),0});
-    m_model->insertColonne(Sexe,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_model->insertColonne(SexeCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                  EleveVecTableau::Sexe,tr("Sexe"),0});
+    m_model->insertColonne(EntreeCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                     ClasseEleveVecTableau::Entree,tr("Entrée"),0,1});
+    m_model->insertColonne(SortieCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                     ClasseEleveVecTableau::Sortie,tr("Sortie"),0,1});
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_view->setSortingEnabled(true);
-    m_model->sort(Nom);
+    m_model->sort(NomCE);
     m_view->horizontalHeader()->setSectionsMovable(true);
 
     // Bouton
@@ -39,20 +49,20 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     // Eleve
     m_eleveModel = new modelMPS::TableModel(false,false,this);
     m_eleveModel->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve>()));
-    m_eleveModel->insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_eleveModel->insertColonne(NomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
-    m_eleveModel->insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_eleveModel->insertColonne(PrenomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                    EleveVecTableau::Prenom,tr("Prenom"),0});
-    m_eleveModel->insertColonne(Naissance,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_eleveModel->insertColonne(NaissanceEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                       EleveVecTableau::Naissance,tr("Date de Naissance"),0});
-    m_eleveModel->insertColonne(Sexe,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+    m_eleveModel->insertColonne(SexeEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                  EleveVecTableau::Sexe,tr("Sexe"),0});
     m_eleveView = new QTableView;
     m_eleveView->setModel(m_eleveModel);
     m_eleveView->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_eleveView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_eleveView->setSortingEnabled(true);
-    m_eleveModel->sort(Nom);
+    m_eleveModel->sort(NomEl);
     m_eleveView->horizontalHeader()->setSectionsMovable(true);
     m_eleveFind = new widgetMPS::FindWidget;
     m_eleveFind->setModel(m_eleveModel);

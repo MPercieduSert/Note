@@ -45,5 +45,22 @@ public:
     std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
         makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) override;
 };
+
+/*! \ingroup groupeModelNote
+ * \brief Tableau de classe-eleve.
+ */
+class ClasseEleveVecTableau : public modelMPS::AbstractBddVectorEntTableau<ClasseEleve> {
+public:
+    //! Identifiant des colonnes assoiées au tableau d'éléves.
+    enum idColonne {Entree,
+                    Sortie};
+
+    //! Constructeur.
+    using modelMPS::AbstractBddVectorEntTableau<ClasseEleve>::AbstractBddVectorEntTableau;
+
+    //! Fabrique une colonne lié aux données du tableau.
+    std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
+        makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) override;
+};
 }
 #endif // TABLEAUNOTE_H

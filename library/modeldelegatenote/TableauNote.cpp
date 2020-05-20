@@ -71,3 +71,37 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
         return nullptr;
     }
 }
+
+std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
+ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) {
+    switch (info.id) {
+    case Entree:
+        return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
+                                                                         modelMPS::AbstractColonnesModel::DateColonne,m_vec,
+            [](const ClasseEleve & clEl,int role)->QVariant {
+                if(role == Qt::DisplayRole || role == Qt::EditRole)
+                    return clEl.entree();
+                return QVariant();},
+            [](const ClasseEleve & clEl)->QVariant{return clEl.entree();},
+            [](const QVariant & value, ClasseEleve & clEl,int role)->bool {
+                if(role == Qt::EditRole) {
+                    clEl.setEntree(value.toDate());
+                    return true;}
+                return false;});
+    case Sortie:
+        return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
+                                                                         modelMPS::AbstractColonnesModel::DateColonne,m_vec,
+            [](const ClasseEleve & clEl,int role)->QVariant {
+                if(role == Qt::DisplayRole || role == Qt::EditRole)
+                    return clEl.sortie();
+                return QVariant();},
+            [](const ClasseEleve & clEl)->QVariant{return clEl.sortie();},
+            [](const QVariant & value, ClasseEleve & clEl,int role)->bool {
+                if(role == Qt::EditRole) {
+                    clEl.setSortie(value.toDate());
+                    return true;}
+                return false;});
+    default:
+        return nullptr;
+    }
+}
