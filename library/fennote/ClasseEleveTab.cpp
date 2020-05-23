@@ -13,38 +13,26 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     updateClasseListe();
     connect(m_anSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseEleveTab::updateClasseListe);
 
-    m_model = new modelMPS::TableModel(false,false,this);
-
-    auto tableaux = std::make_unique<modelMPS::CompositionTableaux>();
-    tableaux->push_back(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,
-                                                                                            ClasseEleve::IdClasse,m_classeComboBox->id())));
-    tableaux->push_back(std::make_unique<ClasseEleveVecTableau>(bdd,tableaux->size()));
-
-    m_model->setTableau(std::move(tableaux));
-
-    m_model->insertColonne(NomCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                EleveVecTableau::Nom,tr("Nom"),0});
-    m_model->insertColonne(PrenomCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                   EleveVecTableau::Prenom,tr("Prenom"),0});
-    m_model->insertColonne(NaissanceCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                      EleveVecTableau::Naissance,tr("Date de Naissance"),0});
-    m_model->insertColonne(SexeCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                 EleveVecTableau::Sexe,tr("Sexe"),0});
-    m_model->insertColonne(EntreeCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                     ClasseEleveVecTableau::Entree,tr("Entrée"),0,1});
-    m_model->insertColonne(SortieCE,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                     ClasseEleveVecTableau::Sortie,tr("Sortie"),0,1});
+    m_model = new ClasseEleveModel(bdd,m_classeComboBox->id(),this);
+    connect(m_classeComboBox,&widgetMPS::IdComboBox::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::setIdClasse);
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_view->setSortingEnabled(true);
-    m_model->sort(NomCE);
+    m_model->sort(ClasseEleveModel::Nom);
     m_view->horizontalHeader()->setSectionsMovable(true);
 
     // Bouton
     m_addButton = new QPushButton(tr("Ajouter à la classe"));
+    connect(m_addButton,&QPushButton::clicked,this,[this](){
+        auto selection = m_eleveView->selectionModel()->selectedRows();
+        for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter)
+            static_cast<ClasseEleveModel*>(m_model)->add(m_eleveModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt());
+    });
     m_delButton = new QPushButton(tr("Retirer de la classe"));
+    m_saveButton = new QPushButton(tr("Sauvegarder"));
+    connect(m_saveButton,&QPushButton::clicked,m_model,&ClasseEleveModel::save);
 
     // Eleve
     m_eleveModel = new modelMPS::TableModel(false,false,this);
@@ -76,6 +64,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     m_buttonLayout = new QHBoxLayout;
     m_buttonLayout->addWidget(m_addButton);
     m_buttonLayout->addWidget(m_delButton);
+    m_buttonLayout->addWidget(m_saveButton);
     m_eleveLayout = new QHBoxLayout;
     m_eleveLayout->addWidget(m_eleveView);
     m_eleveLayout->addWidget(m_eleveFind);

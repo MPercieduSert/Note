@@ -12,6 +12,7 @@
 #include "BddNote.h"
 #include "FindWidget.h"
 #include "IdComboBox.h"
+#include "ModelNote.h"
 #include "SpinBoxAnneeScolaire.h"
 #include "TableauNote.h"
 
@@ -42,13 +43,8 @@ protected:
     QVBoxLayout * m_mainLayout;                     //!< Calque Principal.
 
 public:
-    //! Position des colonnes du model des éléves affectés à la classe.
-    enum colonneClasseEleve {NomCE, PrenomCE, NaissanceCE, SexeCE, EntreeCE, SortieCE};
-
     //! Position des colonnes du model de sélection de éléves.
     enum colonneEleve {NomEl, PrenomEl, NaissanceEl, SexeEl};
-
-
 
     //! Constructeur.
     ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
