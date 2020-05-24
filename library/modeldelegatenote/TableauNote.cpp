@@ -107,7 +107,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
 }
 
 ClasseEleveCompositionTableau::ClasseEleveCompositionTableau(BddNote & bdd, szt idClasse) : m_bdd(bdd) {
-    push_back(std::make_unique<EleveVecTableau>(bdd));
+    push_back(std::make_unique<EleveVecTableau>(bdd),false);
     push_back(std::make_unique<ClasseEleveVecTableau>(bdd));
     setIdClasse(idClasse);
 }
