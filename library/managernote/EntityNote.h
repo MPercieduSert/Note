@@ -199,6 +199,11 @@ public:
           setEntree(entree);
           setSortie(sortie);
     }
+
+    //! Validité de l'entitée.
+    bool isValid() const override {
+        return EAID::isValid() && entree() <= sortie();
+    }
 };
 
 /*! \ingroup groupeManagerNote

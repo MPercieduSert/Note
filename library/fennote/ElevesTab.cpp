@@ -37,10 +37,10 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     connect(m_addButton,&QPushButton::clicked,this,[this](){m_model->insertRows(m_model->rowCount(),m_addSpinBox->value());});
     //Save
     m_saveButton = new QPushButton(tr("Sauvegarder les éléves validés"));
-    connect(m_saveButton,&QPushButton::clicked,this,&ElevesTab::save);
+    connect(m_saveButton,&QPushButton::clicked,this,&ElevesTab::sauver);
     //Del
     m_delButton = new QPushButton(tr("Supprimer les éléves selectionnés"));
-    connect(m_delButton,&QPushButton::clicked,this,&ElevesTab::remove);
+    connect(m_delButton,&QPushButton::clicked,this,&ElevesTab::supprimer);
 
     //Calque
     m_addLayout->addWidget(m_addSpinBox);
@@ -54,12 +54,4 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_mainLayout = new QHBoxLayout(this);
     m_mainLayout->addWidget(m_view);
     m_mainLayout->addLayout(m_secondLayout);
-}
-
-void ElevesTab::remove(){
-    if(model()->removeRowsSelected(m_view->selectionModel()->selectedIndexes()))
-        m_view->selectionModel()->clear();
-    else
-        QMessageBox::warning(this,tr("Erreur de sélection"),
-                             tr("Vous devez séléctioner des lignes entières pour supprimer des éléves"));
 }

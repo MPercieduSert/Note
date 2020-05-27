@@ -2,7 +2,7 @@
 
 using namespace noteMPS;
 
-ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent) : TableModel(false,false,parent) {
+ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent) : TableModel(false,true,parent) {
     auto tableaux = std::make_unique<ClasseEleveCompositionTableau>(bdd,idClasse);
     setTableau(std::move(tableaux));
     insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
@@ -26,9 +26,10 @@ void ClasseEleveModel::add(szt idEleve){
                                            .tableau(ClasseEleveCompositionTableau::EleveTableau)).internalData(ligne).id() != idEleve)
         ++ligne;
     if(ligne == nbrLignes()) {
-        insertRow(rowCount());
+        auto row = rowCount();
+        insertRow(row);
         static_cast<ClasseEleveVecTableau&>(static_cast<ClasseEleveCompositionTableau&>(*m_data)
                                                    .tableau(ClasseEleveCompositionTableau::EleveTableau)).internalData(ligne).setId(idEleve);
-        m_data->hydrate(ligne);
+        hydrate(row);
     }
 }

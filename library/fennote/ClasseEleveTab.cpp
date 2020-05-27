@@ -31,8 +31,9 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
             static_cast<ClasseEleveModel*>(m_model)->add(m_eleveModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt());
     });
     m_delButton = new QPushButton(tr("Retirer de la classe"));
+    connect(m_delButton,&QPushButton::clicked,this,&ClasseEleveTab::supprimer);
     m_saveButton = new QPushButton(tr("Sauvegarder"));
-    connect(m_saveButton,&QPushButton::clicked,m_model,&ClasseEleveModel::save);
+    connect(m_saveButton,&QPushButton::clicked,this,&ClasseEleveTab::sauver);
 
     // Eleve
     m_eleveModel = new modelMPS::TableModel(false,false,this);

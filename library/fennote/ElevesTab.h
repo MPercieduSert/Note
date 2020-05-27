@@ -52,10 +52,6 @@ public:
     //! Accesseur du titre.
     QString title() const override
         {return tr("Listes des éléves");}
-
-public slots:
-    //! Supprime les élèves séléctionnés.
-    void remove();
 };
 }
 #endif // ELEVESTAB_H
