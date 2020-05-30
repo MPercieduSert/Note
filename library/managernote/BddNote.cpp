@@ -83,8 +83,7 @@ void BddNote::listeMiseAJourBdd(int version) {
     BddPredef::listeMiseAJourBdd(version);
     switch (version) {
     case bmps::bddVersion::InitialePredef:
-        creerTable<Annee>();
-        creerTable<Bareme>();
+        creerTable<Annee>();      
         creerTable<TypeEtablissement>();
         creerTable<Etablissement>();
         creerTable<EtablissementType>();
@@ -92,21 +91,9 @@ void BddNote::listeMiseAJourBdd(int version) {
         creerTable<Classe>();
         creerTable<Eleve>();
         creerTable<ClasseEleve>();
-        creerTable<Groupe>();
-        creerTable<ClasseGroupe>();
-        creerTable<TypeControle>();
-        creerTable<Controle>();
-        creerTable<Enonce>();
-        creerTable<Epreuve>();
-        creerTable<ControleEpreuve>();
-        creerTable<EleveGroupe>();
-        creerTable<Point>();
-        creerTable<EnoncePoint>();
         creerTable<EtablissementNiveau>();
         creerTable<FiliationNiveau>();
         creerTable<NiveauTypeEtablissement>();
-        creerTable<Note>();
-        creerTable<Valide>();
         m_manager->saveVersion(bmps::bddVersion::InitialeNote);
     [[clang::fallthrough]];
 
@@ -171,4 +158,17 @@ void BddNote::listeMiseAJourBdd(int version) {
         m_manager->saveVersion(bmps::bddVersion::IdProg002Note);
     }
     }
+    //creerTable<Bareme>();
+    //creerTable<Groupe>();
+    //creerTable<ClasseGroupe>();
+    //creerTable<TypeControle>();
+    //creerTable<Controle>();
+    //creerTable<Enonce>();
+    //creerTable<Epreuve>();
+    //creerTable<ControleEpreuve>();
+    //creerTable<EleveGroupe>();
+    //creerTable<Point>();
+    //creerTable<EnoncePoint>();
+    //creerTable<Note>();
+    //creerTable<Valide>();
 }

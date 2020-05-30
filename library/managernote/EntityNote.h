@@ -487,15 +487,18 @@ public:
  * \brief Représentation de l'entité Groupe.
  */
 class Groupe : public emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::AlphaAttribut,
-                                                         attributMPS::NcNomTypeAttribut> {
+                                                            attributMPS::CodeAttribut,
+                                                            attributMPS::NcNomTypeAttribut> {
 protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,Groupe>;
 public:
     using EAID = emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::AlphaAttribut,
+                                                          attributMPS::CodeAttribut,
                                                           attributMPS::NcNomTypeAttribut>;
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
                    Alpha = PositionEnum<AlphaAttribut>::Position,
+                   Code = PositionEnum<CodeAttribut>::Position,
                    Nc = PositionEnum<NcAttribut>::Position,
                    Nom = PositionEnum<NomAttribut>::Position,
                    Type = PositionEnum<TypeAttribut>::Position,
@@ -511,9 +514,10 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Groupe(int alpha, const QString & nc, const QString & nom, idt type,  idt id = 0)
+    Groupe(int alpha, uint code, const QString & nc, const QString & nom, idt type,  idt id = 0)
         : Groupe(nom,id) {
         setAlpha(alpha);
+        setCode(code);
         setNc(nc);
         setNom(nom);
         setType(type);

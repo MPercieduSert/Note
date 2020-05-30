@@ -158,6 +158,7 @@ ManagersNote::ManagersNote()
     using UniqueGroupe = NomUniqueSql<Groupe>;
     InfoBdd infoGroupe(Groupe::Name(),"Groupe",Groupe::NbrAtt,{UniqueGroupe::NbrUnique});
     infoGroupe.setAttribut(Groupe::Alpha,"al");
+    infoGroupe.setAttribut(Groupe::Code,"cd");
     infoGroupe.setAttribut(Groupe::Nc,"nc",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Nom,"nm",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Type,"tp");
