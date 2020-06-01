@@ -381,7 +381,7 @@ void TypeEtablissementNewModifForm::save() {
     }
     else {
         TypeEtablissement te(id());
-        if(m_bdd.getAutorisation(te,bddMPS::Modif)) {
+        if(m_bdd.testAutorisation(te,bddMPS::Modif)) {
             te.setNc(nc());
             te.setNom(nom());
             m_bdd.save(te);

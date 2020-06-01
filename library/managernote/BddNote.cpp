@@ -40,39 +40,39 @@ bool BddNote::delP(idt id, szt idEntity) {
     return controle && BddPredef::delP(id,idEntity);
 }
 
-bool BddNote::getAutorisationP(idt id, szt idEntity, bmps::autorisation autoris) {
-    auto controle = bddMPS::BddPredef::getAutorisationP(id,idEntity,autoris);
-    if(controle && autoris == bddMPS::autorisation::Suppr) {
+bool BddNote::testAutorisationP(idt id, szt idEntity, flag autoris) {
+    auto controle = bddMPS::BddPredef::testAutorisationP(id,idEntity,autoris);
+    if(controle && autoris & bddMPS::Suppr) {
         switch (idEntity) {
         case Annee::ID:
-            controle = controle && getAutorisationList<Classe>(autoris,Classe::IdAn,id)
-                    && getAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdAn,id);
+            controle = controle && testAutorisationList<Classe>(autoris,Classe::IdAn,id)
+                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdAn,id);
             break;
         case Classe::ID:
-            controle = controle && getAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id)
-                    && getAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id)
-                    && getAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
+            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id)
+                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id)
+                    && testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
             break;
         case Eleve::ID:
-            controle = controle && getAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
-                    && getAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
-                    && getAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
-                    && getAutorisationList<Note>(autoris,Note::IdEleve,id);
+            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
+                    && testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
+                    && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
+                    && testAutorisationList<Note>(autoris,Note::IdEleve,id);
             break;
         case Etablissement::ID:
-            controle = controle && getAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
-                    && getAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
+            controle = controle && testAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
+                    && testAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
             break;
         case Niveau::ID:
-            controle = controle && getAutorisationList<Classe>(autoris,Classe::IdNiveau,id)
-                    && getAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdPrecedent,id)
-                    && getAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdSuivant,id)
-                    && getAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::IdNiveau,id)
-                    && getAutorisationList<NiveauTypeEtablissement>(autoris,NiveauTypeEtablissement::IdNiveau,id);
+            controle = controle && testAutorisationList<Classe>(autoris,Classe::IdNiveau,id)
+                    && testAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdPrecedent,id)
+                    && testAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdSuivant,id)
+                    && testAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::IdNiveau,id)
+                    && testAutorisationList<NiveauTypeEtablissement>(autoris,NiveauTypeEtablissement::IdNiveau,id);
             break;
         case TypeEtablissement::ID:
-            controle = controle && getAutorisationList<NiveauTypeEtablissement>(autoris, NiveauTypeEtablissement::IdTpEtab,id)
-                    && getAutorisationList<EtablissementType>(autoris, EtablissementType::IdTpEtab,id);
+            controle = controle && testAutorisationList<NiveauTypeEtablissement>(autoris, NiveauTypeEtablissement::IdTpEtab,id)
+                    && testAutorisationList<EtablissementType>(autoris, EtablissementType::IdTpEtab,id);
             break;
         }
     }

@@ -67,7 +67,7 @@ protected:
     bool delP(idt id, szt idEntity) override;
 
     //! Renvoie l'autorisation de modification de l'entité donnée en argument.
-    bool getAutorisationP(idt id, szt idEntity, bmps::autorisation autoris) override;
+    bool testAutorisationP(idt id, szt idEntity, flag autoris) override;
 
     //! Mise à jour de la base de donnée.
     void listeMiseAJourBdd(int version) override;

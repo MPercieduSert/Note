@@ -5,7 +5,7 @@
 #define MANAGERSNOTE_H
 
 #include "EntityNote.h"
-#include "GestionAutorisationCible.h"
+#include "GestionRestrictionCible.h"
 #include "ManagersPredef.h"
 
 namespace bddMPS {

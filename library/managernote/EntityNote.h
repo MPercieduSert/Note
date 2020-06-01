@@ -289,7 +289,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, codeType code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
+    Controle(idt idTp, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
              int num, int total, idt id = 0)
         : Controle(nom, id) {
         setIdType(idTp);
@@ -570,7 +570,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    TypeControle(codeType appreciation, codeType code, int decimale, int minima, codeType modif, const QString & nc,
+    TypeControle(flag appreciation, flag code, int decimale, int minima, flag modif, const QString & nc,
                  const QString & nom, idt parent, int total, idt id = 0)
         : TypeControle(nom, id) {
         setAppreciation(appreciation);

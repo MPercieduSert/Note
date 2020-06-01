@@ -8,28 +8,28 @@ ManagersNote::ManagersNote()
 {
     enableRestriction("RestModif");
     enableType("Type","PermType",
-               std::make_unique<GestionAutorisationCibleCode<Type,Restriction>>(bmps::cibleId::Type,
+               std::make_unique<GestionRestrictionCibleCode<Type,Restriction>>(bmps::cibleId::Type,
                                                                                 get<Restriction>()),
-               std::make_unique<GestionAutorisationCibleCode<TypePermission,Restriction>>(bmps::cibleId::TypePermission,
+               std::make_unique<GestionRestrictionCibleCode<TypePermission,Restriction>>(bmps::cibleId::TypePermission,
                                                                                           get<Restriction>()));
     enableCommentaire("Commentaire","CbCommentaire");
     enableDonnee("Donnee","ArbDonnee","CbDonnee","CardDonnee",
-                 std::make_unique<GestionAutorisationCibleCode<Donnee,Restriction>>(bmps::cibleId::Donnee,
+                 std::make_unique<GestionRestrictionCibleCode<Donnee,Restriction>>(bmps::cibleId::Donnee,
                                                                                     get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<DonneeCible,Restriction>>(bmps::cibleId::DonneeCible,
+                 std::make_unique<GestionRestrictionCibleCode<DonneeCible,Restriction>>(bmps::cibleId::DonneeCible,
                                                                                          get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,
+                 std::make_unique<GestionRestrictionCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,
                                                                                         get<Restriction>()));
     enableMotCle("MotCle","ArbMotCle","CbMotCle","CbMotProg","PermMotCle","PermMotProg",
-                 std::make_unique<GestionAutorisationCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,
+                 std::make_unique<GestionRestrictionCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,
                                                                                     get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<MotClePermission,Restriction>>(bmps::cibleId::MotClePermission,
+                 std::make_unique<GestionRestrictionCibleCode<MotClePermission,Restriction>>(bmps::cibleId::MotClePermission,
                                                                                               get<Restriction>()),
-                 std::make_unique<GestionAutorisationCibleCode<MotProgPermission,Restriction>>(bmps::cibleId::MotProgPermission,
+                 std::make_unique<GestionRestrictionCibleCode<MotProgPermission,Restriction>>(bmps::cibleId::MotProgPermission,
                                                                                                get<Restriction>()));
     enableTexte("Texte","CbTexte","Source","TexteSource");
     enableUtilisation("Utilisation","Usage","ArbUsage",
-                      std::make_unique<GestionAutorisationCibleCode<Usage,Restriction>>(bmps::cibleId::Usage,
+                      std::make_unique<GestionRestrictionCibleCode<Usage,Restriction>>(bmps::cibleId::Usage,
                                                                                         get<Restriction>()));
     
     //Annee
@@ -38,7 +38,7 @@ ManagersNote::ManagersNote()
     infoAn.setAttribut(Annee::Num,"num");
     infoAn.setUnique(Annee::Num,UniqueAn::NumUnique);
     setManager<Annee>(std::make_unique<ManagerModifControle<Annee>>(infoAn,
-                std::make_unique<GestionAutorisationCibleCode<Annee,Restriction>>(bmps::cibleId::Annee,
+                std::make_unique<GestionRestrictionCibleCode<Annee,Restriction>>(bmps::cibleId::Annee,
                                                                                               get<Restriction>()),
                 std::make_unique<UniqueAn>()));
     setCible<Annee>(bmps::cibleId::Annee);
@@ -62,7 +62,7 @@ ManagersNote::ManagersNote()
     infoTpEtab.setAttribut(TypeEtablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoTpEtab.setUnique(TypeEtablissement::Nom,UniqueTpEtab::NomUnique);
     setManager<TypeEtablissement>(std::make_unique<ManagerModifControle<TypeEtablissement>>(infoTpEtab,
-               std::make_unique<GestionAutorisationCibleCode<TypeEtablissement,Restriction>>(bmps::cibleId::TypeEtablissement,
+               std::make_unique<GestionRestrictionCibleCode<TypeEtablissement,Restriction>>(bmps::cibleId::TypeEtablissement,
                                                                                              get<Restriction>()),
                std::make_unique<UniqueTpEtab>()));
     setCible<TypeEtablissement>(bmps::cibleId::TypeEtablissement);
@@ -74,7 +74,7 @@ ManagersNote::ManagersNote()
     infoEtab.setAttribut(Etablissement::Nom,"nm",bmps::typeAttributBdd::Text);
     infoEtab.setUnique(Etablissement::Nom,UniqueEtab::NomUnique);
     setManager<Etablissement>(std::make_unique<ManagerModifControle<Etablissement>>(infoEtab,
-                std::make_unique<GestionAutorisationCibleCode<Etablissement,Restriction>>(bmps::cibleId::Etablissement,
+                std::make_unique<GestionRestrictionCibleCode<Etablissement,Restriction>>(bmps::cibleId::Etablissement,
                                                                                               get<Restriction>()),
                 std::make_unique<UniqueEtab>()));
     setCible<Etablissement>(bmps::cibleId::Etablissement);
@@ -98,7 +98,7 @@ ManagersNote::ManagersNote()
     infoNiveau.setUnique(Niveau::Nom,UniqueNiveau::NomUnique);
     setTypeForeignKey<Niveau>(infoNiveau);
     setManager<Niveau>(std::make_unique<ManagerModifControle<Niveau>>(infoNiveau,
-               std::make_unique<GestionAutorisationCibleCode<Niveau,Restriction>>(bmps::cibleId::Niveau,
+               std::make_unique<GestionRestrictionCibleCode<Niveau,Restriction>>(bmps::cibleId::Niveau,
                                                                                   get<Restriction>()),
                std::make_unique<UniqueNiveau>()));
     setCible<Niveau>(bmps::cibleId::Niveau);
@@ -120,7 +120,7 @@ ManagersNote::ManagersNote()
     infoClasse.setForeignKey(Classe::IdEtab,infoEtab);
     infoClasse.setForeignKey(Classe::IdNiveau,infoNiveau);
     setManager<Classe>(std::make_unique<ManagerModifControle<Classe>>(infoClasse,
-                std::make_unique<GestionAutorisationCibleCode<Classe,Restriction>>(bmps::cibleId::Classe,
+                std::make_unique<GestionRestrictionCibleCode<Classe,Restriction>>(bmps::cibleId::Classe,
                                                                                     get<Restriction>()),
                 std::make_unique<UniqueClasse>()));
     setCible<Classe>(bmps::cibleId::Classe);
@@ -135,7 +135,7 @@ ManagersNote::ManagersNote()
     infoEleve.setUnique(Eleve::Prenom,UniqueEleve::PrenomUnique);
     infoEleve.setUnique(Eleve::Date,UniqueEleve::DateUnique);
     setManager<Eleve>(std::make_unique<ManagerModifControle<Eleve>>(infoEleve,
-                std::make_unique<GestionAutorisationCibleCode<Eleve,Restriction>>(bmps::cibleId::Eleve,
+                std::make_unique<GestionRestrictionCibleCode<Eleve,Restriction>>(bmps::cibleId::Eleve,
                                                                                         get<Restriction>()),
                 std::make_unique<UniqueEleve>()));
     setCible<Eleve>(bmps::cibleId::Eleve);
@@ -165,7 +165,7 @@ ManagersNote::ManagersNote()
     infoGroupe.setUnique(Groupe::Nom,UniqueGroupe::NomUnique);
     setTypeForeignKey<Groupe>(infoGroupe);
     setManager<Groupe>(std::make_unique<ManagerModifControle<Groupe>>(infoGroupe,
-              std::make_unique<GestionAutorisationCibleCode<Groupe,Restriction>>(bmps::cibleId::Groupe,
+              std::make_unique<GestionRestrictionCibleCode<Groupe,Restriction>>(bmps::cibleId::Groupe,
                                                                                       get<Restriction>()),
               std::make_unique<UniqueGroupe>()));
     setCible<Groupe>(bmps::cibleId::Groupe);
@@ -200,7 +200,7 @@ ManagersNote::ManagersNote()
     infoTpCtr.setAttribut(TypeControle::Total,"tt");
     infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
     setManager<TypeControle>(std::make_unique<ManagerArbreSimpleModifControle<TypeControle>>(infoTpCtr,
-                    std::make_unique<GestionAutorisationCibleCode<TypeControle,Restriction>>(bmps::cibleId::TypeControle,
+                    std::make_unique<GestionRestrictionCibleCode<TypeControle,Restriction>>(bmps::cibleId::TypeControle,
                                                                                              get<Restriction>()),
                     std::make_unique<UniqueTpCtr>()));
     setCible<TypeControle>(bmps::cibleId::TypeControle);
@@ -328,7 +328,7 @@ ManagersNote::ManagersNote()
     infoFilNiv.setUnique(FiliationNiveau::IdPrecedent,UniqueFilNiv::Id1Unique);
     infoFilNiv.setUnique(FiliationNiveau::IdSuivant,UniqueFilNiv::Id2Unique);
     setManager<FiliationNiveau>(std::make_unique<ManagerModifControle<FiliationNiveau>>(infoFilNiv,
-                   std::make_unique<GestionAutorisationCibleCode<FiliationNiveau,Restriction>>(bmps::cibleId::FiliationNiveau,
+                   std::make_unique<GestionRestrictionCibleCode<FiliationNiveau,Restriction>>(bmps::cibleId::FiliationNiveau,
                                                                                                get<Restriction>()),
                    std::make_unique<UniqueFilNiv>()));
     setCible<FiliationNiveau>(bmps::cibleId::FiliationNiveau);
@@ -343,7 +343,7 @@ ManagersNote::ManagersNote()
     infoNivTpEtab.setUnique(NiveauTypeEtablissement::IdNiveau,UniqueNivTpEtab::Id1Unique);
     infoNivTpEtab.setUnique(NiveauTypeEtablissement::IdTpEtab,UniqueNivTpEtab::Id2Unique);
     setManager<NiveauTypeEtablissement>(std::make_unique<ManagerModifControle<NiveauTypeEtablissement>>(infoNivTpEtab,
-               std::make_unique<GestionAutorisationCibleCode<NiveauTypeEtablissement,Restriction>>
+               std::make_unique<GestionRestrictionCibleCode<NiveauTypeEtablissement,Restriction>>
                                                                  (bmps::cibleId::NiveauTypeEtablissement,get<Restriction>()),
                std::make_unique<UniqueNivTpEtab>()));
     setCible<NiveauTypeEtablissement>(bmps::cibleId::NiveauTypeEtablissement);
