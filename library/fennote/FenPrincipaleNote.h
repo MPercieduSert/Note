@@ -7,6 +7,7 @@
 #include <QDockWidget>
 #include "FindWidget.h"
 #include "NewModifForm.h"
+#include "NewModifPredef.h"
 #include "NoyauNote.h"
 #include "ZoneCentraleNote.h"
 #include "PredefFenPrincipale.h"

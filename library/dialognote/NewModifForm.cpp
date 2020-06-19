@@ -110,6 +110,8 @@ void ClasseNewModifForm::connexion() {
     AbstractNcNomNewModifForm::connexion();
     connect(m_etabCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&ClasseNewModifForm::updateNiveau);
     connect(m_anneeSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseNewModifForm::updateCalendar);
+    connect(m_debutCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
+    connect(m_finCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
 }
 
 void ClasseNewModifForm::save() {
@@ -175,6 +177,12 @@ void ClasseNewModifForm::updateData() {
         bdd().getUnique(dnCb);
         m_finCalendar->setSelectedDate(dnCb.valeur().toDate());
     }
+}
+
+bool ClasseNewModifForm::valide() const {
+    return AbstractNcNomNewModifForm::valide()
+            && m_nivCB->id() && m_etabCB->id()
+            && m_debutCalendar->selectedDate() < m_finCalendar->selectedDate();
 }
 
 void ClasseNewModifForm::updateNiveau() {

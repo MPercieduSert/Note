@@ -20,11 +20,10 @@ namespace bddMPS {
         enum idProgConfiguration {AnneeCourante = 1};
 
         //! Identifiant de programmation de la table type.
-        enum idProgType {
-            Null = 0,
-            EtudeType = 1,
-            ConfigurationType = 2,
-            DefaultValueType = 3
+        enum idProgTypeNote {
+            EtudeType = NbrIdProgTypePredef,
+            ConfigurationType,
+            DefaultValueType
         };
     }
 }

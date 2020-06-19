@@ -50,6 +50,7 @@ namespace emps = entityMPS;
 // Entités prédéfinies
 using namespace emps::ensembleCommentaire;
 using namespace emps::ensembleDonnee;
+using namespace emps::ensembleEvenement;
 using namespace emps::ensembleMotCle;
 using namespace emps::ensembleRestriction;
 using namespace emps::ensembleTexte;

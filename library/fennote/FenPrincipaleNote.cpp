@@ -38,11 +38,18 @@ void FenPrincipaleNote::createMenuNewModif() {
         if(diag.exec())
             noyau()->setAnnee(form->annee());
     });
+    //Calendrier
+    auto calMenu = m_newModifMenu->addMenu(tr("Calendrier"));
+    auto eveMenu = calMenu->addMenu(tr("Événement"));
+    connectActionToNewModifDialog<dialogMPS::EvenementNewModifForm>(eveMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<dialogMPS::EvenementNewModifForm>(eveMenu->addAction(tr("Modifier")),false);
+    auto styleMenu = calMenu->addMenu(tr("Style"));
+    connectActionToNewModifDialog<dialogMPS::EvenementStyleNewModifForm>(styleMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<dialogMPS::EvenementStyleNewModifForm>(styleMenu->addAction(tr("Modifier")),false);
     //Classe
     auto * classeMenu = m_newModifMenu->addMenu(tr("Classe"));
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Modifier")),false);
-    auto anCourant =
     connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
         centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
     });

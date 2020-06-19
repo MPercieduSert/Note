@@ -116,6 +116,9 @@ public:
                         tr("Modification d'une classe existante");
     }
 
+    //! Teste si le formulaire est valide pour l'enregistrement.
+    bool valide() const override;
+
 public slots:
     //! Supprime la classe dans la bases de donnée.
     bool del() override

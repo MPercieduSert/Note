@@ -20,6 +20,7 @@ ManagersNote::ManagersNote()
                                                                                          get<Restriction>()),
                  std::make_unique<GestionRestrictionCibleCode<DonneeCard,Restriction>>(bmps::cibleId::DonneeCard,
                                                                                         get<Restriction>()));
+    enableEvenement("Evenement","EvenementCible","EvenementStyle");
     enableMotCle("MotCle","ArbMotCle","CbMotCle","CbMotProg","PermMotCle","PermMotProg",
                  std::make_unique<GestionRestrictionCibleCode<MotCle,Restriction>>(bmps::cibleId::MotCle,
                                                                                     get<Restriction>()),

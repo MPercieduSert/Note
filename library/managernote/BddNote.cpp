@@ -11,19 +11,20 @@ bool BddNote::delP(idt id, szt idEntity) {
                 && delList<ClasseGroupe>(ClasseGroupe::IdAn,id);
         break;
     case Classe::ID:
-        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id)
-                && delList<ClasseGroupe>(ClasseGroupe::IdClasse,id)
-                && delList<ControleEpreuve>(ControleEpreuve::IdClasse,id);
+        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id);
+                //&& delList<ClasseGroupe>(ClasseGroupe::IdClasse,id)
+                //&& delList<ControleEpreuve>(ControleEpreuve::IdClasse,id);
         break;
     case Eleve::ID:
         controle = delList<ClasseEleve>(ClasseEleve::IdEleve,id)
-                && delList<ControleEpreuve>(ControleEpreuve::IdEleve,id)
+                //&& delList<ControleEpreuve>(ControleEpreuve::IdEleve,id)
                 && delList<EleveGroupe>(EleveGroupe::IdEleve,id)
                 && delList<Note>(Note::IdEleve,id);
         break;
     case Etablissement::ID:
         controle = delList<EtablissementNiveau>(EtablissementNiveau::IdEtab,id)
-                && delList<EtablissementType>(EtablissementType::IdEtab,id);
+                && delList<EtablissementType>(EtablissementType::IdEtab,id)
+                && delList<Classe>(Classe::IdEtab,id);
         break;
     case Niveau::ID:
         controle = delList<Classe>(Classe::IdNiveau,id)
@@ -49,18 +50,19 @@ bool BddNote::testAutorisationP(idt id, szt idEntity, flag autoris) {
                     && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdAn,id);
             break;
         case Classe::ID:
-            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id)
-                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id)
-                    && testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
+            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id);
+                    //&& testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id)
+                    //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
             break;
         case Eleve::ID:
             controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
-                    && testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
+                    //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
                     && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
                     && testAutorisationList<Note>(autoris,Note::IdEleve,id);
             break;
         case Etablissement::ID:
-            controle = controle && testAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
+            controle = controle && testAutorisationList<Classe>(autoris,Classe::IdEtab,id)
+                    && testAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
                     && testAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
             break;
         case Niveau::ID:
@@ -133,6 +135,7 @@ void BddNote::listeMiseAJourBdd(int version) {
         defValPerm.setIdType(defValType.id());
         defValPerm.setCible(cible<Donnee>());
         defValPerm.setCode(bmps::code::Visible | bmps::code::Attribuable);
+        save(defValPerm);
         conteneurMPS::tree<Donnee> tree;
         auto iter = tree.begin();
         iter->setNom("Configuration");
@@ -155,6 +158,7 @@ void BddNote::listeMiseAJourBdd(int version) {
         dnCard.setCible(cible<Classe>());
         dnCard.setCard(donnee::NbrDefaultDateClasse);
         dnCard.setExact(donnee::Exact);
+        save(dnCard);
         m_manager->saveVersion(bmps::bddVersion::IdProg002Note);
     }
     }
