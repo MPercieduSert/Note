@@ -10,21 +10,13 @@
 namespace bddMPS {
     namespace bddVersion {
         //! Version de la base de données.
-        enum versionBddNote{InitialeNote = NbrCreationBddPredef,
-                            IdProg001Note,
-                            IdProg002Note,
-                            NbrVersionBddNote};
+        enum versionBddNote{NbrVersionBddNote = NbrVersion};
+        //! Type de mise à jour.
+        enum typeBddNote{NoteType = NbrType, NbrTypeNote};
     }
     namespace idProg {
         //! Identifiant de programmation de la cible configuration de la table cibleDonnéee.
         enum idProgConfiguration {AnneeCourante = 1};
-
-        //! Identifiant de programmation de la table type.
-        enum idProgTypeNote {
-            EtudeType = NbrIdProgTypePredef,
-            ConfigurationType,
-            DefaultValueType
-        };
     }
 }
 
@@ -55,7 +47,8 @@ public:
 
     //Constructeur.
     BddNote()
-        :BddPredef("QSQLITE",bmps::bddVersion::NbrVersionBddNote - 1, std::make_unique<ManagersNote>())
+        :BddPredef("QSQLITE",{bmps::bddVersion::NbrVersionPredef -1, bmps::bddVersion::NbrVersionBddNote - 1},
+                   std::make_unique<ManagersNote>())
     {}
 
     //! Destructeur. Referme la base de donnée.
@@ -69,7 +62,7 @@ protected:
     bool testAutorisationP(idt id, szt idEntity, flag autoris) override;
 
     //! Mise à jour de la base de donnée.
-    void listeMiseAJourBdd(int version) override;
+    void listeMiseAJourBdd(int version, idt type) override;
 };
 }
 #endif // BDDNOTE_H

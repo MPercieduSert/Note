@@ -506,6 +506,12 @@ public:
                    NbrAtt = EAID::NbrAtt
                   };
 
+    //! Identifiant des groupe.
+    enum ident {Nombre,
+                Majuscule,
+                Minuscule
+    };
+
     using EAID::EntityID;
     BASE_ENTITY(Groupe)
 

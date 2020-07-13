@@ -6,7 +6,9 @@
 
 #include <QCalendarWidget>
 #include <QCheckBox>
+#include <QGroupBox>
 #include <QSpinBox>
+#include <QRadioButton>
 #include "BddNote.h"
 #include "Checklist.h"
 #include "NewModifDialog.h"
@@ -176,6 +178,50 @@ public slots:
 
     //! Met à jour les niveaux disponible.
     void updateNiveau();
+};
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des groupe.
+ */
+class GroupeNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
+    Q_OBJECT
+protected:
+    QLabel * m_identLabel;                  //!< Label de l'identifiant des groupes.
+    QCheckBox * m_exclusifCheck;            //!< Option de groupe exclusif.
+    QCheckBox * m_totalCheck;               //!< Option de groupe total.
+    QComboBox * m_identCB;                  //!< Choix de l'identifiant des groupes.
+    QRadioButton * m_anRadio;               //!< Groupe de type Année.
+    QRadioButton * m_clRadio;               //!< Groupe de type classe.
+    QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
+    QGroupBox * m_optGr;                    //!< Groupe d'option du groupe.
+
+    QHBoxLayout * m_anClLayout;             //!< Calque du choix de groupe année - classe.
+    QHBoxLayout * m_identLayout;            //!< Calque de l'identifiant des groupes.
+    QHBoxLayout * m_optLayout;              //!< Calque des option du groupe.
+
+
+public:
+    //! Constructeur.
+    GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~GroupeNewModifForm() override = default;
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override
+        {return m_new ? tr("Création d'un nouveau groupe") :
+                        tr("Modification d'un groupe existant");}
+
+public slots:
+    //! Supprime le type d'établissement dans la bases de donnée.
+    bool del() override
+        {return !m_new && m_bdd.del(Groupe(id()));}
+
+    //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
+    void save() override {}
+
+    //! Met à jour le formulaire.
+    void updateData() override {}
 };
 
 /*! \ingroup groupeDialogNote

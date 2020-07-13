@@ -21,7 +21,7 @@ FenPrincipaleNote::FenPrincipaleNote(NoyauNote * noyau, std::unique_ptr<BddNote>
 }
 
 void FenPrincipaleNote::createMenuNewModif() {
-    //Année
+    // Année
     auto * anMenu = m_newModifMenu->addMenu(tr("Année scolaire"));
     connect(anMenu->addAction(tr("Crée une année")),&QAction::triggered,this,[this](){
         auto * form = new AnneeNewModifForm(noyau()->bdd(), true);
@@ -38,7 +38,7 @@ void FenPrincipaleNote::createMenuNewModif() {
         if(diag.exec())
             noyau()->setAnnee(form->annee());
     });
-    //Calendrier
+    // Calendrier
     auto calMenu = m_newModifMenu->addMenu(tr("Calendrier"));
     auto eveMenu = calMenu->addMenu(tr("Événement"));
     connectActionToNewModifDialog<dialogMPS::EvenementNewModifForm>(eveMenu->addAction(tr("Créer")),true);
@@ -53,17 +53,21 @@ void FenPrincipaleNote::createMenuNewModif() {
     connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
         centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
     });
-    //Eleve
+    // Eleve
     connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
-    //Établissement
+    // Établissement
     auto * etabMenu = m_newModifMenu->addMenu(tr("Établissement"));
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Modifier")),false);
-    //Niveau
+    // Groupe
+    auto * grMenu = m_newModifMenu->addMenu(tr("Groupe"));
+    connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Modifier")),false);
+    // Niveau
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Modifier"))),false);
-    //Type d'établissement
+    // Type d'établissement
     auto * tpEtabMenu = m_newModifMenu->addMenu(tr("Type d'étabblissement"));
     connectActionToNewModifDialog<TypeEtablissementNewModifForm>(tpEtabMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<TypeEtablissementNewModifForm>(tpEtabMenu->addAction(tr("Modifier")),false);

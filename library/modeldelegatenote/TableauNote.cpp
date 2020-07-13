@@ -118,7 +118,7 @@ void ClasseEleveCompositionTableau::hydrateClasseEleve(szt ligne){
     clEl.setIdClasse(m_idClasse);
     if(!m_bdd.getUnique(clEl)){
         DonneeCible dnCb;
-        dnCb.setIdDonnee(m_bdd.idProgToId<Donnee>(donnee::DefaultDateId));
+        dnCb.setIdDonnee(m_bdd.refToId<Donnee>("date_defaut_dn"));
         dnCb.setCible(m_bdd.cible<Classe>());
         dnCb.setIdCible(m_idClasse);
         dnCb.setNum(donnee::EntreeNum);

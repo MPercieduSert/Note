@@ -128,7 +128,7 @@ void ClasseNewModifForm::save() {
     if(m_new)
         m_idClasse = cl.id();
     DonneeCible dnCb;
-    dnCb.setIdDonnee(bdd().idProgToId<Donnee>(donnee::DefaultDateId));
+    dnCb.setIdDonnee(bdd().refToId<Donnee>("date_defaut_dn"));
     dnCb.setIdCible(m_idClasse);
     dnCb.setCible(bdd().cible<Classe>());
     dnCb.setNum(donnee::EntreeNum);
@@ -166,7 +166,7 @@ void ClasseNewModifForm::updateData() {
         m_nivCB->setCurrentIndex(m_nivCB->findData(cl.idNiveau()));
         m_numSpinBox->setValue(cl.num());
         DonneeCible dnCb;
-        dnCb.setIdDonnee(bdd().idProgToId<Donnee>(donnee::DefaultDateId));
+        dnCb.setIdDonnee(bdd().refToId<Donnee>("date_defaut_dn"));
         dnCb.setIdCible(m_idClasse);
         dnCb.setCible(bdd().cible<Classe>());
         dnCb.setNum(donnee::EntreeNum);
@@ -281,10 +281,52 @@ void EtablissementNewModifForm::updateNiveau() {
     }
 }
 
+// Groupe
+GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+    : AbstractTypeNcNomNewModifForm(static_cast<bddMPS::BddPredef &>(bdd),
+                                    "groupe_root_tp",
+                                    Groupe::ID,
+                                    tr("type de groupe :"),
+                                    tr("Nom abrégé du groupe :"),
+                                    tr("Nom du groupe"),
+                                    newEnt,parent) {
+    // Choix de groupe année - classe
+    m_anClGr = new QGroupBox(tr("Groupe pour une :"));
+    m_anRadio = new QRadioButton(tr("Année"));
+    m_clRadio = new QRadioButton(tr("Classe"));
+
+    // Identifiant des groupes.
+    m_identLabel = new QLabel(tr("Identifiant des groupes :"));
+    m_identCB = new QComboBox;
+    m_identCB->addItem(tr("Nombre (1)"),Groupe::Nombre);
+    m_identCB->addItem(tr("Majuscule (A)"),Groupe::Majuscule);
+    m_identCB->addItem(tr("Minuscule (a)"),Groupe::Minuscule);
+
+    // Option
+    m_optGr = new QGroupBox(tr("Options :"));
+    m_exclusifCheck = new QCheckBox(tr("Exclusif"));
+    m_totalCheck = new QCheckBox(tr("Total"));
+
+    // Calque
+    m_anClLayout = new QHBoxLayout(m_anClGr);
+    m_anClLayout->addWidget(m_clRadio);
+    m_anClLayout->addWidget(m_anRadio);
+    m_identLayout = new QHBoxLayout;
+    m_identLayout->addWidget(m_identLabel);
+    m_identLayout->addWidget(m_identCB);
+    m_optLayout = new QHBoxLayout(m_optGr);
+    m_optLayout->addWidget(m_exclusifCheck);
+    m_optLayout->addWidget(m_totalCheck);
+
+    m_mainLayout->addWidget(m_anClGr);
+    m_mainLayout->addLayout(m_identLayout);
+    m_mainLayout->addWidget(m_optGr);
+}
+
 // Niveau
 NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractTypeNcNomNewModifForm (static_cast<bddMPS::BddPredef &>(bdd),
-                                                bddMPS::idProg::EtudeType,
+                                                "etude_root_tp",
                                                 Niveau::ID,
                                                 tr("type de niveau :"),
                                                 tr("Nom abrégé du niveau :"),
