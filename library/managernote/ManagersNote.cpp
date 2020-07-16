@@ -87,6 +87,8 @@ ManagersNote::ManagersNote()
     infoEtabTp.setAttribut(EtablissementType::IdTpEtab,"idTpEtab");
     infoEtabTp.setUnique(EtablissementType::IdEtab,UniqueEtabTp::Id1Unique);
     infoEtabTp.setUnique(EtablissementType::IdTpEtab,UniqueEtabTp::Id2Unique);
+    infoEtabTp.setForeignKey(EtablissementType::IdEtab,infoEtab);
+    infoEtabTp.setForeignKey(EtablissementType::IdTpEtab,infoTpEtab);
     setManager<EtablissementType>(std::make_unique<ManagerSql<EtablissementType>>(infoEtabTp, std::make_unique<UniqueEtabTp>()));
     setCible<EtablissementType>(bmps::cibleId::EtablissementType);
 
@@ -158,34 +160,22 @@ ManagersNote::ManagersNote()
     //Groupe
     using UniqueGroupe = NomUniqueSql<Groupe>;
     InfoBdd infoGroupe(Groupe::Name(),"Groupe",Groupe::NbrAtt,{UniqueGroupe::NbrUnique});
+    infoGroupe.setAttribut(Groupe::IdAn,"idAn",bmps::typeAttributBdd::Integer,false);
+    infoGroupe.setAttribut(Groupe::IdClasse,"idCl",bmps::typeAttributBdd::Integer,false);
     infoGroupe.setAttribut(Groupe::Alpha,"al");
     infoGroupe.setAttribut(Groupe::Code,"cd");
     infoGroupe.setAttribut(Groupe::Nc,"nc",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Nom,"nm",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Type,"tp");
     infoGroupe.setUnique(Groupe::Nom,UniqueGroupe::NomUnique);
+    infoGroupe.setForeignKey(Groupe::IdAn,infoAn);
+    infoGroupe.setForeignKey(Groupe::IdClasse,infoClasse);
     setTypeForeignKey<Groupe>(infoGroupe);
     setManager<Groupe>(std::make_unique<ManagerModifControle<Groupe>>(infoGroupe,
               std::make_unique<GestionRestrictionCibleCode<Groupe,Restriction>>(bmps::cibleId::Groupe,
                                                                                       get<Restriction>()),
               std::make_unique<UniqueGroupe>()));
     setCible<Groupe>(bmps::cibleId::Groupe);
-
-    //ClasseGroupe
-    using UniqueClGr = IdRelationExactOneNotNullUniqueSql<ClasseGroupe>;
-    InfoBdd infoClGr(ClasseGroupe::Name(),"ClasseGroupe",ClasseGroupe::NbrAtt,{UniqueClGr::NbrUnique_1,UniqueClGr::NbrUnique_2});
-    infoClGr.setAttribut(ClasseGroupe::IdAn,"idAn",bmps::typeAttributBdd::Integer,false);
-    infoClGr.setAttribut(ClasseGroupe::IdClasse,"idCl",bmps::typeAttributBdd::Integer,false);
-    infoClGr.setAttribut(ClasseGroupe::IdGroupe,"idGr");
-    infoClGr.setUnique(ClasseGroupe::IdAn,UniqueClGr::Id1Unique,UniqueClGr::Id1UniqueSet);
-    infoClGr.setUnique(ClasseGroupe::IdGroupe,UniqueClGr::Id3Unique,UniqueClGr::UniqueSet1);
-    infoClGr.setUnique(ClasseGroupe::IdClasse,UniqueClGr::Id2Unique,UniqueClGr::Id2UniqueSet);
-    infoClGr.setUnique(ClasseGroupe::IdGroupe,UniqueClGr::Id3Unique,UniqueClGr::UniqueSet2);
-    infoClGr.setForeignKey(ClasseGroupe::IdAn,infoAn);
-    infoClGr.setForeignKey(ClasseGroupe::IdClasse,infoClasse);
-    infoClGr.setForeignKey(ClasseGroupe::IdGroupe,infoGroupe);
-    setManager<ClasseGroupe>(std::make_unique<ManagerSql<ClasseGroupe>>(infoClGr, std::make_unique<UniqueClGr>()));
-    setCible<ClasseGroupe>(bmps::cibleId::ClasseGroupe);
 
     //TypeControle
     using UniqueTpCtr = NomUniqueSql<TypeControle>;

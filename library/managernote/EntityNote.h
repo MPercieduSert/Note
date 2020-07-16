@@ -208,41 +208,6 @@ public:
 };
 
 /*! \ingroup groupeManagerNote
- * \brief Représentation de l'entité ClasseGroupe.
- */
-class ClasseGroupe : public emps::EntityIDs<infoEntityNote::ClasseGroupeId,attributMPS::RelationExactOneNotNullAttribut,
-                                                                           attributMPS::Id3Attribut> {
-protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,ClasseGroupe>;
-public:
-    using EAID = emps::EntityIDs<infoEntityNote::ClasseGroupeId,attributMPS::RelationExactOneNotNullAttribut,attributMPS::Id3Attribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1NullAttribut>::Position,
-                   Id2 = PositionEnum<Id2NullAttribut>::Position,
-                   Id3 = PositionEnum<Id3Attribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
-                   IdAn = Id1,
-                   IdClasse = Id2,
-                   IdGroupe = Id3
-                  };
-
-    using EAID::EntityID;
-    BASE_ENTITY(ClasseGroupe)
-    ALIAS_CLE(An,1)
-    ALIAS_CLE(Classe,2)
-    ALIAS_CLE(Groupe,3)
-
-    //! Constructeur à partir des valeurs attributs.
-    ClasseGroupe(idt idAn, idt idClasse, idt idGroupe, idt id = 0)
-        : EAID(id) {
-        setIdAn(idAn);
-        setIdClasse(idClasse);
-        setIdGroupe(idGroupe);
-    }
-};
-
-/*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Controle.
  */
 class Controle : public emps::EntityIDs<infoEntityNote::ControleId,attributMPS::Id1Attribut,
@@ -487,23 +452,29 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Groupe.
  */
-class Groupe : public emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::AlphaAttribut,
+class Groupe : public emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
+                                                            attributMPS::AlphaAttribut,
                                                             attributMPS::CodeAttribut,
                                                             attributMPS::NcNomTypeAttribut> {
 protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,Groupe>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::AlphaAttribut,
+    using EAID = emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
+                                                          attributMPS::AlphaAttribut,
                                                           attributMPS::CodeAttribut,
                                                           attributMPS::NcNomTypeAttribut>;
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
+                   Id1 = PositionEnum<Id1NullAttribut>::Position,
+                   Id2 = PositionEnum<Id2NullAttribut>::Position,
                    Alpha = PositionEnum<AlphaAttribut>::Position,
                    Code = PositionEnum<CodeAttribut>::Position,
                    Nc = PositionEnum<NcAttribut>::Position,
                    Nom = PositionEnum<NomAttribut>::Position,
                    Type = PositionEnum<TypeAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt
+                   NbrAtt = EAID::NbrAtt,
+                   IdAn = Id1,
+                   IdClasse = Id2,
                   };
 
     //! Identifiant des groupe.
@@ -512,8 +483,16 @@ public:
                 Minuscule
     };
 
+    //! Code du groupe.
+    enum codeFlag : flag::flag_type {Aucun = 0x0,
+                                     Exclusif = 0x1,
+                                     Total = 0x2
+    };
+
     using EAID::EntityID;
     BASE_ENTITY(Groupe)
+    ALIAS_CLE(An,1)
+    ALIAS_CLE(Classe,2)
 
     //! Constructeur à partir d'un jeux de valeurs attributs unique.
     Groupe(const QString & nom, idt id = 0)
@@ -521,8 +500,10 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Groupe(int alpha, uint code, const QString & nc, const QString & nom, idt type,  idt id = 0)
+    Groupe(idt idAn, idt idClasse, int alpha, uint code, const QString & nc, const QString & nom, idt type,  idt id = 0)
         : Groupe(nom,id) {
+        setIdAn(idAn);
+        setIdClasse(idClasse);
         setAlpha(alpha);
         setCode(code);
         setNc(nc);

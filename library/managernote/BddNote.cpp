@@ -7,12 +7,10 @@ bool BddNote::delP(idt id, szt idEntity) {
     // Spécifique
     switch (idEntity) {
     case Annee::ID:
-        controle = delList<Classe>(Classe::IdAn,id)
-                && delList<ClasseGroupe>(ClasseGroupe::IdAn,id);
+        controle = delList<Classe>(Classe::IdAn,id);
         break;
     case Classe::ID:
-        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id)
-                && delList<ClasseGroupe>(ClasseGroupe::IdClasse,id);
+        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id);
                 //&& delList<ControleEpreuve>(ControleEpreuve::IdClasse,id);
         break;
     case Eleve::ID:
@@ -27,8 +25,7 @@ bool BddNote::delP(idt id, szt idEntity) {
                 && delList<Classe>(Classe::IdEtab,id);
         break;
     case Groupe::ID:
-        controle = delList<ClasseGroupe>(ClasseGroupe::IdGroupe,id)
-                && delList<EleveGroupe>(EleveGroupe::IdGroupe,id);
+        controle = delList<EleveGroupe>(EleveGroupe::IdGroupe,id);
                 //&& delList<ControleEpreuve>(ControleEpreuve::IdGroupe,id);
         break;
     case Niveau::ID:
@@ -51,12 +48,10 @@ bool BddNote::testAutorisationP(idt id, szt idEntity, flag autoris) {
     if(controle && autoris & bddMPS::Suppr) {
         switch (idEntity) {
         case Annee::ID:
-            controle = controle && testAutorisationList<Classe>(autoris,Classe::IdAn,id)
-                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdAn,id);
+            controle = controle && testAutorisationList<Classe>(autoris,Classe::IdAn,id);
             break;
         case Classe::ID:
-            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id)
-                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdClasse,id);
+            controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id);
                     //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
             break;
         case Eleve::ID:
@@ -67,8 +62,7 @@ bool BddNote::testAutorisationP(idt id, szt idEntity, flag autoris) {
             break;
         case Groupe::ID:
             controle = controle //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdGroupe,id)
-                    && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdGroupe,id)
-                    && testAutorisationList<ClasseGroupe>(autoris,ClasseGroupe::IdGroupe,id);
+                    && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdGroupe,id);
             break;
         case Etablissement::ID:
             controle = controle && testAutorisationList<Classe>(autoris,Classe::IdEtab,id)
@@ -108,7 +102,6 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             creerTable<FiliationNiveau>();
             creerTable<NiveauTypeEtablissement>();
             creerTable<Groupe>();
-            creerTable<ClasseGroupe>();
             creerTable<EleveGroupe>();
             Type etudeTp;
             etudeTp.setNom("Étude");

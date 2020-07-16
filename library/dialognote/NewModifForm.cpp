@@ -290,17 +290,35 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
                                     tr("Nom abrégé du groupe :"),
                                     tr("Nom du groupe"),
                                     newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<Groupe>(Groupe::Nom));
+
     // Choix de groupe année - classe
     m_anClGr = new QGroupBox(tr("Groupe pour une :"));
     m_anRadio = new QRadioButton(tr("Année"));
     m_clRadio = new QRadioButton(tr("Classe"));
+    m_clRadio->setChecked(true);
+    m_anneeLabel = new QLabel(tr("Année :"));
+    m_anneeSpinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
+    m_anneeSpinBox->setNowValue();
+    m_classeLabel = new QLabel(tr("Classe :"));
+    m_classeCB = new widgetMPS::IdComboBox;
+    m_classeCB->setInsertPolicy(QComboBox::NoInsert);
+    m_etabLabel = new QLabel(tr("Etablissement :"));
+    m_etabCB = new widgetMPS::IdComboBox;
+    m_etabCB->setInsertPolicy(QComboBox::NoInsert);
+    m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
+                      [](const Etablissement & etab)->QString
+                            {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
+    updateClasse();
 
     // Identifiant des groupes.
-    m_identLabel = new QLabel(tr("Identifiant des groupes :"));
-    m_identCB = new QComboBox;
-    m_identCB->addItem(tr("Nombre (1)"),Groupe::Nombre);
-    m_identCB->addItem(tr("Majuscule (A)"),Groupe::Majuscule);
-    m_identCB->addItem(tr("Minuscule (a)"),Groupe::Minuscule);
+    m_alphaLabel = new QLabel(tr("Identifiant des groupes :"));
+    m_alphaCB = new QComboBox;
+    m_alphaCB->addItem(tr("Nombre (1)"),Groupe::Nombre);
+    m_alphaCB->addItem(tr("Majuscule (A)"),Groupe::Majuscule);
+    m_alphaCB->addItem(tr("Minuscule (a)"),Groupe::Minuscule);
 
     // Option
     m_optGr = new QGroupBox(tr("Options :"));
@@ -311,17 +329,92 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     m_anClLayout = new QHBoxLayout(m_anClGr);
     m_anClLayout->addWidget(m_clRadio);
     m_anClLayout->addWidget(m_anRadio);
-    m_identLayout = new QHBoxLayout;
-    m_identLayout->addWidget(m_identLabel);
-    m_identLayout->addWidget(m_identCB);
+
     m_optLayout = new QHBoxLayout(m_optGr);
     m_optLayout->addWidget(m_exclusifCheck);
     m_optLayout->addWidget(m_totalCheck);
 
     m_mainLayout->addWidget(m_anClGr);
-    m_mainLayout->addLayout(m_identLayout);
+    m_mainLayout->addWidget(m_anneeLabel);
+    m_mainLayout->addWidget(m_anneeSpinBox);
+    m_mainLayout->addWidget(m_etabLabel);
+    m_mainLayout->addWidget(m_etabCB);
+    m_mainLayout->addWidget(m_classeLabel);
+    m_mainLayout->addWidget(m_classeCB);
+    m_mainLayout->addWidget(m_alphaLabel);
+    m_mainLayout->addWidget(m_alphaCB);
     m_mainLayout->addWidget(m_optGr);
 }
+
+void GroupeNewModifForm::connexion() {
+    AbstractTypeNcNomNewModifForm::connexion();
+    connect(m_anneeSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&GroupeNewModifForm::updateClasse);
+    connect(m_etabCB,qOverload<int>(&widgetMPS::IdComboBox::currentIndexChanged),this,&GroupeNewModifForm::updateClasse);
+    connect(m_clRadio,&QRadioButton::toggled,this,&GroupeNewModifForm::updateClasse);
+}
+
+void GroupeNewModifForm::save() {
+    Groupe groupe;
+    if(!m_new)
+        groupe.setId(id());
+    groupe.setNc(nc());
+    groupe.setNom(nom());
+    groupe.setType(idType());
+    groupe.setAlpha(m_alphaCB->currentData().toInt());
+    if(m_exclusifCheck->isChecked())
+        groupe.add(Groupe::Exclusif);
+    if(m_totalCheck->isChecked())
+        groupe.add(Groupe::Total);
+    if(m_clRadio->isChecked()) {
+        groupe.setIdAn(0);
+        groupe.setIdClasse(m_classeCB->id());
+    }
+    else {
+        groupe.setIdAn(m_anneeSpinBox->value().id());
+        groupe.setIdClasse(0);
+    }
+    m_bdd.save(groupe);
+}
+
+void GroupeNewModifForm::updateClasse() {
+    m_classeCB->clear();
+    if(m_clRadio->isChecked()) {
+        m_classeCB->addText(m_bdd.getList<Classe>(Classe::IdAn,m_anneeSpinBox->value().id(),
+                                                  Classe::IdEtab,m_etabCB->id(),Classe::Nom),
+                     [](const Classe & cl)->QString {return cl.nc();});
+        m_classeCB->setEnabled(true);
+        m_etabCB->setEnabled(true);
+    }
+    else {
+        m_classeCB->setEnabled(false);
+        m_etabCB->setEnabled(false);
+    }
+}
+
+void GroupeNewModifForm::updateData() {
+    if(!m_new) {
+        Groupe groupe;
+        updateTemp<Groupe>(groupe);
+        m_alphaCB->setCurrentIndex(m_alphaCB->findData(groupe.alpha()));
+        m_exclusifCheck->setChecked(groupe.code().test(Groupe::Exclusif));
+        m_totalCheck->setChecked(groupe.code().test(Groupe::Total));
+        m_clRadio->setChecked(groupe.idClasse());
+        if(groupe.idClasse()){
+            m_classeCB->setCurrentIndexId(groupe.idClasse());
+            Classe classe(groupe.idClasse());
+            m_bdd.get(classe);
+            m_anneeSpinBox->setValue(classe.idAn(),false);
+            m_etabCB->setCurrentIndexId(classe.idEtab());
+        }
+        else
+            m_anneeSpinBox->setValue(groupe.idAn(),false);
+    }
+    else {
+        m_exclusifCheck->setChecked(true);
+        m_totalCheck->setChecked(true);
+    }
+}
+
 
 // Niveau
 NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)

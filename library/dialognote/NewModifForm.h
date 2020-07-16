@@ -186,17 +186,22 @@ public slots:
 class GroupeNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
     Q_OBJECT
 protected:
-    QLabel * m_identLabel;                  //!< Label de l'identifiant des groupes.
+    QLabel * m_alphaLabel;                  //!< Label de l'identifiant des groupes.
+    QLabel * m_anneeLabel;                  //!< Label du choix de l'année.
+    QLabel * m_classeLabel;                 //!< Label du choix de la classe.
+    QLabel * m_etabLabel;                   //!< Label du choix de l'établissement.
     QCheckBox * m_exclusifCheck;            //!< Option de groupe exclusif.
     QCheckBox * m_totalCheck;               //!< Option de groupe total.
-    QComboBox * m_identCB;                  //!< Choix de l'identifiant des groupes.
+    QComboBox * m_alphaCB;                  //!< Choix de l'identifiant des groupes.
+    widgetMPS::IdComboBox * m_classeCB;     //!< Choix de la classe.
+    widgetMPS::IdComboBox * m_etabCB;       //!< Choix de l'établissement.
     QRadioButton * m_anRadio;               //!< Groupe de type Année.
     QRadioButton * m_clRadio;               //!< Groupe de type classe.
+    SpinBoxAnneeScolaire * m_anneeSpinBox;  //!< Choix de l'annee Scolaire.
     QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
     QGroupBox * m_optGr;                    //!< Groupe d'option du groupe.
 
     QHBoxLayout * m_anClLayout;             //!< Calque du choix de groupe année - classe.
-    QHBoxLayout * m_identLayout;            //!< Calque de l'identifiant des groupes.
     QHBoxLayout * m_optLayout;              //!< Calque des option du groupe.
 
 
@@ -206,6 +211,9 @@ public:
 
     //!Destructeur.
     ~GroupeNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
 
     //! Titre de la fenêtre de dialogue.
     QString title() const override
@@ -218,10 +226,13 @@ public slots:
         {return !m_new && m_bdd.del(Groupe(id()));}
 
     //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
-    void save() override {}
+    void save() override;
+
+    //! Met à Jour la liste des classes.
+    void updateClasse();
 
     //! Met à jour le formulaire.
-    void updateData() override {}
+    void updateData() override;
 };
 
 /*! \ingroup groupeDialogNote
