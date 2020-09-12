@@ -24,7 +24,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_findWidget = new widgetMPS::FindWidget();
     m_findWidget->setModel(m_model);
     m_findLayout = new QVBoxLayout();
-    m_findGroup = new QGroupBox(tr("Rechercher"));
+    m_findGroup = new QGroupBox(tr("Filtrer :"));
     m_findLayout->addWidget(m_findWidget);
     m_findGroup->setLayout(m_findLayout);
     //Ajout d'éléves

@@ -6,6 +6,7 @@
 
 #include "ClasseEleveTab.h"
 #include "ElevesTab.h"
+#include "GroupeTab.h"
 #include "PredefTab.h"
 
 
@@ -16,8 +17,10 @@ namespace fmps = fenMPS;
  */
 class TabNote : public fmps::PredefTab {
 public:
-    enum NoteTabId {ElevesTabId = NbrPredefTabId,
-                    ClasseEleveTabId};
+    enum NoteTabId {ClasseEleveTabId = NbrPredefTabId,
+                    ElevesTabId,
+                    GroupeTabId
+                    };
     using PredefTab::PredefTab;
 
     //! Connect l'onglet aux signaux commun à tous les onglets.

@@ -186,6 +186,7 @@ public slots:
 class GroupeNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
     Q_OBJECT
 protected:
+    // Widget
     QLabel * m_alphaLabel;                  //!< Label de l'identifiant des groupes.
     QLabel * m_anneeLabel;                  //!< Label du choix de l'année.
     QLabel * m_classeLabel;                 //!< Label du choix de la classe.
@@ -201,6 +202,7 @@ protected:
     QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
     QGroupBox * m_optGr;                    //!< Groupe d'option du groupe.
 
+    // Calque
     QHBoxLayout * m_anClLayout;             //!< Calque du choix de groupe année - classe.
     QHBoxLayout * m_optLayout;              //!< Calque des option du groupe.
 

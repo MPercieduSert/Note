@@ -62,14 +62,12 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     // Etab
     m_etabLabel = new QLabel(tr("Etablissement :"));
     m_etabCB = new widgetMPS::IdComboBox;
-    m_etabCB->setInsertPolicy(QComboBox::NoInsert);
     m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
                       [](const Etablissement & etab)->QString
                             {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
     // Niveau
     m_nivLabel = new QLabel(tr("Niveau :"));
     m_nivCB = new widgetMPS::IdComboBox;
-    m_nivCB->setInsertPolicy(QComboBox::NoInsert);
     updateNiveau();
 
     // Num
@@ -304,10 +302,8 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     m_anneeSpinBox->setNowValue();
     m_classeLabel = new QLabel(tr("Classe :"));
     m_classeCB = new widgetMPS::IdComboBox;
-    m_classeCB->setInsertPolicy(QComboBox::NoInsert);
     m_etabLabel = new QLabel(tr("Etablissement :"));
     m_etabCB = new widgetMPS::IdComboBox;
-    m_etabCB->setInsertPolicy(QComboBox::NoInsert);
     m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
                       [](const Etablissement & etab)->QString
                             {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
@@ -316,9 +312,12 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     // Identifiant des groupes.
     m_alphaLabel = new QLabel(tr("Identifiant des groupes :"));
     m_alphaCB = new QComboBox;
-    m_alphaCB->addItem(tr("Nombre (1)"),Groupe::Nombre);
-    m_alphaCB->addItem(tr("Majuscule (A)"),Groupe::Majuscule);
-    m_alphaCB->addItem(tr("Minuscule (a)"),Groupe::Minuscule);
+    m_alphaCB->addItem(tr("Nombre arabe (1)"),attributMPS::ArabeAlphaTexte);
+    m_alphaCB->addItem(tr("Nombre romain (I)"),attributMPS::RomainAlphaTexte);
+    m_alphaCB->addItem(tr("Minuscule (a)"),attributMPS::MinusculeAlphaTexte);
+    m_alphaCB->addItem(tr("Majuscule (A)"),attributMPS::MajusculeAlphaTexte);
+    m_alphaCB->addItem(tr("Minuscule (\u03B1)"),attributMPS::GrecMinusculeAlphaTexte);
+    m_alphaCB->addItem(tr("Majuscule (\u0391)"),attributMPS::GrecMajusculeAlphaTexte);
 
     // Option
     m_optGr = new QGroupBox(tr("Options :"));

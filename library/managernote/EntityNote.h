@@ -373,6 +373,9 @@ public:
     Eleve(const QDate & date, bool fille, const QString & nom, const QString & prenom,  idt id = 0)
         : Eleve(date, nom, prenom, id)
         {setFille(fille);}
+
+    //! Compaison (<) entre deux éléves par ordre alphabétique sur nom, prénom puis date de naissance.
+    bool operator < (const Eleve & eleve) const;
 };
 
 /*! \ingroup groupeManagerNote
@@ -476,12 +479,6 @@ public:
                    IdAn = Id1,
                    IdClasse = Id2,
                   };
-
-    //! Identifiant des groupe.
-    enum ident {Nombre,
-                Majuscule,
-                Minuscule
-    };
 
     //! Code du groupe.
     enum codeFlag : flag::flag_type {Aucun = 0x0,

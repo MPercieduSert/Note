@@ -262,13 +262,14 @@ ManagersNote::ManagersNote()
     setCible<ControleEpreuve>(bmps::cibleId::ControleEpreuve);
 
     //EleveGroupe
-    using UniqueElGr = RelationUniqueSql<EleveGroupe>;
+    using UniqueElGr = RelationNumUniqueSql<EleveGroupe>;
     InfoBdd infoElGr(EleveGroupe::Name(),"EleveGroupe",EleveGroupe::NbrAtt,{UniqueElGr::NbrUnique});
     infoElGr.setAttribut(EleveGroupe::IdEleve,"idEl");
     infoElGr.setAttribut(EleveGroupe::IdGroupe,"idGr");
     infoElGr.setAttribut(EleveGroupe::Num,"num");
     infoElGr.setUnique(EleveGroupe::IdEleve,UniqueElGr::Id1Unique);
     infoElGr.setUnique(EleveGroupe::IdGroupe,UniqueElGr::Id2Unique);
+    infoElGr.setUnique(EleveGroupe::Num,UniqueElGr::NumUnique);
     infoElGr.setForeignKey(EleveGroupe::IdEleve,infoEleve);
     infoElGr.setForeignKey(EleveGroupe::IdGroupe,infoGroupe);
     setManager<EleveGroupe>(std::make_unique<ManagerSql<EleveGroupe>>(infoElGr, std::make_unique<UniqueElGr>()));
