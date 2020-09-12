@@ -52,7 +52,7 @@ void FenPrincipaleNote::createMenuNewModif() {
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Modifier")),false);
     connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
         centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
-    });
+        });
     // Eleve
     connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
     // Établissement
@@ -63,6 +63,9 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * grMenu = m_newModifMenu->addMenu(tr("Groupe"));
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Modifier")),false);
+    connect(grMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
+        centraleZone()->openTab({TabNote::GroupeTabId,0});
+        });
     // Niveau
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);

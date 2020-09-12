@@ -7,10 +7,12 @@ fmps::AbstractTabModule * TabNote::createTab(const std::pair<int,int>& pair, con
         return PredefTab::createTab(pair,args);
     else
         switch (pair.first) {
-        case ElevesTabId:
-            return new ElevesTab(bdd(),pair);
         case ClasseEleveTabId:
             return new ClasseEleveTab(bdd(),pair);
+        case ElevesTabId:
+            return new ElevesTab(bdd(),pair);
+        case GroupeTabId:
+            return new GroupeTab(bdd(),pair);
         default:
             return nullptr;
         }

@@ -3,20 +3,19 @@
 using namespace noteMPS;
 
 ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent) : TableModel(false,true,parent) {
-    auto tableaux = std::make_unique<ClasseEleveCompositionTableau>(bdd,idClasse);
-    setTableau(std::move(tableaux));
-    insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                EleveVecTableau::Nom,tr("Nom"),0});
-    insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                   EleveVecTableau::Prenom,tr("Prenom"),0});
-    insertColonne(Naissance,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                      EleveVecTableau::Naissance,tr("Date de Naissance"),0});
-    insertColonne(Sexe,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
-                                 EleveVecTableau::Sexe,tr("Sexe"),0});
-    insertColonne(Entree,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
-                                     ClasseEleveVecTableau::Entree,tr("Entrée"),0,1});
-    insertColonne(Sortie,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
-                                     ClasseEleveVecTableau::Sortie,tr("Sortie"),0,1});
+    setTableau(std::make_unique<ClasseEleveCompositionTableau>(bdd,idClasse));
+    insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                EleveVecTableau::Nom,tr("Nom"),0,ClasseEleveCompositionTableau::EleveTableau});
+    insertColonne(PrenomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                   EleveVecTableau::Prenom,tr("Prenom"),0,ClasseEleveCompositionTableau::EleveTableau});
+    insertColonne(NaissanceColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                      EleveVecTableau::Naissance,tr("Date de Naissance"),0,ClasseEleveCompositionTableau::EleveTableau});
+    insertColonne(SexeColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                 EleveVecTableau::Sexe,tr("Sexe"),0,ClasseEleveCompositionTableau::EleveTableau});
+    insertColonne(EntreeColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
+                                     ClasseEleveVecTableau::Entree,tr("Entrée"),0,ClasseEleveCompositionTableau::ClasseEleveTableau});
+    insertColonne(SortieColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
+                                     ClasseEleveVecTableau::Sortie,tr("Sortie"),0,ClasseEleveCompositionTableau::ClasseEleveTableau});
 }
 
 void ClasseEleveModel::add(szt idEleve){

@@ -6,21 +6,30 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     : AbstractTabTableau(bdd,pair,parent) {
     // Classe
     m_anLabel = new QLabel(tr("Année de la classe :"));
-    m_classeLabel = new QLabel(tr("Classe :"));
+    m_anLabel->setAlignment(Qt::AlignRight);
     m_anSpinBox = new SpinBoxAnneeScolaire(bdd.getList<Annee>(Annee::Num));
     m_anSpinBox->setNowValue();
-    m_classeComboBox = new widgetMPS::IdComboBox;
+    m_etabLabel = new QLabel(tr("Établissement :"));
+    m_etabLabel->setAlignment(Qt::AlignRight);
+    m_etabCB = new widgetMPS::IdComboBox;
+    m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
+                      [](const Etablissement & etab)->QString
+                            {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
+    m_classeLabel = new QLabel(tr("Classe :"));
+    m_classeLabel->setAlignment(Qt::AlignRight);
+    m_classeCB = new widgetMPS::IdComboBox;
     updateClasseListe();
     connect(m_anSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseEleveTab::updateClasseListe);
+    connect(m_etabCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&ClasseEleveTab::updateClasseListe);
 
-    m_model = new ClasseEleveModel(bdd,m_classeComboBox->id(),this);
-    connect(m_classeComboBox,&widgetMPS::IdComboBox::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::setIdClasse);
+    m_model = new ClasseEleveModel(bdd,m_classeCB->id(),this);
+    connect(m_classeCB,&widgetMPS::IdComboBox::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::setIdClasse);
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_view->setSortingEnabled(true);
-    m_model->sort(ClasseEleveModel::Nom);
+    m_model->sort(ClasseEleveModel::NomColonne);
     m_view->horizontalHeader()->setSectionsMovable(true);
 
     // Bouton
@@ -60,8 +69,10 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     m_classeLayout = new QHBoxLayout;
     m_classeLayout->addWidget(m_anLabel);
     m_classeLayout->addWidget(m_anSpinBox);
+    m_classeLayout->addWidget(m_etabLabel);
+    m_classeLayout->addWidget(m_etabCB);
     m_classeLayout->addWidget(m_classeLabel);
-    m_classeLayout->addWidget(m_classeComboBox);
+    m_classeLayout->addWidget(m_classeCB);
     m_buttonLayout = new QHBoxLayout;
     m_buttonLayout->addWidget(m_addButton);
     m_buttonLayout->addWidget(m_delButton);
@@ -77,7 +88,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
 }
 
 void ClasseEleveTab::updateClasseListe(){
-    m_classeComboBox->clear();
-    m_classeComboBox->addText(bdd().getList<Classe>(Classe::IdAn,m_anSpinBox->value().id(),Classe::Nom),
+    m_classeCB->clear();
+    m_classeCB->addText(bdd().getList<Classe>(Classe::IdAn,m_anSpinBox->value().id(),Classe::IdEtab,m_etabCB->id(),Classe::Nom),
                               [](const Classe & cl)->QString{return QString(cl.nom()).append(" (").append(cl.nc()).append(")");});
 }

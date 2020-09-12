@@ -28,3 +28,16 @@ DESTR_VIDE_DEF(PrenomAttribut)
 DESTR_VIDE_DEF(SortieAttribut)
 DESTR_VIDE_DEF(TypeControle)
 DESTR_VIDE_DEF(Valide)
+
+bool Eleve::operator < (const Eleve & eleve) const {
+    if(nom() < eleve.nom())
+        return true;
+    if(nom() == eleve.nom()){
+        if(prenom() < eleve.prenom())
+            return true;
+        else if (prenom() == eleve.prenom() && date() < eleve.date())
+            return true;
+    }
+    return false;
+
+}
