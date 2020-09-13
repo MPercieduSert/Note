@@ -37,7 +37,7 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectItems);
-    m_candidatView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_candidatView = new QTableView;
     m_candidatView->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_candidatView->setSelectionMode(QAbstractItemView::ExtendedSelection);
