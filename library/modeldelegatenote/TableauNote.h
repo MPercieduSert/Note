@@ -40,6 +40,9 @@ public:
     //! Acceseur de groupe.
     const Groupe  & groupe() const
         {return m_groupe;}
+
+    //! Sauve la ligne dans la base de donnée.
+    void save(szt ligne) override;
 };
 
 /*! \ingroup groupeModelNote

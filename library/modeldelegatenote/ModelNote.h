@@ -23,7 +23,7 @@ public:
 
     //! Constructeur.
     CandidatGroupeModel(BddNote & bdd, szt idGroupe, QObject * parent = nullptr)
-        : TableModel(false,true,parent),
+        : TableModel(false,false,parent),
           m_groupeInfo({Qt::ItemIsEnabled|Qt::ItemIsSelectable,0,tr("Groupe"),0,CandidatGroupeTableau::EleveGroupeTableau}){
         setTableau(std::make_unique<CandidatGroupeTableau>(bdd,idGroupe));
         insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,

@@ -53,8 +53,9 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     m_findGroup->setLayout(m_findLayout);
 
     // Boutons
-    m_delEleve = new QPushButton(tr("Retirer les éléves"));
-    m_addGroupe = new QPushButton(tr("Ajouter un groupe"));
+    m_delEleveButton = new QPushButton(tr("Retirer les éléves"));
+    m_addGroupeButton = new QPushButton(tr("Ajouter un groupe"));
+    m_saveButton = new QPushButton(tr("Sauvegarder"));
     m_propGrLabel = new QLabel(tr("Propriétés du groupe :"));
     m_exclusifCheck = new QCheckBox(tr("Exclusif"));
     m_exclusifCheck->setDisabled(true);
@@ -72,8 +73,9 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     connect(m_typeCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&GroupeTab::updateGroupe);
     connect(m_groupeCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&GroupeTab::updateEleve);
     //connect(m_delEleve,&QPushButton::clicked,this,&GroupeTab::retire);
+    connect(m_saveButton,&QPushButton::clicked,this,&GroupeTab::sauver);
     connect(m_view->horizontalHeader(),&QHeaderView::sectionClicked,this,&GroupeTab::affecte);
-    connect(m_addGroupe,&QPushButton::clicked,static_cast<EleveGroupeModel *>(m_model),&EleveGroupeModel::push_back);
+    connect(m_addGroupeButton,&QPushButton::clicked,static_cast<EleveGroupeModel *>(m_model),&EleveGroupeModel::push_back);
 
     // Calque
     m_groupeLayout = new QHBoxLayout;
@@ -93,8 +95,9 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     m_eleveLayout->addWidget(m_candidatView);
     m_eleveLayout->addWidget(m_findGroup);
     m_buttonLayout = new QHBoxLayout;
-    m_buttonLayout->addWidget(m_addGroupe);
-    m_buttonLayout->addWidget(m_delEleve);
+    m_buttonLayout->addWidget(m_addGroupeButton);
+    m_buttonLayout->addWidget(m_delEleveButton);
+    m_buttonLayout->addWidget(m_saveButton);
     m_buttonLayout->addWidget(m_propGrLabel);
     m_buttonLayout->addWidget(m_exclusifCheck);
     m_buttonLayout->addWidget(m_totalCheck);
@@ -142,6 +145,8 @@ void GroupeTab::affecte(int column) {
     }
 }
 
+void GroupeTab::becomeCurrent()
+    {emit actionPermise(fenMPS::EffacerAction|fenMPS::SauverAction);}
 
 void GroupeTab::catChange() {
     auto bb = m_catCB->currentData().toBool();

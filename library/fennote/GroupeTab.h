@@ -42,8 +42,8 @@ protected:
     QComboBox * m_catCB;                        //!< Sélection de la catégorie du groupe.
     QCheckBox * m_exclusifCheck;                //!< Etat exclusif du groupe.
     QCheckBox * m_totalCheck;                   //!< Etat total du groupe.
-    QPushButton * m_delEleve;                   //!< Bouton d'ajout des éléves sélectionnés au groupe sélectionné.
-    QPushButton * m_addGroupe;                  //!< Bouton d'ajout d'un groupe.
+    QPushButton * m_addGroupeButton;            //!< Bouton d'ajout d'un groupe.
+    QPushButton * m_delEleveButton;             //!< Bouton d'ajout des éléves sélectionnés au groupe sélectionné.
     widgetMPS::FindWidget * m_findWidget;       //!< Recherche dans la liste d'éléve.
     widgetMPS::IdComboBox * m_classeCB;         //!< Sélection de la classe du groupe.
     widgetMPS::IdComboBox * m_etabCB;           //!< Sélection de l'établissement du groupe.
@@ -77,11 +77,18 @@ public slots:
     //! Affecte les éléves séléctionnés dans la vue de candidature au groupe choisi.
     void affecte(int column);
 
+    //! Action à effectuer lorsque l'onglet devient actif.
+    void becomeCurrent() override;
+
     //! Mise à jour après changement de catégorie.
     void catChange();
 
     //! Retire les élèves sectionnés dans view des groupes.
     //void retire();
+
+    //! Slot coorepondant à l'action sauver.
+    void sauver() override
+        {m_candidatModel->save();}
 
     //! Mise à jour des classes.
     void updateClasse();

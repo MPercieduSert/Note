@@ -30,8 +30,11 @@ void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
     auto vec = m_bdd.getList<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
     if(m_groupe.test(Groupe::Exclusif)) {
         auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
-        if(vec.empty())
+        if(vec.empty()) {
+            elGr.setIdEleve(idEl);
+            elGr.setIdGroupe(m_groupe.id());
             elGr.setNum(NonAffecter);
+        }
         else
             elGr = vec.front();
     }
@@ -42,6 +45,19 @@ void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
             for (auto iter = vec.cbegin(); iter != vec.cend(); ++iter)
                 elGr.push_back(*iter);
     }
+}
+
+void CandidatGroupeTableau::save(szt ligne) {
+    if(m_groupe.test(Groupe::Exclusif)) {
+        auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
+        if(elGr.num() >=0)
+            m_bdd.save(elGr);
+        else if (!elGr.isNew())
+            m_bdd.del(elGr);
+    }
+//    else {
+//        auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
+//    }
 }
 
 ////////////////////////////////////////// ClasseEleveCompositionTableau ////////////////////////////////
