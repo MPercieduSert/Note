@@ -72,10 +72,11 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     connect(m_etabCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&GroupeTab::updateClasse);
     connect(m_typeCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&GroupeTab::updateGroupe);
     connect(m_groupeCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&GroupeTab::updateEleve);
+    connect(m_addGroupeButton,&QPushButton::clicked,this,&GroupeTab::addGroupe);
     connect(m_delEleveButton,&QPushButton::clicked,this,&GroupeTab::remove);
     connect(m_saveButton,&QPushButton::clicked,this,&GroupeTab::sauver);
     connect(m_view->horizontalHeader(),&QHeaderView::sectionClicked,this,&GroupeTab::affecte);
-    connect(m_addGroupeButton,&QPushButton::clicked,static_cast<EleveGroupeModel *>(m_model),&EleveGroupeModel::push_back);
+
 
     // Calque
     m_groupeLayout = new QHBoxLayout;

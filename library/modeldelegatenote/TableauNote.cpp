@@ -71,9 +71,37 @@ void CandidatGroupeTableau::save(szt ligne) {
         else if (!elGr.isNew())
             m_bdd.del(elGr);
     }
-//    else {
-//        auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
-//    }
+    else {
+        auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
+        auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id();
+        for (auto iter = elGr.begin(); iter != elGr.end(); ++iter)
+            iter->setIdEleve(idEl);
+        auto vec = m_bdd.getList<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
+        auto iterTab = elGr.begin();
+        auto iterBdd = vec.begin();
+        while(iterTab != elGr.end() && iterBdd != vec.end()){
+            if(iterTab->num() == iterBdd->num()){
+                ++iterTab;
+                ++iterBdd;
+            }
+            else if (iterTab->num() < iterBdd->num()) {
+                m_bdd.save(*iterTab);
+                ++iterTab;
+            }
+            else {
+                m_bdd.del(*iterBdd);
+                ++iterBdd;
+            }
+        }
+        while(iterTab != elGr.end()){
+            m_bdd.save(*iterTab);
+            ++iterTab;
+        }
+        while(iterBdd != vec.end()){
+            m_bdd.del(*iterBdd);
+            ++iterBdd;
+        }
+    }
 }
 
 ////////////////////////////////////////// ClasseEleveCompositionTableau ////////////////////////////////
@@ -298,9 +326,10 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
         default:
             return QVariant();}};
     auto find = [read](const std::list<EleveGroupe>& listElGr)->QVariant {return read(listElGr,CandidatGroupeTableau::NumRole);};
-    auto write = [](std::list<EleveGroupe> & elGr, const QVariant & value, int role)->bool {
+    auto write = [this](std::list<EleveGroupe> & elGr, const QVariant & value, int role)->bool {
         if(role == Qt::EditRole){
             EleveGroupe eg;
+            eg.setIdGroupe(m_groupe.id());
             eg.setNum(value.toInt());
             elGr.push_back(eg);
             elGr.sort([](const EleveGroupe & elGr1, const EleveGroupe & elGr2)->bool

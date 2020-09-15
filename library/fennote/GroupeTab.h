@@ -74,6 +74,12 @@ public:
         {return tr("Listes des éléves");}
     
 public slots:
+    //! Ajout un groupe contenant les élèves sélectionnés.
+    void addGroupe() {
+        static_cast<EleveGroupeModel&>(*m_model).push_back();
+        affecte(static_cast<EleveGroupeModel&>(*m_model).columnCount() - 1);
+    }
+
     //! Affecte les éléves séléctionnés dans la vue de candidature au groupe choisi.
     void affecte(int column);
 
