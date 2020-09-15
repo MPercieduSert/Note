@@ -47,6 +47,22 @@ void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
     }
 }
 
+void CandidatGroupeTableau::remove(std::vector<std::pair<szt,int>> &&vecIdNum) {
+    for (auto iter = vecIdNum.cbegin(); iter != vecIdNum.cend(); ++iter) {
+        szt i = 0;
+        while (i != size() &&
+               static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(i).id() != iter->first)
+            ++i;
+        if(i != size()) {
+            if(m_groupe.test(Groupe::Exclusif))
+                static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(i).setNum(NonAffecter);
+            else
+                static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(i).remove_if(
+                        [iter](const EleveGroupe & elGr)->bool{return elGr.num() == iter->second;});
+        }
+    }
+}
+
 void CandidatGroupeTableau::save(szt ligne) {
     if(m_groupe.test(Groupe::Exclusif)) {
         auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
@@ -132,7 +148,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
 
 /////////////////////////////////////////// EleveVecTableau ///////////////////////////////////////////////////
 EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec)
-    : modelMPS::IdVectorPtrColonne<Eleve>(name, flags,modelMPS::AbstractColonnesModel::TexteColonne,vec,
+    : modelMPS::VectorPtrIdColonne<Eleve>(name, flags,modelMPS::AbstractColonnesModel::TexteColonne,vec,
     [](const Eleve & eleve, int role)->QVariant{
         if(role == Qt::DisplayRole || role == Qt::EditRole)
             return eleve.nom();
@@ -207,7 +223,7 @@ void EleveGroupeTableau::addEleve(const std::list<szt> &listEl, szt num) {
     }
 }
 
-void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<szt> > &mapDel) {
+void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<szt>> &mapDel) {
     for (auto iter = mapDel.cbegin(); iter != mapDel.cend(); ++iter) {
         for (auto iterId = iter->second.cbegin(); iterId != iter->second.cend(); ++iterId) {
             auto iterVec = colonneAt(iter->first).cbegin();
@@ -221,7 +237,7 @@ void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<szt> > &
 
 std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
 EleveGroupeTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) {
-    return std::make_unique<modelMPS::VectorRefHeterogeneTailleColonne<Eleve>>(info.name,info.flags,
+    return std::make_unique<modelMPS::VectorRefHeterogeneTailleIdColonne<Eleve>>(info.name,info.flags,
                                                                                modelMPS::AbstractColonnesModel::TexteColonne,
                                                                                colonneAt(info.tableau),
     [](const Eleve & el,int role)->QVariant {
@@ -232,22 +248,29 @@ EleveGroupeTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonn
     [](Eleve &, const QVariant &, int)->bool {return false;});
 }
 
+void EleveGroupeTableau::remove(const std::map<szt,std::list<szt>> & map) {
+    for (auto iter = map.cbegin(); iter != map.cend(); ++iter)
+        for (auto iterList = iter->second.crbegin(); iterList != iter->second.crend(); ++iterList)
+            m_tableau[iter->first]->erase(std::next(m_tableau[iter->first]->cbegin(),*iterList));
+    updateNbrLine();
+}
+
 void EleveGroupeTableau::setIdGroupe(szt id) {
     m_groupe.setId(id);
     m_bdd.get(m_groupe);
-    clear();
+    m_tableau.clear();
     szt nbrGr = 0;
-    if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id()))
-        nbrGr = m_bdd.fonctionAgrega<EleveGroupe>(bddMPS::agrega::Max,EleveGroupe::Num,EleveGroupe::IdGroupe,m_groupe.id()).toUInt();
-    m_tableau.resize(nbrGr);
-    for (szt num = 0; num != nbrGr; ++num) {
-        auto vecEl = m_bdd.getList<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
-                                                      EleveGroupe::IdGroupe,m_groupe.id(),
-                                                      EleveGroupe::Num,num);
-        colonne(num).resize(vecEl.size());
-        auto iterWrite = colonne(num).begin();
-        for (auto iterRead = vecEl.cbegin(); iterRead != vecEl.cend(); ++iterRead, ++iterWrite)
-            *iterWrite = *iterRead;
+    if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id())) {
+        nbrGr = 1 + m_bdd.fonctionAgrega<EleveGroupe>(bddMPS::agrega::Max,EleveGroupe::Num,EleveGroupe::IdGroupe,m_groupe.id()).toUInt();
+        for (szt num = 0; num != nbrGr; ++num) {
+            auto vecEl = m_bdd.getList<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
+                                                          EleveGroupe::IdGroupe,m_groupe.id(),
+                                                          EleveGroupe::Num,num);
+            push_back(vecEl.size());
+            auto iterWrite = colonne(num).begin();
+            for (auto iterRead = vecEl.cbegin(); iterRead != vecEl.cend(); ++iterRead, ++iterWrite)
+                *iterWrite = *iterRead;
+        }
     }
     updateNbrLine();
 }

@@ -84,7 +84,7 @@ public slots:
     void catChange();
 
     //! Retire les élèves sectionnés dans view des groupes.
-    //void retire();
+    void remove();
 
     //! Slot coorepondant à l'action sauver.
     void sauver() override

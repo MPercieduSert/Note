@@ -4,7 +4,7 @@
 #ifndef TABLEAUNOTE_H
 #define TABLEAUNOTE_H
 
-#include "AbstractColonnesModel.h"
+#include "TableauForModel.h"
 #include "BddNote.h"
 #include "EntityNote.h"
 
@@ -40,6 +40,9 @@ public:
     //! Acceseur de groupe.
     const Groupe  & groupe() const
         {return m_groupe;}
+
+    //! Retire des élèves des groupes.
+    void remove(std::vector<std::pair<szt,int>> && vecIdNum);
 
     //! Sauve la ligne dans la base de donnée.
     void save(szt ligne) override;
@@ -105,7 +108,7 @@ public:
                     Sexe};
 
     //! Colonne des noms des éléves
-    class NomColonne : public modelMPS::IdVectorPtrColonne<Eleve> {
+    class NomColonne : public modelMPS::VectorPtrIdColonne<Eleve> {
     public:
         //! Constructeur.
         NomColonne(const QString & name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec);
@@ -141,7 +144,7 @@ public:
     //! Ajoute un éléve à un groupe.
     void addEleve(const std::list<szt> & listEl, szt num);
 
-    //! Supprime les éléves d'un groupe.
+    //! Supprime les éléves des groupes (paire (idGroupe,idEleve)).
     void delEleve(const std::map<szt,std::forward_list<szt>> & mapDel);
 
     //! Acceseur de l'identifiant du groupe.
@@ -151,6 +154,9 @@ public:
     //! Fabrique une colonne lié aux données du tableau.
     std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
         makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) override;
+
+    //! Supprime les éléves des groupes (les listes de map doivent être trier dans l'ordre croissant).
+    void remove(const std::map<szt,std::list<szt>> & map);
 
     //! Mutateur de l'identifiant du groupe.
     void setIdGroupe(szt id);

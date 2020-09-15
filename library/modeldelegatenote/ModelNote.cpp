@@ -2,6 +2,17 @@
 
 using namespace noteMPS;
 
+CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, szt idGroupe, QObject * parent)
+    : TableModel(false,false,parent),
+      m_groupeInfo({Qt::ItemIsEnabled|Qt::ItemIsSelectable,0,tr("Groupe"),0,CandidatGroupeTableau::EleveGroupeTableau}){
+    setTableau(std::make_unique<CandidatGroupeTableau>(bdd,idGroupe));
+    insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                EleveVecTableau::Nom,tr("Nom"),0,CandidatGroupeTableau::EleveTableau});
+    insertColonne(PrenomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
+                                   EleveVecTableau::Prenom,tr("Prenom"),0,CandidatGroupeTableau::EleveTableau});
+    insertColonne(GroupeColonne,m_groupeInfo);
+}
+
 ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent) : TableModel(false,true,parent) {
     setTableau(std::make_unique<ClasseEleveCompositionTableau>(bdd,idClasse));
     insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
@@ -30,5 +41,77 @@ void ClasseEleveModel::add(szt idEleve){
         static_cast<ClasseEleveVecTableau&>(static_cast<ClasseEleveCompositionTableau&>(*m_data)
                                                    .tableau(ClasseEleveCompositionTableau::EleveTableau)).internalData(ligne).setId(idEleve);
         hydrate(row);
+    }
+}
+
+void EleveGroupeModel::push_back(){
+    static_cast<EleveGroupeTableau&>(*m_data).push_back();
+    NewColonneInfo info;
+    info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
+    info.name = static_cast<EleveGroupeTableau&>(*m_data).groupe().alphaTexte(columnCount());
+    info.tableau = static_cast<szt>(columnCount());
+    push_backColonne(info);
+}
+
+std::vector<std::pair<szt, int>> EleveGroupeModel::remove(const QModelIndexList & selection){
+    std::map<szt,std::list<szt>> map;
+    std::vector<std::pair<szt, int>> vecIdNum;
+    for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {
+        map[static_cast<szt>(iter->column())].push_back(static_cast<szt>(iter->row()));
+        std::pair<szt,int> idNum;
+        idNum.first = data(*iter, AbstractColonnesModel::IdRole).toUInt();
+        idNum.second = iter->column();
+        vecIdNum.push_back(idNum);
+    }
+    for(auto iterList = map.begin(); iterList != map.end(); ++iterList)
+        iterList->second.sort();
+    beginResetModel();
+        static_cast<EleveGroupeTableau&>(*m_data).remove(map);
+        resetRowToLigne();
+    endResetModel();
+    return vecIdNum;
+}
+
+void EleveGroupeModel::setIdGroupe(szt idGroupe){
+    beginResetModel();
+        static_cast<EleveGroupeTableau&>(*m_data).setIdGroupe(idGroupe);
+        m_colonnes.clear();
+        NewColonneInfo info;
+        info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
+        for (szt num = 0; num != static_cast<EleveGroupeTableau&>(*m_data).sizeColumn(); ++num){
+            info.name = static_cast<EleveGroupeTableau&>(*m_data).groupe().alphaTexte(static_cast<int>(num));
+            info.tableau = num;
+            push_backColonne(info);
+        }
+        resetRowToLigne();
+    endResetModel();
+}
+
+void EleveGroupeModel::updateEleve(const std::list<szt> & listEl, szt num, const std::map<szt,std::forward_list<szt>> & mapDel) {
+    auto & tableau = static_cast<EleveGroupeTableau&>(*m_data);
+    if(num < tableau.sizeColumn()){
+        if(mapDel.empty()) {
+            if(tableau.sizeOfColumn(num) + listEl.size() < nbrLignes()){
+                tableau.addEleve(listEl,num);
+                dataChanged(index(0,static_cast<int>(num)),index(
+                                tableau.sizeOfColumn(num) < nbrRow() ? static_cast<int>(tableau.sizeOfColumn(num))
+                                                                     : rowCount(),
+                                static_cast<int>(num)));
+            }
+            else {
+                beginInsertRows(QModelIndex(), rowCount(), static_cast<int>(tableau.sizeOfColumn(num) + listEl.size() - 1));
+                    tableau.addEleve(listEl,num);
+                    resetRowToLigne();
+                endInsertRows();
+                dataChanged(index(0,static_cast<int>(num)),index(rowCount() - 1,static_cast<int>(num)));
+            }
+        }
+        else {
+            beginResetModel();
+                tableau.addEleve(listEl,num);
+                tableau.delEleve(mapDel);
+                resetRowToLigne();
+            endResetModel();
+        }
     }
 }
