@@ -346,6 +346,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
 ///////////////////////////////////////////////// EleveGroupeVecTableau ///////////////////////////////////////////////
 std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
 EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) {
+    auto backFore = [](const EleveGroupe & elGr)->szt {return static_cast<szt>(elGr.num() + 1);};
     auto read = [this](const EleveGroupe & elGr,int role)->QVariant {
         switch (role) {
         case Qt::DisplayRole:
@@ -362,10 +363,27 @@ EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
             elGr.setNum(value.toInt());
             return true;}
         return false;};
-        return std::make_unique<modelMPS::TempBaseColonne<decltype (read), decltype (find), decltype (write),
-                                                          conteneurMPS::VectorPtr<EleveGroupe>>>(info.name,info.flags,
+        auto colonne = std::make_unique<modelMPS::TempBaseColorColonne<decltype (backFore), decltype (backFore),
+                                                               decltype (read), decltype (find), decltype (write),
+                                                               conteneurMPS::VectorPtr<EleveGroupe>>>(info.name,info.flags,
                                                                          modelMPS::AbstractColonnesModel::TexteColonne,m_vec,
+                                                                         backFore,backFore,
                                                                          read,find,write);
+        colonne->backGroundVector().push_back(QBrush(Qt::black));
+        colonne->backGroundVector().push_back(QBrush(Qt::red));
+        colonne->backGroundVector().push_back(QBrush(Qt::green));
+        colonne->backGroundVector().push_back(QBrush(Qt::blue));
+        colonne->backGroundVector().push_back(QBrush(Qt::yellow));
+        colonne->backGroundVector().push_back(QBrush(Qt::cyan));
+        colonne->backGroundVector().push_back(QBrush(Qt::magenta));
+        colonne->foreGroundVector().push_back(QBrush(Qt::white));
+        colonne->foreGroundVector().push_back(QBrush(Qt::white));
+        colonne->foreGroundVector().push_back(QBrush(Qt::black));
+        colonne->foreGroundVector().push_back(QBrush(Qt::white));
+        colonne->foreGroundVector().push_back(QBrush(Qt::black));
+        colonne->foreGroundVector().push_back(QBrush(Qt::black));
+        colonne->foreGroundVector().push_back(QBrush(Qt::white));
+        return std::move(colonne);
 }
 
 
