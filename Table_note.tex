@@ -237,11 +237,9 @@
 		nc\\
 		nom\\
 		code\\
-		appreciation\\
 		decimale\\
 		minima\\
-		total\\
-		modif
+		total
 	}[below=0.5cm of Etablissement]
 	
 	\relation{filiationTypeControle}[right=0.5cm of TypeControle]
@@ -532,11 +530,9 @@
 	}[below=0.5cm of Note,\bdd]
 
 	\tableEntity{TypeControle}{
-		appreciation&uint&code&app\\
 		code&uint&code&cd\\
 		decimale&int&decimale&dcm\\
 		minima&int&intSup-1&min&\\
-		modif&uint&code&md\\
 		nc&text&stringNotEmpty&nc\\
 		nom&text&stringNotEmpty&nm\\
 		parent&uint&idSup1&pt&NULL\\

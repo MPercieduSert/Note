@@ -70,6 +70,10 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Modifier"))),false);
+    // Type de controle
+    auto * tpCtrl= m_newModifMenu->addMenu(tr("Type de controle"));
+    connectActionToNewModifDialog<TypeControleNewModifForm>(tpCtrl->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<TypeControleNewModifForm>(tpCtrl->addAction(tr("Modifier")),false);
     // Type d'établissement
     auto * tpEtabMenu = m_newModifMenu->addMenu(tr("Type d'étabblissement"));
     connectActionToNewModifDialog<TypeEtablissementNewModifForm>(tpEtabMenu->addAction(tr("Créer")),true);

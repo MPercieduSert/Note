@@ -162,7 +162,7 @@ ManagersNote::ManagersNote()
     InfoBdd infoGroupe(Groupe::Name(),"Groupe",Groupe::NbrAtt,{UniqueGroupe::NbrUnique});
     infoGroupe.setAttribut(Groupe::IdAn,"idAn",bmps::typeAttributBdd::Integer,false);
     infoGroupe.setAttribut(Groupe::IdClasse,"idCl",bmps::typeAttributBdd::Integer,false);
-    infoGroupe.setAttribut(Groupe::Alpha,"al");
+    infoGroupe.setAttribut(Groupe::StyleNum,"al");
     infoGroupe.setAttribut(Groupe::Code,"cd");
     infoGroupe.setAttribut(Groupe::Nc,"nc",bmps::typeAttributBdd::Text);
     infoGroupe.setAttribut(Groupe::Nom,"nm",bmps::typeAttributBdd::Text);
@@ -180,16 +180,15 @@ ManagersNote::ManagersNote()
     //TypeControle
     using UniqueTpCtr = NomUniqueSql<TypeControle>;
     InfoBdd infoTpCtr(TypeControle::Name(),"TpControle",TypeControle::NbrAtt,{UniqueTpCtr::NbrUnique});
-    infoTpCtr.setAttribut(TypeControle::Appreciation,"app");
     infoTpCtr.setAttribut(TypeControle::Code,"cd");
     infoTpCtr.setAttribut(TypeControle::Decimale,"dcm");
     infoTpCtr.setAttribut(TypeControle::Minima,"min");
-    infoTpCtr.setAttribut(TypeControle::Modif,"md");
     infoTpCtr.setAttribut(TypeControle::Nc,"nc",bmps::typeAttributBdd::Text);
     infoTpCtr.setAttribut(TypeControle::Nom,"nm",bmps::typeAttributBdd::Text);
     infoTpCtr.setAttribut(TypeControle::Parent,"pt",bmps::typeAttributBdd::Integer,false);
     infoTpCtr.setAttribut(TypeControle::Total,"tt");
     infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
+    infoTpCtr.setForeignKey(TypeControle::Parent,infoTpCtr);
     setManager<TypeControle>(std::make_unique<ManagerArbreSimpleModifControle<TypeControle>>(infoTpCtr,
                     std::make_unique<GestionRestrictionCibleCode<TypeControle,Restriction>>(bmps::cibleId::TypeControle,
                                                                                              get<Restriction>()),
@@ -208,7 +207,7 @@ ManagersNote::ManagersNote()
     infoCtr.setAttribut(Controle::Nom,"nm",bmps::typeAttributBdd::Text);
     infoCtr.setAttribut(Controle::Num,"num");
     infoCtr.setAttribut(Controle::Total,"tt");
-    infoTpCtr.setUnique(TypeControle::Nom,UniqueTpCtr::NomUnique);
+    infoCtr.setUnique(Controle::Nom,UniqueCtr::NomUnique);
     infoCtr.setForeignKey(Controle::IdType,infoTpCtr);
     setManager<Controle>(std::make_unique<ManagerSql<Controle>>(infoCtr,std::make_unique<UniqueCtr>()));
     setCible<Controle>(bmps::cibleId::Controle);

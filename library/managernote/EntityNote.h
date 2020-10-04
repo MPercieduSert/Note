@@ -74,7 +74,6 @@ using Point = entityBaseMPS::TypeValeurIntVersionEntity<infoEntityNote::PointId>
 using TypeEtablissement = entityBaseMPS::NcNomEntity<infoEntityNote::TypeEtablissementId>;
 
 // Attribut
-SINGLE_ATTRIBUT(AppreciationAttribut,attributMPS::AttributCode,Appreciation,appreciation)
 SINGLE_ATTRIBUT(EnsPointAttribut,attributMPS::AttributId,EnsPoint,ensPoint)
 SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::AttributDateValide,Entree,entree)
 SINGLE_ATTRIBUT(FilleAttribut,attributMPS::AttributBool,Fille,fille)
@@ -255,7 +254,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
+    Controle(idt idTp, flag code, const QDateTime & dateTime, szt decimale, int minima, const QString & nc, const QString & nom,
              int num, int total, idt id = 0)
         : Controle(nom, id) {
         setIdType(idTp);
@@ -456,24 +455,24 @@ public:
  * \brief Représentation de l'entité Groupe.
  */
 class Groupe : public emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
-                                                            attributMPS::AlphaAttribut,
+                                                            attributMPS::StyleNumAttribut,
                                                             attributMPS::CodeAttribut,
                                                             attributMPS::NcNomTypeAttribut> {
 protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,Groupe>;
 public:
     using EAID = emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
-                                                          attributMPS::AlphaAttribut,
+                                                          attributMPS::StyleNumAttribut,
                                                           attributMPS::CodeAttribut,
                                                           attributMPS::NcNomTypeAttribut>;
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
                    Id1 = PositionEnum<Id1NullAttribut>::Position,
                    Id2 = PositionEnum<Id2NullAttribut>::Position,
-                   Alpha = PositionEnum<AlphaAttribut>::Position,
                    Code = PositionEnum<CodeAttribut>::Position,
                    Nc = PositionEnum<NcAttribut>::Position,
                    Nom = PositionEnum<NomAttribut>::Position,
+                   StyleNum = PositionEnum<StyleNumAttribut>::Position,
                    Type = PositionEnum<TypeAttribut>::Position,
                    NbrAtt = EAID::NbrAtt,
                    IdAn = Id1,
@@ -497,11 +496,11 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Groupe(idt idAn, idt idClasse, int alpha, uint code, const QString & nc, const QString & nom, idt type,  idt id = 0)
+    Groupe(idt idAn, idt idClasse, uint code, const QString & nc, const QString & nom,  uint styleNum, idt type,  idt id = 0)
         : Groupe(nom,id) {
         setIdAn(idAn);
         setIdClasse(idClasse);
-        setAlpha(alpha);
+        setStyleNum(styleNum);
         setCode(code);
         setNc(nc);
         setNom(nom);
@@ -512,32 +511,37 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité TypeControle.
  */
-class TypeControle : public emps::EntityIDs<infoEntityNote::TypeControleId,AppreciationAttribut,
-                                                                           attributMPS::CodeAttribut,
+class TypeControle : public emps::EntityIDs<infoEntityNote::TypeControleId,attributMPS::CodeAttribut,
                                                                            attributMPS::DecimaleAttribut,
                                                                            MinimaAttribut,
-                                                                           attributMPS::ModifAttribut,
                                                                            attributMPS::NcNomAttribut,
                                                                            attributMPS::ParentAttribut,
                                                                            attributMPS::TotalAttribut> {
 protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,TypeControle>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::TypeControleId,AppreciationAttribut,
-                                                                attributMPS::CodeAttribut,
+    using EAID = emps::EntityIDs<infoEntityNote::TypeControleId,attributMPS::CodeAttribut,
                                                                 attributMPS::DecimaleAttribut,
                                                                 MinimaAttribut,
-                                                                attributMPS::ModifAttribut,
                                                                 attributMPS::NcNomAttribut,
                                                                 attributMPS::ParentAttribut,
                                                                 attributMPS::TotalAttribut>;
+    //! Code du groupe.
+    enum codeFlag : flag::flag_type {Aucun = 0x0,
+                                     Categorie = 0x1,
+                                     Note = 0x2,
+                                     Lettre = 0x4,
+                                     Competences = 0x8,
+                                     Capacites = 0x10,
+                                     NotationModifiable = 0x20,
+                                     TotalModifiable = 0x40,
+                                     DecimaleModifiable = 0x80
+    };
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Appreciation = PositionEnum<AppreciationAttribut>::Position,
                    Code = PositionEnum<CodeAttribut>::Position,
                    Decimale = PositionEnum<DecimaleAttribut>::Position,
                    Minima = PositionEnum<MinimaAttribut>::Position,
-                   Modif = PositionEnum<ModifAttribut>::Position,
                    Nc = PositionEnum<NcAttribut>::Position,
                    Nom = PositionEnum<NomAttribut>::Position,
                    Parent = PositionEnum<ParentAttribut>::Position,
@@ -555,14 +559,12 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    TypeControle(flag appreciation, flag code, int decimale, int minima, flag modif, const QString & nc,
+    TypeControle(flag code, szt decimale, int minima, const QString & nc,
                  const QString & nom, idt parent, int total, idt id = 0)
         : TypeControle(nom, id) {
-        setAppreciation(appreciation);
         setCode(code);
         setDecimale(decimale);
         setMinima(minima);
-        setModif(modif);
         setNc(nc);
         setParent(parent);
         setTotal(total);

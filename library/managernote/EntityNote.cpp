@@ -3,7 +3,6 @@
 using namespace noteMPS;
 
 DESTR_VIDE_DEF(Annee)
-DESTR_VIDE_DEF(AppreciationAttribut)
 DESTR_VIDE_DEF(Classe)
 DESTR_VIDE_DEF(ClasseEleve)
 DESTR_VIDE_DEF(Controle)

@@ -2,6 +2,31 @@
 
 using namespace noteMPS;
 
+flag BddNote::code(idt idEntity, const QString & str) const {
+    switch (idEntity) {
+    case TypeControle::ID:
+        if(str == "Categorie")
+            return TypeControle::Categorie;
+        if(str == "Note")
+            return TypeControle::Note;
+        if(str== "Lettre")
+            return TypeControle::Lettre;
+        if(str== "Competences")
+            return TypeControle::Competences;
+        if(str== "Capacites")
+            return TypeControle::Capacites;
+        if(str== "NotationModifiable")
+            return TypeControle::NotationModifiable;
+        if(str== "TotalModifiable")
+            return TypeControle::TotalModifiable;
+        if(str== "DecimaleModifiable")
+            return TypeControle::DecimaleModifiable;
+    [[clang::fallthrough]];
+    default:
+        return BddPredef::code(idEntity,str);
+    }
+}
+
 bool BddNote::delP(idt id, szt idEntity) {
     auto controle = true;
     // Spécifique
@@ -89,7 +114,7 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
     BddPredef::listeMiseAJourBdd(version,type);
     if(type == bmps::bddVersion::NoteType) {
         switch (version) {
-        case bmps::bddVersion::Initiale:
+        case bmps::bddVersion::Initiale: {
             creerTable<Annee>();
             creerTable<TypeEtablissement>();
             creerTable<Etablissement>();
@@ -131,8 +156,12 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             save(grPerm);
             m_manager->saveVersion(bmps::bddVersion::Creation,bmps::bddVersion::NoteType);
         }
+        [[clang::fallthrough]];
+        case bmps::bddVersion::Creation:
+            creerTable<TypeControle>();
+            m_manager->saveVersion(bmps::bddVersion::TypeCortroleCreation,bmps::bddVersion::NoteType);
+        }
         //creerTable<Bareme>();
-        //creerTable<TypeControle>();
         //creerTable<Controle>();
         //creerTable<Enonce>();
         //creerTable<Epreuve>();

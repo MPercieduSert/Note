@@ -312,12 +312,12 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     // Identifiant des groupes.
     m_alphaLabel = new QLabel(tr("Identifiant des groupes :"));
     m_alphaCB = new QComboBox;
-    m_alphaCB->addItem(tr("Nombre arabe (1)"),attributMPS::ArabeAlphaTexte);
-    m_alphaCB->addItem(tr("Nombre romain (I)"),attributMPS::RomainAlphaTexte);
-    m_alphaCB->addItem(tr("Minuscule (a)"),attributMPS::MinusculeAlphaTexte);
-    m_alphaCB->addItem(tr("Majuscule (A)"),attributMPS::MajusculeAlphaTexte);
-    m_alphaCB->addItem(tr("Minuscule (\u03B1)"),attributMPS::GrecMinusculeAlphaTexte);
-    m_alphaCB->addItem(tr("Majuscule (\u0391)"),attributMPS::GrecMajusculeAlphaTexte);
+    m_alphaCB->addItem(tr("Nombre arabe (1)"),diversMPS::NumToTexte::Arabe);
+    m_alphaCB->addItem(tr("Nombre romain (I)"),diversMPS::NumToTexte::Romain);
+    m_alphaCB->addItem(tr("Minuscule (a)"),diversMPS::NumToTexte::Minuscule);
+    m_alphaCB->addItem(tr("Majuscule (A)"),diversMPS::NumToTexte::Majuscule);
+    m_alphaCB->addItem(tr("Minuscule grec (\u03B1)"),diversMPS::NumToTexte::GrecMinuscule);
+    m_alphaCB->addItem(tr("Majuscule grec (\u0394)"),diversMPS::NumToTexte::GrecMajuscule);
 
     // Option
     m_optGr = new QGroupBox(tr("Options :"));
@@ -359,7 +359,7 @@ void GroupeNewModifForm::save() {
     groupe.setNc(nc());
     groupe.setNom(nom());
     groupe.setType(idType());
-    groupe.setAlpha(m_alphaCB->currentData().toInt());
+    groupe.setStyleNum(m_alphaCB->currentData().toUInt());
     if(m_exclusifCheck->isChecked())
         groupe.add(Groupe::Exclusif);
     if(m_totalCheck->isChecked())
@@ -394,7 +394,7 @@ void GroupeNewModifForm::updateData() {
     if(!m_new) {
         Groupe groupe;
         updateTemp<Groupe>(groupe);
-        m_alphaCB->setCurrentIndex(m_alphaCB->findData(groupe.alpha()));
+        m_alphaCB->setCurrentIndex(m_alphaCB->findData(groupe.styleNum()));
         m_exclusifCheck->setChecked(groupe.code().test(Groupe::Exclusif));
         m_totalCheck->setChecked(groupe.code().test(Groupe::Total));
         m_clRadio->setChecked(groupe.idClasse());
@@ -570,5 +570,87 @@ void TypeEtablissementNewModifForm::updateData() {
                 nivOut[i->id()] = i->nom();
         }
         m_selectNiv->setValue(nivOut,nivIn);
+    }
+}
+
+// Typecontrole
+TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+    : AbstractParentNcNomNewModifForm(bdd, {"nom","nom abrégé"},
+                                      "Parent",
+                                      "Nom abrégé du type de controle",
+                                      "Nom du type de controle",
+                                      newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<TypeControle>(TypeControle::Nom));
+
+    // parent
+    m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
+                          [](const TypeControle & tc)->QTreeWidgetItem * {
+        auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
+        item->setData(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
+        return item;
+    });
+
+    //note
+    m_noteGr = new QGroupBox(tr("Notation :"));
+    m_noteCheck = new QCheckBox(tr("Devoir noté"));
+    m_typeLabel = new QLabel(tr("Type de noation :"));
+    m_chiffreRadio = new QRadioButton(tr("Nombre"));
+    m_chiffreRadio->setChecked(true);
+    m_lettreRadio = new QRadioButton(tr("Lettre"));
+    m_totalLabel = new QLabel;
+    m_totalSpinBox = new QSpinBox;
+    m_decimalLabel = new QLabel;
+    noteEnable();
+    typeNoteChange();
+    //Calque
+//    m_typeLayout = new QGriLayout;
+//    m_typeLayout->addWidget(m_typeLabel);
+//    m_typeLayout->addWidget(m_chiffreRadio);
+//    m_typeLayout->addWidget(m_lettreRadio);
+
+//    m_noteLayout = new QVBoxLayout(m_noteGr);
+//    m_noteLayout->addWidget(m_noteCheck);
+//    m_noteLayout->addLayout(m_typeLayout);
+    m_noteLayout = new QGridLayout(m_noteGr);
+    m_noteLayout->addWidget(m_noteCheck,0,0);
+    m_noteLayout->addWidget(m_typeLabel,1,0);
+    m_noteLayout->addWidget(m_chiffreRadio,1,1);
+    m_noteLayout->addWidget(m_lettreRadio,1,2);
+    m_noteLayout->addWidget(m_totalLabel,2,0);
+
+    m_mainLayout->addWidget(m_noteGr);
+}
+
+void TypeControleNewModifForm::connexion() {
+    AbstractParentNcNomNewModifForm::connexion();
+    connect(m_noteCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteEnable);
+    connect(m_chiffreRadio,&QRadioButton::toggled,this,&TypeControleNewModifForm::typeNoteChange);
+}
+
+void TypeControleNewModifForm::noteEnable() {
+    auto enable = m_noteCheck->isChecked();
+    m_typeLabel->setEnabled(enable);
+    m_chiffreRadio->setEnabled(enable);
+    m_lettreRadio->setEnabled(enable);
+}
+
+void TypeControleNewModifForm::typeNoteChange() {
+    if(m_chiffreRadio->isChecked()) {
+        m_totalLabel->setText("Total :");
+    }
+    else {
+        m_totalLabel->setText("De A à :");
+    }
+}
+
+void TypeControleNewModifForm::updateData(){
+    if(!m_new){
+        TypeControle tpc;
+        updateTemp<TypeControle>(tpc);
+        setParent(tpc.parent());
+        m_noteCheck->setChecked(tpc.code().test(TypeControle::Note));
+        m_lettreRadio->setChecked(tpc.code().test(TypeControle::Lettre));
     }
 }

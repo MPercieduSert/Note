@@ -48,7 +48,7 @@ void EleveGroupeModel::push_back(){
     static_cast<EleveGroupeTableau&>(*m_data).push_back();
     NewColonneInfo info;
     info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
-    info.name = static_cast<EleveGroupeTableau&>(*m_data).groupe().alphaTexte(columnCount());
+    info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(columnCount());
     info.tableau = static_cast<szt>(columnCount());
     push_backColonne(info);
 }
@@ -79,7 +79,7 @@ void EleveGroupeModel::setIdGroupe(szt idGroupe){
         NewColonneInfo info;
         info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
         for (szt num = 0; num != static_cast<EleveGroupeTableau&>(*m_data).sizeColumn(); ++num){
-            info.name = static_cast<EleveGroupeTableau&>(*m_data).groupe().alphaTexte(static_cast<int>(num));
+            info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(static_cast<int>(num));
             info.tableau = num;
             push_backColonne(info);
         }

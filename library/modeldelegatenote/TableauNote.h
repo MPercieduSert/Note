@@ -19,8 +19,8 @@ namespace noteMPS {
  */
 class CandidatGroupeTableau : public modelMPS::CompositionTableau {
 protected:
-    BddNote & m_bdd;    //! Lien avec la base de données.
-    Groupe m_groupe;     //! Identifiant du groupe.
+    BddNote & m_bdd;                    //!< Lien avec la base de données.
+    Groupe m_groupe;                    //!< Identifiant du groupe.
 public:
     //! Position des tableaux.
     enum positionTableau {EleveTableau, EleveGroupeTableau, DonneeTableau, NbrTableau};
@@ -53,8 +53,8 @@ public:
  */
 class ClasseEleveCompositionTableau : public modelMPS::CompositionTableau {
 protected:
-    BddNote & m_bdd;    //! Lien avec la base de données.
-    szt m_idClasse;     //! Identifiant de la classe à la quelle les élèves appartiennent.
+    BddNote & m_bdd;    //!< Lien avec la base de données.
+    szt m_idClasse;     //!< Identifiant de la classe à la quelle les élèves appartiennent.
 public:
     //! Position des tableaux.
     enum positionTableau {EleveTableau, ClasseEleveTableau, NbrTableau};
@@ -134,8 +134,9 @@ public:
  */
 class EleveGroupeTableau : public modelMPS::HeterogeneTailleTableau<Eleve> {
 protected:
-    BddNote & m_bdd;        //! Lien avec la base de données.
-    Groupe m_groupe;        //! Identifiant du groupe.
+    BddNote & m_bdd;        //!< Lien avec la base de données.
+    Groupe m_groupe;        //!< Identifiant du groupe.
+    diversMPS::NumToTexte m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Constructeur.
     EleveGroupeTableau(BddNote & bdd)
@@ -160,6 +161,10 @@ public:
 
     //! Mutateur de l'identifiant du groupe.
     void setIdGroupe(szt id);
+
+    //! Convertissuer de numero en texte..
+    QString numToTexte(int num) const
+        {return m_styleNum.texte(num);}
 };
 
 /*! \ingroup groupeModelNote
@@ -167,15 +172,22 @@ public:
  */
 class GroupeForTableau  {
 protected:
-    Groupe m_groupe;            //! groupe associé à la colonne.
+    Groupe m_groupe;            //!< groupe associé à la colonne.
+    diversMPS::NumToTexte m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Accesseur du groupe.
     const Groupe & groupe() const
         {return m_groupe;}
 
     //! Mutateur du groupe.
-    void setGroupe(const Groupe & groupe)
-        {m_groupe = groupe;}
+    void setGroupe(const Groupe & groupe) {
+        m_groupe = groupe;
+        m_styleNum.setStyle(m_groupe.styleNum());
+    }
+
+    //! Convertissuer de numero en texte..
+    QString numToTexte(int num) const
+        {return m_styleNum.texte(num);}
 };
 
 /*! \ingroup groupeModelNote

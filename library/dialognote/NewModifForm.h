@@ -308,5 +308,66 @@ public slots:
     //! Met à jour le formulaire.
     void updateData() override;
 };
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des types de controle.
+ */
+class TypeControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
+    Q_OBJECT
+protected:
+    // Widget
+    QLabel * m_typeLabel;                   //!< Label du choix d'une notation chiffré ou avec lettre.
+    QLabel * m_totalLabel;                  //!< Label du choix du total.
+    QLabel * m_decimalLabel;                //!< Label du choix des décimale.
+//    QLabel * m_etabLabel;                 //!< Label du choix de l'établissement.
+    QCheckBox * m_noteCheck;                //!< Option de groupe noté.
+//    QCheckBox * m_totalCheck;               //!< Option de groupe total.
+//    QComboBox * m_alphaCB;                  //!< Choix de l'identifiant des groupes.
+//    widgetMPS::IdComboBox * m_classeCB;     //!< Choix de la classe.
+//    widgetMPS::IdComboBox * m_etabCB;       //!< Choix de l'établissement.
+    QRadioButton * m_chiffreRadio;          //!< Note chiffrée.
+    QRadioButton * m_lettreRadio;           //!< Note avec lettre.
+    QSpinBox * m_totalSpinBox;              //!< Choix de l'annee Scolaire.
+//    QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
+    QGroupBox * m_noteGr;                   //!< Groupe d'option de notation.
+
+    // Calque
+    //QHBoxLayout * m_typeLayout;             //!< Calque du choix du type de notation.
+    QGridLayout * m_noteLayout;             //!< Calque des option de notation.
+
+
+public:
+    //! Constructeur.
+    TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~TypeControleNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override
+        {return m_new ? tr("Création d'un nouveau type de controle :") :
+                        tr("Modification d'un type de controle :");}
+
+public slots:
+    //! Supprime le type d'établissement dans la bases de donnée.
+    bool del() override
+        {return !m_new && m_bdd.del(TypeControle(id()));}
+
+    //! Active et désactive les options de notations.
+    void noteEnable();
+
+    //! Passe d'un type de notation à l'autre.
+    void typeNoteChange();
+
+    //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
+    void save() override {}
+
+    //! Met à jour le formulaire.
+    void updateData() override;
+};
+
 }
 #endif // NEWMODIFFORM_H

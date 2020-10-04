@@ -286,6 +286,7 @@ void EleveGroupeTableau::remove(const std::map<szt,std::list<szt>> & map) {
 void EleveGroupeTableau::setIdGroupe(szt id) {
     m_groupe.setId(id);
     m_bdd.get(m_groupe);
+    m_styleNum.setStyle(m_groupe.styleNum());
     m_tableau.clear();
     szt nbrGr = 0;
     if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id())) {
@@ -311,7 +312,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
         case Qt::DisplayRole: {
             QString str;
             for(auto iter = listElGr.cbegin(); iter != listElGr.cend(); ++iter)
-                str.append(m_groupe.alphaTexte(iter->num())).append(", ");
+                str.append(numToTexte(iter->num())).append(", ");
             str.chop(2);
             return str;
         }
@@ -350,7 +351,7 @@ EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
     auto read = [this](const EleveGroupe & elGr,int role)->QVariant {
         switch (role) {
         case Qt::DisplayRole:
-            return m_groupe.alphaTexte(elGr.num());
+            return numToTexte(elGr.num());
         case Qt::TextAlignmentRole:
             return Qt::AlignHCenter;
         case CandidatGroupeTableau::NumRole:
