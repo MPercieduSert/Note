@@ -312,8 +312,8 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     // Identifiant des groupes.
     m_alphaLabel = new QLabel(tr("Identifiant des groupes :"));
     m_alphaCB = new QComboBox;
-    m_alphaCB->addItem(tr("Nombre arabe (1)"),diversMPS::NumToTexte::Arabe);
-    m_alphaCB->addItem(tr("Nombre romain (I)"),diversMPS::NumToTexte::Romain);
+    m_alphaCB->addItem(tr("Nombre arabe (1)"),diversMPS::NumToTexte::ArabeSuivant);
+    m_alphaCB->addItem(tr("Nombre romain (I)"),diversMPS::NumToTexte::RomainSuivant);
     m_alphaCB->addItem(tr("Minuscule (a)"),diversMPS::NumToTexte::Minuscule);
     m_alphaCB->addItem(tr("Majuscule (A)"),diversMPS::NumToTexte::Majuscule);
     m_alphaCB->addItem(tr("Minuscule grec (\u03B1)"),diversMPS::NumToTexte::GrecMinuscule);
@@ -600,7 +600,7 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
     m_chiffreRadio->setChecked(true);
     m_lettreRadio = new QRadioButton(tr("Lettre"));
     m_totalLabel = new QLabel;
-    m_totalSpinBox = new QSpinBox;
+    m_totalSpinBox = new widgetMPS::SpinBoxLettre;
     m_decimalLabel = new QLabel;
     noteEnable();
     typeNoteChange();
@@ -619,6 +619,7 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
     m_noteLayout->addWidget(m_chiffreRadio,1,1);
     m_noteLayout->addWidget(m_lettreRadio,1,2);
     m_noteLayout->addWidget(m_totalLabel,2,0);
+    m_noteLayout->addWidget(m_totalSpinBox,2,1);
 
     m_mainLayout->addWidget(m_noteGr);
 }
@@ -634,14 +635,22 @@ void TypeControleNewModifForm::noteEnable() {
     m_typeLabel->setEnabled(enable);
     m_chiffreRadio->setEnabled(enable);
     m_lettreRadio->setEnabled(enable);
+    m_totalLabel->setEnabled(enable);
+    m_totalSpinBox->setEnabled(enable);
 }
 
 void TypeControleNewModifForm::typeNoteChange() {
     if(m_chiffreRadio->isChecked()) {
         m_totalLabel->setText("Total :");
+        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
+        m_totalSpinBox->setMinimum(1);
+        m_totalSpinBox->setMaximum(1000);
     }
     else {
         m_totalLabel->setText("De A à :");
+        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
+        m_totalSpinBox->setMinimum(0);
+        m_totalSpinBox->setMaximum(25);
     }
 }
 
@@ -652,5 +661,6 @@ void TypeControleNewModifForm::updateData(){
         setParent(tpc.parent());
         m_noteCheck->setChecked(tpc.code().test(TypeControle::Note));
         m_lettreRadio->setChecked(tpc.code().test(TypeControle::Lettre));
+        m_totalSpinBox->setValue(tpc.total());
     }
 }

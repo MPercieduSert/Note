@@ -14,6 +14,7 @@
 #include "NewModifDialog.h"
 #include "SelectInListBox.h"
 #include "SpinBoxAnneeScolaire.h"
+#include "SpinBoxLettre.h"
 
 namespace noteMPS {
 /*! \defgroup groupeDialogNote Dialogues de note
@@ -327,7 +328,7 @@ protected:
 //    widgetMPS::IdComboBox * m_etabCB;       //!< Choix de l'établissement.
     QRadioButton * m_chiffreRadio;          //!< Note chiffrée.
     QRadioButton * m_lettreRadio;           //!< Note avec lettre.
-    QSpinBox * m_totalSpinBox;              //!< Choix de l'annee Scolaire.
+    widgetMPS::SpinBoxLettre * m_totalSpinBox;              //!< Choix de l'annee Scolaire.
 //    QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
     QGroupBox * m_noteGr;                   //!< Groupe d'option de notation.
 
