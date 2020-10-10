@@ -243,6 +243,13 @@ public:
                    IdType = Id1,
                    };
 
+    //! Decimale pour les lettres.
+    enum decmaleLettre {NoPlus = 1,
+                        Plus = 3,
+                        PPlus = 5,
+                        PPPlus = 7,
+
+    };
 
     using EAID::EntityID;
     BASE_ENTITY(Controle)

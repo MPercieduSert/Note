@@ -325,7 +325,7 @@ protected:
 //    QCheckBox * m_totalCheck;               //!< Option de groupe total.
 //    QComboBox * m_alphaCB;                  //!< Choix de l'identifiant des groupes.
 //    widgetMPS::IdComboBox * m_classeCB;     //!< Choix de la classe.
-//    widgetMPS::IdComboBox * m_etabCB;       //!< Choix de l'établissement.
+    QComboBox * m_decimaleCB;               //!< Choix des décimales.
     QRadioButton * m_chiffreRadio;          //!< Note chiffrée.
     QRadioButton * m_lettreRadio;           //!< Note avec lettre.
     widgetMPS::SpinBoxLettre * m_totalSpinBox;              //!< Choix de l'annee Scolaire.
@@ -336,6 +336,15 @@ protected:
     //QHBoxLayout * m_typeLayout;             //!< Calque du choix du type de notation.
     QGridLayout * m_noteLayout;             //!< Calque des option de notation.
 
+    //! Position des widget dans le calques des notes.
+    enum positionWidgetNote {LabelColonne = 0,
+                             ColonneUne = 1,
+                             ColonneDeux = 2,
+                             CheckNoteLigne = 0,
+                             TypeLigne = 1,
+                             TotalLigne = 2,
+                             DecimaleLigne = 3
+    };
 
 public:
     //! Constructeur.

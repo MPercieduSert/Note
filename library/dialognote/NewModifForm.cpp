@@ -602,6 +602,7 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
     m_totalLabel = new QLabel;
     m_totalSpinBox = new widgetMPS::SpinBoxLettre;
     m_decimalLabel = new QLabel;
+    m_decimaleCB = new QComboBox;
     noteEnable();
     typeNoteChange();
     //Calque
@@ -614,12 +615,14 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
 //    m_noteLayout->addWidget(m_noteCheck);
 //    m_noteLayout->addLayout(m_typeLayout);
     m_noteLayout = new QGridLayout(m_noteGr);
-    m_noteLayout->addWidget(m_noteCheck,0,0);
-    m_noteLayout->addWidget(m_typeLabel,1,0);
-    m_noteLayout->addWidget(m_chiffreRadio,1,1);
-    m_noteLayout->addWidget(m_lettreRadio,1,2);
-    m_noteLayout->addWidget(m_totalLabel,2,0);
-    m_noteLayout->addWidget(m_totalSpinBox,2,1);
+    m_noteLayout->addWidget(m_noteCheck,CheckNoteLigne,LabelColonne);
+    m_noteLayout->addWidget(m_typeLabel,TypeLigne,LabelColonne);
+    m_noteLayout->addWidget(m_chiffreRadio,TypeLigne,ColonneUne);
+    m_noteLayout->addWidget(m_lettreRadio,TypeLigne,ColonneDeux);
+    m_noteLayout->addWidget(m_totalLabel,TotalLigne,LabelColonne);
+    m_noteLayout->addWidget(m_totalSpinBox,TotalLigne,ColonneUne);
+    m_noteLayout->addWidget(m_decimalLabel,DecimaleLigne,LabelColonne);
+    m_noteLayout->addWidget(m_decimaleCB,DecimaleLigne,ColonneUne);
 
     m_mainLayout->addWidget(m_noteGr);
 }
@@ -637,20 +640,34 @@ void TypeControleNewModifForm::noteEnable() {
     m_lettreRadio->setEnabled(enable);
     m_totalLabel->setEnabled(enable);
     m_totalSpinBox->setEnabled(enable);
+    m_decimalLabel->setEnabled(enable);
+    m_decimaleCB->setEnabled(enable);
 }
 
 void TypeControleNewModifForm::typeNoteChange() {
+    using attDecimale = attributMPS::AttributDecimale;
     if(m_chiffreRadio->isChecked()) {
         m_totalLabel->setText("Total :");
         m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
         m_totalSpinBox->setMinimum(1);
         m_totalSpinBox->setMaximum(1000);
+        m_decimalLabel->setText(tr("Décimale :"));
+        m_decimaleCB->clear();
+        for (szt i = 0; i != attDecimale::NbrValues; ++i)
+            m_decimaleCB->addItem(QString::number(1./ attDecimale::Decimale.at(i),'f',attDecimale::Precision.at(i)),
+                                  attDecimale::Decimale.at(i));
     }
     else {
         m_totalLabel->setText("De A à :");
         m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
         m_totalSpinBox->setMinimum(0);
         m_totalSpinBox->setMaximum(25);
+        m_decimalLabel->setText(tr("Ajustement :"));
+        m_decimaleCB->clear();
+        m_decimaleCB->addItem(" ",Controle::NoPlus);
+        m_decimaleCB->addItem("+",Controle::Plus);
+        m_decimaleCB->addItem("++",Controle::PPlus);
+        m_decimaleCB->addItem("+++",Controle::PPPlus);
     }
 }
 
