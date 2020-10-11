@@ -6,6 +6,7 @@
 
 #include <QCalendarWidget>
 #include <QCheckBox>
+#include <QDoubleSpinBox>
 #include <QGroupBox>
 #include <QSpinBox>
 #include <QRadioButton>
@@ -317,33 +318,66 @@ class TypeControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifFo
     Q_OBJECT
 protected:
     // Widget
-    QLabel * m_typeLabel;                   //!< Label du choix d'une notation chiffré ou avec lettre.
-    QLabel * m_totalLabel;                  //!< Label du choix du total.
-    QLabel * m_decimalLabel;                //!< Label du choix des décimale.
-//    QLabel * m_etabLabel;                 //!< Label du choix de l'établissement.
-    QCheckBox * m_noteCheck;                //!< Option de groupe noté.
-//    QCheckBox * m_totalCheck;               //!< Option de groupe total.
-//    QComboBox * m_alphaCB;                  //!< Choix de l'identifiant des groupes.
-//    widgetMPS::IdComboBox * m_classeCB;     //!< Choix de la classe.
-    QComboBox * m_decimaleCB;               //!< Choix des décimales.
-    QRadioButton * m_chiffreRadio;          //!< Note chiffrée.
-    QRadioButton * m_lettreRadio;           //!< Note avec lettre.
-    widgetMPS::SpinBoxLettre * m_totalSpinBox;              //!< Choix de l'annee Scolaire.
-//    QGroupBox * m_anClGr;                   //!< Groupe du choix de groupe année - classe.
-    QGroupBox * m_noteGr;                   //!< Groupe d'option de notation.
+    QLabel * m_decimalLabel;                    //!< Label du choix des décimale.
+    QLabel * m_totalLabel;                      //!< Label du choix du total.
+    QLabel * m_typeLabel;                       //!< Label du choix d'une notation chiffré ou avec lettre.
+    QCheckBox * m_appreciationCheck;            //!< Option d'appreciation.
+    QCheckBox * m_appreciationModifCheck;       //!< Option d'appreciation modifiable.
+    QCheckBox * m_barreCheck;                   //!< Option de présence de barre de classement.
+    QCheckBox * m_barreModifCheck;              //!< Option de présence barre de classement modifiable.
+    QCheckBox * m_capaciteCheck;                //!< Option de capacités.
+    QCheckBox * m_capaciteModifCheck;           //!< Option de capacités modifiable.
+    QCheckBox * m_categorieCheck;               //!< Option de catégorie.
+    QCheckBox * m_classementCheck;              //!< Option de classement.
+    QCheckBox * m_classementModifCheck;         //!< Option de classement modifiable.
+    QCheckBox * m_commentaireCheck;             //!< Option de commentaire.
+    QCheckBox * m_commentaireModifCheck;        //!< Option de commentaire modifiable.
+    QCheckBox * m_competenceCheck;              //!< Option de competences.
+    QCheckBox * m_competenceModifCheck;         //!< Option de competences modifiable.
+    QCheckBox * m_decimaleModifCheck;           //!< Option de decimale modifiable.
+    QCheckBox * m_depassementCheck;             //!< Option de depassement.
+    QCheckBox * m_depassementModifCheck;        //!< Option de depassement modifiable.
+    QCheckBox * m_minimaModifCheck;             //!< Option de barre modifiable.
+    QCheckBox * m_noteCheck;                    //!< Option de controle noté.
+    QCheckBox * m_noteModifCheck;               //!< Option de controle noté modifiable.
+    QCheckBox * m_typeNoteModifCheck;           //!< Option de type de note modifiable.
+    QCheckBox * m_totalModifCheck;              //!< Option de total modifiable.
+    QComboBox * m_decimaleCB;                   //!< Choix des décimales.
+    QRadioButton * m_chiffreRadio;              //!< Note chiffrée.
+    QRadioButton * m_lettreRadio;               //!< Note avec lettre.
+    widgetMPS::SpinBoxLettre * m_totalSpinBox;  //!< Choix du total.
+    QDoubleSpinBox * m_minimaSpinBox;           //!< Choix de la barre de classement.
+    QGroupBox * m_modifGr;                      //!< Groupe des options de modifications.
+    QGroupBox * m_noteGr;                       //!< Groupe d'option de notation.
+    QGroupBox * m_optGr;                        //!< Groupe des options.
 
     // Calque
-    //QHBoxLayout * m_typeLayout;             //!< Calque du choix du type de notation.
-    QGridLayout * m_noteLayout;             //!< Calque des option de notation.
+    QGridLayout * m_modifLayout;                //!< Calque des options de modifiactions.
+    QGridLayout * m_noteLayout;                 //!< Calque des options de notation.
+    QGridLayout * m_optLayout;                  //!< Calque des options.
 
     //! Position des widget dans le calques des notes.
-    enum positionWidgetNote {LabelColonne = 0,
-                             ColonneUne = 1,
-                             ColonneDeux = 2,
-                             CheckNoteLigne = 0,
-                             TypeLigne = 1,
-                             TotalLigne = 2,
-                             DecimaleLigne = 3
+    enum position { ColonneZero = 0,
+                    ColonneUne = 1,
+                    ColonneDeux = 2,
+                    LigneZero = 0,
+                    LigneUne = 1,
+                    LigneDeux = 2,
+                    LigneTrois = 3,
+                    LigneQuatre = 4,
+                    LigneCinq = 5,
+                    LabelColonne = ColonneZero,
+                    NoteModifColonne = ColonneUne,
+                    NombreModifColonne = ColonneDeux,
+                    OptionModifColonne = ColonneZero,
+                    CheckNoteLigne = LigneZero,
+                    TypeLigne = LigneUne,
+                    TotalLigne = LigneDeux,
+                    DecimaleLigne = LigneTrois,
+                    ClassementLigne = LigneQuatre,
+                    BarreLigne = LigneCinq,
+                    AppreciationCommentaireLigne = LigneZero,
+                    CapaciteCompetenceLigne = LigneUne
     };
 
 public:
@@ -362,6 +396,12 @@ public:
                         tr("Modification d'un type de controle :");}
 
 public slots:
+    //! Active et désactive les options de barre de classement.
+    void barreEnable();
+
+    //! Active et désactive les options de classement.
+    void classementEnable();
+
     //! Supprime le type d'établissement dans la bases de donnée.
     bool del() override
         {return !m_new && m_bdd.del(TypeControle(id()));}
@@ -369,11 +409,17 @@ public slots:
     //! Active et désactive les options de notations.
     void noteEnable();
 
-    //! Passe d'un type de notation à l'autre.
-    void typeNoteChange();
+    //! Active et désactive les options modification de note.
+    void noteModifEnable();
+
+    //! Active et désactive toutes les options du type de controle.
+    void optionEnable();
 
     //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
-    void save() override {}
+    void save() override;
+
+    //! Passe d'un type de notation à l'autre.
+    void typeNoteChange();
 
     //! Met à jour le formulaire.
     void updateData() override;

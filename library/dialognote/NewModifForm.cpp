@@ -592,28 +592,54 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
         return item;
     });
 
+    //Catégorie
+    m_categorieCheck = new QCheckBox("Catégorie");
+
     //note
     m_noteGr = new QGroupBox(tr("Notation :"));
     m_noteCheck = new QCheckBox(tr("Devoir noté"));
-    m_typeLabel = new QLabel(tr("Type de noation :"));
+    m_typeLabel = new QLabel(tr("Type de notation :"));
     m_chiffreRadio = new QRadioButton(tr("Nombre"));
     m_chiffreRadio->setChecked(true);
     m_lettreRadio = new QRadioButton(tr("Lettre"));
     m_totalLabel = new QLabel;
     m_totalSpinBox = new widgetMPS::SpinBoxLettre;
+    m_depassementCheck = new QCheckBox(tr("Depassement"));
     m_decimalLabel = new QLabel;
     m_decimaleCB = new QComboBox;
+    m_classementCheck = new QCheckBox(tr("Classement"));
+    m_barreCheck = new QCheckBox(tr("Barre de classement :"));
+    m_minimaSpinBox = new QDoubleSpinBox;
     noteEnable();
     typeNoteChange();
-    //Calque
-//    m_typeLayout = new QGriLayout;
-//    m_typeLayout->addWidget(m_typeLabel);
-//    m_typeLayout->addWidget(m_chiffreRadio);
-//    m_typeLayout->addWidget(m_lettreRadio);
+    classementEnable();
+    barreEnable();
 
-//    m_noteLayout = new QVBoxLayout(m_noteGr);
-//    m_noteLayout->addWidget(m_noteCheck);
-//    m_noteLayout->addLayout(m_typeLayout);
+    //option
+    m_optGr = new QGroupBox(tr("Options :"));
+    m_appreciationCheck = new QCheckBox(tr("Appréciation"));
+    m_capaciteCheck = new QCheckBox(tr("Capacités"));
+    m_commentaireCheck = new QCheckBox(tr("Commentaire"));
+    m_competenceCheck = new QCheckBox(tr("Compétences"));
+
+    //Modif
+    m_modifGr = new QGroupBox(tr("Modifiable dans les controles du type :"));
+    m_appreciationModifCheck = new  QCheckBox(tr("Appreciation"));
+    m_barreModifCheck = new QCheckBox(tr("Barre de classement"));
+    m_capaciteModifCheck = new QCheckBox(tr("Capacités"));
+    m_classementModifCheck = new QCheckBox(tr("Classement"));
+    m_commentaireModifCheck = new QCheckBox(tr("Commentaire"));
+    m_competenceModifCheck = new QCheckBox(tr("Compétence"));
+    m_decimaleModifCheck = new QCheckBox(tr("Décimale"));
+    m_depassementModifCheck = new QCheckBox(tr("Dépassement"));
+    m_minimaModifCheck = new QCheckBox(tr("Minima"));
+    m_noteModifCheck = new QCheckBox(tr("Noté"));
+    m_totalModifCheck = new QCheckBox(tr("Total"));
+    m_typeNoteModifCheck = new QCheckBox(tr("Nombre-Lettre"));
+    noteModifEnable();
+    optionEnable();
+
+    //Calque
     m_noteLayout = new QGridLayout(m_noteGr);
     m_noteLayout->addWidget(m_noteCheck,CheckNoteLigne,LabelColonne);
     m_noteLayout->addWidget(m_typeLabel,TypeLigne,LabelColonne);
@@ -621,16 +647,68 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
     m_noteLayout->addWidget(m_lettreRadio,TypeLigne,ColonneDeux);
     m_noteLayout->addWidget(m_totalLabel,TotalLigne,LabelColonne);
     m_noteLayout->addWidget(m_totalSpinBox,TotalLigne,ColonneUne);
+    m_noteLayout->addWidget(m_depassementCheck,TotalLigne,ColonneDeux);
     m_noteLayout->addWidget(m_decimalLabel,DecimaleLigne,LabelColonne);
     m_noteLayout->addWidget(m_decimaleCB,DecimaleLigne,ColonneUne);
+    m_noteLayout->addWidget(m_classementCheck,ClassementLigne,ColonneZero);
+    m_noteLayout->addWidget(m_barreCheck,BarreLigne,LabelColonne);
+    m_noteLayout->addWidget(m_minimaSpinBox,BarreLigne,ColonneUne);
 
+    m_optLayout = new QGridLayout(m_optGr);
+    m_optLayout->addWidget(m_appreciationCheck,AppreciationCommentaireLigne,ColonneZero);
+    m_optLayout->addWidget(m_commentaireCheck,AppreciationCommentaireLigne,ColonneUne);
+    m_optLayout->addWidget(m_competenceCheck,CapaciteCompetenceLigne,ColonneZero);
+    m_optLayout->addWidget(m_capaciteCheck,CapaciteCompetenceLigne,ColonneUne);
+
+    m_modifLayout = new QGridLayout(m_modifGr);
+    m_modifLayout->addWidget(m_appreciationModifCheck,LigneZero,OptionModifColonne);
+    m_modifLayout->addWidget(m_commentaireModifCheck,LigneUne,OptionModifColonne);
+    m_modifLayout->addWidget(m_competenceModifCheck,LigneDeux,OptionModifColonne);
+    m_modifLayout->addWidget(m_capaciteModifCheck,LigneTrois,OptionModifColonne);
+    m_modifLayout->addWidget(m_noteModifCheck,LigneZero,NoteModifColonne);
+    m_modifLayout->addWidget(m_typeNoteModifCheck,LigneUne,NoteModifColonne);
+    m_modifLayout->addWidget(m_totalModifCheck,LigneDeux,NoteModifColonne);
+    m_modifLayout->addWidget(m_decimaleModifCheck,LigneTrois,NoteModifColonne);
+    m_modifLayout->addWidget(m_depassementModifCheck,LigneZero,NombreModifColonne);
+    m_modifLayout->addWidget(m_classementModifCheck,LigneUne,NombreModifColonne);
+    m_modifLayout->addWidget(m_barreModifCheck,LigneDeux,NombreModifColonne);
+    m_modifLayout->addWidget(m_minimaModifCheck,LigneTrois,NombreModifColonne);
+
+    m_mainLayout->addWidget(m_categorieCheck);
     m_mainLayout->addWidget(m_noteGr);
+    m_mainLayout->addWidget(m_optGr);
+    m_mainLayout->addWidget(m_modifGr);
+}
+
+void TypeControleNewModifForm::barreEnable() {
+    auto enable = m_barreCheck->isChecked();
+    m_minimaSpinBox->setEnabled(enable);
+    if(!enable)
+        m_minimaSpinBox->clear();
+}
+
+void TypeControleNewModifForm::classementEnable() {
+    auto enable = m_classementCheck->isChecked();
+    m_barreCheck->setEnabled(enable);
+    if(!enable)
+        m_barreCheck->setChecked(false);
 }
 
 void TypeControleNewModifForm::connexion() {
     AbstractParentNcNomNewModifForm::connexion();
+    connect(m_categorieCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::optionEnable);
     connect(m_noteCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteEnable);
+    connect(m_noteCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
     connect(m_chiffreRadio,&QRadioButton::toggled,this,&TypeControleNewModifForm::typeNoteChange);
+    connect(m_chiffreRadio,&QRadioButton::toggled,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_classementCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::classementEnable);
+    connect(m_classementCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_barreCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::barreEnable);
+    connect(m_barreCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_noteModifCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_typeNoteModifCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_classementModifCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
+    connect(m_barreModifCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteModifEnable);
 }
 
 void TypeControleNewModifForm::noteEnable() {
@@ -640,8 +718,119 @@ void TypeControleNewModifForm::noteEnable() {
     m_lettreRadio->setEnabled(enable);
     m_totalLabel->setEnabled(enable);
     m_totalSpinBox->setEnabled(enable);
+    m_depassementCheck->setEnabled(enable);
     m_decimalLabel->setEnabled(enable);
     m_decimaleCB->setEnabled(enable);
+    if(enable)
+        typeNoteChange();
+    else {
+        m_chiffreRadio->setChecked(true);
+        m_totalSpinBox->clear();
+        m_depassementCheck->setChecked(false);
+        m_decimaleCB->clear();
+        m_classementCheck->setEnabled(false);
+        m_classementCheck->setChecked(false);
+    }
+}
+
+void TypeControleNewModifForm::noteModifEnable() {
+    auto enable = m_noteCheck->isChecked() || m_noteModifCheck->isChecked();
+    m_typeNoteModifCheck->setEnabled(enable);
+    m_totalModifCheck->setEnabled(enable);
+    m_decimaleModifCheck->setEnabled(enable);
+    if(!enable) {
+        m_typeNoteModifCheck->setChecked(false);
+        m_totalModifCheck->setChecked(false);
+        m_decimaleModifCheck->setChecked(false);
+    }
+    enable &= m_chiffreRadio->isChecked() || m_typeNoteModifCheck->isChecked();
+    m_depassementModifCheck->setEnabled(enable);
+    m_classementModifCheck->setEnabled(enable);
+    if(!enable) {
+        m_depassementModifCheck->setChecked(false);
+        m_classementModifCheck->setChecked(false);
+    }
+    enable &= m_classementCheck->isChecked() || m_classementModifCheck->isChecked();
+    m_barreModifCheck->setEnabled(enable);
+    if(!enable)
+        m_barreModifCheck->setChecked(false);
+    enable &= m_barreCheck->isChecked() || m_barreModifCheck->isChecked();
+    m_minimaModifCheck->setEnabled(enable);
+    if(!enable)
+        m_minimaModifCheck->setChecked(false);
+}
+
+void TypeControleNewModifForm::optionEnable() {
+    auto enable = ! m_categorieCheck->isChecked();
+    m_noteGr->setEnabled(enable);
+    m_optGr->setEnabled(enable);
+    m_modifGr->setEnabled(enable);
+    if(!enable) {
+        m_noteCheck->setChecked(false);
+        m_appreciationCheck->setChecked(false);
+        m_capaciteCheck->setChecked(false);
+        m_commentaireCheck->setChecked(false);
+        m_competenceCheck->setChecked(false);
+        m_appreciationModifCheck->setChecked(false);
+        m_barreModifCheck->setChecked(false);
+        m_capaciteModifCheck->setChecked(false);
+        m_classementModifCheck->setChecked(false);
+        m_commentaireModifCheck->setChecked(false);
+        m_competenceModifCheck->setChecked(false);
+        m_decimaleModifCheck->setChecked(false);
+        m_depassementModifCheck->setChecked(false);
+        m_minimaModifCheck->setChecked(false);
+        m_noteModifCheck->setChecked(false);
+        m_totalModifCheck->setChecked(false);
+        m_typeNoteModifCheck->setChecked(false);
+    }
+}
+
+void TypeControleNewModifForm::save() {
+    TypeControle tpc;
+    if(!m_new)
+        tpc.setId(id());
+    tpc.setNc(nc());
+    tpc.setNom(nom());
+    tpc.setParent(idParent());
+    if(m_noteCheck->isChecked()){
+        tpc.setTotal(m_totalSpinBox->value());
+        tpc.setDecimale(m_decimaleCB->currentData().toUInt());
+    }
+    else {
+        tpc.setTotal(1);
+        tpc.setDecimale(1);
+    }
+    if(m_appreciationCheck->isChecked())
+        tpc.add(TypeControle::Appreciation);
+    if(m_appreciationModifCheck->isChecked())
+        tpc.add(TypeControle::AppreciationModifiable);
+    if(m_capaciteCheck->isChecked())
+        tpc.add(TypeControle::Capacites);
+    if(m_capaciteModifCheck->isChecked())
+        tpc.add(TypeControle::CapacitesModifiable);
+    if(m_categorieCheck->isChecked())
+        tpc.add(TypeControle::Categorie);
+    if(m_commentaireCheck->isChecked())
+        tpc.add(TypeControle::Commentaire);
+    if(m_commentaireModifCheck->isChecked())
+        tpc.add(TypeControle::CommentaireModifiable);
+    if(m_competenceCheck->isChecked())
+        tpc.add(TypeControle::Competences);
+    if(m_competenceModifCheck->isChecked())
+        tpc.add(TypeControle::CompetencesModifiable);
+    if(m_decimaleModifCheck->isChecked())
+        tpc.add(TypeControle::DecimaleModifiable);
+    if(m_lettreRadio->isChecked())
+        tpc.add(TypeControle::Lettre);
+    if(m_noteCheck->isChecked())
+        tpc.add(TypeControle::Note);
+    if(m_noteModifCheck->isChecked())
+        tpc.add(TypeControle::NoteModifiable);
+    if(m_totalModifCheck->isChecked())
+        tpc.add(TypeControle::TotalModifiable);
+    if(m_typeNoteModifCheck->isChecked())
+        tpc.add(TypeControle::TypeNoteModifiable);
 }
 
 void TypeControleNewModifForm::typeNoteChange() {
@@ -651,27 +840,33 @@ void TypeControleNewModifForm::typeNoteChange() {
         m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
         m_totalSpinBox->setMinimum(1);
         m_totalSpinBox->setMaximum(1000);
+        m_depassementCheck->setEnabled(m_noteCheck->isChecked());
         m_decimalLabel->setText(tr("Décimale :"));
         m_decimaleCB->clear();
         for (szt i = 0; i != attDecimale::NbrValues; ++i)
             m_decimaleCB->addItem(QString::number(1./ attDecimale::Decimale.at(i),'f',attDecimale::Precision.at(i)),
                                   attDecimale::Decimale.at(i));
+        m_classementCheck->setEnabled(m_noteCheck->isChecked());
     }
     else {
         m_totalLabel->setText("De A à :");
         m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
         m_totalSpinBox->setMinimum(0);
         m_totalSpinBox->setMaximum(25);
+        m_depassementCheck->setEnabled(false);
+        m_depassementCheck->setChecked(false);
         m_decimalLabel->setText(tr("Ajustement :"));
         m_decimaleCB->clear();
         m_decimaleCB->addItem(" ",Controle::NoPlus);
         m_decimaleCB->addItem("+",Controle::Plus);
         m_decimaleCB->addItem("++",Controle::PPlus);
         m_decimaleCB->addItem("+++",Controle::PPPlus);
+        m_classementCheck->setEnabled(false);
+        m_classementCheck->setChecked(false);
     }
 }
 
-void TypeControleNewModifForm::updateData(){
+void TypeControleNewModifForm::updateData() {
     if(!m_new){
         TypeControle tpc;
         updateTemp<TypeControle>(tpc);
@@ -679,5 +874,23 @@ void TypeControleNewModifForm::updateData(){
         m_noteCheck->setChecked(tpc.code().test(TypeControle::Note));
         m_lettreRadio->setChecked(tpc.code().test(TypeControle::Lettre));
         m_totalSpinBox->setValue(tpc.total());
+        auto index = m_decimaleCB->findData(tpc.decimale());
+        if(index != -1)
+            m_decimaleCB->setCurrentIndex(index);
+        m_appreciationCheck->setChecked(tpc.code().test(TypeControle::Appreciation));
+        m_appreciationModifCheck->setChecked(tpc.code().test(TypeControle::AppreciationModifiable));
+        m_categorieCheck->setChecked(tpc.code().test(TypeControle::Categorie));
+        m_capaciteCheck->setChecked(tpc.code().test(TypeControle::Capacites));
+        m_capaciteModifCheck->setChecked(tpc.code().test(TypeControle::CapacitesModifiable));
+        m_commentaireCheck->setChecked(tpc.code().test(TypeControle::Commentaire));
+        m_commentaireModifCheck->setChecked(tpc.code().test(TypeControle::CommentaireModifiable));
+        m_competenceCheck->setChecked(tpc.code().test(TypeControle::Competences));
+        m_competenceModifCheck->setChecked(tpc.code().test(TypeControle::CompetencesModifiable));
+        m_decimaleModifCheck->setChecked(tpc.code().test(TypeControle::DecimaleModifiable));
+        m_noteModifCheck->setChecked(tpc.code().test(TypeControle::NoteModifiable));
+        m_totalModifCheck->setChecked(tpc.code().test(TypeControle::TotalModifiable));
+        m_typeNoteModifCheck->setChecked(tpc.code().test(TypeControle::TypeNoteModifiable));
     }
 }
+
+

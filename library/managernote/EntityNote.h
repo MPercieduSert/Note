@@ -538,11 +538,27 @@ public:
                                      Categorie = 0x1,
                                      Note = 0x2,
                                      Lettre = 0x4,
-                                     Competences = 0x8,
-                                     Capacites = 0x10,
-                                     NotationModifiable = 0x20,
-                                     TotalModifiable = 0x40,
-                                     DecimaleModifiable = 0x80
+                                     Depassement = 0x8,
+                                     Classement = 0x10,
+                                     Barre = 0x20,
+                                     Competences = 0x40,
+                                     Capacites = 0x80,
+                                     Appreciation = 0x100,
+                                     Commentaire = 0x200,
+                                     NoteModifiable = 0x400,
+                                     TypeNoteModifiable = 0x800,
+                                     TotalModifiable = 0x1000,
+                                     DepassementModifiable = 0x2000,
+                                     DecimaleModifiable = 0x4000,
+                                     ClassementModifiable = 0x8000,
+                                     BarreModifiable = 0x10000,
+                                     MinimaModifiable = 0x20000,
+                                     CompetencesModifiable = 0x40000,
+                                     CapacitesModifiable = 0x80000,
+                                     AppreciationModifiable = 0x100000,
+                                     CommentaireModifiable = 0x200000
+
+
     };
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,

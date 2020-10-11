@@ -5,22 +5,50 @@ using namespace noteMPS;
 flag BddNote::code(idt idEntity, const QString & str) const {
     switch (idEntity) {
     case TypeControle::ID:
+        if(str == "Appreciation")
+            return TypeControle::Appreciation;
+        if(str == "Barre")
+            return TypeControle::Barre;
+        if(str == "BarreModifiable")
+            return TypeControle::BarreModifiable;
+        if(str == "AppreciationModifiable")
+            return TypeControle::AppreciationModifiable;
+        if(str == "Capacites")
+            return TypeControle::Capacites;
+        if(str == "CapacitesModifiable")
+            return TypeControle::CapacitesModifiable;
         if(str == "Categorie")
             return TypeControle::Categorie;
+        if(str == "Classement")
+            return TypeControle::Classement;
+        if(str == "ClassementModifiable")
+            return TypeControle::ClassementModifiable;
+        if(str == "Commentaire")
+            return TypeControle::Commentaire;
+        if(str == "CommentaireModifiable")
+            return TypeControle::CommentaireModifiable;
+        if(str == "Competences")
+            return TypeControle::Competences;
+        if(str == "CompetencesModifiable")
+            return TypeControle::CompetencesModifiable;
+        if(str == "DecimaleModifiable")
+            return TypeControle::DecimaleModifiable;
+        if(str == "Depacement")
+            return TypeControle::Depassement;
+        if(str == "DepassementModifiable")
+            return TypeControle::DepassementModifiable;
+        if(str == "Lettre")
+            return TypeControle::Lettre;
+        if(str == "MinimaModifiable")
+            return TypeControle::MinimaModifiable;
         if(str == "Note")
             return TypeControle::Note;
-        if(str== "Lettre")
-            return TypeControle::Lettre;
-        if(str== "Competences")
-            return TypeControle::Competences;
-        if(str== "Capacites")
-            return TypeControle::Capacites;
-        if(str== "NotationModifiable")
-            return TypeControle::NotationModifiable;
-        if(str== "TotalModifiable")
+        if(str == "NoteModifiable")
+            return TypeControle::NoteModifiable;
+        if(str == "TotalModifiable")
             return TypeControle::TotalModifiable;
-        if(str== "DecimaleModifiable")
-            return TypeControle::DecimaleModifiable;
+        if(str == "TypeNoteModifiable")
+            return TypeControle::TypeNoteModifiable;
     [[clang::fallthrough]];
     default:
         return BddPredef::code(idEntity,str);
