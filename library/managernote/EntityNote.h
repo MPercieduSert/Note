@@ -77,7 +77,7 @@ using TypeEtablissement = entityBaseMPS::NcNomEntity<infoEntityNote::TypeEtablis
 SINGLE_ATTRIBUT(EnsPointAttribut,attributMPS::AttributId,EnsPoint,ensPoint)
 SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::AttributDateValide,Entree,entree)
 SINGLE_ATTRIBUT(FilleAttribut,attributMPS::AttributBool,Fille,fille)
-SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::AttributIntSup<-1>,Minima,minima)
+SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::AttributIntSup<0>,Minima,minima)
 SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::AttributIntSup<-1>,Num,num)
 SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::AttributStringNotEmpty,Prenom,prenom)
 SINGLE_ATTRIBUT(SortieAttribut,attributMPS::AttributDateValide,Sortie,sortie)
@@ -261,7 +261,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, flag code, const QDateTime & dateTime, szt decimale, int minima, const QString & nc, const QString & nom,
+    Controle(idt idTp, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
              int num, int total, idt id = 0)
         : Controle(nom, id) {
         setIdType(idTp);
@@ -539,24 +539,26 @@ public:
                                      Note = 0x2,
                                      Lettre = 0x4,
                                      Depassement = 0x8,
-                                     Classement = 0x10,
-                                     Barre = 0x20,
-                                     Competences = 0x40,
-                                     Capacites = 0x80,
-                                     Appreciation = 0x100,
-                                     Commentaire = 0x200,
-                                     NoteModifiable = 0x400,
-                                     TypeNoteModifiable = 0x800,
-                                     TotalModifiable = 0x1000,
-                                     DepassementModifiable = 0x2000,
-                                     DecimaleModifiable = 0x4000,
-                                     ClassementModifiable = 0x8000,
-                                     BarreModifiable = 0x10000,
-                                     MinimaModifiable = 0x20000,
-                                     CompetencesModifiable = 0x40000,
-                                     CapacitesModifiable = 0x80000,
-                                     AppreciationModifiable = 0x100000,
-                                     CommentaireModifiable = 0x200000
+                                     Courbe = 0x10,
+                                     Classement = 0x20,
+                                     Barre = 0x40,
+                                     Competences = 0x80,
+                                     Capacites = 0x100,
+                                     Appreciation = 0x200,
+                                     Commentaire = 0x400,
+                                     NoteModifiable = 0x800,
+                                     TypeNoteModifiable = 0x1000,
+                                     TotalModifiable = 0x2000,
+                                     DepassementModifiable = 0x4000,
+                                     DecimaleModifiable = 0x8000,
+                                     CourbeModifiable = 0x10000,
+                                     ClassementModifiable = 0x20000,
+                                     BarreModifiable = 0x40000,
+                                     MinimaModifiable = 0x80000,
+                                     CompetencesModifiable = 0x100000,
+                                     CapacitesModifiable = 0x200000,
+                                     AppreciationModifiable = 0x400000,
+                                     CommentaireModifiable = 0x800000
 
 
     };
@@ -582,7 +584,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    TypeControle(flag code, szt decimale, int minima, const QString & nc,
+    TypeControle(flag code, int decimale, int minima, const QString & nc,
                  const QString & nom, idt parent, int total, idt id = 0)
         : TypeControle(nom, id) {
         setCode(code);

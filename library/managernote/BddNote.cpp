@@ -7,12 +7,12 @@ flag BddNote::code(idt idEntity, const QString & str) const {
     case TypeControle::ID:
         if(str == "Appreciation")
             return TypeControle::Appreciation;
+        if(str == "AppreciationModifiable")
+            return TypeControle::AppreciationModifiable;
         if(str == "Barre")
             return TypeControle::Barre;
         if(str == "BarreModifiable")
             return TypeControle::BarreModifiable;
-        if(str == "AppreciationModifiable")
-            return TypeControle::AppreciationModifiable;
         if(str == "Capacites")
             return TypeControle::Capacites;
         if(str == "CapacitesModifiable")
@@ -31,6 +31,10 @@ flag BddNote::code(idt idEntity, const QString & str) const {
             return TypeControle::Competences;
         if(str == "CompetencesModifiable")
             return TypeControle::CompetencesModifiable;
+        if(str == "Courbe")
+            return TypeControle::Courbe;
+        if(str == "CourbeModifiable")
+            return TypeControle::CourbeModifiable;
         if(str == "DecimaleModifiable")
             return TypeControle::DecimaleModifiable;
         if(str == "Depacement")

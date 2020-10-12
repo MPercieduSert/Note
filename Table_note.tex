@@ -532,7 +532,7 @@
 	\tableEntity{TypeControle}{
 		code&uint&code&cd\\
 		decimale&int&decimale&dcm\\
-		minima&int&intSup-1&min&\\
+		minima&int&intSup0&min&\\
 		nc&text&stringNotEmpty&nc\\
 		nom&text&stringNotEmpty&nm\\
 		parent&uint&idSup1&pt&NULL\\
@@ -541,7 +541,7 @@
 		\fkey{parent}{TypeControle}\\
 		\unique{nom}\\
 		ArbresimpleModifControle
-	}[below=0.5cm of Groupe,\bdd]
+	}[below=0.5cm of Groupe,\gui]
 
 	\tableEntity{Controle}{
 		idType&uint&idSup1&idTp\\

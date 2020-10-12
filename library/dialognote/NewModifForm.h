@@ -15,7 +15,7 @@
 #include "NewModifDialog.h"
 #include "SelectInListBox.h"
 #include "SpinBoxAnneeScolaire.h"
-#include "SpinBoxLettre.h"
+#include "SpinBox.h"
 
 namespace noteMPS {
 /*! \defgroup groupeDialogNote Dialogues de note
@@ -318,43 +318,45 @@ class TypeControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifFo
     Q_OBJECT
 protected:
     // Widget
-    QLabel * m_decimalLabel;                    //!< Label du choix des décimale.
-    QLabel * m_totalLabel;                      //!< Label du choix du total.
-    QLabel * m_typeLabel;                       //!< Label du choix d'une notation chiffré ou avec lettre.
-    QCheckBox * m_appreciationCheck;            //!< Option d'appreciation.
-    QCheckBox * m_appreciationModifCheck;       //!< Option d'appreciation modifiable.
-    QCheckBox * m_barreCheck;                   //!< Option de présence de barre de classement.
-    QCheckBox * m_barreModifCheck;              //!< Option de présence barre de classement modifiable.
-    QCheckBox * m_capaciteCheck;                //!< Option de capacités.
-    QCheckBox * m_capaciteModifCheck;           //!< Option de capacités modifiable.
-    QCheckBox * m_categorieCheck;               //!< Option de catégorie.
-    QCheckBox * m_classementCheck;              //!< Option de classement.
-    QCheckBox * m_classementModifCheck;         //!< Option de classement modifiable.
-    QCheckBox * m_commentaireCheck;             //!< Option de commentaire.
-    QCheckBox * m_commentaireModifCheck;        //!< Option de commentaire modifiable.
-    QCheckBox * m_competenceCheck;              //!< Option de competences.
-    QCheckBox * m_competenceModifCheck;         //!< Option de competences modifiable.
-    QCheckBox * m_decimaleModifCheck;           //!< Option de decimale modifiable.
-    QCheckBox * m_depassementCheck;             //!< Option de depassement.
-    QCheckBox * m_depassementModifCheck;        //!< Option de depassement modifiable.
-    QCheckBox * m_minimaModifCheck;             //!< Option de barre modifiable.
-    QCheckBox * m_noteCheck;                    //!< Option de controle noté.
-    QCheckBox * m_noteModifCheck;               //!< Option de controle noté modifiable.
-    QCheckBox * m_typeNoteModifCheck;           //!< Option de type de note modifiable.
-    QCheckBox * m_totalModifCheck;              //!< Option de total modifiable.
-    QComboBox * m_decimaleCB;                   //!< Choix des décimales.
-    QRadioButton * m_chiffreRadio;              //!< Note chiffrée.
-    QRadioButton * m_lettreRadio;               //!< Note avec lettre.
-    widgetMPS::SpinBoxLettre * m_totalSpinBox;  //!< Choix du total.
-    QDoubleSpinBox * m_minimaSpinBox;           //!< Choix de la barre de classement.
-    QGroupBox * m_modifGr;                      //!< Groupe des options de modifications.
-    QGroupBox * m_noteGr;                       //!< Groupe d'option de notation.
-    QGroupBox * m_optGr;                        //!< Groupe des options.
+    QLabel * m_decimalLabel;                        //!< Label du choix des décimale.
+    QLabel * m_totalLabel;                          //!< Label du choix du total.
+    QLabel * m_typeLabel;                           //!< Label du choix d'une notation chiffré ou avec lettre.
+    QCheckBox * m_appreciationCheck;                //!< Option d'appreciation.
+    QCheckBox * m_appreciationModifCheck;           //!< Option d'appreciation modifiable.
+    QCheckBox * m_barreCheck;                       //!< Option de présence de barre de classement.
+    QCheckBox * m_barreModifCheck;                  //!< Option de présence barre de classement modifiable.
+    QCheckBox * m_capaciteCheck;                    //!< Option de capacités.
+    QCheckBox * m_capaciteModifCheck;               //!< Option de capacités modifiable.
+    QCheckBox * m_categorieCheck;                   //!< Option de catégorie.
+    QCheckBox * m_classementCheck;                  //!< Option de classement.
+    QCheckBox * m_classementModifCheck;             //!< Option de classement modifiable.
+    QCheckBox * m_commentaireCheck;                 //!< Option de commentaire.
+    QCheckBox * m_commentaireModifCheck;            //!< Option de commentaire modifiable.
+    QCheckBox * m_competenceCheck;                  //!< Option de competences.
+    QCheckBox * m_competenceModifCheck;             //!< Option de competences modifiable.
+    QCheckBox * m_courbeCheck;                      //!< Option de courbe d'ajustement.
+    QCheckBox * m_courbeModifCheck;                 //!< Option de courbe d'ajustement modifiable.
+    QCheckBox * m_decimaleModifCheck;               //!< Option de decimale modifiable.
+    QCheckBox * m_depassementCheck;                 //!< Option de depassement.
+    QCheckBox * m_depassementModifCheck;            //!< Option de depassement modifiable.
+    QCheckBox * m_minimaModifCheck;                 //!< Option de barre modifiable.
+    QCheckBox * m_noteCheck;                        //!< Option de controle noté.
+    QCheckBox * m_noteModifCheck;                   //!< Option de controle noté modifiable.
+    QCheckBox * m_typeNoteModifCheck;               //!< Option de type de note modifiable.
+    QCheckBox * m_totalModifCheck;                  //!< Option de total modifiable.
+    QComboBox * m_decimaleCB;                       //!< Choix des décimales.
+    QRadioButton * m_chiffreRadio;                  //!< Note chiffrée.
+    QRadioButton * m_lettreRadio;                   //!< Note avec lettre.
+    widgetMPS::SpinBoxLettre * m_totalSpinBox;      //!< Choix du total.
+    widgetMPS::SpinBoxDecimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
+    QGroupBox * m_modifGr;                          //!< Groupe des options de modifications.
+    QGroupBox * m_noteGr;                           //!< Groupe d'option de notation.
+    QGroupBox * m_optGr;                            //!< Groupe des options.
 
     // Calque
-    QGridLayout * m_modifLayout;                //!< Calque des options de modifiactions.
-    QGridLayout * m_noteLayout;                 //!< Calque des options de notation.
-    QGridLayout * m_optLayout;                  //!< Calque des options.
+    QGridLayout * m_modifLayout;                    //!< Calque des options de modifiactions.
+    QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
+    QGridLayout * m_optLayout;                      //!< Calque des options.
 
     //! Position des widget dans le calques des notes.
     enum position { ColonneZero = 0,
@@ -402,6 +404,12 @@ public slots:
     //! Active et désactive les options de classement.
     void classementEnable();
 
+    //! Met à jour la décimale de minima.
+    void decimaleChange() {
+        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
+        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
+    }
+
     //! Supprime le type d'établissement dans la bases de donnée.
     bool del() override
         {return !m_new && m_bdd.del(TypeControle(id()));}
@@ -418,12 +426,15 @@ public slots:
     //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
     void save() override;
 
+    //! Met à jour la décimale de minima.
+    void totalChange()
+        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
+
     //! Passe d'un type de notation à l'autre.
     void typeNoteChange();
 
     //! Met à jour le formulaire.
     void updateData() override;
 };
-
 }
 #endif // NEWMODIFFORM_H
