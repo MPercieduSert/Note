@@ -312,9 +312,9 @@ public slots:
 };
 
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création et modification des types de controle.
+ * \brief Classe mère des formulaire de création et modification des controles et de leurs types..
  */
-class TypeControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
+class AbstractControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
     Q_OBJECT
 protected:
     // Widget
@@ -322,39 +322,23 @@ protected:
     QLabel * m_totalLabel;                          //!< Label du choix du total.
     QLabel * m_typeLabel;                           //!< Label du choix d'une notation chiffré ou avec lettre.
     QCheckBox * m_appreciationCheck;                //!< Option d'appreciation.
-    QCheckBox * m_appreciationModifCheck;           //!< Option d'appreciation modifiable.
     QCheckBox * m_barreCheck;                       //!< Option de présence de barre de classement.
-    QCheckBox * m_barreModifCheck;                  //!< Option de présence barre de classement modifiable.
     QCheckBox * m_capaciteCheck;                    //!< Option de capacités.
-    QCheckBox * m_capaciteModifCheck;               //!< Option de capacités modifiable.
-    QCheckBox * m_categorieCheck;                   //!< Option de catégorie.
     QCheckBox * m_classementCheck;                  //!< Option de classement.
-    QCheckBox * m_classementModifCheck;             //!< Option de classement modifiable.
     QCheckBox * m_commentaireCheck;                 //!< Option de commentaire.
-    QCheckBox * m_commentaireModifCheck;            //!< Option de commentaire modifiable.
     QCheckBox * m_competenceCheck;                  //!< Option de competences.
-    QCheckBox * m_competenceModifCheck;             //!< Option de competences modifiable.
     QCheckBox * m_courbeCheck;                      //!< Option de courbe d'ajustement.
-    QCheckBox * m_courbeModifCheck;                 //!< Option de courbe d'ajustement modifiable.
-    QCheckBox * m_decimaleModifCheck;               //!< Option de decimale modifiable.
     QCheckBox * m_depassementCheck;                 //!< Option de depassement.
-    QCheckBox * m_depassementModifCheck;            //!< Option de depassement modifiable.
-    QCheckBox * m_minimaModifCheck;                 //!< Option de barre modifiable.
     QCheckBox * m_noteCheck;                        //!< Option de controle noté.
-    QCheckBox * m_noteModifCheck;                   //!< Option de controle noté modifiable.
-    QCheckBox * m_typeNoteModifCheck;               //!< Option de type de note modifiable.
-    QCheckBox * m_totalModifCheck;                  //!< Option de total modifiable.
     QComboBox * m_decimaleCB;                       //!< Choix des décimales.
     QRadioButton * m_chiffreRadio;                  //!< Note chiffrée.
     QRadioButton * m_lettreRadio;                   //!< Note avec lettre.
     widgetMPS::SpinBoxLettre * m_totalSpinBox;      //!< Choix du total.
     widgetMPS::SpinBoxDecimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
-    QGroupBox * m_modifGr;                          //!< Groupe des options de modifications.
     QGroupBox * m_noteGr;                           //!< Groupe d'option de notation.
     QGroupBox * m_optGr;                            //!< Groupe des options.
 
     // Calque
-    QGridLayout * m_modifLayout;                    //!< Calque des options de modifiactions.
     QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
     QGridLayout * m_optLayout;                      //!< Calque des options.
 
@@ -369,9 +353,6 @@ protected:
                     LigneQuatre = 4,
                     LigneCinq = 5,
                     LabelColonne = ColonneZero,
-                    NoteModifColonne = ColonneUne,
-                    NombreModifColonne = ColonneDeux,
-                    OptionModifColonne = ColonneZero,
                     CheckNoteLigne = LigneZero,
                     TypeLigne = LigneUne,
                     TotalLigne = LigneDeux,
@@ -380,6 +361,81 @@ protected:
                     BarreLigne = LigneCinq,
                     AppreciationCommentaireLigne = LigneZero,
                     CapaciteCompetenceLigne = LigneUne
+    };
+
+public:
+    //! Constructeur.
+    AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & labelParent,
+                                 const QString &labelNc, const QString &labelNom,
+                                 bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~AbstractControleNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+public slots:
+    //! Active et désactive les options de barre de classement.
+    void barreEnable();
+
+    //! Active et désactive les options de classement.
+    void classementEnable();
+
+    //! Met à jour la décimale de minima.
+    void decimaleChange() {
+        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
+        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
+    }
+
+    //! Active et désactive les options de notations.
+    void noteEnable();
+
+    //! Met à jour la décimale de minima.
+    void totalChange()
+        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
+
+    //! Passe d'un type de notation à l'autre.
+    void typeNoteChange();
+
+protected:
+    //! Crée une entitée avec les données du formualire.
+    template<class Ent> Ent entityNoteOption(bool noteOption);
+
+    //! Récupère l'entité en base de donné et met à jours les données du formulaire
+    template<class Ent> void updateNoteOption(Ent & entity);
+};
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des types de controle.
+ */
+class TypeControleNewModifForm : public AbstractControleNewModifForm {
+    Q_OBJECT
+protected:
+    // Widget
+    QCheckBox * m_appreciationModifCheck;           //!< Option d'appreciation modifiable.
+    QCheckBox * m_barreModifCheck;                  //!< Option de présence barre de classement modifiable.
+    QCheckBox * m_capaciteModifCheck;               //!< Option de capacités modifiable.
+    QCheckBox * m_categorieCheck;                   //!< Option de catégorie.
+    QCheckBox * m_classementModifCheck;             //!< Option de classement modifiable.
+    QCheckBox * m_commentaireModifCheck;            //!< Option de commentaire modifiable.
+    QCheckBox * m_competenceModifCheck;             //!< Option de competences modifiable.
+    QCheckBox * m_courbeModifCheck;                 //!< Option de courbe d'ajustement modifiable.
+    QCheckBox * m_decimaleModifCheck;               //!< Option de decimale modifiable.
+    QCheckBox * m_depassementModifCheck;            //!< Option de depassement modifiable.
+    QCheckBox * m_minimaModifCheck;                 //!< Option de barre modifiable.
+    QCheckBox * m_noteModifCheck;                   //!< Option de controle noté modifiable.
+    QCheckBox * m_typeNoteModifCheck;               //!< Option de type de note modifiable.
+    QCheckBox * m_totalModifCheck;                  //!< Option de total modifiable.
+    QGroupBox * m_modifGr;                          //!< Groupe des options de modifications.
+
+    // Calque
+    QGridLayout * m_modifLayout;                    //!< Calque des options de modifiactions.
+
+    //! Position des widget dans le calques des notes.
+    enum position { NoteModifColonne = ColonneUne,
+                    NombreModifColonne = ColonneDeux,
+                    OptionModifColonne = ColonneZero
     };
 
 public:
@@ -398,24 +454,9 @@ public:
                         tr("Modification d'un type de controle :");}
 
 public slots:
-    //! Active et désactive les options de barre de classement.
-    void barreEnable();
-
-    //! Active et désactive les options de classement.
-    void classementEnable();
-
-    //! Met à jour la décimale de minima.
-    void decimaleChange() {
-        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
-        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
-    }
-
     //! Supprime le type d'établissement dans la bases de donnée.
     bool del() override
         {return !m_new && m_bdd.del(TypeControle(id()));}
-
-    //! Active et désactive les options de notations.
-    void noteEnable();
 
     //! Active et désactive les options modification de note.
     void noteModifEnable();
@@ -423,18 +464,82 @@ public slots:
     //! Active et désactive toutes les options du type de controle.
     void optionEnable();
 
-    //! Sauve le type d'établissement et les réponces du formulairs dans la bases de donnée.
+    //! Sauve le type de controle.
     void save() override;
-
-    //! Met à jour la décimale de minima.
-    void totalChange()
-        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
-
-    //! Passe d'un type de notation à l'autre.
-    void typeNoteChange();
 
     //! Met à jour le formulaire.
     void updateData() override;
 };
+
+///////////////////////////////////////////////// Définition //////////////////////////////////////////////////
+template<class Ent> Ent AbstractControleNewModifForm::entityNoteOption(bool noteOption) {
+    Ent entity;
+    if(!m_new)
+        entity.setId(id());
+    entity.setNc(nc());
+    entity.setNom(nom());
+    if(noteOption) {
+        //Note
+        if(m_noteCheck->isChecked()){
+            entity.add(TypeControle::Note);
+            entity.setTotal(m_totalSpinBox->value());
+            entity.setDecimale(m_decimaleCB->currentData().toInt());
+            if(m_chiffreRadio->isChecked()) {
+                if(m_depassementCheck->isChecked())
+                    entity.add(TypeControle::Depassement);
+                if(m_courbeCheck->isChecked())
+                    entity.add(TypeControle::Courbe);
+                if(m_classementCheck->isChecked()) {
+                    entity.add(TypeControle::Classement);
+                    if(m_barreCheck->isChecked()){
+                        entity.add(TypeControle::Barre);
+                        entity.setMinima(m_minimaSpinBox->value());
+                    }
+                }
+            }
+            else
+                entity.add(TypeControle::Lettre);
+        }
+        else
+            entity.setTotal(1);
+        //Option
+        if(m_appreciationCheck->isChecked())
+            entity.add(TypeControle::Appreciation);
+        if(m_capaciteCheck->isChecked())
+            entity.add(TypeControle::Capacites);
+        if(m_commentaireCheck->isChecked())
+            entity.add(TypeControle::Commentaire);
+        if(m_competenceCheck->isChecked())
+            entity.add(TypeControle::Competences);
+    }
+    return entity;
+}
+
+template<class Ent> void AbstractControleNewModifForm::updateNoteOption(Ent & entity) {
+    //Note
+    m_noteCheck->setChecked(entity.code().test(TypeControle::Note));
+    if(m_noteCheck->isChecked()){
+        m_lettreRadio->setChecked(entity.code().test(TypeControle::Lettre));
+        m_totalSpinBox->setValue(entity.total());
+        auto index = m_decimaleCB->findData(entity.decimale());
+        if(index != -1)
+            m_decimaleCB->setCurrentIndex(index);
+        if(m_chiffreRadio->isChecked()){
+            m_depassementCheck->setChecked(entity.code().test(TypeControle::Depassement));
+            m_courbeCheck->setChecked(entity.code().test(TypeControle::Courbe));
+            m_classementCheck->setChecked(entity.code().test(TypeControle::Classement));
+            if(m_classementCheck->isChecked()){
+                m_barreCheck->setChecked(entity.code().test(TypeControle::Barre));
+                if(m_barreCheck->isChecked())
+                    m_minimaSpinBox->setValue(entity.minima());
+            }
+        }
+    }
+    //Option
+    m_appreciationCheck->setChecked(entity.code().test(TypeControle::Appreciation));
+    m_capaciteCheck->setChecked(entity.code().test(TypeControle::Capacites));
+    m_commentaireCheck->setChecked(entity.code().test(TypeControle::Commentaire));
+    m_competenceCheck->setChecked(entity.code().test(TypeControle::Competences));
+}
 }
 #endif // NEWMODIFFORM_H
