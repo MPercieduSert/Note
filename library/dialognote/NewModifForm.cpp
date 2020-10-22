@@ -2,6 +2,164 @@
 
 using namespace noteMPS;
 
+// AbstractControle
+AbstractControleNewModifForm::AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & LabelParent,
+                                                           const QString &labelNc, const QString &labelNom,
+                                                           bool newEnt, QWidget * parent)
+    : AbstractParentNcNomNewModifForm(bdd, {"nom","nom abrégé"},
+                                      LabelParent,
+                                      labelNc,
+                                      labelNom,
+                                      newEnt,parent) {
+    //note
+    m_noteGr = new QGroupBox(tr("Notation :"));
+    m_noteCheck = new QCheckBox(tr("Devoir noté"));
+    m_typeLabel = new QLabel(tr("Type de notation :"));
+    m_chiffreRadio = new QRadioButton(tr("Nombre"));
+    m_chiffreRadio->setChecked(true);
+    m_lettreRadio = new QRadioButton(tr("Lettre"));
+    m_totalLabel = new QLabel;
+    m_totalSpinBox = new widgetMPS::SpinBoxLettre;
+    m_depassementCheck = new QCheckBox(tr("Depassement"));
+    m_decimalLabel = new QLabel;
+    m_decimaleCB = new QComboBox;
+    m_courbeCheck = new QCheckBox(tr("Courbe d'ajustement"));
+    m_classementCheck = new QCheckBox(tr("Classement"));
+    m_barreCheck = new QCheckBox(tr("Barre de classement :"));
+    m_minimaSpinBox = new widgetMPS::SpinBoxDecimale;
+    barreEnable();
+    classementEnable();
+    typeNoteChange();
+    noteEnable();
+
+    //option
+    m_optGr = new QGroupBox(tr("Options :"));
+    m_appreciationCheck = new QCheckBox(tr("Appréciation"));
+    m_capaciteCheck = new QCheckBox(tr("Capacités"));
+    m_commentaireCheck = new QCheckBox(tr("Commentaire"));
+    m_competenceCheck = new QCheckBox(tr("Compétences"));
+
+    //Calque
+    m_noteLayout = new QGridLayout(m_noteGr);
+    m_noteLayout->addWidget(m_noteCheck,CheckNoteLigne,LabelColonne);
+    m_noteLayout->addWidget(m_typeLabel,TypeLigne,LabelColonne);
+    m_noteLayout->addWidget(m_chiffreRadio,TypeLigne,ColonneUne);
+    m_noteLayout->addWidget(m_lettreRadio,TypeLigne,ColonneDeux);
+    m_noteLayout->addWidget(m_totalLabel,TotalLigne,LabelColonne);
+    m_noteLayout->addWidget(m_totalSpinBox,TotalLigne,ColonneUne);
+    m_noteLayout->addWidget(m_depassementCheck,TotalLigne,ColonneDeux);
+    m_noteLayout->addWidget(m_decimalLabel,DecimaleLigne,LabelColonne);
+    m_noteLayout->addWidget(m_decimaleCB,DecimaleLigne,ColonneUne);
+    m_noteLayout->addWidget(m_courbeCheck,DecimaleLigne,ColonneDeux);
+    m_noteLayout->addWidget(m_classementCheck,ClassementLigne,ColonneZero);
+    m_noteLayout->addWidget(m_barreCheck,BarreLigne,LabelColonne);
+    m_noteLayout->addWidget(m_minimaSpinBox,BarreLigne,ColonneUne);
+
+    m_optLayout = new QGridLayout(m_optGr);
+    m_optLayout->addWidget(m_appreciationCheck,AppreciationCommentaireLigne,ColonneZero);
+    m_optLayout->addWidget(m_commentaireCheck,AppreciationCommentaireLigne,ColonneUne);
+    m_optLayout->addWidget(m_competenceCheck,CapaciteCompetenceLigne,ColonneZero);
+    m_optLayout->addWidget(m_capaciteCheck,CapaciteCompetenceLigne,ColonneUne);
+
+    m_mainLayout->addWidget(m_noteGr);
+    m_mainLayout->addWidget(m_optGr);
+}
+
+void AbstractControleNewModifForm::barreEnable() {
+    auto enable = m_barreCheck->isChecked();
+    m_minimaSpinBox->setEnabled(enable);
+    if(enable) {
+        decimaleChange();
+        totalChange();
+        m_minimaSpinBox->setValueDouble(m_totalSpinBox->value() / 2.);
+        connect(m_decimaleCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&TypeControleNewModifForm::decimaleChange);
+        connect(m_totalSpinBox,qOverload<int>(&widgetMPS::SpinBoxLettre::valueChanged),this,&TypeControleNewModifForm::totalChange);
+    }
+    else {
+        disconnect(m_decimaleCB,nullptr,this,nullptr);
+        disconnect(m_totalSpinBox,nullptr,this,nullptr);
+        m_minimaSpinBox->clear();
+    }
+
+}
+
+void AbstractControleNewModifForm::classementEnable() {
+    auto enable = m_classementCheck->isChecked();
+    m_barreCheck->setEnabled(enable);
+    if(!enable)
+        m_barreCheck->setChecked(false);
+}
+
+void AbstractControleNewModifForm::connexion() {
+    AbstractParentNcNomNewModifForm::connexion();
+    connect(m_noteCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteEnable);
+    connect(m_chiffreRadio,&QRadioButton::toggled,this,&TypeControleNewModifForm::typeNoteChange);
+    connect(m_classementCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::classementEnable);
+    connect(m_barreCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::barreEnable);
+}
+
+void AbstractControleNewModifForm::noteEnable() {
+    auto enable = m_noteCheck->isChecked();
+    m_typeLabel->setEnabled(enable);
+    m_chiffreRadio->setEnabled(enable);
+    m_lettreRadio->setEnabled(enable);
+    m_totalLabel->setEnabled(enable);
+    m_totalSpinBox->setEnabled(enable);
+    m_depassementCheck->setEnabled(enable);
+    m_decimalLabel->setEnabled(enable);
+    m_decimaleCB->setEnabled(enable);
+    m_courbeCheck->setEnabled(enable);
+    if(enable)
+        typeNoteChange();
+    else {
+        m_chiffreRadio->setChecked(true);
+        m_depassementCheck->setChecked(false);
+        m_classementCheck->setEnabled(false);
+        m_classementCheck->setChecked(false);
+        m_courbeCheck->setChecked(false);
+        m_totalSpinBox->clear();
+        m_decimaleCB->clear();
+    }
+}
+
+void AbstractControleNewModifForm::typeNoteChange() {
+    using attDecimale = attributMPS::AttributDecimale;
+    if(m_chiffreRadio->isChecked()) {
+        m_totalLabel->setText("Total :");
+        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
+        m_totalSpinBox->setMinimum(1);
+        m_totalSpinBox->setMaximum(1000);
+        m_totalSpinBox->setValue(20);
+        m_depassementCheck->setEnabled(m_noteCheck->isChecked());
+        m_courbeCheck->setEnabled(m_noteCheck->isChecked());
+        m_decimalLabel->setText(tr("Décimale :"));
+        m_decimaleCB->clear();
+        for (szt i = 0; i != attDecimale::NbrValues; ++i)
+            m_decimaleCB->addItem(QString::number(1./ attDecimale::Decimale.at(i),'f',attDecimale::Precision.at(i)),
+                                  attDecimale::Decimale.at(i));
+        m_classementCheck->setEnabled(m_noteCheck->isChecked());
+    }
+    else {
+        m_totalLabel->setText("De A à :");
+        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
+        m_totalSpinBox->setMinimum(0);
+        m_totalSpinBox->setMaximum(25);
+        m_totalSpinBox->setValue(3);
+        m_depassementCheck->setEnabled(false);
+        m_depassementCheck->setChecked(false);
+        m_courbeCheck->setEnabled(false);
+        m_courbeCheck->setChecked(false);
+        m_decimalLabel->setText(tr("Ajustement :"));
+        m_classementCheck->setEnabled(false);
+        m_classementCheck->setChecked(false);
+        m_decimaleCB->clear();
+        m_decimaleCB->addItem(" ",Controle::NoPlus);
+        m_decimaleCB->addItem("+",Controle::Plus);
+        m_decimaleCB->addItem("++",Controle::PPlus);
+        m_decimaleCB->addItem("+++",Controle::PPPlus);
+    }
+}
+
 // Annee
 AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNewModifForm (bdd,newEnt,parent) {
@@ -190,6 +348,52 @@ void ClasseNewModifForm::updateNiveau() {
                                                           m_etabCB->currentData(Qt::UserRole).toUInt()),
                      [](const Niveau & niv)->QString
                             {return QString(niv.nom()).append(" (").append(niv.nc()).append(")");});
+}
+
+// Controle
+ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+    : AbstractControleNewModifForm(bdd,
+                                      "Type :",
+                                      "Nom abrégé du controle",
+                                      "Nom du controle",
+                                      newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<Controle>(Controle::Nom));
+
+    // parent
+    m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
+                          [](const TypeControle & tc)->QTreeWidgetItem * {
+        auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
+        item->setData(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
+        return item;
+    });
+
+    m_dateLabel = new QLabel("Date et heure du controle");
+
+//    m_mainLayout->insertWidget(6,m_categorieCheck);
+
+}
+
+void ControleNewModifForm::connexion() {
+    AbstractControleNewModifForm::connexion();
+
+}
+
+
+void ControleNewModifForm::save() {
+    auto ctr = entityNoteOption<Controle>(true);
+    ctr.setIdType(idParent());
+
+    m_bdd.save(ctr);
+}
+
+void ControleNewModifForm::updateData() {
+    if(!m_new){
+        Controle ctr;
+        AbstractNcNomNewModifForm::updateTemp(ctr);
+        setParent(ctr.idType());
+    }
 }
 
 // Etablissement
@@ -496,241 +700,6 @@ void NiveauNewModifForm::updateData() {
     }
 }
 
-// TypeEtablissement
-TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
-    : dialogMPS::AbstractNcNomNewModifForm (bdd,
-                                            tr("Nom abrégé du type d'établissment :"),
-                                            tr("Nom du type d'établissement :"),
-                                            newEnt,parent) {
-    // Nom
-    if(!m_new)
-        setNoms(m_bdd.getList<TypeEtablissement>(TypeEtablissement::Nom));
-
-    // Niveaux
-    m_selectNiv = new widgetMPS::SelectInListBox(tr("Niveaux existents :"),tr("Niveaux présents :"));
-
-    // Calque
-    m_mainLayout->addWidget(m_selectNiv);
-}
-
-void TypeEtablissementNewModifForm::save() {
-    if(m_new) {
-        TypeEtablissement te(nc(),nom());
-        m_bdd.save(te);
-        auto niv = m_selectNiv->value().second;
-        for (auto i =niv.cbegin(); i != niv.cend(); ++i)
-            m_bdd.save(NiveauTypeEtablissement(i->toUInt(),te.id()));
-    }
-    else {
-        TypeEtablissement te(id());
-        if(m_bdd.testAutorisation(te,bddMPS::Modif)) {
-            te.setNc(nc());
-            te.setNom(nom());
-            m_bdd.save(te);
-        }
-        auto nivOld = m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,te.id());
-        auto nivNew = m_selectNiv->value().second;
-        for(auto i = nivOld.cbegin(); i != nivOld.cend(); ++i) {
-            auto j = nivNew.begin();
-            while(j != nivNew.end() && i->idNiveau() != j->toUInt())
-                ++j;
-            if(j == nivNew.end()) {
-                NiveauTypeEtablissement nivTE(i->idNiveau(),te.id());
-                m_bdd.getUnique(nivTE);
-                m_bdd.del(nivTE);
-            }
-            else
-                j->setValue(0);
-        }
-        for (auto j = nivNew.cbegin(); j != nivNew.cend(); ++j) {
-            if(j->toUInt() != 0)
-                m_bdd.save(NiveauTypeEtablissement(j->toUInt(),te.id()));
-        }
-    }
-}
-
-void TypeEtablissementNewModifForm::updateData() {
-    if(m_new) {
-        auto vecNiv = m_bdd.getList<Niveau>();
-        std::map<QVariant, QString> nivOut;
-        for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i)
-            nivOut[i->id()] = i->nom();
-        m_selectNiv->setValue(nivOut,std::map<QVariant, QString>());
-    }
-    else {
-        TypeEtablissement te;
-        updateTemp<TypeEtablissement>(te);
-        auto vecNiv = m_bdd.getList<Niveau>();
-        std::map<QVariant, QString> nivIn;
-        std::map<QVariant, QString> nivOut;
-        for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i) {
-            if(m_bdd.existsUnique(NiveauTypeEtablissement(i->id(),te.id())))
-                nivIn[i->id()] = i->nom();
-            else
-                nivOut[i->id()] = i->nom();
-        }
-        m_selectNiv->setValue(nivOut,nivIn);
-    }
-}
-
-// AbstractControle
-AbstractControleNewModifForm::AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & LabelParent,
-                                                           const QString &labelNc, const QString &labelNom,
-                                                           bool newEnt, QWidget * parent)
-    : AbstractParentNcNomNewModifForm(bdd, {"nom","nom abrégé"},
-                                      LabelParent,
-                                      labelNc,
-                                      labelNom,
-                                      newEnt,parent) {
-    //note
-    m_noteGr = new QGroupBox(tr("Notation :"));
-    m_noteCheck = new QCheckBox(tr("Devoir noté"));
-    m_typeLabel = new QLabel(tr("Type de notation :"));
-    m_chiffreRadio = new QRadioButton(tr("Nombre"));
-    m_chiffreRadio->setChecked(true);
-    m_lettreRadio = new QRadioButton(tr("Lettre"));
-    m_totalLabel = new QLabel;
-    m_totalSpinBox = new widgetMPS::SpinBoxLettre;
-    m_depassementCheck = new QCheckBox(tr("Depassement"));
-    m_decimalLabel = new QLabel;
-    m_decimaleCB = new QComboBox;
-    m_courbeCheck = new QCheckBox(tr("Courbe d'ajustement"));
-    m_classementCheck = new QCheckBox(tr("Classement"));
-    m_barreCheck = new QCheckBox(tr("Barre de classement :"));
-    m_minimaSpinBox = new widgetMPS::SpinBoxDecimale;
-    barreEnable();
-    classementEnable();
-    typeNoteChange();
-    noteEnable();
-
-    //option
-    m_optGr = new QGroupBox(tr("Options :"));
-    m_appreciationCheck = new QCheckBox(tr("Appréciation"));
-    m_capaciteCheck = new QCheckBox(tr("Capacités"));
-    m_commentaireCheck = new QCheckBox(tr("Commentaire"));
-    m_competenceCheck = new QCheckBox(tr("Compétences"));
-
-    //Calque
-    m_noteLayout = new QGridLayout(m_noteGr);
-    m_noteLayout->addWidget(m_noteCheck,CheckNoteLigne,LabelColonne);
-    m_noteLayout->addWidget(m_typeLabel,TypeLigne,LabelColonne);
-    m_noteLayout->addWidget(m_chiffreRadio,TypeLigne,ColonneUne);
-    m_noteLayout->addWidget(m_lettreRadio,TypeLigne,ColonneDeux);
-    m_noteLayout->addWidget(m_totalLabel,TotalLigne,LabelColonne);
-    m_noteLayout->addWidget(m_totalSpinBox,TotalLigne,ColonneUne);
-    m_noteLayout->addWidget(m_depassementCheck,TotalLigne,ColonneDeux);
-    m_noteLayout->addWidget(m_decimalLabel,DecimaleLigne,LabelColonne);
-    m_noteLayout->addWidget(m_decimaleCB,DecimaleLigne,ColonneUne);
-    m_noteLayout->addWidget(m_courbeCheck,DecimaleLigne,ColonneDeux);
-    m_noteLayout->addWidget(m_classementCheck,ClassementLigne,ColonneZero);
-    m_noteLayout->addWidget(m_barreCheck,BarreLigne,LabelColonne);
-    m_noteLayout->addWidget(m_minimaSpinBox,BarreLigne,ColonneUne);
-
-    m_optLayout = new QGridLayout(m_optGr);
-    m_optLayout->addWidget(m_appreciationCheck,AppreciationCommentaireLigne,ColonneZero);
-    m_optLayout->addWidget(m_commentaireCheck,AppreciationCommentaireLigne,ColonneUne);
-    m_optLayout->addWidget(m_competenceCheck,CapaciteCompetenceLigne,ColonneZero);
-    m_optLayout->addWidget(m_capaciteCheck,CapaciteCompetenceLigne,ColonneUne);
-
-    m_mainLayout->addWidget(m_noteGr);
-    m_mainLayout->addWidget(m_optGr);
-}
-
-void AbstractControleNewModifForm::barreEnable() {
-    auto enable = m_barreCheck->isChecked();
-    m_minimaSpinBox->setEnabled(enable);
-    if(enable) {
-        decimaleChange();
-        totalChange();
-        m_minimaSpinBox->setValueDouble(m_totalSpinBox->value() / 2.);
-        connect(m_decimaleCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&TypeControleNewModifForm::decimaleChange);
-        connect(m_totalSpinBox,qOverload<int>(&widgetMPS::SpinBoxLettre::valueChanged),this,&TypeControleNewModifForm::totalChange);
-    }
-    else {
-        disconnect(m_decimaleCB,nullptr,this,nullptr);
-        disconnect(m_totalSpinBox,nullptr,this,nullptr);
-        m_minimaSpinBox->clear();
-    }
-
-}
-
-void AbstractControleNewModifForm::classementEnable() {
-    auto enable = m_classementCheck->isChecked();
-    m_barreCheck->setEnabled(enable);
-    if(!enable)
-        m_barreCheck->setChecked(false);
-}
-
-void AbstractControleNewModifForm::connexion() {
-    AbstractParentNcNomNewModifForm::connexion();
-    connect(m_noteCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::noteEnable);
-    connect(m_chiffreRadio,&QRadioButton::toggled,this,&TypeControleNewModifForm::typeNoteChange);
-    connect(m_classementCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::classementEnable);
-    connect(m_barreCheck,&QCheckBox::stateChanged,this,&TypeControleNewModifForm::barreEnable);
-}
-
-void AbstractControleNewModifForm::noteEnable() {
-    auto enable = m_noteCheck->isChecked();
-    m_typeLabel->setEnabled(enable);
-    m_chiffreRadio->setEnabled(enable);
-    m_lettreRadio->setEnabled(enable);
-    m_totalLabel->setEnabled(enable);
-    m_totalSpinBox->setEnabled(enable);
-    m_depassementCheck->setEnabled(enable);
-    m_decimalLabel->setEnabled(enable);
-    m_decimaleCB->setEnabled(enable);
-    m_courbeCheck->setEnabled(enable);
-    if(enable)
-        typeNoteChange();
-    else {
-        m_chiffreRadio->setChecked(true);
-        m_depassementCheck->setChecked(false);
-        m_classementCheck->setEnabled(false);
-        m_classementCheck->setChecked(false);
-        m_courbeCheck->setChecked(false);
-        m_totalSpinBox->clear();
-        m_decimaleCB->clear();
-    }
-}
-
-void AbstractControleNewModifForm::typeNoteChange() {
-    using attDecimale = attributMPS::AttributDecimale;
-    if(m_chiffreRadio->isChecked()) {
-        m_totalLabel->setText("Total :");
-        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
-        m_totalSpinBox->setMinimum(1);
-        m_totalSpinBox->setMaximum(1000);
-        m_totalSpinBox->setValue(20);
-        m_depassementCheck->setEnabled(m_noteCheck->isChecked());
-        m_courbeCheck->setEnabled(m_noteCheck->isChecked());
-        m_decimalLabel->setText(tr("Décimale :"));
-        m_decimaleCB->clear();
-        for (szt i = 0; i != attDecimale::NbrValues; ++i)
-            m_decimaleCB->addItem(QString::number(1./ attDecimale::Decimale.at(i),'f',attDecimale::Precision.at(i)),
-                                  attDecimale::Decimale.at(i));
-        m_classementCheck->setEnabled(m_noteCheck->isChecked());
-    }
-    else {
-        m_totalLabel->setText("De A à :");
-        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
-        m_totalSpinBox->setMinimum(0);
-        m_totalSpinBox->setMaximum(25);
-        m_totalSpinBox->setValue(3);
-        m_depassementCheck->setEnabled(false);
-        m_depassementCheck->setChecked(false);
-        m_courbeCheck->setEnabled(false);
-        m_courbeCheck->setChecked(false);
-        m_decimalLabel->setText(tr("Ajustement :"));
-        m_classementCheck->setEnabled(false);
-        m_classementCheck->setChecked(false);
-        m_decimaleCB->clear();
-        m_decimaleCB->addItem(" ",Controle::NoPlus);
-        m_decimaleCB->addItem("+",Controle::Plus);
-        m_decimaleCB->addItem("++",Controle::PPlus);
-        m_decimaleCB->addItem("+++",Controle::PPPlus);
-    }
-}
-
 // Typecontrole
 TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : AbstractControleNewModifForm(bdd,
@@ -900,7 +869,6 @@ void TypeControleNewModifForm::updateData() {
     if(!m_new){
         TypeControle tpc;
         updateTemp(tpc);
-        setParent(tpc.parent());
         m_categorieCheck->setChecked(tpc.code().test(TypeControle::Categorie));
         if(!m_categorieCheck->isChecked()) {
             updateNoteOption(tpc);
@@ -926,5 +894,82 @@ void TypeControleNewModifForm::updateData() {
                 }
             }
         }
+    }
+}
+
+// TypeEtablissement
+TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
+    : dialogMPS::AbstractNcNomNewModifForm (bdd,
+                                            tr("Nom abrégé du type d'établissment :"),
+                                            tr("Nom du type d'établissement :"),
+                                            newEnt,parent) {
+    // Nom
+    if(!m_new)
+        setNoms(m_bdd.getList<TypeEtablissement>(TypeEtablissement::Nom));
+
+    // Niveaux
+    m_selectNiv = new widgetMPS::SelectInListBox(tr("Niveaux existents :"),tr("Niveaux présents :"));
+
+    // Calque
+    m_mainLayout->addWidget(m_selectNiv);
+}
+
+void TypeEtablissementNewModifForm::save() {
+    if(m_new) {
+        TypeEtablissement te(nc(),nom());
+        m_bdd.save(te);
+        auto niv = m_selectNiv->value().second;
+        for (auto i =niv.cbegin(); i != niv.cend(); ++i)
+            m_bdd.save(NiveauTypeEtablissement(i->toUInt(),te.id()));
+    }
+    else {
+        TypeEtablissement te(id());
+        if(m_bdd.testAutorisation(te,bddMPS::Modif)) {
+            te.setNc(nc());
+            te.setNom(nom());
+            m_bdd.save(te);
+        }
+        auto nivOld = m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,te.id());
+        auto nivNew = m_selectNiv->value().second;
+        for(auto i = nivOld.cbegin(); i != nivOld.cend(); ++i) {
+            auto j = nivNew.begin();
+            while(j != nivNew.end() && i->idNiveau() != j->toUInt())
+                ++j;
+            if(j == nivNew.end()) {
+                NiveauTypeEtablissement nivTE(i->idNiveau(),te.id());
+                m_bdd.getUnique(nivTE);
+                m_bdd.del(nivTE);
+            }
+            else
+                j->setValue(0);
+        }
+        for (auto j = nivNew.cbegin(); j != nivNew.cend(); ++j) {
+            if(j->toUInt() != 0)
+                m_bdd.save(NiveauTypeEtablissement(j->toUInt(),te.id()));
+        }
+    }
+}
+
+void TypeEtablissementNewModifForm::updateData() {
+    if(m_new) {
+        auto vecNiv = m_bdd.getList<Niveau>();
+        std::map<QVariant, QString> nivOut;
+        for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i)
+            nivOut[i->id()] = i->nom();
+        m_selectNiv->setValue(nivOut,std::map<QVariant, QString>());
+    }
+    else {
+        TypeEtablissement te;
+        updateTemp<TypeEtablissement>(te);
+        auto vecNiv = m_bdd.getList<Niveau>();
+        std::map<QVariant, QString> nivIn;
+        std::map<QVariant, QString> nivOut;
+        for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i) {
+            if(m_bdd.existsUnique(NiveauTypeEtablissement(i->id(),te.id())))
+                nivIn[i->id()] = i->nom();
+            else
+                nivOut[i->id()] = i->nom();
+        }
+        m_selectNiv->setValue(nivOut,nivIn);
     }
 }

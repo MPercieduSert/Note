@@ -6,6 +6,7 @@
 
 #include <QCalendarWidget>
 #include <QCheckBox>
+#include <QDateTimeEdit>
 #include <QDoubleSpinBox>
 #include <QGroupBox>
 #include <QSpinBox>
@@ -21,6 +22,101 @@ namespace noteMPS {
 /*! \defgroup groupeDialogNote Dialogues de note
  * \brief Ensemble des dialogues de l'application note.
  */
+
+/*! \ingroup groupeDialogNote
+ * \brief Classe mère des formulaire de création et modification des controles et de leurs types..
+ */
+class AbstractControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
+    Q_OBJECT
+protected:
+    // Widget
+    QLabel * m_decimalLabel;                        //!< Label du choix des décimale.
+    QLabel * m_totalLabel;                          //!< Label du choix du total.
+    QLabel * m_typeLabel;                           //!< Label du choix d'une notation chiffré ou avec lettre.
+    QCheckBox * m_appreciationCheck;                //!< Option d'appreciation.
+    QCheckBox * m_barreCheck;                       //!< Option de présence de barre de classement.
+    QCheckBox * m_capaciteCheck;                    //!< Option de capacités.
+    QCheckBox * m_classementCheck;                  //!< Option de classement.
+    QCheckBox * m_commentaireCheck;                 //!< Option de commentaire.
+    QCheckBox * m_competenceCheck;                  //!< Option de competences.
+    QCheckBox * m_courbeCheck;                      //!< Option de courbe d'ajustement.
+    QCheckBox * m_depassementCheck;                 //!< Option de depassement.
+    QCheckBox * m_noteCheck;                        //!< Option de controle noté.
+    QComboBox * m_decimaleCB;                       //!< Choix des décimales.
+    QRadioButton * m_chiffreRadio;                  //!< Note chiffrée.
+    QRadioButton * m_lettreRadio;                   //!< Note avec lettre.
+    widgetMPS::SpinBoxLettre * m_totalSpinBox;      //!< Choix du total.
+    widgetMPS::SpinBoxDecimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
+    QGroupBox * m_noteGr;                           //!< Groupe d'option de notation.
+    QGroupBox * m_optGr;                            //!< Groupe des options.
+
+    // Calque
+    QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
+    QGridLayout * m_optLayout;                      //!< Calque des options.
+
+    //! Position des widget dans le calques des notes.
+    enum position { ColonneZero = 0,
+                    ColonneUne = 1,
+                    ColonneDeux = 2,
+                    LigneZero = 0,
+                    LigneUne = 1,
+                    LigneDeux = 2,
+                    LigneTrois = 3,
+                    LigneQuatre = 4,
+                    LigneCinq = 5,
+                    LabelColonne = ColonneZero,
+                    CheckNoteLigne = LigneZero,
+                    TypeLigne = LigneUne,
+                    TotalLigne = LigneDeux,
+                    DecimaleLigne = LigneTrois,
+                    ClassementLigne = LigneQuatre,
+                    BarreLigne = LigneCinq,
+                    AppreciationCommentaireLigne = LigneZero,
+                    CapaciteCompetenceLigne = LigneUne
+    };
+
+public:
+    //! Constructeur.
+    AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & labelParent,
+                                 const QString &labelNc, const QString &labelNom,
+                                 bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~AbstractControleNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+public slots:
+    //! Active et désactive les options de barre de classement.
+    void barreEnable();
+
+    //! Active et désactive les options de classement.
+    void classementEnable();
+
+    //! Met à jour la décimale de minima.
+    void decimaleChange() {
+        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
+        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
+    }
+
+    //! Active et désactive les options de notations.
+    void noteEnable();
+
+    //! Met à jour la décimale de minima.
+    void totalChange()
+        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
+
+    //! Passe d'un type de notation à l'autre.
+    void typeNoteChange();
+
+protected:
+    //! Crée une entitée avec les données du formualire.
+    template<class Ent> Ent entityNoteOption(bool noteOption);
+
+    //! Récupère l'entité en base de donné et met à jours les données du formulaire
+    template<class Ent> void updateNoteOption(Ent & entity);
+};
 
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création des Annees.
@@ -139,6 +235,45 @@ public slots:
 
     //! Met à jour les niveaux disponible.
     void updateNiveau();
+};
+
+/*! \ingroup groupeDialogNote
+ * \brief Formulaire de création et modification des types de controle.
+ */
+class ControleNewModifForm : public AbstractControleNewModifForm {
+    Q_OBJECT
+protected:
+    // Widget
+    QLabel * m_dateLabel;               //!< Date et heure du controle.
+    QLabel * m_numLabel;                //!< Numéro du controle.
+    QDateTimeEdit * m_dateTimeEdit;     //!< Choix de la date du controle.
+    QSpinBox * m_numSpinBox;            //!< Choix du numéro du controle.
+
+public:
+    //! Constructeur.
+    ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+
+    //!Destructeur.
+    ~ControleNewModifForm() override = default;
+
+    //! Connecte les signals et slots du formulaire.
+    void connexion() override;
+
+    //! Titre de la fenêtre de dialogue.
+    QString title() const override
+        {return m_new ? tr("Création d'un nouveau  controle :") :
+                        tr("Modification d'un controle :");}
+
+public slots:
+    //! Supprime le type d'établissement dans la bases de donnée.
+    bool del() override
+        {return !m_new && m_bdd.del(Controle(id()));}
+
+    //! Sauve le type de controle.
+    void save() override;
+
+    //! Met à jour le formulaire.
+    void updateData() override;
 };
 
 /*! \ingroup groupeDialogNote
@@ -309,101 +444,6 @@ public slots:
 
     //! Met à jour le formulaire.
     void updateData() override;
-};
-
-/*! \ingroup groupeDialogNote
- * \brief Classe mère des formulaire de création et modification des controles et de leurs types..
- */
-class AbstractControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
-    Q_OBJECT
-protected:
-    // Widget
-    QLabel * m_decimalLabel;                        //!< Label du choix des décimale.
-    QLabel * m_totalLabel;                          //!< Label du choix du total.
-    QLabel * m_typeLabel;                           //!< Label du choix d'une notation chiffré ou avec lettre.
-    QCheckBox * m_appreciationCheck;                //!< Option d'appreciation.
-    QCheckBox * m_barreCheck;                       //!< Option de présence de barre de classement.
-    QCheckBox * m_capaciteCheck;                    //!< Option de capacités.
-    QCheckBox * m_classementCheck;                  //!< Option de classement.
-    QCheckBox * m_commentaireCheck;                 //!< Option de commentaire.
-    QCheckBox * m_competenceCheck;                  //!< Option de competences.
-    QCheckBox * m_courbeCheck;                      //!< Option de courbe d'ajustement.
-    QCheckBox * m_depassementCheck;                 //!< Option de depassement.
-    QCheckBox * m_noteCheck;                        //!< Option de controle noté.
-    QComboBox * m_decimaleCB;                       //!< Choix des décimales.
-    QRadioButton * m_chiffreRadio;                  //!< Note chiffrée.
-    QRadioButton * m_lettreRadio;                   //!< Note avec lettre.
-    widgetMPS::SpinBoxLettre * m_totalSpinBox;      //!< Choix du total.
-    widgetMPS::SpinBoxDecimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
-    QGroupBox * m_noteGr;                           //!< Groupe d'option de notation.
-    QGroupBox * m_optGr;                            //!< Groupe des options.
-
-    // Calque
-    QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
-    QGridLayout * m_optLayout;                      //!< Calque des options.
-
-    //! Position des widget dans le calques des notes.
-    enum position { ColonneZero = 0,
-                    ColonneUne = 1,
-                    ColonneDeux = 2,
-                    LigneZero = 0,
-                    LigneUne = 1,
-                    LigneDeux = 2,
-                    LigneTrois = 3,
-                    LigneQuatre = 4,
-                    LigneCinq = 5,
-                    LabelColonne = ColonneZero,
-                    CheckNoteLigne = LigneZero,
-                    TypeLigne = LigneUne,
-                    TotalLigne = LigneDeux,
-                    DecimaleLigne = LigneTrois,
-                    ClassementLigne = LigneQuatre,
-                    BarreLigne = LigneCinq,
-                    AppreciationCommentaireLigne = LigneZero,
-                    CapaciteCompetenceLigne = LigneUne
-    };
-
-public:
-    //! Constructeur.
-    AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & labelParent,
-                                 const QString &labelNc, const QString &labelNom,
-                                 bool newEnt, QWidget * parent = nullptr);
-
-    //!Destructeur.
-    ~AbstractControleNewModifForm() override = default;
-
-    //! Connecte les signals et slots du formulaire.
-    void connexion() override;
-
-public slots:
-    //! Active et désactive les options de barre de classement.
-    void barreEnable();
-
-    //! Active et désactive les options de classement.
-    void classementEnable();
-
-    //! Met à jour la décimale de minima.
-    void decimaleChange() {
-        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
-        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
-    }
-
-    //! Active et désactive les options de notations.
-    void noteEnable();
-
-    //! Met à jour la décimale de minima.
-    void totalChange()
-        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
-
-    //! Passe d'un type de notation à l'autre.
-    void typeNoteChange();
-
-protected:
-    //! Crée une entitée avec les données du formualire.
-    template<class Ent> Ent entityNoteOption(bool noteOption);
-
-    //! Récupère l'entité en base de donné et met à jours les données du formulaire
-    template<class Ent> void updateNoteOption(Ent & entity);
 };
 
 /*! \ingroup groupeDialogNote
