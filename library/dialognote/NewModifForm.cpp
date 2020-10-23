@@ -354,8 +354,8 @@ void ClasseNewModifForm::updateNiveau() {
 ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : AbstractControleNewModifForm(bdd,
                                       "Type :",
-                                      "Nom abrégé du controle",
-                                      "Nom du controle",
+                                      "Nom abrégé du controle :",
+                                      "Nom du controle :",
                                       newEnt,parent) {
     // Nom
     if(!m_new)
@@ -366,6 +366,10 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
                           [](const TypeControle & tc)->QTreeWidgetItem * {
         auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
         item->setData(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
+        if(!tc.code().test(TypeControle::Categorie))
+            item->setFlags(Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+        else
+            item->setFlags(Qt::ItemIsEnabled);
         return item;
     });
 
@@ -488,9 +492,9 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     : AbstractTypeNcNomNewModifForm(static_cast<bddMPS::BddPredef &>(bdd),
                                     "groupe_root_tp",
                                     Groupe::ID,
-                                    tr("type de groupe :"),
+                                    tr("Type de groupe :"),
                                     tr("Nom abrégé du groupe :"),
-                                    tr("Nom du groupe"),
+                                    tr("Nom du groupe :"),
                                     newEnt,parent) {
     // Nom
     if(!m_new)
@@ -624,9 +628,9 @@ NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget *
     : dialogMPS::AbstractTypeNcNomNewModifForm (static_cast<bddMPS::BddPredef &>(bdd),
                                                 "etude_root_tp",
                                                 Niveau::ID,
-                                                tr("type de niveau :"),
+                                                tr("Type de niveau :"),
                                                 tr("Nom abrégé du niveau :"),
-                                                tr("Nom du niveau"),
+                                                tr("Nom du niveau :"),
                                                 newEnt,parent)
 {
 
@@ -703,21 +707,16 @@ void NiveauNewModifForm::updateData() {
 // Typecontrole
 TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : AbstractControleNewModifForm(bdd,
-                                      "Parent",
-                                      "Nom abrégé du type de controle",
-                                      "Nom du type de controle",
+                                      "Parent :",
+                                      "Nom abrégé du type de controle :",
+                                      "Nom du type de controle :",
                                       newEnt,parent) {
     // Nom
     if(!m_new)
         setNoms(m_bdd.getList<TypeControle>(TypeControle::Nom));
 
     // parent
-    m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
-                          [](const TypeControle & tc)->QTreeWidgetItem * {
-        auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
-        item->setData(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
-        return item;
-    });
+    m_parentTree->setTreeNcNomId(bdd.getArbre<TypeControle>());
 
     //Catégorie
     m_categorieCheck = new QCheckBox("Catégorie");

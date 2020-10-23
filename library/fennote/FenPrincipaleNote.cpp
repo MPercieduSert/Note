@@ -53,6 +53,10 @@ void FenPrincipaleNote::createMenuNewModif() {
     connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
         centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
         });
+    //Controle
+    auto * ctrl= m_newModifMenu->addMenu(tr("Controle"));
+    connectActionToNewModifDialog<ControleNewModifForm>(ctrl->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<ControleNewModifForm>(ctrl->addAction(tr("Modifier")),false);
     // Eleve
     connectActionToOpenTab(m_newModifMenu->addAction(tr("Eleve")),{TabNote::ElevesTabId,fenMPS::AbstractTabModule::NoId});
     // Établissement
