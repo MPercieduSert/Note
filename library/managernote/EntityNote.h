@@ -254,6 +254,25 @@ public:
                         PPPlus = 7
     };
 
+    //! Code du type de controle.
+    enum codeFlag : flag::flag_type {Aucun = 0x0,
+                                     Note = 0x1,
+                                     Lettre = 0x2,
+                                     Depassement = 0x4,
+                                     Courbe = 0x8,
+                                     Classement = 0x10,
+                                     Barre = 0x20,
+                                     Competences = 0x40,
+                                     Capacites = 0x80,
+                                     Appreciation = 0x100,
+                                     Commentaire = 0x200,
+                                     NonCommun = 0x10000,
+                                     HoraireGroupe = NonCommun,
+                                     HoraireEleve = NonCommun * 0x2,
+                                     SujetGroupe = NonCommun * 0x4,
+                                     SujetEleve = NonCommun * 0x8
+    };
+
     using EAID::EntityID;
     BASE_ENTITY(Controle)
     ALIAS_CLE(Type,1)
@@ -264,8 +283,8 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, idt idCible, int cible, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
-             int num, int total, idt id = 0)
+    Controle(idt idTp, idt idCible, int cible, flag code, const QDateTime & dateTime, int decimale, int minima,
+             const QString & nc, const QString & nom, int num, int total, idt id = 0)
         : Controle(nom, id) {
         setIdType(idTp);
         setIdCible(idCible);
@@ -538,34 +557,33 @@ public:
                                                                 attributMPS::NcNomAttribut,
                                                                 attributMPS::ParentAttribut,
                                                                 attributMPS::TotalAttribut>;
-    //! Code du groupe.
+    //! Code du type de controle.
     enum codeFlag : flag::flag_type {Aucun = 0x0,
-                                     Categorie = 0x1,
-                                     Note = 0x2,
-                                     Lettre = 0x4,
-                                     Depassement = 0x8,
-                                     Courbe = 0x10,
-                                     Classement = 0x20,
-                                     Barre = 0x40,
-                                     Competences = 0x80,
-                                     Capacites = 0x100,
-                                     Appreciation = 0x200,
-                                     Commentaire = 0x400,
-                                     NoteModifiable = 0x800,
-                                     TypeNoteModifiable = 0x1000,
-                                     TotalModifiable = 0x2000,
-                                     DepassementModifiable = 0x4000,
-                                     DecimaleModifiable = 0x8000,
-                                     CourbeModifiable = 0x10000,
-                                     ClassementModifiable = 0x20000,
-                                     BarreModifiable = 0x40000,
-                                     MinimaModifiable = 0x80000,
-                                     CompetencesModifiable = 0x100000,
-                                     CapacitesModifiable = 0x200000,
-                                     AppreciationModifiable = 0x400000,
-                                     CommentaireModifiable = 0x800000
-
-
+                                     Note = Controle::Note,
+                                     Lettre = Controle::Lettre,
+                                     Depassement = Controle::Depassement,
+                                     Courbe = Controle::Courbe,
+                                     Classement = Controle::Classement,
+                                     Barre = Controle::Barre,
+                                     Competences = Controle::Competences,
+                                     Capacites = Controle::Capacites,
+                                     Appreciation = Controle::Appreciation,
+                                     Commentaire = Controle::Commentaire,
+                                     NonCommun = Controle::NonCommun,
+                                     Categorie = NonCommun,
+                                     NoteModifiable = NonCommun * 0x2,
+                                     TypeNoteModifiable = NonCommun * 0x4,
+                                     TotalModifiable = NonCommun * 0x8,
+                                     DepassementModifiable = NonCommun * 0x10,
+                                     DecimaleModifiable = NonCommun * 0x20,
+                                     CourbeModifiable = NonCommun * 0x40,
+                                     ClassementModifiable = NonCommun * 0x80,
+                                     BarreModifiable = NonCommun * 0x100,
+                                     MinimaModifiable = NonCommun * 0x200,
+                                     CompetencesModifiable = NonCommun * 0x400,
+                                     CapacitesModifiable = NonCommun * 0x800,
+                                     AppreciationModifiable = NonCommun * 0x1000,
+                                     CommentaireModifiable = NonCommun * 0x2000
     };
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,

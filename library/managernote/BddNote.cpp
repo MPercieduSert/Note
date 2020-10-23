@@ -4,6 +4,36 @@ using namespace noteMPS;
 
 flag BddNote::code(idt idEntity, const QString & str) const {
     switch (idEntity) {
+    case Controle::ID:
+        if(str == "Appreciation")
+            return Controle::Appreciation;
+        if(str == "Barre")
+            return Controle::Barre;
+        if(str == "Capacites")
+            return Controle::Capacites;
+        if(str == "Classement")
+            return Controle::Classement;
+        if(str == "Commentaire")
+            return Controle::Commentaire;
+        if(str == "Competences")
+            return Controle::Competences;
+        if(str == "Courbe")
+            return Controle::Courbe;
+        if(str == "Depassement")
+            return Controle::Depassement;
+        if(str == "HoraireEleve")
+            return Controle::HoraireEleve;
+        if(str == "HoraireGroupe")
+            return Controle::HoraireGroupe;
+        if(str == "Lettre")
+            return Controle::Lettre;
+        if(str == "Note")
+            return Controle::Note;
+        if(str == "SujetEleve")
+            return Controle::SujetEleve;
+        if(str == "SujetGroupe")
+            return Controle::SujetGroupe;
+        break;
     case TypeControle::ID:
         if(str == "Appreciation")
             return TypeControle::Appreciation;
@@ -37,7 +67,7 @@ flag BddNote::code(idt idEntity, const QString & str) const {
             return TypeControle::CourbeModifiable;
         if(str == "DecimaleModifiable")
             return TypeControle::DecimaleModifiable;
-        if(str == "Depacement")
+        if(str == "Depassement")
             return TypeControle::Depassement;
         if(str == "DepassementModifiable")
             return TypeControle::DepassementModifiable;
@@ -53,10 +83,11 @@ flag BddNote::code(idt idEntity, const QString & str) const {
             return TypeControle::TotalModifiable;
         if(str == "TypeNoteModifiable")
             return TypeControle::TypeNoteModifiable;
-    [[clang::fallthrough]];
+        break;
     default:
         return BddPredef::code(idEntity,str);
     }
+    return bddMPS::code::Invalide;
 }
 
 bool BddNote::delP(idt id, szt idEntity) {
