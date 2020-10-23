@@ -196,8 +196,8 @@ ManagersNote::ManagersNote()
     setCible<TypeControle>(bmps::cibleId::TypeControle);
 
     //Controle
-    using UniqueCtr = NomUniqueSql<Controle>;
-    InfoBdd infoCtr(Controle::Name(),"Controle",Controle::NbrAtt,{UniqueCtr::NbrUnique});
+    using UniqueCtr = NomCibleUniqueSql<Controle>;
+    InfoBdd infoCtr(Controle::Name(),"Controle",Controle::NbrAtt,{UniqueCtr::NbrUnique_1,UniqueCtr::NbrUnique_2});
     infoCtr.setAttribut(Controle::IdType,"idTp");
     infoCtr.setAttribut(Controle::IdCible,"idCb");
     infoCtr.setAttribut(Controle::Cible,"cb");
@@ -209,7 +209,11 @@ ManagersNote::ManagersNote()
     infoCtr.setAttribut(Controle::Nom,"nm",bmps::typeAttributBdd::Text);
     infoCtr.setAttribut(Controle::Num,"num");
     infoCtr.setAttribut(Controle::Total,"tt");
-    infoCtr.setUnique(Controle::Nom,UniqueCtr::NomUnique);
+    infoCtr.setUnique(Controle::Nom,UniqueCtr::NomUnique,UniqueCtr::NomUniqueSet);
+    infoCtr.setUnique(Controle::IdType,UniqueCtr::Id1Unique,UniqueCtr::Id1UniqueSet);
+    infoCtr.setUnique(Controle::IdCible,UniqueCtr::IdCibleUnique,UniqueCtr::IdCibleUniqueSet);
+    infoCtr.setUnique(Controle::Cible,UniqueCtr::CibleUnique,UniqueCtr::CibleUniqueSet);
+    infoCtr.setUnique(Controle::Num,UniqueCtr::NumUnique,UniqueCtr::NumUniqueSet);
     infoCtr.setForeignKey(Controle::IdType,infoTpCtr);
     setManager<Controle>(std::make_unique<ManagerSql<Controle>>(infoCtr,std::make_unique<UniqueCtr>()));
     setCible<Controle>(bmps::cibleId::Controle);
