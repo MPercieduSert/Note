@@ -210,6 +210,7 @@ public:
  * \brief Représentation de l'entité Controle.
  */
 class Controle : public emps::EntityIDs<infoEntityNote::ControleId,attributMPS::Id1Attribut,
+                                                                   attributMPS::CibleAttributs,
                                                                    attributMPS::CodeAttribut,
                                                                    attributMPS::DateTimeValideAttribut,
                                                                    attributMPS::DecimaleAttribut,
@@ -221,6 +222,7 @@ protected:
     template<class T> using PositionEnum = emps::PositionEnum<T,Controle>;
 public:
     using EAID = emps::EntityIDs<infoEntityNote::ControleId,attributMPS::Id1Attribut,
+                                                            attributMPS::CibleAttributs,
                                                             attributMPS::CodeAttribut,
                                                             attributMPS::DateTimeValideAttribut,
                                                             attributMPS::DecimaleAttribut,
@@ -231,6 +233,8 @@ public:
     //! Positions des attributs.
     enum Position {Id = PositionEnum<IdAttribut>::Position,
                    Id1 = PositionEnum<Id1Attribut>::Position,
+                   IdCible = PositionEnum<IdCibleAttribut>::Position,
+                   Cible = PositionEnum<CibleAttribut>::Position,
                    Code = PositionEnum<CodeAttribut>::Position,
                    DateTime = PositionEnum<DateTimeValideAttribut>::Position,
                    Decimale = PositionEnum<DecimaleAttribut>::Position,
@@ -247,8 +251,7 @@ public:
     enum decmaleLettre {NoPlus = 1,
                         Plus = 3,
                         PPlus = 5,
-                        PPPlus = 7,
-
+                        PPPlus = 7
     };
 
     using EAID::EntityID;
@@ -261,10 +264,12 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
+    Controle(idt idTp, idt idCible, int cible, flag code, const QDateTime & dateTime, int decimale, int minima, const QString & nc, const QString & nom,
              int num, int total, idt id = 0)
         : Controle(nom, id) {
         setIdType(idTp);
+        setIdCible(idCible);
+        setCible(cible);
         setCode(code);
         setDateTime(dateTime);
         setDecimale(decimale);

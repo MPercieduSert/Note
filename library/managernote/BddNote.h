@@ -10,7 +10,8 @@
 namespace bddMPS {
     namespace bddVersion {
         //! Version de la base de données.
-        enum versionBddNote{TypeCortroleCreation = NbrVersion,
+        enum versionBddNote{TypeControleCreation = NbrVersion,
+                            ControleCreation,
                            NbrVersionBddNote};
         //! Type de mise à jour.
         enum typeBddNote{NoteType = NbrType, NbrTypeNote};

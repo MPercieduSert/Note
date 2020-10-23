@@ -199,6 +199,8 @@ ManagersNote::ManagersNote()
     using UniqueCtr = NomUniqueSql<Controle>;
     InfoBdd infoCtr(Controle::Name(),"Controle",Controle::NbrAtt,{UniqueCtr::NbrUnique});
     infoCtr.setAttribut(Controle::IdType,"idTp");
+    infoCtr.setAttribut(Controle::IdCible,"idCb");
+    infoCtr.setAttribut(Controle::Cible,"cb");
     infoCtr.setAttribut(Controle::Code,"cd");
     infoCtr.setAttribut(Controle::DateTime,"dt",bmps::typeAttributBdd::DateTime);
     infoCtr.setAttribut(Controle::Decimale,"dcm");

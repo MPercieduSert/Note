@@ -246,6 +246,8 @@
 	\relation{typageControle}[below=0.75cm of TypeControle]
 	
 	\entity{Controle}{
+		idCible\\
+		cible\\
 		nc\\
 		nom\\
 		num\\
@@ -544,11 +546,13 @@
 	}[below=0.5cm of Groupe,\gui]
 
 	\tableEntity{Controle}{
+		idCible&uint&idSup1&idCb\\
 		idType&uint&idSup1&idTp\\
+		cible&int&int&cb\\
 		code&uint&code&cd\\
 		dateTime&dateTime&dtValide&dt\\
 		decimale&int&decimale&dc\\
-		minima&int&intSup-1&min&\\
+		minima&int&intSup0&min\\
 		nc&text&stringNotEmpty&nc\\
 		nom&text&stringNotEmpty&nm\\
 		num&int&intSup0&num\\
@@ -599,7 +603,7 @@
 	}[below=0.5 of Point,\bdd]
 
 	\tableEntity{Bareme}{
-		idCible&uint&idSup1&idPt&\\
+		idCible&uint&idSup1&idCb&\\
 		cible&int&int&cb\\
 		type&uint&idSup1&tp\\
 		valeur&double&double&vl\\
