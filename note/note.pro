@@ -50,58 +50,6 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/managernote/libmanagernote.a
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/entities/release/ -lentities
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/entities/debug/ -lentities
-else:unix: LIBS += -L$$PWD/../../../Compilation/libmps/entities/ -lentities
-
-INCLUDEPATH += $$PWD/../../libmps/entities
-DEPENDPATH += $$PWD/../../libmps/entities
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/entities/release/libentities.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/entities/debug/libentities.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/entities/release/entities.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/entities/debug/entities.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/entities/libentities.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/manager/release/ -lmanager
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/manager/debug/ -lmanager
-else:unix: LIBS += -L$$PWD/../../../Compilation/libmps/manager/ -lmanager
-
-INCLUDEPATH += $$PWD/../../libmps/manager
-DEPENDPATH += $$PWD/../../libmps/manager
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/manager/release/libmanager.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/manager/debug/libmanager.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/manager/release/manager.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/manager/debug/manager.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/manager/libmanager.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/fen/release/ -lfen
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/fen/debug/ -lfen
-else:unix: LIBS += -L$$PWD/../../../Compilation/libmps/fen/ -lfen
-
-INCLUDEPATH += $$PWD/../../libmps/fen
-DEPENDPATH += $$PWD/../../libmps/fen
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/fen/release/libfen.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/fen/debug/libfen.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/fen/release/fen.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/fen/debug/fen.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/fen/libfen.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/widget/release/ -lwidget
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Compilation/libmps/widget/debug/ -lwidget
-else:unix: LIBS += -L$$PWD/../../../Compilation/libmps/widget/ -lwidget
-
-INCLUDEPATH += $$PWD/../../libmps/widget
-DEPENDPATH += $$PWD/../../libmps/widget
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/widget/release/libwidget.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/widget/debug/libwidget.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/widget/release/widget.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/widget/debug/widget.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../Compilation/libmps/widget/libwidget.a
-
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../library/dialognote/release/ -ldialognote
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../library/dialognote/debug/ -ldialognote
 else:unix: LIBS += -L$$OUT_PWD/../library/dialognote/ -ldialognote
@@ -140,3 +88,55 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../libr
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/release/modeldelegatenote.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/debug/modeldelegatenote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../library/modeldelegatenote/libmodeldelegatenote.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../compilation/libmps/entities/release/ -lentities
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../compilation/libmps/entities/debug/ -lentities
+else:unix: LIBS += -L$$PWD/../../compilation/libmps/entities/ -lentities
+
+INCLUDEPATH += $$PWD/../../libmps/entities
+DEPENDPATH += $$PWD/../../libmps/entities
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/entities/release/libentities.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/entities/debug/libentities.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/entities/release/entities.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/entities/debug/entities.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../compilation/libmps/entities/libentities.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../compilation/libmps/fen/release/ -lfen
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../compilation/libmps/fen/debug/ -lfen
+else:unix: LIBS += -L$$PWD/../../compilation/libmps/fen/ -lfen
+
+INCLUDEPATH += $$PWD/../../libmps/fen
+DEPENDPATH += $$PWD/../../libmps/fen
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/fen/release/libfen.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/fen/debug/libfen.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/fen/release/fen.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/fen/debug/fen.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../compilation/libmps/fen/libfen.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../compilation/libmps/manager/release/ -lmanager
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../compilation/libmps/manager/debug/ -lmanager
+else:unix: LIBS += -L$$PWD/../../compilation/libmps/manager/ -lmanager
+
+INCLUDEPATH += $$PWD/../../libmps/manager
+DEPENDPATH += $$PWD/../../libmps/manager
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/manager/release/libmanager.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/manager/debug/libmanager.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/manager/release/manager.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/manager/debug/manager.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../compilation/libmps/manager/libmanager.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../compilation/libmps/widget/release/ -lwidget
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../compilation/libmps/widget/debug/ -lwidget
+else:unix: LIBS += -L$$PWD/../../compilation/libmps/widget/ -lwidget
+
+INCLUDEPATH += $$PWD/../../libmps/widget
+DEPENDPATH += $$PWD/../../libmps/widget
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/widget/release/libwidget.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/widget/debug/libwidget.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/widget/release/widget.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../compilation/libmps/widget/debug/widget.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../compilation/libmps/widget/libwidget.a

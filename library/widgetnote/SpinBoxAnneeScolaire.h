@@ -16,7 +16,7 @@ namespace  noteMPS{
  */
 
 /*! \ingroup groupeWidgetNote
- * \brief Formulaire de choix d'une Annees.
+ * \brief Widget de choix d'une Annees.
  */
 class SpinBoxAnneeScolaire : public QAbstractSpinBox
 {
