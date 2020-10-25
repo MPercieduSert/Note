@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += widgets
+QT       += widgets sql
 
 TARGET = widgetnote
 TEMPLATE = lib

@@ -13,6 +13,7 @@
 #include <QRadioButton>
 #include "BddNote.h"
 #include "Checklist.h"
+#include "EntitySelectWidget.h"
 #include "NewModifDialog.h"
 #include "SelectInListBox.h"
 #include "SpinBoxAnneeScolaire.h"
@@ -177,14 +178,15 @@ protected:
     szt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
 
     //Widget
-    QLabel * m_anneeLabel;                      //!< Label du choix de l'annee.
+    //QLabel * m_anneeLabel;                      //!< Label du choix de l'annee.
     QLabel * m_debutLabel;                      //!< Label du choix de la date du dédut des cours.
     QLabel * m_etabLabel;                       //!< Label du choix de l'établissement.
     QLabel * m_finLabel;
     QLabel * m_nivLabel;                        //!< Label du choix du niveau.
     QLabel * m_numLabel;                        //!< Label du numéro de la classe.
     QLabel * m_listeEleveLabel;                 //!< Label de la liste des éléves.
-    SpinBoxAnneeScolaire * m_anneeSpinBox;      //!< Choix de l'annee Scolaire.
+    AnneeSelectWidget * m_anneeSelect;          //!< Choix de l'annee Scolaire.
+    //SpinBoxAnneeScolaire * m_anneeSpinBox;      //!< Choix de l'annee Scolaire.
     QCalendarWidget * m_debutCalendar;          //<! Choix de la date du debut des cours.
     widgetMPS::IdComboBox * m_etabCB;                       //!< Choix de l'établissement.
     QCalendarWidget * m_finCalendar;            //!< Choix de la date de la fin des cours.
