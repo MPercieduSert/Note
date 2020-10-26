@@ -45,10 +45,46 @@ public:
     //! Constructeur.
     EtablissementSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
         : ComboBoxEntitySelectWidget(bdd,tr("Etablissement : "),orientation,parent) {
-    m_box->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
+        m_box->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
                        [](const Etablissement & etab)->QString
                              {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
     }
+};
+
+/*! \ingroup groupeWidgetNote
+ * \brief Formulaire du choix d'une classe.
+ */
+class ClasseSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+    Q_OBJECT
+protected:
+    AnneeSelectWidget * m_anneeSelect;          //!< Choix de l'année de la classe.
+    EtablissementSelectWidget * m_etabSelect;   //!< Choix de l'établissement de la classe.
+    QHBoxLayout * m_classeLayout;               //!< Calque du choix de la classe.
+public:
+    //! Constructeur.
+    ClasseSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+
+    //! Accesseur de l'identifiant de l'année.
+    idt idAn() const
+        {return m_anneeSelect->id();}
+    //! Accesseur de l'identifiant de l'établissement.
+    idt idEtab() const
+        {return m_etabSelect->id();}
+
+public slots:
+    //! Mutateur de l'etat de permission du l'établissement et de la classe.
+    void setEnabledEtab(bool bb);
+
+    //! Mutateur de l'identifiant de l'année de la classe.
+    void setIdAn(idt id)
+        {m_anneeSelect->setId(id);}
+
+    //! Mutateur de l'identifiant de l'année de la classe.
+    void setIdEtab(idt id)
+        {m_etabSelect->setId(id);}
+
+    //! Mise à jour de la liste des classes.
+    void updateClasse();
 };
 
 /*! \ingroup groupeWidgetNote
