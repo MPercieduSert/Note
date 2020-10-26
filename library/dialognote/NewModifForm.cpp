@@ -212,22 +212,10 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     if(!m_new)
         setNoms(m_bdd.getList<Classe>(Classe::Nom));
 
-    // Annee
-//    m_anneeLabel = new QLabel(tr("Annee scolaire : "));
-//    m_anneeSpinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
-//    m_anneeSpinBox->setNowValue();
+    // Annee - Etab - Niveaux
     m_anneeSelect = new AnneeSelectWidget(m_bdd);
-
-    // Etab
-    m_etabLabel = new QLabel(tr("Etablissement :"));
-    m_etabCB = new widgetMPS::IdComboBox;
-    m_etabCB->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
-                      [](const Etablissement & etab)->QString
-                            {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
-    // Niveau
-    m_nivLabel = new QLabel(tr("Niveau :"));
-    m_nivCB = new widgetMPS::IdComboBox;
-    updateNiveau();
+    m_etabSelect = new EtablissementSelectWidget(m_bdd);
+    m_nivSelect = new NiveauxSelectWidget(m_bdd);
 
     // Num
     m_numLabel = new QLabel(tr("Numéro :"));
@@ -242,13 +230,9 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     m_finCalendar = new QCalendarWidget;
 
     // Calque
-    //m_mainLayout->addWidget(m_anneeLabel);
-    //m_mainLayout->addWidget(m_anneeSpinBox);
     m_mainLayout->addWidget(m_anneeSelect);
-    m_mainLayout->addWidget(m_etabLabel);
-    m_mainLayout->addWidget(m_etabCB);
-    m_mainLayout->addWidget(m_nivLabel);
-    m_mainLayout->addWidget(m_nivCB);
+    m_mainLayout->addWidget(m_etabSelect);
+    m_mainLayout->addWidget(m_nivSelect);
     m_mainLayout->addWidget(m_numLabel);
     m_mainLayout->addWidget(m_numSpinBox);
     m_debutLayout = new QVBoxLayout;
@@ -266,8 +250,7 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
 
 void ClasseNewModifForm::connexion() {
     AbstractNcNomNewModifForm::connexion();
-    connect(m_etabCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&ClasseNewModifForm::updateNiveau);
-    //connect(m_anneeSpinBox,&SpinBoxAnneeScolaire::valueChanged,this,&ClasseNewModifForm::updateCalendar);
+    connect(m_etabSelect,&EtablissementSelectWidget::idChanged,m_nivSelect,&NiveauxSelectWidget::setIdEtab);
     connect(m_anneeSelect,&AnneeSelectWidget::idChanged,this,&ClasseNewModifForm::updateCalendar);
     connect(m_debutCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
     connect(m_finCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
@@ -280,8 +263,8 @@ void ClasseNewModifForm::save() {
     cl.setNc(nc());
     cl.setNom(nom());
     cl.setIdAn(m_anneeSelect->id());
-    cl.setIdEtab(m_etabCB->currentData().toUInt());
-    cl.setIdNiveau(m_nivCB->currentData().toUInt());
+    cl.setIdEtab(m_etabSelect->id());
+    cl.setIdNiveau(m_nivSelect->id());
     cl.setNum(m_numSpinBox->value());
     m_bdd.save(cl);
     if(m_new)
@@ -313,7 +296,7 @@ void ClasseNewModifForm::updateCalendar() {
 
 void ClasseNewModifForm::updateData() {
     if(m_new) {
-        updateNiveau();
+        m_nivSelect->setIdEtab(m_etabSelect->id());
         updateCalendar();
     }
     else {
@@ -321,8 +304,9 @@ void ClasseNewModifForm::updateData() {
         updateTemp<Classe>(cl);
         m_idClasse = cl.id();
         m_anneeSelect->setId(cl.idAn());
-        m_etabCB->setCurrentIndex(m_etabCB->findData(cl.idEtab()));
-        m_nivCB->setCurrentIndex(m_nivCB->findData(cl.idNiveau()));
+        m_etabSelect->setId(cl.idEtab());
+        m_nivSelect->setIdEtab(cl.idEtab());
+        m_nivSelect->setId(cl.idNiveau());
         m_numSpinBox->setValue(cl.num());
         DonneeCible dnCb;
         dnCb.setIdDonnee(bdd().refToId<Donnee>("date_defaut_dn"));
@@ -340,17 +324,8 @@ void ClasseNewModifForm::updateData() {
 
 bool ClasseNewModifForm::valide() const {
     return AbstractNcNomNewModifForm::valide()
-            && m_nivCB->id() && m_etabCB->id()
+            && m_nivSelect->id() && m_etabSelect->id()
             && m_debutCalendar->selectedDate() < m_finCalendar->selectedDate();
-}
-
-void ClasseNewModifForm::updateNiveau() {
-    m_nivCB->clear();
-    m_nivCB->addText(m_bdd.getList<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,
-                                                          EtablissementNiveau::IdEtab,
-                                                          m_etabCB->currentData(Qt::UserRole).toUInt()),
-                     [](const Niveau & niv)->QString
-                            {return QString(niv.nom()).append(" (").append(niv.nc()).append(")");});
 }
 
 // Controle

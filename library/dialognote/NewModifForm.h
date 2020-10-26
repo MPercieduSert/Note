@@ -178,19 +178,15 @@ protected:
     szt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
 
     //Widget
-    //QLabel * m_anneeLabel;                      //!< Label du choix de l'annee.
     QLabel * m_debutLabel;                      //!< Label du choix de la date du dédut des cours.
-    QLabel * m_etabLabel;                       //!< Label du choix de l'établissement.
-    QLabel * m_finLabel;
-    QLabel * m_nivLabel;                        //!< Label du choix du niveau.
+    QLabel * m_finLabel;                        //!< Label du choix de la date de la fin des cours.
     QLabel * m_numLabel;                        //!< Label du numéro de la classe.
     QLabel * m_listeEleveLabel;                 //!< Label de la liste des éléves.
     AnneeSelectWidget * m_anneeSelect;          //!< Choix de l'annee Scolaire.
-    //SpinBoxAnneeScolaire * m_anneeSpinBox;      //!< Choix de l'annee Scolaire.
+    EtablissementSelectWidget * m_etabSelect;   //!< Choix de l'établissement.
+    NiveauxSelectWidget * m_nivSelect;          //!< Choix du niveau.
     QCalendarWidget * m_debutCalendar;          //<! Choix de la date du debut des cours.
-    widgetMPS::IdComboBox * m_etabCB;                       //!< Choix de l'établissement.
     QCalendarWidget * m_finCalendar;            //!< Choix de la date de la fin des cours.
-    widgetMPS::IdComboBox * m_nivCB;                        //!< Choix du niveau.
     QSpinBox * m_numSpinBox;                    //!< Choix du numéro de la classe.
 
     //Calque
@@ -234,9 +230,6 @@ public slots:
 
     //! Met à jour le formulaire.
     void updateData() override;
-
-    //! Met à jour les niveaux disponible.
-    void updateNiveau();
 };
 
 /*! \ingroup groupeDialogNote
