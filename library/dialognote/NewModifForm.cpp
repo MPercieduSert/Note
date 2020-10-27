@@ -566,7 +566,6 @@ void GroupeNewModifForm::updateData() {
     else {
         m_exclusifCheck->setChecked(true);
         m_totalCheck->setChecked(true);
-        m_classeSelect->updateClasse();
     }
 }
 

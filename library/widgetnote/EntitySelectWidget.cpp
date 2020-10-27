@@ -17,6 +17,7 @@ ClasseSelectWidget::ClasseSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orien
     : ComboBoxEntitySelectWidget(bdd,tr("Classe : "),orientation,parent) {
     m_anneeSelect = new AnneeSelectWidget(bdd);
     m_etabSelect = new EtablissementSelectWidget(bdd);
+    setEnabledEtabClasse(true);
     connect(m_etabSelect,&EtablissementSelectWidget::idChanged,this,&ClasseSelectWidget::updateClasse);
     m_classeLayout = new QHBoxLayout;
     m_classeLayout->addWidget(m_label);

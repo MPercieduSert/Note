@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include "AbstractTabTableau.h"
 #include "BddNote.h"
+#include "EntitySelectWidget.h"
 #include "FindWidget.h"
 #include "IdComboBox.h"
 #include "ModelNote.h"
@@ -27,20 +28,14 @@ protected:
     modelMPS::TableModel * m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
 
     // Widget
-    QLabel * m_anLabel;                             //!< Label du choix de l'année de la classe.
-    QLabel * m_classeLabel;                         //!< Label du choix de la classe.
-    QLabel * m_etabLabel;                           //!< Label du choix de l'établissement.
+    ClasseSelectWidget * m_classeSelect;            //!< Choix de la classe.
     QPushButton * m_addButton;                      //!< Bouton d'ajout des élèves séléctionnés.
     QPushButton * m_delButton;                      //!< Bouton de retrait des élèves séléctionnés.
     QTableView * m_eleveView;                       //!< Vue de sélection des élèves.
     widgetMPS::FindWidget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
-    widgetMPS::IdComboBox * m_classeCB;       //!< Sélection de la classe.
-    widgetMPS::IdComboBox * m_etabCB;               //!< Sélection de l'établissement.
-    SpinBoxAnneeScolaire * m_anSpinBox;             //!< Sélection de l'année de la classe.
 
     // Calque
     QHBoxLayout * m_buttonLayout;                   //!< Calque des boutons.
-    QHBoxLayout *  m_classeLayout;                  //!< Calque du choix de la classe.
     QHBoxLayout * m_eleveLayout;                    //!< Calque de séléction des éléves.
     QVBoxLayout * m_mainLayout;                     //!< Calque Principal.
 
@@ -62,9 +57,6 @@ public:
 public slots:
     //! Supprime les élèves séléctionnés.
     void remove() {}
-
-    //! Met-à-jour la liste des classes vis-à-vis de l'année.
-    void updateClasseListe();
 };
 }
 #endif // CLASSEELEVETAB_H
