@@ -352,8 +352,9 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     });
 
     m_dateLabel = new QLabel("Date et heure du controle");
-
-//    m_mainLayout->insertWidget(6,m_categorieCheck);
+    m_groupeSelect = new GroupeSelectWidget(bdd,Qt::Vertical);
+    m_mainLayout->insertWidget(4,m_dateLabel);
+    m_mainLayout->insertWidget(5,m_groupeSelect);
 
 }
 
@@ -518,7 +519,7 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
 
 void GroupeNewModifForm::connexion() {
     AbstractTypeNcNomNewModifForm::connexion();
-    connect(m_clRadio,&QRadioButton::toggled,m_classeSelect,&ClasseSelectWidget::setEnabledEtab);
+    connect(m_clRadio,&QRadioButton::toggled,m_classeSelect,&ClasseSelectWidget::setEnabledEtabClasse);
 }
 
 void GroupeNewModifForm::save() {

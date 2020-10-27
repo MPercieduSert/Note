@@ -239,10 +239,11 @@ class ControleNewModifForm : public AbstractControleNewModifForm {
     Q_OBJECT
 protected:
     // Widget
-    QLabel * m_dateLabel;               //!< Date et heure du controle.
-    QLabel * m_numLabel;                //!< Numéro du controle.
-    QDateTimeEdit * m_dateTimeEdit;     //!< Choix de la date du controle.
-    QSpinBox * m_numSpinBox;            //!< Choix du numéro du controle.
+    QLabel * m_dateLabel;                   //!< Date et heure du controle.
+    QLabel * m_numLabel;                    //!< Numéro du controle.
+    QDateTimeEdit * m_dateTimeEdit;         //!< Choix de la date du controle.
+    GroupeSelectWidget * m_groupeSelect;    //!< Choix du groupe.
+    QSpinBox * m_numSpinBox;                //!< Choix du numéro du controle.
 
 public:
     //! Constructeur.

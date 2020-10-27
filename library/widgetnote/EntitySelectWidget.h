@@ -6,6 +6,7 @@
 
 #include <QLabel>
 #include "AbstractEntitySelectWidget.h"
+#include "BddPredef.h"
 #include "IdComboBox.h"
 #include "SpinBoxAnneeScolaire.h"
 
@@ -73,7 +74,7 @@ public:
 
 public slots:
     //! Mutateur de l'etat de permission du l'établissement et de la classe.
-    void setEnabledEtab(bool bb);
+    void setEnabledEtabClasse(bool bb);
 
     //! Mutateur de l'identifiant de l'année de la classe.
     void setIdAn(idt id)
@@ -85,7 +86,45 @@ public slots:
 
     //! Mise à jour de la liste des classes.
     void updateClasse();
+
+signals:
+    //! Signale le changement d'identifiant de l'année.
+    void idAnChanged(idt idAn);
 };
+
+/*! \ingroup groupeWidgetNote
+ * \brief Formulaire du choix d'un Groupe.
+ */
+class GroupeSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+    Q_OBJECT
+protected:
+    QLabel * m_catLabel;                        //!< Label du choix de la catégorie du groupe.
+    QLabel * m_typeLabel;                       //!< Label de sélection du type.
+    QComboBox * m_catCB;                        //!< Sélection de la catégorie du groupe.
+    widgetMPS::IdComboBox * m_typeCB;           //!< Sélection du type.
+    ClasseSelectWidget * m_classeSelect;        //!< Choix de la classe ou de l'année.
+    QHBoxLayout * m_catLayout;                  //!< Calque du choix de la catégorie du groupe.
+    QHBoxLayout * m_groupeLayout;               //!< Calque du choix du type groupe.
+    QHBoxLayout * m_typeLayout;                 //!< Calque du choix du type de groupe.
+public:
+    //! Constructeur.
+    GroupeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+
+    //! Accesseur de la base de donnée.
+    bddMPS::BddPredef & bdd() const
+        {return static_cast<bddMPS::BddPredef &>(m_bdd);}
+
+public slots:
+    //! Mise à jour après changement de catégorie.
+    void catChange();
+
+    //! Mise à jour des groupes.
+    void updateGroupe();
+
+    //! Mise à jour des types.
+    void updateType();
+};
+
 
 /*! \ingroup groupeWidgetNote
  * \brief Formulaire du choix d'un niveaux.
