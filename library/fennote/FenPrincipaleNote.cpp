@@ -50,9 +50,7 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * classeMenu = m_newModifMenu->addMenu(tr("Classe"));
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Modifier")),false);
-    connect(classeMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
-        centraleZone()->openTab({TabNote::ClasseEleveTabId,0});
-        });
+    connectActionToOpenTab(classeMenu->addAction(tr("Liste des éléves")),{TabNote::ClasseEleveTabId,0});
     //Controle
     auto * ctrl= m_newModifMenu->addMenu(tr("Controle"));
     connectActionToNewModifDialog<ControleNewModifForm>(ctrl->addAction(tr("Créer")),true);
@@ -63,13 +61,14 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * etabMenu = m_newModifMenu->addMenu(tr("Établissement"));
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Modifier")),false);
+    // Exercice
+    auto * exerciceMenu = m_newModifMenu->addMenu(tr("Exercice"));
+    connectActionToOpenTab(exerciceMenu->addAction(tr("Créer")),{TabNote::ExerciceTabId,fenMPS::AbstractTabModule::NoId});
     // Groupe
     auto * grMenu = m_newModifMenu->addMenu(tr("Groupe"));
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Modifier")),false);
-    connect(grMenu->addAction(tr("Liste des éléves")),&QAction::triggered,this,[this](){
-        centraleZone()->openTab({TabNote::GroupeTabId,0});
-        });
+    connectActionToOpenTab(grMenu->addAction(tr("Liste des éléves")),{TabNote::GroupeTabId,0});
     // Niveau
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);

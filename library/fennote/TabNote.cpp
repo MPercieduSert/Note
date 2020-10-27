@@ -11,6 +11,8 @@ fmps::AbstractTabModule * TabNote::createTab(const std::pair<int,int>& pair, con
             return new ClasseEleveTab(bdd(),pair);
         case ElevesTabId:
             return new ElevesTab(bdd(),pair);
+        case ExerciceTabId:
+            return new ExerciceTab(bdd(),pair);
         case GroupeTabId:
             return new GroupeTab(bdd(),pair);
         default:

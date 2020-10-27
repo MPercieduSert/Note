@@ -21,7 +21,7 @@
 
 namespace noteMPS {
 /*! \ingroup groupeDialogNote
- * \brief Formulaire de création des Annees.
+ * \brief Onglet de gestion des élèves dans les groupes.
  */
 class GroupeTab : public fenMPS::AbstractTabTableau {
     Q_OBJECT

@@ -6,6 +6,7 @@
 
 #include "ClasseEleveTab.h"
 #include "ElevesTab.h"
+#include "ExerciceTab.h"
 #include "GroupeTab.h"
 #include "PredefTab.h"
 
@@ -19,6 +20,7 @@ class TabNote : public fmps::PredefTab {
 public:
     enum NoteTabId {ClasseEleveTabId = NbrPredefTabId,
                     ElevesTabId,
+                    ExerciceTabId,
                     GroupeTabId
                     };
     using PredefTab::PredefTab;

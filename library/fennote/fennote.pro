@@ -28,7 +28,8 @@ SOURCES += \
     ZoneCentraleNote.cpp \
     ElevesTab.cpp \
     ClasseEleveTab.cpp \
-    GroupeTab.cpp
+    GroupeTab.cpp \
+    ExerciceTab.cpp
 
 HEADERS += \
     FenPrincipaleNote.h \
@@ -37,7 +38,8 @@ HEADERS += \
     ZoneCentraleNote.h \
     ElevesTab.h \
     ClasseEleveTab.h \
-    GroupeTab.h
+    GroupeTab.h \
+    ExerciceTab.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
