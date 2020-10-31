@@ -152,3 +152,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../mode
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/release/modeldelegatenote.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/debug/modeldelegatenote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/libmodeldelegatenote.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/model/release/ -lmodel
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/model/debug/ -lmodel
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/model/ -lmodel
+
+INCLUDEPATH += $$PWD/../../../libmps/model
+DEPENDPATH += $$PWD/../../../libmps/model
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/release/libmodel.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/debug/libmodel.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/release/model.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/debug/model.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/libmodel.a
