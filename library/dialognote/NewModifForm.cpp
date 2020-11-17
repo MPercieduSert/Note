@@ -351,10 +351,16 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
         return item;
     });
 
-    m_dateLabel = new QLabel("Date et heure du controle");
+    m_dateLabel = new QLabel("Date et heure du controle :");
+    m_dateTimeEdit = new QDateTimeEdit;
     m_groupeSelect = new GroupeSelectWidget(bdd,Qt::Vertical);
+    m_numLabel = new QLabel("Numéro de controle :");
+    m_numSpinBox = new QSpinBox;
     m_mainLayout->insertWidget(4,m_dateLabel);
-    m_mainLayout->insertWidget(5,m_groupeSelect);
+    m_mainLayout->insertWidget(5,m_dateTimeEdit);
+    m_mainLayout->insertWidget(6,m_groupeSelect);
+    m_mainLayout->insertWidget(7,m_numLabel);
+    m_mainLayout->insertWidget(8,m_numSpinBox);
 
 }
 
