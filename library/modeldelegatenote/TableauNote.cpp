@@ -145,7 +145,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
     switch (info.id) {
     case Entree:
         return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
-                                                                         modelMPS::AbstractColonnesModel::DateColonne,m_vec,
+                                                                         modelMPS::DateColonneType,m_vec,
             [](const ClasseEleve & clEl,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
                     return clEl.entree();
@@ -158,7 +158,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
                 return false;});
     case Sortie:
         return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
-                                                                         modelMPS::AbstractColonnesModel::DateColonne,m_vec,
+                                                                         modelMPS::DateColonneType,m_vec,
             [](const ClasseEleve & clEl,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
                     return clEl.sortie();
@@ -176,7 +176,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
 
 /////////////////////////////////////////// EleveVecTableau ///////////////////////////////////////////////////
 EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec)
-    : modelMPS::VectorPtrIdColonne<Eleve>(name, flags,modelMPS::AbstractColonnesModel::TexteColonne,vec,
+    : modelMPS::VectorPtrIdColonne<Eleve>(name, flags,modelMPS::TexteColonneType,vec,
     [](const Eleve & eleve, int role)->QVariant{
         if(role == Qt::DisplayRole || role == Qt::EditRole)
             return eleve.nom();
@@ -201,7 +201,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
         return std::make_unique<NomColonne>(info.name,info.flags,m_vec);
     case Prenom:
         return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,
-                                                                   modelMPS::AbstractColonnesModel::TexteColonne,m_vec,
+                                                                   modelMPS::TexteColonneType,m_vec,
             [](const Eleve & eleve,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
                     return eleve.prenom();
@@ -214,7 +214,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                 return false;});
     case Naissance:
         return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,
-                                                                   modelMPS::AbstractColonnesModel::DateColonne,m_vec,
+                                                                   modelMPS::DateColonneType,m_vec,
            [](const Eleve & eleve,int role)->QVariant {
                if(role == Qt::DisplayRole || role == Qt::EditRole)
                    return eleve.date();
@@ -227,7 +227,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                return false;});
     case Sexe:
         return std::make_unique<modelMPS::VectorPtrBoolColonne<Eleve>>(info.name,info.flags,
-                                                                       modelMPS::AbstractColonnesModel::BoolColonne,m_vec,
+                                                                       modelMPS::BoolColonneType,m_vec,
            [](const Eleve & eleve)->bool {return eleve.fille();},
            [](Eleve & eleve, bool value) {eleve.setFille(value);},
            "F","M");
@@ -266,7 +266,7 @@ void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<szt>> &m
 std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
 EleveGroupeTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) {
     return std::make_unique<modelMPS::VectorRefHeterogeneTailleIdColonne<Eleve>>(info.name,info.flags,
-                                                                               modelMPS::AbstractColonnesModel::TexteColonne,
+                                                                               modelMPS::TexteColonneType,
                                                                                colonneAt(info.tableau),
     [](const Eleve & el,int role)->QVariant {
         if(role == Qt::DisplayRole)
@@ -340,7 +340,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
         return false;};
     return std::make_unique<modelMPS::TempBaseColonne<decltype (read), decltype (find), decltype (write),
                                                       std::vector<std::list<EleveGroupe>>>>(info.name,info.flags,
-                                                                     modelMPS::AbstractColonnesModel::TexteColonne,m_vec,
+                                                                     modelMPS::TexteColonneType,m_vec,
                                                                      read,find,write);
 }
 
@@ -367,7 +367,7 @@ EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
         auto colonne = std::make_unique<modelMPS::TempBaseColorColonne<decltype (backFore), decltype (backFore),
                                                                decltype (read), decltype (find), decltype (write),
                                                                conteneurMPS::VectorPtr<EleveGroupe>>>(info.name,info.flags,
-                                                                         modelMPS::AbstractColonnesModel::TexteColonne,m_vec,
+                                                                         modelMPS::TexteColonneType,m_vec,
                                                                          backFore,backFore,
                                                                          read,find,write);
         colonne->backGroundVector().push_back(QBrush(Qt::black));

@@ -62,8 +62,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     m_eleveView->setSortingEnabled(true);
     m_eleveModel->sort(NomEl);
     m_eleveView->horizontalHeader()->setSectionsMovable(true);
-    m_eleveFind = new widgetMPS::FindWidget;
-    m_eleveFind->setModel(m_eleveModel);
+    m_eleveFind = new widgetMPS::FindWidget(m_eleveModel);
 
     // Calque
     m_classeLayout = new QHBoxLayout;
