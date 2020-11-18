@@ -4,6 +4,7 @@
 #ifndef NEWMODIFFORM_H
 #define NEWMODIFFORM_H
 
+#include <QButtonGroup>
 #include <QCalendarWidget>
 #include <QCheckBox>
 #include <QDateTimeEdit>
@@ -239,11 +240,20 @@ class ControleNewModifForm : public AbstractControleNewModifForm {
     Q_OBJECT
 protected:
     // Widget
-    QLabel * m_dateLabel;                   //!< Date et heure du controle.
-    QLabel * m_numLabel;                    //!< Numéro du controle.
-    QDateTimeEdit * m_dateTimeEdit;         //!< Choix de la date du controle.
-    GroupeSelectWidget * m_groupeSelect;    //!< Choix du groupe.
-    QSpinBox * m_numSpinBox;                //!< Choix du numéro du controle.
+    QLabel * m_dateLabel;                                       //!< Date et heure du controle.
+    QLabel * m_numLabel;                                        //!< Numéro du controle.
+    QButtonGroup * m_pourBG;                                    //!< Groupe des boutons de destination.
+    QDateTimeEdit * m_dateTimeEdit;                             //!< Choix de la date du controle.
+    widgetMPS::AbstractEntitySelectWidget * m_entitySelect;     //!< Choix de la destination.
+    QRadioButton * m_classeRadio;                                //!< Destination pour classe.
+    QRadioButton * m_eleveRadio;                                 //!< Destination pour eleve.
+    QRadioButton * m_groupeRadio;                                //!< Destination pour groupe.
+    QSpinBox * m_numSpinBox;                                    //!< Choix du numéro du controle.
+    QGroupBox * m_pourGr;                                       //!< Choix de la destination du controle.
+
+    // Calque
+    QHBoxLayout * m_pourButtonLayout;       //!< Calque de positionnement des boutons de destination.
+    QVBoxLayout * m_pourLayout;             //!< Calque du groupe du choix de la destination du controle.
 
 public:
     //! Constructeur.

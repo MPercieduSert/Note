@@ -339,7 +339,7 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     if(!m_new)
         setNoms(m_bdd.getList<Controle>(Controle::Nom));
 
-    // parent
+    // Type
     m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
                           [](const TypeControle & tc)->QTreeWidgetItem * {
         auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
@@ -351,14 +351,31 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
         return item;
     });
 
+    // Destination
+    m_classeRadio = new QRadioButton(tr("Classe"));
+    m_classeRadio->setChecked(true);
+    m_eleveRadio = new QRadioButton(tr("Eleve"));
+    m_groupeRadio = new QRadioButton(tr("Groupe"));
+    m_pourBG = new QButtonGroup(this);
+    m_pourBG->addButton(m_classeRadio,Classe::ID);
+    m_pourBG->addButton(m_eleveRadio,Eleve::ID);
+    m_pourBG->addButton(m_groupeRadio,Groupe::ID);
+    //m_entitySelect = new
+    m_pourGr = new QGroupBox("Pour :");
+    m_pourButtonLayout = new QHBoxLayout;
+    m_pourButtonLayout->addWidget(m_classeRadio);
+    m_pourButtonLayout->addWidget(m_groupeRadio);
+    m_pourButtonLayout->addWidget(m_eleveRadio);
+    m_pourLayout = new QVBoxLayout(m_pourGr);
+    m_pourLayout->addLayout(m_pourButtonLayout);
+
     m_dateLabel = new QLabel("Date et heure du controle :");
     m_dateTimeEdit = new QDateTimeEdit;
-    m_groupeSelect = new GroupeSelectWidget(bdd,Qt::Vertical);
     m_numLabel = new QLabel("Numéro de controle :");
     m_numSpinBox = new QSpinBox;
-    m_mainLayout->insertWidget(4,m_dateLabel);
-    m_mainLayout->insertWidget(5,m_dateTimeEdit);
-    m_mainLayout->insertWidget(6,m_groupeSelect);
+    m_mainLayout->insertWidget(4,m_pourGr);
+    m_mainLayout->insertWidget(5,m_dateLabel);
+    m_mainLayout->insertWidget(6,m_dateTimeEdit);
     m_mainLayout->insertWidget(7,m_numLabel);
     m_mainLayout->insertWidget(8,m_numSpinBox);
 
