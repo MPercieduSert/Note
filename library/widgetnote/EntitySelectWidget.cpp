@@ -42,11 +42,51 @@ void ClasseSelectWidget::setEnabledEtabClasse(bool bb) {
     }
 }
 
+void ClasseSelectWidget::setId(idt id) {
+    if(m_box->isEnabled()) {
+        Classe cl(id);
+        if(m_bdd.get(cl)) {
+            m_anneeSelect->setId(cl.idAn());
+            m_etabSelect->setId(cl.idEtab());
+            ComboBoxEntitySelectWidget::setId(id);
+        }
+    }
+}
+
 void ClasseSelectWidget::updateClasse() {
     m_box->clear();
     if(m_anneeSelect->id() != 0 && m_etabSelect->id() != 0)
         m_box->addText(m_bdd.getList<Classe>(Classe::IdAn,m_anneeSelect->id(),Classe::IdEtab,m_etabSelect->id(),Classe::Nom),
                  [](const Classe & cl)->QString {return cl.nc();});
+}
+
+EleveSelectWidget::EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
+    : ComboBoxEntitySelectWidget(bdd,tr("Eleve : "),orientation,parent) {
+    m_classeSelect = new ClasseSelectWidget(bdd,orientation);
+    connect(m_classeSelect,&ClasseSelectWidget::idChanged,this,&EleveSelectWidget::updateEleve);
+    m_eleveLayout = new QHBoxLayout;
+    m_eleveLayout->addWidget(m_label);
+    m_eleveLayout->addWidget(m_box);
+    m_mainLayout->addWidget(m_classeSelect);
+    m_mainLayout->addLayout(m_eleveLayout);
+}
+
+void EleveSelectWidget::setId(idt id) {
+    auto list = m_bdd.getList<ClasseEleve>(ClasseEleve::IdEleve,id,ClasseEleve::IdClasse);
+    if(!list.empty())
+        m_classeSelect->setId(list.back().idClasse());
+    ComboBoxEntitySelectWidget::setId(id);
+}
+
+void EleveSelectWidget::updateEleve() {
+    m_box->clear();
+    if(m_classeSelect->id() != 0)
+        m_box->addText(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_classeSelect->id(),Eleve::Nom),
+                 [](const Eleve & el)->QString {return QString(el.nom()).append(" ")
+                                                                        .append(el.prenom())
+                                                                        .append(" (")
+                                                                        .append(el.date().toString("dd/MM/yyyy"))
+                                                                        .append(")");});
 }
 
 GroupeSelectWidget::GroupeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
@@ -98,6 +138,22 @@ void GroupeSelectWidget::catChange() {
         connect(m_classeSelect,&ClasseSelectWidget::idAnChanged,this,&GroupeSelectWidget::updateGroupe);
     }
     updateType();
+}
+
+void GroupeSelectWidget::setId(idt id){
+    Groupe gr(id);
+    if(m_bdd.get(gr)) {
+        if(gr.idAn()) {
+            m_catCB->setCurrentIndex(0);
+            m_classeSelect->setIdAn(gr.idAn());
+        }
+        else {
+            m_catCB->setCurrentIndex(1);
+            m_classeSelect->setId(gr.idClasse());
+        }
+        m_typeCB->setCurrentIndexId(gr.type());
+        ComboBoxEntitySelectWidget::setId(id);
+    }
 }
 
 void GroupeSelectWidget::updateGroupe() {

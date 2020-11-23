@@ -357,10 +357,11 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     m_eleveRadio = new QRadioButton(tr("Eleve"));
     m_groupeRadio = new QRadioButton(tr("Groupe"));
     m_pourBG = new QButtonGroup(this);
-    m_pourBG->addButton(m_classeRadio,Classe::ID);
-    m_pourBG->addButton(m_eleveRadio,Eleve::ID);
-    m_pourBG->addButton(m_groupeRadio,Groupe::ID);
-    //m_entitySelect = new
+    m_pourBG->addButton(m_classeRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID));
+    m_pourBG->addButton(m_eleveRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Eleve::ID));
+    m_pourBG->addButton(m_groupeRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Groupe::ID));
+    m_entitySelect = new ClasseSelectWidget(m_bdd,Qt::Vertical);
+    m_cibleEntitySelect = static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID);
     m_pourGr = new QGroupBox("Pour :");
     m_pourButtonLayout = new QHBoxLayout;
     m_pourButtonLayout->addWidget(m_classeRadio);
@@ -368,29 +369,36 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     m_pourButtonLayout->addWidget(m_eleveRadio);
     m_pourLayout = new QVBoxLayout(m_pourGr);
     m_pourLayout->addLayout(m_pourButtonLayout);
+    m_pourLayout->addWidget(m_entitySelect);
 
     m_dateLabel = new QLabel("Date et heure du controle :");
     m_dateTimeEdit = new QDateTimeEdit;
     m_numLabel = new QLabel("Numéro de controle :");
-    m_numSpinBox = new QSpinBox;
+    m_numSpinBox = new widgetMPS::SpinBoxNumExclu;
+    m_numSpinBox->setOffset(1);
+    m_numSpinBox->setMinimum(0);
+    m_numSpinBox->setMinimumVisible(true);
     m_mainLayout->insertWidget(4,m_pourGr);
-    m_mainLayout->insertWidget(5,m_dateLabel);
-    m_mainLayout->insertWidget(6,m_dateTimeEdit);
-    m_mainLayout->insertWidget(7,m_numLabel);
-    m_mainLayout->insertWidget(8,m_numSpinBox);
-
+    m_mainLayout->insertWidget(5,m_numLabel);
+    m_mainLayout->insertWidget(6,m_numSpinBox);
+    m_mainLayout->insertWidget(7,m_dateLabel);
+    m_mainLayout->insertWidget(8,m_dateTimeEdit);
 }
 
 void ControleNewModifForm::connexion() {
     AbstractControleNewModifForm::connexion();
-
+    connect(m_pourBG,qOverload<int>(&QButtonGroup::buttonClicked),this,&ControleNewModifForm::updateSelectEntity);
+    connect(m_entitySelect,&widgetMPS::AbstractEntitySelectWidget::idChanged,this,&ControleNewModifForm::updateNum);
+    connect(m_parentTree->selectionModel(),&QItemSelectionModel::selectionChanged,this,&ControleNewModifForm::updateNum);
 }
-
 
 void ControleNewModifForm::save() {
     auto ctr = entityNoteOption<Controle>(true);
     ctr.setIdType(idParent());
-
+    ctr.setCible(m_pourBG->checkedId());
+    ctr.setIdCible(m_entitySelect->id());
+    ctr.setNum(m_numSpinBox->value());
+    ctr.setDateTime(m_dateTimeEdit->dateTime());
     m_bdd.save(ctr);
 }
 
@@ -399,9 +407,52 @@ void ControleNewModifForm::updateData() {
         Controle ctr;
         AbstractNcNomNewModifForm::updateTemp(ctr);
         setParent(ctr.idType());
+        m_pourBG->button(ctr.cible())->setChecked(true);
+        updateSelectEntity(ctr.cible());
+        m_entitySelect->setId(ctr.idCible());
+        updateNum();
+        m_numSpinBox->setValue(ctr.num());
+        m_dateTimeEdit->setDateTime(ctr.dateTime());
+    }
+    else
+        updateNum();
+}
+
+void ControleNewModifForm::updateNum() {
+    auto listCtr = m_bdd.getList<Controle>(Controle::Cible,m_cibleEntitySelect,
+                                           Controle::IdCible,m_entitySelect->id(),
+                                           Controle::IdType,idParent());
+    if(listCtr.empty()) {
+        m_numSpinBox->clearList();
+        m_numSpinBox->setValue(0);
+    }
+    else {
+        auto listNum = std::list<int>();
+        for(auto iter = listCtr.cbegin(); iter != listCtr.cend(); ++iter)
+            listNum.push_back(iter->num());
+        m_numSpinBox->setList(listNum);
+        auto max = std::max_element(listNum.cbegin(),listNum.cend());
+        m_numSpinBox->setValue(*max + 1);
     }
 }
 
+void ControleNewModifForm::updateSelectEntity(int cible){
+    if(cible != m_cibleEntitySelect) {
+        widgetMPS::AbstractEntitySelectWidget * newEntitySelect = nullptr;
+        if(cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID))
+            newEntitySelect = new ClasseSelectWidget(m_bdd,Qt::Vertical);
+        else if (cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Eleve::ID))
+            newEntitySelect = new EleveSelectWidget(m_bdd,Qt::Vertical);
+        else if (cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Groupe::ID))
+            newEntitySelect = new GroupeSelectWidget(m_bdd,Qt::Vertical);
+        m_pourLayout->replaceWidget(m_entitySelect,newEntitySelect,Qt::FindDirectChildrenOnly);
+        m_cibleEntitySelect = cible;
+        m_entitySelect->deleteLater();
+        m_entitySelect = newEntitySelect;
+        updateNum();
+        connect(m_entitySelect,&widgetMPS::AbstractEntitySelectWidget::idChanged,this,&ControleNewModifForm::updateNum);
+    }
+}
 // Etablissement
 EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,

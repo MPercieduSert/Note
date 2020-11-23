@@ -31,7 +31,7 @@ public:
     //! Acceseur de l'identifiant de l'entité séléctionnée.
     idt id() const override
         {return m_spinBox->value().id();}
-
+public slots:
     //! Mutateur de l'identifiant de l'entité séléctionnée.
     void setId(idt id) override
         {m_spinBox->setValue(Annee(id),false);}
@@ -76,11 +76,14 @@ public slots:
     //! Mutateur de l'etat de permission du l'établissement et de la classe.
     void setEnabledEtabClasse(bool bb);
 
+    //! Mutateur de l'identifiant de la classe.
+    void setId(idt id) override;
+
     //! Mutateur de l'identifiant de l'année de la classe.
     void setIdAn(idt id)
         {m_anneeSelect->setId(id);}
 
-    //! Mutateur de l'identifiant de l'année de la classe.
+    //! Mutateur de l'identifiant de l'établissement de la classe.
     void setIdEtab(idt id)
         {m_etabSelect->setId(id);}
 
@@ -92,6 +95,49 @@ signals:
     void idAnChanged(idt idAn);
 };
 
+/*! \ingroup groupeWidgetNote
+ * \brief Formulaire du choix d'un élève.
+ */
+class EleveSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+    Q_OBJECT
+protected:
+    ClasseSelectWidget * m_classeSelect;        //!< Choix de la classe.
+    QHBoxLayout * m_eleveLayout;               //!< Calque du choix de la classe.
+public:
+    //! Constructeur.
+    EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+
+    //! Accesseur de l'identifiant de l'année.
+    idt idAn() const
+        {return m_classeSelect->idAn();}
+
+    //! Accesseur de l'identifiant de la classe.
+    idt idClasse() const
+        {return m_classeSelect->id();}
+
+    //! Accesseur de l'identifiant de l'établissement.
+    idt idEtab() const
+        {return m_classeSelect->idEtab();}
+
+public slots:
+    //! Mutateur de l'identifiant de l'élève.
+    void setId(idt id) override;
+
+    //! Mutateur de l'identifiant de l'année de la classe.
+    void setIdAn(idt id)
+        {m_classeSelect->setIdAn(id);}
+
+    //! Mutateur de l'identifiant de la classe.
+    void setIdClasse(idt id)
+        {m_classeSelect->setId(id);}
+
+    //! Mutateur de l'identifiant de l'établissement de la classe.
+    void setIdEtab(idt id)
+        {m_classeSelect->setIdEtab(id);}
+
+    //! Mise à jour de la liste des éléves.
+    void updateEleve();
+};
 /*! \ingroup groupeWidgetNote
  * \brief Formulaire du choix d'un Groupe.
  */
@@ -117,6 +163,9 @@ public:
 public slots:
     //! Mise à jour après changement de catégorie.
     void catChange();
+
+    //! Mutateur de l'identifiant du groupe.
+    void setId(idt id) override;
 
     //! Mise à jour des groupes.
     void updateGroupe();

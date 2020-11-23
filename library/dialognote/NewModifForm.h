@@ -240,6 +240,7 @@ class ControleNewModifForm : public AbstractControleNewModifForm {
     Q_OBJECT
 protected:
     // Widget
+    int m_cibleEntitySelect;                                       //!< Identifiant du type d'entité sélectionné.
     QLabel * m_dateLabel;                                       //!< Date et heure du controle.
     QLabel * m_numLabel;                                        //!< Numéro du controle.
     QButtonGroup * m_pourBG;                                    //!< Groupe des boutons de destination.
@@ -248,7 +249,7 @@ protected:
     QRadioButton * m_classeRadio;                                //!< Destination pour classe.
     QRadioButton * m_eleveRadio;                                 //!< Destination pour eleve.
     QRadioButton * m_groupeRadio;                                //!< Destination pour groupe.
-    QSpinBox * m_numSpinBox;                                    //!< Choix du numéro du controle.
+    widgetMPS::SpinBoxNumExclu * m_numSpinBox;                                    //!< Choix du numéro du controle.
     QGroupBox * m_pourGr;                                       //!< Choix de la destination du controle.
 
     // Calque
@@ -280,6 +281,12 @@ public slots:
 
     //! Met à jour le formulaire.
     void updateData() override;
+
+    //! Met à jour la liste des numéro exclu.
+    void updateNum();
+
+    //! Met à jour le type de séléction d'entité.
+    void updateSelectEntity(int ID);
 };
 
 /*! \ingroup groupeDialogNote
