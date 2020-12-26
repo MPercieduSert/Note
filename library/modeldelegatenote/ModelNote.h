@@ -22,10 +22,10 @@ public:
     enum {NumRole = CandidatGroupeTableau::NumRole};
 
     //! Constructeur.
-    CandidatGroupeModel(BddNote & bdd, szt idGroupe, QObject * parent = nullptr);
+    CandidatGroupeModel(BddNote & bdd, idt idGroupe, QObject * parent = nullptr);
 
     //! Retire des élèves des groupes.
-    void remove(std::vector<std::pair<szt,int>> && vecIdNum) {
+    void remove(std::vector<std::pair<idt,int>> && vecIdNum) {
         static_cast<CandidatGroupeTableau&>(*m_data).remove(std::move(vecIdNum));
         dataChanged(index(0,GroupeColonne),index(rowCount()-1,GroupeColonne));
     }
@@ -41,13 +41,13 @@ public:
     enum colonneClasseEleve {NomColonne, PrenomColonne, NaissanceColonne, SexeColonne, EntreeColonne, SortieColonne, NbrColonne};
 
     //! Constructeur.
-    ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent = nullptr);
+    ClasseEleveModel(BddNote & bdd, idt idClasse, QObject * parent = nullptr);
 
     //! Ajoute un élève à la classe à partir de son identifiant.
-    void add(szt idEleve);
+    void add(idt idEleve);
 public slots:
     //! Mutateur de l'identifiant de la classe.
-    void setIdClasse(szt idClasse){
+    void setIdClasse(idt idClasse){
         beginResetModel();
             static_cast<ClasseEleveCompositionTableau&>(*m_data).setIdClasse(idClasse);
             resetRowToLigne();
@@ -72,17 +72,17 @@ public:
         {return static_cast<EleveGroupeTableau&>(*m_data).groupe();}
 
     //! Mes à jour les éléves d'un groupe.
-    void updateEleve(const std::list<szt> & listEl, szt num, const std::map<szt,std::forward_list<szt>> & mapDel);
+    void updateEleve(const std::list<idt> & listEl, szt num, const std::map<szt,std::forward_list<idt>> & mapDel);
 
     //! Retire des élèves des groupes.
-    std::vector<std::pair<szt, int>> remove(const QModelIndexList & selection);
+    std::vector<std::pair<idt, int> > remove(const QModelIndexList & selection);
 
 public slots:
     //! Ajoute un groupe au model.
     void push_back();
 
     //! Mutateur de l'identifiant de la classe.
-    void setIdGroupe(szt idGroupe);
+    void setIdGroupe(idt idGroupe);
 };
 }
 #endif // MODELNOTE_H

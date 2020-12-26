@@ -26,7 +26,7 @@ public:
     enum positionTableau {EleveTableau, EleveGroupeTableau, DonneeTableau, NbrTableau};
     enum {NonAffecter = -1, NumRole = Qt::UserRole + 1};
     //! Constructeur.
-    CandidatGroupeTableau(BddNote & bdd, szt idGroupe);
+    CandidatGroupeTableau(BddNote & bdd, idt idGroupe);
 
     //! Hydrate la donnée d'une ligne du tableau.
     void hydrate(szt ligne) override {
@@ -42,7 +42,7 @@ public:
         {return m_groupe;}
 
     //! Retire des élèves des groupes.
-    void remove(std::vector<std::pair<szt,int>> && vecIdNum);
+    void remove(std::vector<std::pair<idt,int>> && vecIdNum);
 
     //! Sauve la ligne dans la base de donnée.
     void save(szt ligne) override;
@@ -54,13 +54,13 @@ public:
 class ClasseEleveCompositionTableau : public modelMPS::CompositionTableau {
 protected:
     BddNote & m_bdd;    //!< Lien avec la base de données.
-    szt m_idClasse;     //!< Identifiant de la classe à la quelle les élèves appartiennent.
+    idt m_idClasse;     //!< Identifiant de la classe à la quelle les élèves appartiennent.
 public:
     //! Position des tableaux.
     enum positionTableau {EleveTableau, ClasseEleveTableau, NbrTableau};
 
     //! Constructeur.
-    ClasseEleveCompositionTableau(BddNote & bdd, szt idClasse);
+    ClasseEleveCompositionTableau(BddNote & bdd, idt idClasse);
 
     //! Hydrate la donnée d'une ligne du tableau et retourne le succés de l'opération.
     void hydrate(szt ligne) override {
@@ -72,11 +72,11 @@ public:
     void hydrateClasseEleve(szt ligne);
 
     //! Acceseur de l'identifiant de la classe.
-    szt idClasse() const
+    idt idClasse() const
         {return m_idClasse;}
 
     //! Mutateur de l'identifiant de la classe.
-    void setIdClasse(szt id);
+    void setIdClasse(idt id);
 };
 
 /*! \ingroup groupeModelNote
@@ -143,10 +143,10 @@ public:
         : m_bdd(bdd) {}
 
     //! Ajoute un éléve à un groupe.
-    void addEleve(const std::list<szt> & listEl, szt num);
+    void addEleve(const std::list<idt> &listEl, szt num);
 
     //! Supprime les éléves des groupes (paire (idGroupe,idEleve)).
-    void delEleve(const std::map<szt,std::forward_list<szt>> & mapDel);
+    void delEleve(const std::map<szt,std::forward_list<idt>> & mapDel);
 
     //! Acceseur de l'identifiant du groupe.
     const Groupe & groupe() const
@@ -157,10 +157,10 @@ public:
         makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) override;
 
     //! Supprime les éléves des groupes (les listes de map doivent être trier dans l'ordre croissant).
-    void remove(const std::map<szt,std::list<szt>> & map);
+    void remove(const std::map<szt,std::list<idt>> & map);
 
     //! Mutateur de l'identifiant du groupe.
-    void setIdGroupe(szt id);
+    void setIdGroupe(idt id);
 
     //! Convertissuer de numero en texte..
     QString numToTexte(int num) const

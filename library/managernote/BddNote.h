@@ -61,10 +61,10 @@ public:
 
 protected:
     //! Supprime l'entité d'identifiant id de type d'identifiant idEntity de la base de données.
-    bool delP(idt id, szt idEntity) override;
+    bool delP(idt id, entidt idEntity) override;
 
     //! Renvoie l'autorisation de modification de l'entité donnée en argument.
-    bool testAutorisationP(idt id, szt idEntity, flag autoris) override;
+    bool testAutorisationP(idt id, entidt idEntity, flag autoris) override;
 
     //! Mise à jour de la base de donnée.
     void listeMiseAJourBdd(int version, idt type) override;

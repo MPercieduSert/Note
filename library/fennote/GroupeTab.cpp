@@ -66,10 +66,10 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
 
 void GroupeTab::affecte(int column) {
     if(column >= 0) {
-        auto col = static_cast<szt>(column);
+        auto col = static_cast<numt>(column);
         auto selection = m_candidatView->selectionModel()->selectedRows();
-        std::list<szt> listId;
-        std::map<szt,std::forward_list<szt>> delGrId;
+        std::list<idt> listId;
+        std::map<szt,std::forward_list<idt>> delGrId;
         if(static_cast<EleveGroupeModel&>(*m_model).groupe().code().test(Groupe::Exclusif)){
             m_candidatView->selectionModel()->clear();
             for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {

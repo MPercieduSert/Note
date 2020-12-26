@@ -73,6 +73,9 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Modifier"))),false);
+    // Groupe
+    //auto * grType = m_newModifMenu->addMenu(tr("Type"));
+    connectActionToOpenTab(m_newModifMenu->addAction(tr("Permission")),{fenMPS::PredefTab::GestionTypeTabId,0});
     // Type de controle
     auto * tpCtrl= m_newModifMenu->addMenu(tr("Type de controle"));
     connectActionToNewModifDialog<TypeControleNewModifForm>(tpCtrl->addAction(tr("Créer")),true);

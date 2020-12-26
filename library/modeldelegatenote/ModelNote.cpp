@@ -2,7 +2,7 @@
 
 using namespace noteMPS;
 
-CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, szt idGroupe, QObject * parent)
+CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, idt idGroupe, QObject * parent)
     : TableModel(false,false,parent),
       m_groupeInfo({Qt::ItemIsEnabled|Qt::ItemIsSelectable,0,tr("Groupe"),0,CandidatGroupeTableau::EleveGroupeTableau}){
     setTableau(std::make_unique<CandidatGroupeTableau>(bdd,idGroupe));
@@ -13,7 +13,7 @@ CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, szt idGroupe, QObject * 
     insertColonne(GroupeColonne,m_groupeInfo);
 }
 
-ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent) : TableModel(false,true,parent) {
+ClasseEleveModel::ClasseEleveModel(BddNote & bdd, idt idClasse, QObject * parent) : TableModel(false,true,parent) {
     setTableau(std::make_unique<ClasseEleveCompositionTableau>(bdd,idClasse));
     insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0,ClasseEleveCompositionTableau::EleveTableau});
@@ -29,7 +29,7 @@ ClasseEleveModel::ClasseEleveModel(BddNote & bdd, szt idClasse, QObject * parent
                                      ClasseEleveVecTableau::Sortie,tr("Sortie"),0,ClasseEleveCompositionTableau::ClasseEleveTableau});
 }
 
-void ClasseEleveModel::add(szt idEleve){
+void ClasseEleveModel::add(idt idEleve){
     szt ligne = 0;
     while(ligne != nbrLignes()
           && static_cast<EleveVecTableau&>(static_cast<ClasseEleveCompositionTableau&>(*m_data)
@@ -49,15 +49,15 @@ void EleveGroupeModel::push_back(){
     NewColonneInfo info;
     info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
     info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(columnCount());
-    info.tableau = static_cast<szt>(columnCount());
+    info.tableau = static_cast<numt>(columnCount());
     push_backColonne(info);
 }
 
-std::vector<std::pair<szt, int>> EleveGroupeModel::remove(const QModelIndexList & selection){
-    std::map<szt,std::list<szt>> map;
-    std::vector<std::pair<szt, int>> vecIdNum;
+std::vector<std::pair<idt, int>> EleveGroupeModel::remove(const QModelIndexList & selection){
+    std::map<szt,std::list<idt>> map;
+    std::vector<std::pair<idt, int>> vecIdNum;
     for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {
-        map[static_cast<szt>(iter->column())].push_back(static_cast<szt>(iter->row()));
+        map[static_cast<szt>(iter->column())].push_back(static_cast<idt>(iter->row()));
         std::pair<szt,int> idNum;
         idNum.first = data(*iter, AbstractColonnesModel::IdRole).toUInt();
         idNum.second = iter->column();
@@ -72,13 +72,13 @@ std::vector<std::pair<szt, int>> EleveGroupeModel::remove(const QModelIndexList 
     return vecIdNum;
 }
 
-void EleveGroupeModel::setIdGroupe(szt idGroupe){
+void EleveGroupeModel::setIdGroupe(idt idGroupe){
     beginResetModel();
         static_cast<EleveGroupeTableau&>(*m_data).setIdGroupe(idGroupe);
         m_colonnes.clear();
         NewColonneInfo info;
         info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
-        for (szt num = 0; num != static_cast<EleveGroupeTableau&>(*m_data).sizeColumn(); ++num){
+        for (numt num = 0; num != static_cast<EleveGroupeTableau&>(*m_data).sizeColumn(); ++num){
             info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(static_cast<int>(num));
             info.tableau = num;
             push_backColonne(info);
@@ -87,7 +87,7 @@ void EleveGroupeModel::setIdGroupe(szt idGroupe){
     endResetModel();
 }
 
-void EleveGroupeModel::updateEleve(const std::list<szt> & listEl, szt num, const std::map<szt,std::forward_list<szt>> & mapDel) {
+void EleveGroupeModel::updateEleve(const std::list<idt> & listEl, szt num, const std::map<szt,std::forward_list<idt>> & mapDel) {
     auto & tableau = static_cast<EleveGroupeTableau&>(*m_data);
     if(num < tableau.sizeColumn()){
         if(mapDel.empty()) {

@@ -527,7 +527,7 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Groupe(idt idAn, idt idClasse, uint code, const QString & nc, const QString & nom,  uint styleNum, idt type,  idt id = 0)
+    Groupe(idt idAn, idt idClasse, flag_type code, const QString & nc, const QString & nom,  enumt styleNum, idt type,  idt id = 0)
         : Groupe(nom,id) {
         setIdAn(idAn);
         setIdClasse(idClasse);

@@ -3,7 +3,7 @@
 using namespace noteMPS;
 
 ////////////////////////////////////////// CandidatGroupeTableau ////////////////////////////////
-CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, szt idGroupe) : m_bdd(bdd) {
+CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bdd(bdd) {
     push_back(std::make_unique<EleveVecTableau>(bdd),false);
     m_groupe.setId(idGroupe);
     m_bdd.get(m_groupe);
@@ -47,7 +47,7 @@ void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
     }
 }
 
-void CandidatGroupeTableau::remove(std::vector<std::pair<szt,int>> &&vecIdNum) {
+void CandidatGroupeTableau::remove(std::vector<std::pair<idt, int> > &&vecIdNum) {
     for (auto iter = vecIdNum.cbegin(); iter != vecIdNum.cend(); ++iter) {
         szt i = 0;
         while (i != size() &&
@@ -105,7 +105,7 @@ void CandidatGroupeTableau::save(szt ligne) {
 }
 
 ////////////////////////////////////////// ClasseEleveCompositionTableau ////////////////////////////////
-ClasseEleveCompositionTableau::ClasseEleveCompositionTableau(BddNote & bdd, szt idClasse) : m_bdd(bdd) {
+ClasseEleveCompositionTableau::ClasseEleveCompositionTableau(BddNote & bdd, idt idClasse) : m_bdd(bdd) {
     push_back(std::make_unique<EleveVecTableau>(bdd),false);
     push_back(std::make_unique<ClasseEleveVecTableau>(bdd));
     setIdClasse(idClasse);
@@ -130,7 +130,7 @@ void ClasseEleveCompositionTableau::hydrateClasseEleve(szt ligne){
     }
 }
 
-void ClasseEleveCompositionTableau::setIdClasse(szt id) {
+void ClasseEleveCompositionTableau::setIdClasse(idt id) {
     m_idClasse = id;
     static_cast<EleveVecTableau&>(tableau(EleveTableau))
             .setVecData(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_idClasse));
@@ -237,7 +237,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
 }
 
 ///////////////////////////////////////////////// EleveGroupeTableau ///////////////////////////////////////////////////
-void EleveGroupeTableau::addEleve(const std::list<szt> &listEl, szt num) {
+void EleveGroupeTableau::addEleve(const std::list<idt> &listEl, szt num) {
     if(num < sizeColumn()) {
         auto & refCol = colonne(num);
         for (auto iterId = listEl.cbegin(); iterId != listEl.cend(); ++iterId) {
@@ -251,7 +251,7 @@ void EleveGroupeTableau::addEleve(const std::list<szt> &listEl, szt num) {
     }
 }
 
-void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<szt>> &mapDel) {
+void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<idt>> &mapDel) {
     for (auto iter = mapDel.cbegin(); iter != mapDel.cend(); ++iter) {
         for (auto iterId = iter->second.cbegin(); iterId != iter->second.cend(); ++iterId) {
             auto iterVec = colonneAt(iter->first).cbegin();
@@ -276,14 +276,14 @@ EleveGroupeTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonn
     [](Eleve &, const QVariant &, int)->bool {return false;});
 }
 
-void EleveGroupeTableau::remove(const std::map<szt,std::list<szt>> & map) {
+void EleveGroupeTableau::remove(const std::map<szt,std::list<idt>> & map) {
     for (auto iter = map.cbegin(); iter != map.cend(); ++iter)
         for (auto iterList = iter->second.crbegin(); iterList != iter->second.crend(); ++iterList)
             m_tableau[iter->first]->erase(std::next(m_tableau[iter->first]->cbegin(),*iterList));
     updateNbrLine();
 }
 
-void EleveGroupeTableau::setIdGroupe(szt id) {
+void EleveGroupeTableau::setIdGroupe(idt id) {
     m_groupe.setId(id);
     m_bdd.get(m_groupe);
     m_styleNum.setStyle(m_groupe.styleNum());
@@ -294,7 +294,7 @@ void EleveGroupeTableau::setIdGroupe(szt id) {
         for (szt num = 0; num != nbrGr; ++num) {
             auto vecEl = m_bdd.getList<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
                                                           EleveGroupe::IdGroupe,m_groupe.id(),
-                                                          EleveGroupe::Num,num);
+                                                          EleveGroupe::Num,static_cast<uint>(num));
             push_back(vecEl.size());
             auto iterWrite = colonne(num).begin();
             for (auto iterRead = vecEl.cbegin(); iterRead != vecEl.cend(); ++iterRead, ++iterWrite)

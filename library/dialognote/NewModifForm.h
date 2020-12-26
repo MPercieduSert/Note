@@ -176,7 +176,7 @@ public slots:
 class ClasseNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
     Q_OBJECT
 protected:
-    szt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
+    idt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
 
     //Widget
     QLabel * m_debutLabel;                      //!< Label du choix de la date du dédut des cours.

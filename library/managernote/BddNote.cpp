@@ -90,7 +90,7 @@ flag BddNote::code(idt idEntity, const QString & str) const {
     return bddMPS::code::Invalide;
 }
 
-bool BddNote::delP(idt id, szt idEntity) {
+bool BddNote::delP(idt id, entidt idEntity) {
     auto controle = true;
     // Spécifique
     switch (idEntity) {
@@ -136,7 +136,7 @@ bool BddNote::delP(idt id, szt idEntity) {
     return controle && BddPredef::delP(id,idEntity);
 }
 
-bool BddNote::testAutorisationP(idt id, szt idEntity, flag autoris) {
+bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
     auto controle = bddMPS::BddPredef::testAutorisationP(id,idEntity,autoris);
     if(controle && autoris & bddMPS::Suppr) {
         //Cible

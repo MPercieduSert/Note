@@ -149,13 +149,17 @@
 	\arbreERD{Exercice}\\
 	\entity{Exercice}{
 		type\\
-		version\\
-		correction
-	}\\
+		version
+	}
+	\&\&
+	\relation{original}
+\\
 };
 \lienArbreERD{Cours}
 \lienArbreERD{MiseEnForme}
 \lienArbreERD{Exercice}
+\lien{Exercice.south east}{original.south}{\begin{tabular}{c}dérivée\\$0-N$\end{tabular}}
+\lien{Exercice.north east}{original.north}{\begin{tabular}{c}initial\\$0-1$\end{tabular}}
 \lien{filiationCours}{Cours}{$1$}
 \lien{filiationMiseEnForme}{MiseEnForme}{$1$}
 \lien{filiationExercice}{Exercice}{$1$} 
