@@ -23,11 +23,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     TableauNote.cpp \
-    ModelNote.cpp
+    ModelNote.cpp \
+    ExerciceModel.cpp
 
 HEADERS += \
     TableauNote.h \
-    ModelNote.h
+    ModelNote.h \
+    ExerciceModel.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

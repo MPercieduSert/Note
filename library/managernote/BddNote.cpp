@@ -225,6 +225,10 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
         case bmps::bddVersion::TypeControleCreation:
             creerTable<Controle>();
             m_manager->saveVersion(bmps::bddVersion::ControleCreation,bmps::bddVersion::NoteType);
+        [[clang::fallthrough]];
+        case bmps::bddVersion::ControleCreation:
+            creerTable<Exercice>();
+            m_manager->saveVersion(bmps::bddVersion::ExerciceCreation,bmps::bddVersion::NoteType);
         }
         //creerTable<Bareme>();
         //creerTable<Enonce>();

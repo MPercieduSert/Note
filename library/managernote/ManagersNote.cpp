@@ -315,6 +315,18 @@ ManagersNote::ManagersNote()
     setManager<EtablissementNiveau>(std::make_unique<ManagerSql<EtablissementNiveau>>(infoEtabNiv, std::make_unique<UniqueEtabNiv>()));
     setCible<EtablissementNiveau>(bmps::cibleId::EtablissementNiveau);
 
+    // Exercice
+    auto infoArbExo = infoBddArbre("ArbExercice");
+    InfoBdd infoExo(Exercice::Name(),"Exercice",Exercice::NbrAtt);
+    infoExo.setAttribut(Exercice::IdOriginal,"idOrig");
+    infoExo.setAttribut(Exercice::Type,"tp");
+    infoExo.setAttribut(Exercice::Version,"ver");
+    infoExo.setForeignKey(Exercice::Id,infoArbExo);
+    infoExo.setForeignKey(Exercice::IdOriginal,infoExo);
+    setTypeForeignKey<Exercice>(infoExo);
+    setManager<Exercice>(std::make_unique<ManagerArbre<Exercice>>(infoExo,infoArbExo));
+    setCible<Exercice>(bmps::cibleId::Exercice);
+
     //FiliationNiveau
     using UniqueFilNiv = RelationUniqueSql<FiliationNiveau>;
     InfoBdd infoFilNiv(FiliationNiveau::Name(),"FiliationNiveau",FiliationNiveau::NbrAtt,{UniqueFilNiv::NbrUnique});

@@ -13,6 +13,8 @@ namespace noteMPS {
  */
 class ExerciceTab : public fenMPS::AbstractTabModuleWithBdd {
     Q_OBJECT
+protected:
+
 public:
     //! Constructeur.
     ExerciceTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
@@ -23,7 +25,7 @@ public:
 
     //! Accesseur du titre.
     QString title() const override
-        {return tr("Listes des éléves");}
+        {return tr("Exercice");}
 
 public slots:
     //! Action à effectuer lorsque l'onglet devient actif.
