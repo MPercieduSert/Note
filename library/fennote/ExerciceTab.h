@@ -5,7 +5,8 @@
 #define EXERCICETAB_H
 
 #include "AbstractTabModuleWithBdd.h"
-#include "BddNote.h"
+#include "ExerciceModel.h"
+#include "StandardNodeWidget.h"
 
 namespace noteMPS {
 /*! \ingroup groupeDialogNote
@@ -14,7 +15,8 @@ namespace noteMPS {
 class ExerciceTab : public fenMPS::AbstractTabModuleWithBdd {
     Q_OBJECT
 protected:
-
+    ExerciceEditModel * m_model;            //!< Model.
+    widgetMPS::NodeView * m_view;           //!< Vue.
 public:
     //! Constructeur.
     ExerciceTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);

@@ -12,9 +12,16 @@ namespace noteMPS {
  * \brief Model d'édition d'exercice.
  */
 class ExerciceEditModel : public modelMPS::ItemNodeBddModel {
+    Q_OBJECT
+protected:
+    enum {IdNew = 0};
 public:
+    //! Cible des données du model.
+    enum dataCible {TexteCible,
+                    TitreCible,
+                    VersionCible};
     //! constructeur.
-    ExerciceEditModel(BddNote & bdd);
+    ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent = nullptr);
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() const
@@ -26,10 +33,30 @@ public:
  */
 class ExerciceNode : public modelMPS::ItemBddNode {
 protected:
-    Exercice m_exo;     //! Exercice Associé au noeud.
+    ExerciceEditModel * m_model;
+    Exercice m_exo;     //!< Exercice associé au noeud.
+    QString m_texte;    //!< Texte du noeud.
+    QString m_titre;    //!< Titre de d'exercice.
+    numt m_version;     //!< Verstion du texte.
 public:
+    //! Constructeur.
+    ExerciceNode(ExerciceEditModel * model)
+        : m_model(model){}
 
+    //! Accesseur des données du noeud.
+    QVariant data(int cible, int role, numt num = 0) const override;
 
+    //! Accesseur des drapeaux associés à column.
+    //flag flags(int cible, numt num = 0) const override;
+
+    //! Enregistre les données du noeud.
+    void insert(bddMPS::Bdd & bdd) override {}
+
+    //! Enregistre les données du noeud.
+    void save(bddMPS::Bdd & bdd) override {}
+
+    //! Mutateur des données du noeud.
+    flag setData(int cible, const QVariant & value, int role, numt num = 0) override;
 };
 
 /*! \ingroup groupeModelNote
@@ -37,11 +64,9 @@ public:
  */
 class ExerciceEditNode : public ExerciceNode {
 protected:
-    ExerciceEditNode * m_model;
+
 public:
-    //! Constructeur.
-    ExerciceEditNode(ExerciceEditNode * model)
-        : m_model(model){}
+
 };
 }
 #endif // EXERCICEMODEL_H

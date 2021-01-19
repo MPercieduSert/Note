@@ -318,7 +318,7 @@ ManagersNote::ManagersNote()
     // Exercice
     auto infoArbExo = infoBddArbre("ArbExercice");
     InfoBdd infoExo(Exercice::Name(),"Exercice",Exercice::NbrAtt);
-    infoExo.setAttribut(Exercice::IdOriginal,"idOrig");
+    infoExo.setAttribut(Exercice::IdOriginal,"idOrig",bmps::typeAttributBdd::Integer,false);
     infoExo.setAttribut(Exercice::Type,"tp");
     infoExo.setAttribut(Exercice::Version,"ver");
     infoExo.setForeignKey(Exercice::Id,infoArbExo);
