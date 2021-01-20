@@ -12,7 +12,7 @@ namespace bddMPS {
         //! Version de la base de données.
         enum versionBddNote{TypeControleCreation = NbrVersion,
                             ControleCreation,
-                           NbrVersionBddNote};
+                           NbrVersionBddNote=5};
         //! Type de mise à jour.
         enum typeBddNote{NoteType = NbrType, NbrTypeNote};
     }
@@ -59,6 +59,8 @@ public:
     //! renvoie le numéro de permission associée à la chaine de caractères, ou NbrPermission la chaine ne correspond à aucun numéro.
     flag code(idt idEntity, const QString & str) const override;
 
+    //! Renvoie l'enumeration associé à str pour une entitée de type idEntity.
+    int strToEnum(idt idEntity, const QString & str) const override;
 protected:
     //! Supprime l'entité d'identifiant id de type d'identifiant idEntity de la base de données.
     bool delP(idt id, entidt idEntity) override;

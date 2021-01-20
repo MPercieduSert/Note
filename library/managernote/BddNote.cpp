@@ -187,6 +187,16 @@ bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
     return controle;
 }
 
+int BddNote::strToEnum(idt idEntity, const QString & str) const {
+    switch (idEntity) {
+    case DonneeCard::ID:
+        if(str == "NbrDefaultDateClasse")
+            return donnee::NbrDefaultDateClasse;
+        break;
+    }
+    return BddPredef::strToEnum(idEntity,str);
+}
+
 void BddNote::listeMiseAJourBdd(int version, idt type) {
     BddPredef::listeMiseAJourBdd(version,type);
     if(type == bmps::bddVersion::NoteType) {
@@ -205,32 +215,6 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             creerTable<NiveauTypeEtablissement>();
             creerTable<Groupe>();
             creerTable<EleveGroupe>();
-            Type etudeTp;
-            etudeTp.setNom("Étude");
-            etudeTp.setNc("Étude");
-            etudeTp.setRef("etude_root_tp");
-            save(etudeTp,bmps::Suppr);
-            TypePermission etudePerm;
-            etudePerm.setIdType(etudeTp.id());
-            etudePerm.setCible(cible<Niveau>());
-            etudePerm.setCode(bmps::code::Visible);
-            save(etudePerm,bmps::Suppr);
-            DonneeCard dnCard;
-            dnCard.setIdDonnee(refToId<Donnee>("date_defaut_dn"));
-            dnCard.setCible(cible<Classe>());
-            dnCard.setCard(donnee::NbrDefaultDateClasse);
-            dnCard.setExact(donnee::Exact);
-            save(dnCard);
-            Type grType;
-            grType.setNom("Groupe");
-            grType.setNc("Gr");
-            grType.setRef("groupe_root_tp");
-            save(grType);
-            TypePermission grPerm;
-            grPerm.setIdType(grType.id());
-            grPerm.setCible(cible<Groupe>());
-            grPerm.setCode(bmps::code::Visible);
-            save(grPerm);
             m_manager->saveVersion(bmps::bddVersion::Creation,bmps::bddVersion::NoteType);
         }
         [[clang::fallthrough]];
