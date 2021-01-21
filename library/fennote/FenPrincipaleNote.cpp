@@ -63,7 +63,7 @@ void FenPrincipaleNote::createMenuNewModif() {
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Modifier")),false);
     // Exercice
     auto * exerciceMenu = m_newModifMenu->addMenu(tr("Exercice"));
-    connectActionToOpenTab(exerciceMenu->addAction(tr("Créer")),{TabNote::ExerciceTabId,fenMPS::AbstractTabModule::NoId});
+    connectActionToOpenTab(exerciceMenu->addAction(tr("Créer")),{TabNote::ExerciceTabId,0});
     // Groupe
     auto * grMenu = m_newModifMenu->addMenu(tr("Groupe"));
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Créer")),true);

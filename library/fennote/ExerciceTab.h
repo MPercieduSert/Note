@@ -17,6 +17,8 @@ class ExerciceTab : public fenMPS::AbstractTabModuleWithBdd {
 protected:
     ExerciceEditModel * m_model;            //!< Model.
     widgetMPS::NodeView * m_view;           //!< Vue.
+    QPushButton * m_saveButton;                 //!< Bouton de sauvegarde.
+    QVBoxLayout * m_mainLayout;                 //!< Calque principal.
 public:
     //! Constructeur.
     ExerciceTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);

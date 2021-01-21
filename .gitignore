@@ -6,5 +6,6 @@
 *.log
 *.pdf
 *.gz
-Optimisation
 *.autosave
+*.user
+

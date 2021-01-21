@@ -19,13 +19,29 @@ public:
     //! Cible des données du model.
     enum dataCible {TexteCible,
                     TitreCible,
-                    VersionCible};
+                    VersionCible,
+                    NbrCible};
+
+    //! Position des sous-noeud.
+    enum positionNode{ZeroPosition,
+                      UnPosition,
+                      DeuxPosition,
+                      TitrePosition = ZeroPosition,
+                      TextePosition = UnPosition,
+                      VersionPosition = DeuxPosition};
+
     //! constructeur.
     ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent = nullptr);
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() const
         {return static_cast<BddNote &>(m_bdd);}
+
+    //! Nombre de donné associé à une cible.
+    numt dataCount(const modelMPS::NodeIndex & index) const override;
+
+    //! Fabrique des noeuds.
+    modelMPS::Node nodeFactory(const modelMPS::NodeIndex & parent, numt pos, int type) override;
 };
 
 /*! \ingroup groupeModelNote
@@ -47,7 +63,7 @@ public:
     QVariant data(int cible, int role, numt num = 0) const override;
 
     //! Accesseur des drapeaux associés à column.
-    //flag flags(int cible, numt num = 0) const override;
+    flag flags(int cible, numt num = 0) const override;
 
     //! Enregistre les données du noeud.
     void insert(bddMPS::Bdd & bdd) override {}
@@ -66,7 +82,8 @@ class ExerciceEditNode : public ExerciceNode {
 protected:
 
 public:
-
+    //! Constructeur.
+    using ExerciceNode::ExerciceNode;
 };
 }
 #endif // EXERCICEMODEL_H
