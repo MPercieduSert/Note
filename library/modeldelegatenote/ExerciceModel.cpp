@@ -16,17 +16,35 @@ ExerciceEditModel::ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * p
 
 QVariant ExerciceNode::data(int cible, int role, numt num) const {
     switch (cible) {
+    case ExerciceEditModel::SourceCible:
+        switch (role) {
+        case IntRole:
+            return m_idScr;
+        case LabelRole:
+            return "Source :";
+        case OrientationRole:
+            return Qt::Horizontal;
+        case ListOfValues:
+            QMap<QString,QVariant> map;
+            auto vecScr = m_model->bdd().getList<Source>();
+            for (auto iter = vecScr.cbegin(); iter != vecScr.cend(); ++iter)
+                map.insert(QString(iter->nom()).append(" (").append(iter->nc()).append(")"),iter->id());
+            return map;
+        }
+        break;
     case ExerciceEditModel::TexteCible:
         if(role == StringRole)
             return m_texte;
         break;
     case ExerciceEditModel::TitreCible:
-        if(role == OrientationRole)
+        switch (role) {
+        case OrientationRole:
             return Qt::Horizontal;
-        if(role == LabelRole)
+        case LabelRole:
             return "Titre :";
-        if(role == StringRole)
+        case StringRole:
             return m_titre;
+        }
         break;
     case ExerciceEditModel::VersionCible:
         if(role == NumRole)
@@ -36,6 +54,11 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
         if(role == SubNodeRole) {
             QList<QVariant> init;
             switch (num) {
+            case ExerciceEditModel::SourcePosition:
+                init.append(ExerciceEditModel::SourceCible);
+                init.append(0);
+                init.append(ComboBoxSubNode);
+                return init;
             case ExerciceEditModel::TextePosition:
                 init.append(ExerciceEditModel::TexteCible);
                 init.append(0);
@@ -63,6 +86,7 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
 
 numt ExerciceEditModel::dataCount(const NodeIndex & index) const {
     switch (index.cible()) {
+    case ExerciceEditModel::SourceCible:
     case ExerciceEditModel::TexteCible:
     case ExerciceEditModel::TitreCible:
     case ExerciceEditModel::VersionCible:
@@ -84,6 +108,12 @@ flag ExerciceNode::flags(int cible, numt num) const {
 
 flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num) {
     switch (role) {
+    case ExerciceEditModel::SourceCible:
+        if(role == IntRole){
+            m_idScr = value.toUInt();
+            return IntRole;
+        }
+        break;
     case ExerciceEditModel::TexteCible:
         if(role == StringRole){
             m_texte = value.toString();

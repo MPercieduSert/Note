@@ -17,7 +17,8 @@ protected:
     enum {IdNew = 0};
 public:
     //! Cible des données du model.
-    enum dataCible {TexteCible,
+    enum dataCible {SourceCible,
+                    TexteCible,
                     TitreCible,
                     VersionCible,
                     NbrCible};
@@ -26,9 +27,11 @@ public:
     enum positionNode{ZeroPosition,
                       UnPosition,
                       DeuxPosition,
+                      TroisPosition,
                       TitrePosition = ZeroPosition,
                       TextePosition = UnPosition,
-                      VersionPosition = DeuxPosition};
+                      VersionPosition = DeuxPosition,
+                      SourcePosition = TroisPosition};
 
     //! constructeur.
     ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent = nullptr);
@@ -51,6 +54,7 @@ class ExerciceNode : public modelMPS::ItemBddNode {
 protected:
     ExerciceEditModel * m_model;
     Exercice m_exo;     //!< Exercice associé au noeud.
+    idt m_idScr;        //!< Identifiant de la source.
     QString m_texte;    //!< Texte du noeud.
     QString m_titre;    //!< Titre de d'exercice.
     numt m_version;     //!< Verstion du texte.
