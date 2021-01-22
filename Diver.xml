@@ -171,7 +171,39 @@
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type> 
-
+  
+  <!-- Type - Source -->
+  <Type>
+    <Nc>Annales</Nc>
+    <Nom>Annales</Nom>
+    <Ref>annales_src</Ref>
+    <Parent>
+      <Ref>source_root_tp</Ref>
+    </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+  </Type> 
+   <Type>
+    <Nc>Ens</Nc>
+    <Nom>Enseignant</Nom>
+    <Ref>ens_src</Ref>
+    <Parent>
+      <Ref>source_root_tp</Ref>
+    </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+  </Type> 
+     <Type>
+    <Nc>Livre</Nc>
+    <Nom>Livre</Nom>
+    <Ref>livre_src</Ref>
+    <Parent>
+      <Ref>source_root_tp</Ref>
+    </Parent>
+        <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+    </Type> 
+  
 <!-- TypeControle -->
 <TypeControle>
 <Nom>Écrit</Nom>
