@@ -3,6 +3,7 @@
 using namespace modelMPS;
 using namespace noteMPS;
 
+///////////////////////////////////////// ExerciceEditModel
 ExerciceEditModel::ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent)
     : ItemNodeBddModel(bdd,parent) {
     if(idRacineExo == IdNew){
@@ -14,6 +15,23 @@ ExerciceEditModel::ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * p
     }
 }
 
+numt ExerciceEditModel::dataCount(const NodeIndex & index) const {
+    switch (index.cible()) {
+    case ExerciceEditModel::SourceCible:
+    case ExerciceEditModel::TexteCible:
+    case ExerciceEditModel::TitreCible:
+    case ExerciceEditModel::VersionCible:
+        return 1;
+    case SubNodeCible:
+        return NbrCible;
+    }
+    return ItemNodeModel::dataCount(index);
+}
+
+modelMPS::Node ExerciceEditModel::nodeFactory(const modelMPS::NodeIndex & /*parent*/, numt /*pos*/, int /*type*/)
+    {return std::make_unique<ExerciceEditNode>(this);}
+
+////////////////////////////////////////////////// ExerciceNode /////////////////////////////////
 QVariant ExerciceNode::data(int cible, int role, numt num) const {
     switch (cible) {
     case ExerciceEditModel::SourceCible:
@@ -48,7 +66,7 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
         break;
     case ExerciceEditModel::VersionCible:
         if(role == NumRole)
-            return m_version;
+            return m_exo.version();
         break;
     case modelMPS::SubNodeCible:
         if(role == SubNodeRole) {
@@ -84,26 +102,17 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
     return ItemBddNode::data(cible, role, num);
 }
 
-numt ExerciceEditModel::dataCount(const NodeIndex & index) const {
-    switch (index.cible()) {
-    case ExerciceEditModel::SourceCible:
-    case ExerciceEditModel::TexteCible:
-    case ExerciceEditModel::TitreCible:
-    case ExerciceEditModel::VersionCible:
-        return 1;
-    case SubNodeCible:
-        return NbrCible;
-    }
-    return ItemNodeModel::dataCount(index);
-}
-
-modelMPS::Node ExerciceEditModel::nodeFactory(const modelMPS::NodeIndex & /*parent*/, numt /*pos*/, int /*type*/)
-    {return std::make_unique<ExerciceEditNode>(this);}
-
 flag ExerciceNode::flags(int cible, numt num) const {
     if(m_iter.root())
         return NoFlagNode;
     return ItemBddNode::flags(cible,num);
+}
+
+void ExerciceNode::insert(bddMPS::Bdd & bdd) {
+    idt idParent = 0;
+    if(!m_iter.root())
+        idParent = static_cast<const ExerciceNode &>(**m_iter.parent()).idExo();
+    bdd.insert(m_exo,idParent,m_iter.position());
 }
 
 flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num) {
@@ -128,10 +137,9 @@ flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num
         break;
     case ExerciceEditModel::VersionCible:
         if(role == modelMPS::NumRole) {
-            m_version = value.toUInt();
+            m_exo.setVersion(value.toInt());
             return NumRole;
         }
     }
     return ItemBddNode::setData(cible, value, role, num);
 }
-

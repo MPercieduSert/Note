@@ -57,7 +57,6 @@ protected:
     idt m_idScr;        //!< Identifiant de la source.
     QString m_texte;    //!< Texte du noeud.
     QString m_titre;    //!< Titre de d'exercice.
-    numt m_version;     //!< Verstion du texte.
 public:
     //! Constructeur.
     ExerciceNode(ExerciceEditModel * model)
@@ -69,8 +68,12 @@ public:
     //! Accesseur des drapeaux associés à column.
     flag flags(int cible, numt num = 0) const override;
 
+    //! Renvoie l'identifiant de l'exo.
+    idt idExo() const noexcept
+        {return m_exo.id();}
+
     //! Enregistre les données du noeud.
-    void insert(bddMPS::Bdd & bdd) override {}
+    void insert(bddMPS::Bdd & bdd) override;
 
     //! Enregistre les données du noeud.
     void save(bddMPS::Bdd & bdd) override {}
