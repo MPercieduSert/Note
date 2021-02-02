@@ -2,250 +2,175 @@
 <entities>
 
 <!-- Type - Evenement -->
-<Type modification="non" suppression="non">
+<Type>
     <Nc>Admin</Nc>
     <Nom>Administratif</Nom>
-    <Ref>adminev</Ref>
+    <Ref>admin_ev</Ref>
     <Parent>
       <Ref>evenement_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Congé</Nc>
     <Nom>Congé</Nom>
     <Ref>conge_ev</Ref>
     <Parent>
       <Ref>evenement_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
-<Type modification="non" suppression="non">
+<Type>
     <Nc>Enseignement</Nc>
     <Nom>Enseignement</Nom>
     <Ref>ens_ev</Ref>
     <Parent>
       <Ref>evenement_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>CdC</Nc>
     <Nom>Conseil de classe</Nom>
     <Ref>conseil_classe</Ref>
     <Parent>
       <Ref>admin_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Cours</Nc>
     <Nom>Cours</Nom>
     <Ref>cours</Ref>
     <Parent>
        <Ref>ens_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>DS</Nc>
     <Nom>Devoir surveillé</Nom>
     <Ref>ds_ev</Ref>
     <Parent>
        <Ref>ens_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>JF</Nc>
     <Nom>Jour Férié</Nom>
     <Ref>ferie</Ref>
     <Parent>
        <Ref>conge_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Khôlle</Nc>
     <Nom>Khôlle</Nom>
     <Ref>kholle_eve</Ref>
     <Parent>
        <Ref>ens_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Réunion</Nc>
     <Nom>Réunion</Nom>
     <Ref>reunion</Ref>
     <Parent>
        <Ref>admin_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>TD</Nc>
     <Nom>Travaux dirigés</Nom>
     <Ref>td_eve</Ref>
     <Parent>
        <Ref>ens_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>TP</Nc>
     <Nom>Travaux pratiques</Nom>
     <Ref>tp_eve</Ref>
     <Parent>
        <Ref>ens_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Vacances</Nc>
     <Nom>Vacances</Nom>
     <Ref>vacances</Ref>
     <Parent>
        <Ref>cong_ev</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   
   <!-- Type - Groupe -->
-  <Type modification="non" suppression="non">
+  <Type>
     <Nc>Gr</Nc>
     <Nom>Groupe</Nom>
     <Ref>groupe_root_tp</Ref>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible" restriction="modification|suppression"/>
   </Type>
-   <Type modification="non" suppression="non">
+   <Type>
     <Nc>Khôlle</Nc>
     <Nom>Khôlle</Nom>
     <Ref>kholle_gr</Ref>
     <Parent>
       <Ref>groupe_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-    <Type modification="non" suppression="non">
+    <Type>
     <Nc>TD</Nc>
     <Nom>Travaux dirigés</Nom>
     <Ref>td_gr</Ref>
     <Parent>
       <Ref>groupe_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-      <Type modification="non" suppression="non">
+      <Type>
     <Nc>TP</Nc>
     <Nom>Travaux pratiques</Nom>
     <Ref>tp_gr</Ref>
     <Parent>
       <Ref>groupe_root_tp</Ref>
     </Parent>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-    <Type modification="non" suppression="non">
+    <Type>
     <Nc>Sc</Nc>
     <Nom>Scéance</Nom>
     <Ref>sceance_gr</Ref>
     <Parent>
       <Ref>groupe_root_tp</Ref>
     </Parent>
-  </Type>  
-  
-  <!-- TypePermission - Evenement -->
-   <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>evenement_root_tp</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>conseil_classe</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>cours</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>ds</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>ferie</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>kholle_eve</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>reunion</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>td_eve</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>tp_eve</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>   
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>vacances</Ref>
-    </IdType>  
-    <Cible>Evenement</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  
-  <!-- TypePermission - Evenement -->
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>groupe_root_tp</Ref>
-    </IdType>  
-    <Cible>Groupe</Cible>
-    <Code>Visible</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>kholle_gr</Ref>
-    </IdType>  
-    <Cible>Groupe</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>td_gr</Ref>
-    </IdType>  
-    <Cible>Groupe</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>tp_gr</Ref>
-    </IdType>  
-    <Cible>Groupe</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
-  <TypePermission modification="non" suppression="non">
-    <IdType>
-      <Ref>sceance_gr</Ref>
-    </IdType>  
-    <Cible>Groupe</Cible>
-    <Code>Visible,Attribuable</Code>
-  </TypePermission>
+    <Restriction code="modification|suppression"/>
+    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
+  </Type> 
 
 <!-- TypeControle -->
 <TypeControle>
