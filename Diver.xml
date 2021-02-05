@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
-
 <!-- Type - Evenement -->
 <Type>
     <Nc>Admin</Nc>
     <Nom>Administratif</Nom>
     <Ref>admin_ev</Ref>
     <Parent>
-      <Ref>evenement_root_tp</Ref>
+      <Ref>evenement_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
@@ -17,7 +16,7 @@
     <Nom>Congé</Nom>
     <Ref>conge_ev</Ref>
     <Parent>
-      <Ref>evenement_root_tp</Ref>
+      <Ref>evenement_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
@@ -27,7 +26,7 @@
     <Nom>Enseignement</Nom>
     <Ref>ens_ev</Ref>
     <Parent>
-      <Ref>evenement_root_tp</Ref>
+      <Ref>evenement_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
@@ -127,7 +126,7 @@
   <Type>
     <Nc>Gr</Nc>
     <Nom>Groupe</Nom>
-    <Ref>groupe_root_tp</Ref>
+    <Ref>groupe_root</Ref>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible" restriction="modification|suppression"/>
   </Type>
@@ -136,7 +135,7 @@
     <Nom>Khôlle</Nom>
     <Ref>kholle_gr</Ref>
     <Parent>
-      <Ref>groupe_root_tp</Ref>
+      <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
@@ -146,7 +145,7 @@
     <Nom>Travaux dirigés</Nom>
     <Ref>td_gr</Ref>
     <Parent>
-      <Ref>groupe_root_tp</Ref>
+      <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
@@ -156,7 +155,7 @@
     <Nom>Travaux pratiques</Nom>
     <Ref>tp_gr</Ref>
     <Parent>
-      <Ref>groupe_root_tp</Ref>
+      <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
@@ -166,7 +165,7 @@
     <Nom>Scéance</Nom>
     <Ref>sceance_gr</Ref>
     <Parent>
-      <Ref>groupe_root_tp</Ref>
+      <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
     <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
@@ -214,7 +213,7 @@
 <!-- DonneCard -->
 <DonneeCard>
 <IdDonnee>
-  <Ref>date_defaut_dn</Ref>
+  <Ref>date_defaut</Ref>
 </IdDonnee>
 <Cible>Classe</Cible>
 <Card></Card>

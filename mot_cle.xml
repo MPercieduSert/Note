@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+<!-- Mot clé - Type connaissance -->
+<MotCle>
+  <Nc>Tp Connaissance</Nc>
+  <Nom>Type Connaissance</Nom>
+  <Ref>root_tpc</Ref>
+  <Restriction code="modification|suppression"/>
+  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+</MotCle>
+<MotCle>
+  <Nc>Matière</Nc>
+  <Nom>Matière</Nom>
+  <Ref>matiere_tpc</Ref>
+  <Arbre ref_parent="root_tpc"/>
+  <Restriction code="modification|suppression"/>
+  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+</MotCle>
+
+<!-- Mot clé - Connaissance -->
+<MotCle>
+  <Nc>Connaissance</Nc>
+  <Nom>Connaissance</Nom>
+  <Ref>root_css</Ref>
+  <Restriction code="modification|suppression"/>
+  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="Enonce|Exercice|Texte" code="Visible"/>
+  <MotCle ref_mot_cle="root_tpc"/>
+</MotCle>
+</entities>
