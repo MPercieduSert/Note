@@ -24,6 +24,6 @@
   <Ref>root_css</Ref>
   <Restriction code="modification|suppression"/>
   <Permission in="MotClePermission" id_ent="IdMotCle"  cible="Enonce|Exercice|Texte" code="Visible"/>
-  <MotCle ref_mot_cle="root_tpc"/>
+  <Cible in="MotCleCible" id_ent="IdMotCle"  ref_ent="root_tpc"/>
 </MotCle>
 </entities>
