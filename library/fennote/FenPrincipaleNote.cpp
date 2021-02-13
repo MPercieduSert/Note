@@ -63,7 +63,7 @@ void FenPrincipaleNote::createMenuNewModif() {
     connectActionToNewModifDialog<EtablissementNewModifForm>(etabMenu->addAction(tr("Modifier")),false);
     // Exercice
     auto * exerciceMenu = m_newModifMenu->addMenu(tr("Exercice"));
-    connectActionToOpenTab(exerciceMenu->addAction(tr("Créer")),{TabNote::ExerciceTabId,fenMPS::AbstractTabModule::NoId});
+    connectActionToOpenTab(exerciceMenu->addAction(tr("Créer")),{TabNote::ExerciceTabId,0});
     // Groupe
     auto * grMenu = m_newModifMenu->addMenu(tr("Groupe"));
     connectActionToNewModifDialog<GroupeNewModifForm>(grMenu->addAction(tr("Créer")),true);
@@ -73,9 +73,13 @@ void FenPrincipaleNote::createMenuNewModif() {
     auto * niveauMenu = m_newModifMenu->addMenu(tr("Niveau"));
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Créer"))),true);
     connectActionToNewModifDialog<NiveauNewModifForm>(niveauMenu->addAction((tr("Modifier"))),false);
-    // Groupe
+    // Type
     //auto * grType = m_newModifMenu->addMenu(tr("Type"));
-    connectActionToOpenTab(m_newModifMenu->addAction(tr("Permission")),{fenMPS::PredefTab::GestionTypeTabId,0});
+    connectActionToOpenTab(m_newModifMenu->addAction(tr("Type")),{fenMPS::PredefTab::GestionTypeTabId,0});
+    // Source
+    auto * sourceMenu = m_newModifMenu->addMenu(tr("Source"));
+    connectActionToNewModifDialog<dialogMPS::SourceNewModifForm>(sourceMenu->addAction((tr("Créer"))),true);
+    connectActionToNewModifDialog<dialogMPS::SourceNewModifForm>(sourceMenu->addAction((tr("Modifier"))),false);
     // Type de controle
     auto * tpCtrl= m_newModifMenu->addMenu(tr("Type de controle"));
     connectActionToNewModifDialog<TypeControleNewModifForm>(tpCtrl->addAction(tr("Créer")),true);

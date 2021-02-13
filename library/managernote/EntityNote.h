@@ -28,6 +28,7 @@ namespace infoEntityNote {
                   EtablissementId,
                   EtablissementNiveauId,
                   EtablissementTypeId,
+                  ExerciceId,
                   FiliationNiveauId,
                   GroupeId,
                   NiveauId,
@@ -447,6 +448,39 @@ public:
     EnoncePoint(idt idEn, idt idPt, idt ensPt, int num, idt id = 0)
         : EnoncePoint(idEn, ensPt, num, id)
         {setIdPoint(idPt);}
+};
+
+/*! \ingroup groupeManagerNote
+ * \brief Représentation de l'entité Exercice.
+ */
+class Exercice : public emps::EntityIDs<infoEntityNote::ExerciceId,attributMPS::Id1NullAttribut,
+                                                                   attributMPS::TypeAttribut,
+                                                                   attributMPS::VersionAttribut> {
+protected:
+    template<class T> using PositionEnum = emps::PositionEnum<T,Exercice>;
+public:
+    using EAID = emps::EntityIDs<infoEntityNote::ExerciceId,attributMPS::Id1NullAttribut,
+                                                            attributMPS::TypeAttribut,
+                                                            attributMPS::VersionAttribut>;
+    //! Positions des attributs.
+    enum Position {Id = PositionEnum<IdAttribut>::Position,
+                   Id1 = PositionEnum<Id1NullAttribut>::Position,
+                   Type = PositionEnum<TypeAttribut>::Position,
+                   Version = PositionEnum<VersionAttribut>::Position,
+                   NbrAtt = EAID::NbrAtt,
+                   IdOriginal = Id1};
+
+    using EAID::EntityID;
+    BASE_ENTITY(Exercice)
+    ALIAS_CLE(Original,1)
+
+    //! Constructeur à partir des valeurs attributs.
+    Exercice(idt idOriginal, idt type, int version,  idt id = 0)
+        : EAID(id) {
+        setIdOriginal(idOriginal);
+        setType(type);
+        setVersion(version);
+    }
 };
 
 /*! \ingroup groupeManagerNote

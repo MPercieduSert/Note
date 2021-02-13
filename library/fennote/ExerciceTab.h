@@ -5,7 +5,8 @@
 #define EXERCICETAB_H
 
 #include "AbstractTabModuleWithBdd.h"
-#include "BddNote.h"
+#include "ExerciceModel.h"
+#include "StandardNodeWidget.h"
 
 namespace noteMPS {
 /*! \ingroup groupeDialogNote
@@ -13,6 +14,11 @@ namespace noteMPS {
  */
 class ExerciceTab : public fenMPS::AbstractTabModuleWithBdd {
     Q_OBJECT
+protected:
+    ExerciceEditModel * m_model;            //!< Model.
+    widgetMPS::NodeView * m_view;           //!< Vue.
+    QPushButton * m_saveButton;                 //!< Bouton de sauvegarde.
+    QVBoxLayout * m_mainLayout;                 //!< Calque principal.
 public:
     //! Constructeur.
     ExerciceTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
@@ -23,7 +29,7 @@ public:
 
     //! Accesseur du titre.
     QString title() const override
-        {return tr("Listes des éléves");}
+        {return tr("Exercice");}
 
 public slots:
     //! Action à effectuer lorsque l'onglet devient actif.

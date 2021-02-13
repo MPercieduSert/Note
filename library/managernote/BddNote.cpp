@@ -208,6 +208,7 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             creerTable<EleveGroupe>();
             creerTable<TypeControle>();
             creerTable<Controle>();
+            creerTable<Exercice>();
             m_manager->saveVersion(bmps::bddVersion::Creation,bmps::bddVersion::NoteType);
         }
         }

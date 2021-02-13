@@ -35,6 +35,7 @@ namespace bddMPS {
                         TypeControle,
                         TypeEtablissement,
                         Valide,
+                        Exercice,
                        NbrCible};
 }}
 
