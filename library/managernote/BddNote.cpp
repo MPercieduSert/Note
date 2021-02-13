@@ -1,95 +1,6 @@
 #include "BddNote.h"
 
 using namespace noteMPS;
-
-flag BddNote::code(idt idEntity, const QString & str) const {
-    switch (idEntity) {
-    case Controle::ID:
-        if(str == "Appreciation")
-            return Controle::Appreciation;
-        if(str == "Barre")
-            return Controle::Barre;
-        if(str == "Capacites")
-            return Controle::Capacites;
-        if(str == "Classement")
-            return Controle::Classement;
-        if(str == "Commentaire")
-            return Controle::Commentaire;
-        if(str == "Competences")
-            return Controle::Competences;
-        if(str == "Courbe")
-            return Controle::Courbe;
-        if(str == "Depassement")
-            return Controle::Depassement;
-        if(str == "HoraireEleve")
-            return Controle::HoraireEleve;
-        if(str == "HoraireGroupe")
-            return Controle::HoraireGroupe;
-        if(str == "Lettre")
-            return Controle::Lettre;
-        if(str == "Note")
-            return Controle::Note;
-        if(str == "SujetEleve")
-            return Controle::SujetEleve;
-        if(str == "SujetGroupe")
-            return Controle::SujetGroupe;
-        break;
-    case TypeControle::ID:
-        if(str == "Appreciation")
-            return TypeControle::Appreciation;
-        if(str == "AppreciationModifiable")
-            return TypeControle::AppreciationModifiable;
-        if(str == "Barre")
-            return TypeControle::Barre;
-        if(str == "BarreModifiable")
-            return TypeControle::BarreModifiable;
-        if(str == "Capacites")
-            return TypeControle::Capacites;
-        if(str == "CapacitesModifiable")
-            return TypeControle::CapacitesModifiable;
-        if(str == "Categorie")
-            return TypeControle::Categorie;
-        if(str == "Classement")
-            return TypeControle::Classement;
-        if(str == "ClassementModifiable")
-            return TypeControle::ClassementModifiable;
-        if(str == "Commentaire")
-            return TypeControle::Commentaire;
-        if(str == "CommentaireModifiable")
-            return TypeControle::CommentaireModifiable;
-        if(str == "Competences")
-            return TypeControle::Competences;
-        if(str == "CompetencesModifiable")
-            return TypeControle::CompetencesModifiable;
-        if(str == "Courbe")
-            return TypeControle::Courbe;
-        if(str == "CourbeModifiable")
-            return TypeControle::CourbeModifiable;
-        if(str == "DecimaleModifiable")
-            return TypeControle::DecimaleModifiable;
-        if(str == "Depassement")
-            return TypeControle::Depassement;
-        if(str == "DepassementModifiable")
-            return TypeControle::DepassementModifiable;
-        if(str == "Lettre")
-            return TypeControle::Lettre;
-        if(str == "MinimaModifiable")
-            return TypeControle::MinimaModifiable;
-        if(str == "Note")
-            return TypeControle::Note;
-        if(str == "NoteModifiable")
-            return TypeControle::NoteModifiable;
-        if(str == "TotalModifiable")
-            return TypeControle::TotalModifiable;
-        if(str == "TypeNoteModifiable")
-            return TypeControle::TypeNoteModifiable;
-        break;
-    default:
-        return BddPredef::code(idEntity,str);
-    }
-    return bddMPS::code::Invalide;
-}
-
 bool BddNote::delP(idt id, entidt idEntity) {
     auto controle = true;
     // Spécifique
@@ -187,14 +98,94 @@ bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
     return controle;
 }
 
-int BddNote::strToEnum(idt idEntity, const QString & str) const {
+enumt BddNote::strIdToEnum(const QString & str, idt idEntity, QString &controle) const noexcept {
     switch (idEntity) {
     case DonneeCard::ID:
         if(str == "NbrDefaultDateClasse")
             return donnee::NbrDefaultDateClasse;
         break;
+    case Controle::ID:
+        if(str == "Appreciation")
+            return Controle::Appreciation;
+        if(str == "Barre")
+            return Controle::Barre;
+        if(str == "Capacites")
+            return Controle::Capacites;
+        if(str == "Classement")
+            return Controle::Classement;
+        if(str == "Commentaire")
+            return Controle::Commentaire;
+        if(str == "Competences")
+            return Controle::Competences;
+        if(str == "Courbe")
+            return Controle::Courbe;
+        if(str == "Depassement")
+            return Controle::Depassement;
+        if(str == "HoraireEleve")
+            return Controle::HoraireEleve;
+        if(str == "HoraireGroupe")
+            return Controle::HoraireGroupe;
+        if(str == "Lettre")
+            return Controle::Lettre;
+        if(str == "Note")
+            return Controle::Note;
+        if(str == "SujetEleve")
+            return Controle::SujetEleve;
+        if(str == "SujetGroupe")
+            return Controle::SujetGroupe;
+        break;
+    case TypeControle::ID:
+        if(str == "Appreciation")
+            return TypeControle::Appreciation;
+        if(str == "AppreciationModifiable")
+            return TypeControle::AppreciationModifiable;
+        if(str == "Barre")
+            return TypeControle::Barre;
+        if(str == "BarreModifiable")
+            return TypeControle::BarreModifiable;
+        if(str == "Capacites")
+            return TypeControle::Capacites;
+        if(str == "CapacitesModifiable")
+            return TypeControle::CapacitesModifiable;
+        if(str == "Categorie")
+            return TypeControle::Categorie;
+        if(str == "Classement")
+            return TypeControle::Classement;
+        if(str == "ClassementModifiable")
+            return TypeControle::ClassementModifiable;
+        if(str == "Commentaire")
+            return TypeControle::Commentaire;
+        if(str == "CommentaireModifiable")
+            return TypeControle::CommentaireModifiable;
+        if(str == "Competences")
+            return TypeControle::Competences;
+        if(str == "CompetencesModifiable")
+            return TypeControle::CompetencesModifiable;
+        if(str == "Courbe")
+            return TypeControle::Courbe;
+        if(str == "CourbeModifiable")
+            return TypeControle::CourbeModifiable;
+        if(str == "DecimaleModifiable")
+            return TypeControle::DecimaleModifiable;
+        if(str == "Depassement")
+            return TypeControle::Depassement;
+        if(str == "DepassementModifiable")
+            return TypeControle::DepassementModifiable;
+        if(str == "Lettre")
+            return TypeControle::Lettre;
+        if(str == "MinimaModifiable")
+            return TypeControle::MinimaModifiable;
+        if(str == "Note")
+            return TypeControle::Note;
+        if(str == "NoteModifiable")
+            return TypeControle::NoteModifiable;
+        if(str == "TotalModifiable")
+            return TypeControle::TotalModifiable;
+        if(str == "TypeNoteModifiable")
+            return TypeControle::TypeNoteModifiable;
+        break;
     }
-    return BddPredef::strToEnum(idEntity,str);
+    return BddPredef::strIdToEnum(str,idEntity,controle);
 }
 
 void BddNote::listeMiseAJourBdd(int version, idt type) {
@@ -215,16 +206,10 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             creerTable<NiveauTypeEtablissement>();
             creerTable<Groupe>();
             creerTable<EleveGroupe>();
+            creerTable<TypeControle>();
+            creerTable<Controle>();
             m_manager->saveVersion(bmps::bddVersion::Creation,bmps::bddVersion::NoteType);
         }
-        [[clang::fallthrough]];
-        case bmps::bddVersion::Creation:
-            creerTable<TypeControle>();
-            m_manager->saveVersion(bmps::bddVersion::TypeControleCreation,bmps::bddVersion::NoteType);
-        [[clang::fallthrough]];
-        case bmps::bddVersion::TypeControleCreation:
-            creerTable<Controle>();
-            m_manager->saveVersion(bmps::bddVersion::ControleCreation,bmps::bddVersion::NoteType);
         }
         //creerTable<Bareme>();
         //creerTable<Enonce>();
