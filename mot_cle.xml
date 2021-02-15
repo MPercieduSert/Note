@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
-<!-- Mot clé - Type connaissance -->
+<!-- Mot clé - Type de connaissance -->
 <MotCle>
   <Nc>Tp Connaissance</Nc>
-  <Nom>Type Connaissance</Nom>
+  <Nom>Type de connaissance</Nom>
   <Ref>root_tpc</Ref>
   <Restriction code="modification|suppression"/>
-  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+  <MotClePermission id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
 </MotCle>
 <MotCle>
   <Nc>Matière</Nc>
@@ -14,7 +14,7 @@
   <Ref>matiere_tpc</Ref>
   <Arbre ref_parent="root_tpc"/>
   <Restriction code="modification|suppression"/>
-  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+  <MotClePermission id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
 </MotCle>
 
 <!-- Mot clé - Connaissance -->
@@ -23,7 +23,7 @@
   <Nom>Connaissance</Nom>
   <Ref>root_css</Ref>
   <Restriction code="modification|suppression"/>
-  <Permission in="MotClePermission" id_ent="IdMotCle"  cible="Enonce|Exercice|Texte" code="Visible"/>
-  <Cible in="MotCleCible" id_ent="IdMotCle"  ref_ent="root_tpc"/>
+  <MotClePermission id_ent="IdMotCle"  cible="Enonce|Exercice|Texte" code="Visible"/>
+  <!--<MotCleCible id_ent="IdCible"  ref_ent="root_tpc"/>-->
 </MotCle>
 </entities>

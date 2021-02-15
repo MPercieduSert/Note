@@ -38,6 +38,13 @@
   </TypeEtablissement>
   
   <!-- Type -->
+   <Type >
+    <Nc>Étude</Nc>
+    <Nom>Étude</Nom>
+    <Ref>etude_root</Ref>
+    <Restriction code="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+  </Type>
   <Type >
     <Nc>Primaire</Nc>
     <Nom>École primaire</Nom>
@@ -46,7 +53,7 @@
       <Ref>etude_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>Collège</Nc>
@@ -56,7 +63,7 @@
       <Ref>etude_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>Lycée</Nc>
@@ -66,7 +73,7 @@
       <Ref>etude_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>Supérieure</Nc>
@@ -76,7 +83,7 @@
       <Ref>etude_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>CP</Nc>
@@ -86,7 +93,7 @@
       <Ref>primaire</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>CE1</Nc>
@@ -96,7 +103,7 @@
       <Ref>primaire</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
 <Type >
     <Nc>CE2</Nc>
@@ -106,7 +113,7 @@
       <Ref>primaire</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>CM1</Nc>
@@ -116,7 +123,7 @@
       <Ref>primaire</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>CM2</Nc>
@@ -126,7 +133,7 @@
       <Ref>primaire</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
    <Type >
     <Nc>6ème</Nc>
@@ -136,7 +143,7 @@
       <Ref>college</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>5ème</Nc>
@@ -146,7 +153,7 @@
       <Ref>college</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>4ème</Nc>
@@ -156,7 +163,7 @@
       <Ref>college</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>3ème</Nc>
@@ -166,7 +173,7 @@
       <Ref>college</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>2nd</Nc>
@@ -176,7 +183,7 @@
       <Ref>lycee</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>1er</Nc>
@@ -186,7 +193,7 @@
       <Ref>lycee</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>Tle</Nc>
@@ -196,7 +203,7 @@
       <Ref>lycee</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>Licence</Nc>
@@ -206,7 +213,7 @@
       <Ref>etude_sup</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>L1</Nc>
@@ -216,7 +223,7 @@
       <Ref>licence</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>L2</Nc>
@@ -226,7 +233,7 @@
       <Ref>licence</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>L3</Nc>
@@ -236,7 +243,7 @@
       <Ref>licence</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>Master</Nc>
@@ -246,7 +253,7 @@
       <Ref>etude_sup</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>M1</Nc>
@@ -256,7 +263,7 @@
       <Ref>master</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>M2</Nc>
@@ -266,7 +273,7 @@
       <Ref>master</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type >
     <Nc>Doctorat</Nc>
@@ -276,7 +283,7 @@
       <Ref>etude_sup</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   
   <!-- Niveau -->

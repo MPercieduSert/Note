@@ -6,30 +6,30 @@
     <Nom>Administratif</Nom>
     <Ref>admin_ev</Ref>
     <Parent>
-      <Ref>evenement_root</Ref>
+      <Ref>even_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>Congé</Nc>
     <Nom>Congé</Nom>
     <Ref>conge_ev</Ref>
     <Parent>
-      <Ref>evenement_root</Ref>
+      <Ref>even_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
 <Type>
     <Nc>Enseignement</Nc>
     <Nom>Enseignement</Nom>
     <Ref>ens_ev</Ref>
     <Parent>
-      <Ref>evenement_root</Ref>
+      <Ref>even_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>CdC</Nc>
@@ -39,7 +39,7 @@
       <Ref>admin_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>Cours</Nc>
@@ -49,7 +49,7 @@
        <Ref>ens_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>DS</Nc>
@@ -59,7 +59,7 @@
        <Ref>ens_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>JF</Nc>
@@ -69,7 +69,7 @@
        <Ref>conge_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>Khôlle</Nc>
@@ -79,7 +79,7 @@
        <Ref>ens_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>Réunion</Nc>
@@ -89,7 +89,7 @@
        <Ref>admin_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>TD</Nc>
@@ -99,7 +99,7 @@
        <Ref>ens_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>TP</Nc>
@@ -109,17 +109,17 @@
        <Ref>ens_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   <Type>
     <Nc>Vacances</Nc>
     <Nom>Vacances</Nom>
     <Ref>vacances</Ref>
     <Parent>
-       <Ref>cong_ev</Ref>
+       <Ref>conge_ev</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
   
   <!-- Type - Groupe -->
@@ -128,7 +128,7 @@
     <Nom>Groupe</Nom>
     <Ref>groupe_root</Ref>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Groupe" code="Visible" restriction="modification|suppression"/>
   </Type>
    <Type>
     <Nc>Khôlle</Nc>
@@ -138,7 +138,7 @@
       <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
     <Type>
     <Nc>TD</Nc>
@@ -148,7 +148,7 @@
       <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
       <Type>
     <Nc>TP</Nc>
@@ -158,7 +158,7 @@
       <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
     <Type>
     <Nc>Sc</Nc>
@@ -168,7 +168,7 @@
       <Ref>groupe_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type> 
   
   <!-- Type - Source -->
@@ -177,42 +177,44 @@
     <Nom>Annales</Nom>
     <Ref>annales_src</Ref>
     <Parent>
-      <Ref>source_root_tp</Ref>
+      <Ref>source_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type> 
    <Type>
     <Nc>Ens</Nc>
     <Nom>Enseignant</Nom>
     <Ref>ens_src</Ref>
     <Parent>
-      <Ref>source_root_tp</Ref>
+      <Ref>source_root</Ref>
     </Parent>
     <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type> 
      <Type>
     <Nc>Livre</Nc>
     <Nom>Livre</Nom>
     <Ref>livre_src</Ref>
     <Parent>
-      <Ref>source_root_tp</Ref>
+      <Ref>source_root</Ref>
     </Parent>
-        <Restriction code="modification|suppression"/>
-    <Permission in="TypePermission" id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <Restriction code="modification|suppression"/>
+    <TypePermission id_ent="IdType"  cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
     </Type> 
   
 <!-- TypeControle -->
 <TypeControle>
 <Nom>Écrit</Nom>
 <Nc>(E)</Nc>
-<Code>Categorie</Code>
+<Code type="code">Categorie</Code>
+<Total>1</Total>
 </TypeControle>
 <TypeControle>
 <Nom>Oral</Nom>
 <Nc>(O)</Nc>
-<Code>Categorie</Code>
+<Code type="code">Categorie</Code>
+<Total>1</Total>
 </TypeControle>
 <TypeControle>
 <Nom>Devoir Surveillé</Nom>
@@ -223,7 +225,7 @@
 <Total>20</Total>
 <Decimale>10</Decimale>
 <Minima>6</Minima>
-<Code>Note,Competences,Capacites</Code>
+<Code type="code">Note|Competences|Capacites</Code>
 </TypeControle>
 <TypeControle>
 <Nom>Interrogation</Nom>
@@ -231,15 +233,17 @@
 <Parent>
   <Nom>Écrit</Nom>
 </Parent>
-<Code>Competences,Capacites</Code>
+<Total>1</Total>
+<Code type="code">Competences|Capacites</Code>
 </TypeControle>
 <TypeControle>
 <Nom>khôlle</Nom>
 <Nc>colle</Nc>
-<Code>Competences,Capacites</Code>
+<Code type="code">Competences|Capacites</Code>
 <Parent>
 <Nom>Oral</Nom>
 </Parent>
+<Total>1</Total>
 </TypeControle>
 
 <!-- DonneCard -->
@@ -247,7 +251,7 @@
 <IdDonnee>
   <Ref>date_defaut</Ref>
 </IdDonnee>
-<Cible>Classe</Cible>
-<Card></Card>
+<Cible type="cible">Classe</Cible>
+<Card type="enum">NbrDefaultDateClasse</Card>
 </DonneeCard>
 </entities>
