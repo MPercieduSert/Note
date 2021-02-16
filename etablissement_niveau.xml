@@ -1,920 +1,601 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
-<!--  TypeEtablissement -->
-  <TypeEtablissement >
+  <!--  TypeEtablissement -->
+  <TypeEtablissement>
     <Nc>Primaire</Nc>
     <Nom>École primaire</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>Collège</Nc>
     <Nom>Collège</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>LGT</Nc>
     <Nom>Lycée général et technologique</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>LP</Nc>
     <Nom>Lycée professionnel</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>CPGE</Nc>
     <Nom>Classe préparatoire aux grandes écoles</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>Université</Nc>
     <Nom>Université</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  <TypeEtablissement >
+  <TypeEtablissement>
     <Nc>École d'ing</Nc>
     <Nom>École d'ingénieure</Nom>
     <Restriction code="modification|suppression"/>
   </TypeEtablissement>
-  
   <!-- Type -->
-   <Type >
+  <Type>
     <Nc>Étude</Nc>
     <Nom>Étude</Nom>
     <Ref>etude_root</Ref>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>Primaire</Nc>
     <Nom>École primaire</Nom>
     <Ref>primaire</Ref>
-    <Parent>
-      <Ref>etude_root</Ref>
-    </Parent>
+    <Parent Ref="etude_root"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>Collège</Nc>
     <Nom>Collège</Nom>
     <Ref>college</Ref>
-    <Parent>
-      <Ref>etude_root</Ref>
-    </Parent>
+    <Parent Ref="etude_root"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>Lycée</Nc>
     <Nom>Lycée</Nom>
     <Ref>lycee</Ref>
-    <Parent>
-      <Ref>etude_root</Ref>
-    </Parent>
+    <Parent Ref="etude_root"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>Supérieure</Nc>
     <Nom>Étude supérieure</Nom>
     <Ref>etude_sup</Ref>
-    <Parent>
-      <Ref>etude_root</Ref>
-    </Parent>
+    <Parent Ref="etude_root"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>CP</Nc>
     <Nom>Cours préparatoire</Nom>
     <Ref>cp</Ref>
-    <Parent>
-      <Ref>primaire</Ref>
-    </Parent>
+    <Parent Ref="primaire"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>CE1</Nc>
     <Nom>Cours élémentaire 1er année</Nom>
     <Ref>ce1</Ref>
-    <Parent>
-      <Ref>primaire</Ref>
-    </Parent>
+    <Parent Ref="primaire"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-<Type >
+  <Type>
     <Nc>CE2</Nc>
     <Nom>Cours élémentaire 2nd année</Nom>
     <Ref>ce2</Ref>
-    <Parent>
-      <Ref>primaire</Ref>
-    </Parent>
+    <Parent Ref="primaire"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>CM1</Nc>
     <Nom>Cours moyen 1er année</Nom>
     <Ref>cm1</Ref>
-    <Parent>
-      <Ref>primaire</Ref>
-    </Parent>
+    <Parent Ref="primaire"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>CM2</Nc>
     <Nom>Cours moyen 2nd année</Nom>
     <Ref>cm2</Ref>
-    <Parent>
-      <Ref>primaire</Ref>
-    </Parent>
+    <Parent Ref="primaire"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-   <Type >
+  <Type>
     <Nc>6ème</Nc>
     <Nom>Sixième</Nom>
     <Ref>sixieme</Ref>
-    <Parent>
-      <Ref>college</Ref>
-    </Parent>
+    <Parent Ref="college"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>5ème</Nc>
     <Nom>Cinquième</Nom>
     <Ref>cinquieme</Ref>
-    <Parent>
-      <Ref>college</Ref>
-    </Parent>
+    <Parent Ref="college"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>4ème</Nc>
     <Nom>Quatrième</Nom>
     <Ref>quatrieme</Ref>
-    <Parent>
-      <Ref>college</Ref>
-    </Parent>
+    <Parent Ref="college"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>3ème</Nc>
     <Nom>Troisième</Nom>
     <Ref>troisieme</Ref>
-    <Parent>
-      <Ref>college</Ref>
-    </Parent>
+    <Parent Ref="college"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>2nd</Nc>
     <Nom>Seconde</Nom>
     <Ref>seconde</Ref>
-    <Parent>
-      <Ref>lycee</Ref>
-    </Parent>
+    <Parent Ref="lycee"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>1er</Nc>
     <Nom>Première</Nom>
     <Ref>premiere</Ref>
-    <Parent>
-      <Ref>lycee</Ref>
-    </Parent>
+    <Parent Ref="lycee"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>Tle</Nc>
     <Nom>Terminale</Nom>
     <Ref>terminale</Ref>
-    <Parent>
-      <Ref>lycee</Ref>
-    </Parent>
+    <Parent Ref="lycee"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>Licence</Nc>
     <Nom>Licence</Nom>
     <Ref>licence</Ref>
-    <Parent>
-      <Ref>etude_sup</Ref>
-    </Parent>
+    <Parent Ref="etude_sup"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>L1</Nc>
     <Nom>Licence 1er année</Nom>
     <Ref>l1</Ref>
-    <Parent>
-      <Ref>licence</Ref>
-    </Parent>
+    <Parent Ref="licence"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>L2</Nc>
     <Nom>Licence 2ème année</Nom>
     <Ref>l2</Ref>
-    <Parent>
-      <Ref>licence</Ref>
-    </Parent>
+    <Parent Ref="licence"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>L3</Nc>
     <Nom>Licence 3ème année</Nom>
     <Ref>l3</Ref>
-    <Parent>
-      <Ref>licence</Ref>
-    </Parent>
+    <Parent Ref="licence"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>Master</Nc>
     <Nom>Master</Nom>
     <Ref>master</Ref>
-    <Parent>
-      <Ref>etude_sup</Ref>
-    </Parent>
+    <Parent Ref="etude_sup"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>M1</Nc>
     <Nom>Master 1er année</Nom>
     <Ref>m1</Ref>
-    <Parent>
-      <Ref>master</Ref>
-    </Parent>
+    <Parent Ref="master"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>M2</Nc>
     <Nom>Master 2nd année</Nom>
     <Ref>m2</Ref>
-    <Parent>
-      <Ref>master</Ref>
-    </Parent>
+    <Parent Ref="master"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  <Type >
+  <Type>
     <Nc>Doctorat</Nc>
     <Nom>Doctorat</Nom>
     <Ref>doctorat</Ref>
-    <Parent>
-      <Ref>etude_sup</Ref>
-    </Parent>
+    <Parent Ref="etude_sup"/>
     <Restriction code="modification|suppression"/>
-    <TypePermission id_ent="IdType"  cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
+    <TypePermission id1_cible="Niveau" code="Visible|Attribuable" restriction="modification|suppression"/>
   </Type>
-  
   <!-- Niveau -->
   <Niveau>
     <Nc>CP</Nc>
     <Nom>Cours préparatoire</Nom>
-    <Type>
-      <Ref>cp</Ref>
-    </Type>
+    <Type Ref="cp"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>CE1</Nc>
     <Nom>Cours élémentaire 1er année</Nom>
-    <Type>
-      <Ref>ce1</Ref>
-    </Type>
+    <Type Ref="ce1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>CE2</Nc>
     <Nom>Cours élémentaire 2nd année</Nom>
-    <Type>
-      <Ref>ce2</Ref>
-    </Type>
+    <Type Ref="ce2"/>
     <Restriction code="suppression"/>
-  </Niveau >
+  </Niveau>
   <Niveau>
     <Nc>CM1</Nc>
     <Nom>Cours moyen 1er année</Nom>
-    <Type>
-      <Ref>cm1</Ref>
-    </Type>
+    <Type Ref="cm1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>CM2</Nc>
     <Nom>Cours moyen 2nd année</Nom>
-    <Type>
-      <Ref>cm2</Ref>
-    </Type>
+    <Type Ref="cm2"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>6ème</Nc>
     <Nom>Sixième</Nom>
-    <Type>
-      <Ref>sixieme</Ref>
-    </Type>
+    <Type Ref="sixieme"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>5ème</Nc>
     <Nom>Cinquième</Nom>
-    <Type>
-      <Ref>cinquieme</Ref>
-    </Type>
+    <Type Ref="cinquieme"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>4ème</Nc>
     <Nom>Quatrième</Nom>
-    <Type>
-      <Ref>quatrieme</Ref>
-    </Type>
+    <Type Ref="quatrieme"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>3ème</Nc>
     <Nom>Troisième</Nom>
-    <Type>
-      <Ref>troisieme</Ref>
-    </Type>
+    <Type Ref="troisieme"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>2nd</Nc>
     <Nom>Seconde</Nom>
-    <Type>
-      <Ref>seconde</Ref>
-    </Type>
+    <Type Ref="seconde"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>2er</Nc>
     <Nom>Première</Nom>
-    <Type>
-      <Ref>premiere</Ref>
-    </Type>
+    <Type Ref="premiere"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>Tle</Nc>
     <Nom>Terminale</Nom>
-    <Type>
-      <Ref>terminale</Ref>
-    </Type>
+    <Type Ref="terminale"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>MPSI</Nc>
     <Nom>MPSI</Nom>
-    <Type>
-      <Ref>l1</Ref>
-    </Type>
+    <Type Ref="l1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>PCSI</Nc>
     <Nom>PCSI</Nom>
-    <Type>
-      <Ref>l1</Ref>
-    </Type>
+    <Type Ref="l1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>PTSI</Nc>
     <Nom>PTSI</Nom>
-    <Type>
-      <Ref>l1</Ref>
-    </Type>
+    <Type Ref="l1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>BCPST1</Nc>
     <Nom>BCPST1</Nom>
-    <Type>
-      <Ref>l1</Ref>
-    </Type>
+    <Type Ref="l1"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>MP</Nc>
     <Nom>MP</Nom>
-    <Type>
-      <Ref>l2</Ref>
-    </Type>
+    <Type Ref="l2"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>PC</Nc>
     <Nom>PC</Nom>
-    <Type>
-      <Ref>l2</Ref>
-    </Type>
+    <Type Ref="l2"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>PSI</Nc>
     <Nom>PSI</Nom>
-    <Type>
-      <Ref>l2</Ref>
-    </Type>
+    <Type Ref="l2"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>PT</Nc>
     <Nom>PT</Nom>
-    <Type>
-      <Ref>l2</Ref>
-    </Type>
+    <Type Ref="l2"/>
     <Restriction code="suppression"/>
   </Niveau>
   <Niveau>
     <Nc>BCPST2</Nc>
     <Nom>BCPST2</Nom>
-    <Type>
-      <Ref>l2</Ref>
-    </Type>
+    <Type Ref="l2"/>
     <Restriction code="suppression"/>
   </Niveau>
-  
   <!-- FiliationNiveau -->
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cours préparatoire</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Cours élémentaire 1er année</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cours élémentaire 1er année</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Cours élémentaire 2nd année</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cours élémentaire 2nd année</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Cours moyen 1er année</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cours moyen 1er année</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Cours moyen 2nd année</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cours moyen 2nd année</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Sixième</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Sixième</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Cinquième</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Cinquième</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Quatrième</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Quatrième</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Troisième</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Troisième</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Seconde</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Seconde</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Première</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Première</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>Terminale</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Terminale</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>MPSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Terminale</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PCSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Terminale</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PTSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>Terminale</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>BCPST1</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>MPSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>MP</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>MPSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau> 
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>PCSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>PCSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PC</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>PTSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PT</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>PTSI</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>PSI</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-<FiliationNiveau>
-  <IdPrecedent>
-    <Nom>BCPST1</Nom>  
-  </IdPrecedent>
-  <IdSuivant>
-    <Nom>BCPST2</Nom>  
-  </IdSuivant>
-</FiliationNiveau>  
-
-<!-- NiveauTypeEtablissement -->
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cours préparatoire</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>École primaire</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cours élémentaire 1er année</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>École primaire</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cours élémentaire 2nd année</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>École primaire</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cours moyen 1er année</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>École primaire</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cours moyen 2nd année</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>École primaire</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Sixième</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Collège</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Cinquième</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Collège</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Quatrième</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Collège</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Troisième</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Collège</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Seconde</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Lycée général et technologique</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Première</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Lycée général et technologique</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>Terminale</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Lycée général et technologique</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>MPSI</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>PCSI</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>PTSI</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>BCPST1</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>MP</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>PSI</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>PC</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>PT</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-<NiveauTypeEtablissement>
-  <IdNiveau>
-    <Nom>BCPST2</Nom>
-  </IdNiveau>
-  <IdTpEtab>
-    <Nom>Classe préparatoire aux grandes écoles</Nom>
-  </IdTpEtab>
-</NiveauTypeEtablissement>
-
-<!-- Etablissement -->
-<Etablissement>
-<Nom>Collège de Porticcio</Nom>
-<Nc>CdC</Nc>
-</Etablissement>
-<Etablissement>
-<Nom>Lycée Laetitia Bonaparte</Nom>
-<Nc>LLB</Nc>
-</Etablissement>
-<EtablissementType>
-<IdEtab>
-  <Nom>Collège de Porticcio</Nom>
-</IdEtab> 
-<IdTpEtab>
-  <Nom>Collège</Nom>
-</IdTpEtab>
-</EtablissementType>
-<EtablissementType>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdTpEtab>
-  <Nom>Lycée général et technologique</Nom>
-</IdTpEtab>
-</EtablissementType>
-<EtablissementType>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdTpEtab>
-  <Nom>Classe préparatoire aux grandes écoles</Nom>
-</IdTpEtab>
-</EtablissementType>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Collège de Porticcio</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Sixième</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Collège de Porticcio</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Cinquième</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Collège de Porticcio</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Quatrième</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Collège de Porticcio</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Troisième</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Seconde</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Première</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>Terminale</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>PTSI</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>PSI</Nom>
-</IdNiveau>
-</EtablissementNiveau>
-<EtablissementNiveau>
-<IdEtab>
-  <Nom>Lycée Laetitia Bonaparte</Nom>
-</IdEtab>
-<IdNiveau>
-  <Nom>PT</Nom>
-</IdNiveau>
-</EtablissementNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cours préparatoire"/>
+    <IdSuivant Nom="Cours élémentaire 1er année"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cours élémentaire 1er année"/>
+    <IdSuivant Nom="Cours élémentaire 2nd année"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cours élémentaire 2nd année"/>
+    <IdSuivant Nom="Cours moyen 1er année"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cours moyen 1er année"/>
+    <IdSuivant Nom="Cours moyen 2nd année"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cours moyen 2nd année"/>
+    <IdSuivant Nom="Sixième"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Sixième"/>
+    <IdSuivant Nom="Cinquième"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Cinquième"/>
+    <IdSuivant Nom="Quatrième"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Quatrième"/>
+    <IdSuivant Nom="Troisième"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Troisième"/>
+    <IdSuivant Nom="Seconde"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Seconde"/>
+    <IdSuivant Nom="Première"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Première"/>
+    <IdSuivant Nom="Terminale"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Terminale"/>
+    <IdSuivant Nom="MPSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Terminale"/>
+    <IdSuivant Nom="PCSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Terminale"/>
+    <IdSuivant Nom="PTSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="Terminale"/>
+    <IdSuivant Nom="BCPST1"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="MPSI"/>
+    <IdSuivant Nom="MP"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="MPSI"/>
+    <IdSuivant Nom="PSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="PCSI"/>
+    <IdSuivant Nom="PSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="PCSI"/>
+    <IdSuivant Nom="PC"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="PTSI"/>
+    <IdSuivant Nom="PT"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="PTSI"/>
+    <IdSuivant Nom="PSI"/>
+  </FiliationNiveau>
+  <FiliationNiveau>
+    <IdPrecedent Nom="BCPST1"/>
+    <IdSuivant Nom="BCPST2"/>
+  </FiliationNiveau>
+  <!-- NiveauTypeEtablissement -->
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cours préparatoire"/>
+    <IdTpEtab Nom="École primaire"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cours élémentaire 1er année"/>
+    <IdTpEtab Nom="École primaire"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cours élémentaire 2nd année"/>
+    <IdTpEtab Nom="École primaire"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cours moyen 1er année"/>
+    <IdTpEtab Nom="École primaire"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cours moyen 2nd année"/>
+    <IdTpEtab Nom="École primaire"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Sixième"/>
+    <IdTpEtab Nom="Collège"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Cinquième"/>
+    <IdTpEtab Nom="Collège"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Quatrième"/>
+    <IdTpEtab Nom="Collège"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Troisième"/>
+    <IdTpEtab Nom="Collège"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Seconde"/>
+    <IdTpEtab Nom="Lycée général et technologique"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Première"/>
+    <IdTpEtab Nom="Lycée général et technologique"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="Terminale"/>
+    <IdTpEtab Nom="Lycée général et technologique"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="MPSI"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="PCSI"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="PTSI"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="BCPST1"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="MP"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="PSI"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="PC"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="PT"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </NiveauTypeEtablissement>
+  <NiveauTypeEtablissement>
+    <IdNiveau Nom="BCPST2"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>"
+  </NiveauTypeEtablissement>
+  <!-- Etablissement -->
+  <Etablissement>
+    <Nom>Collège de Porticcio</Nom>
+    <Nc>CdC</Nc>
+  </Etablissement>
+  <Etablissement>
+    <Nom>Lycée Laetitia Bonaparte</Nom>
+    <Nc>LLB</Nc>
+  </Etablissement>
+  <EtablissementType>
+    <IdEtab Nom="Collège de Porticcio"/>
+    <IdTpEtab Nom="Collège"/>
+  </EtablissementType>
+  <EtablissementType>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdTpEtab Nom="Lycée général et technologique"/>
+  </EtablissementType>
+  <EtablissementType>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdTpEtab Nom="Classe préparatoire aux grandes écoles"/>
+  </EtablissementType>
+  <EtablissementNiveau>
+    <IdEtab Nom="Collège de Porticcio"/>
+    <IdNiveau Nom="Sixième"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Collège de Porticcio"/>
+    <IdNiveau Nom="Cinquième"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Collège de Porticcio"/>
+    <IdNiveau Nom="Quatrième"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Collège de Porticcio"/>
+    <IdNiveau Nom="Troisième"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="Seconde"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="Première"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="Terminale"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="PTSI"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="PSI"/>
+  </EtablissementNiveau>
+  <EtablissementNiveau>
+    <IdEtab Nom="Lycée Laetitia Bonaparte"/>
+    <IdNiveau Nom="PT"/>
+  </EtablissementNiveau>
 </entities>

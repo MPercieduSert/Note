@@ -6,7 +6,7 @@
   <Nom>Type de connaissance</Nom>
   <Ref>root_tpc</Ref>
   <Restriction code="modification|suppression"/>
-  <MotClePermission id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+  <MotClePermission id1_cible="MotCle" code="Visible|Attribuable"/>
 </MotCle>
 <MotCle>
   <Nc>Matière</Nc>
@@ -14,7 +14,7 @@
   <Ref>matiere_tpc</Ref>
   <Arbre ref_parent="root_tpc"/>
   <Restriction code="modification|suppression"/>
-  <MotClePermission id_ent="IdMotCle"  cible="MotCle" code="Visible|Attribuable"/>
+  <MotClePermission id1_cible="MotCle" code="Visible|Attribuable"/>
 </MotCle>
 
 <!-- Mot clé - Connaissance -->
@@ -23,7 +23,7 @@
   <Nom>Connaissance</Nom>
   <Ref>root_css</Ref>
   <Restriction code="modification|suppression"/>
-  <MotClePermission id_ent="IdMotCle"  cible="Enonce|Exercice|Texte" code="Visible"/>
-  <!--<MotCleCible id_ent="IdCible"  ref_ent="root_tpc"/>-->
+  <MotClePermission id1_cible="Enonce|Exercice|Texte" code="Visible"/>
+  <MotCleCible idcible_id1="root_tpc"/>
 </MotCle>
 </entities>
