@@ -44,8 +44,8 @@ void FenPrincipaleNote::createMenuNewModif() {
     connectActionToNewModifDialog<dialogMPS::EvenementNewModifForm>(eveMenu->addAction(tr("Créer")),true);
     connectActionToNewModifDialog<dialogMPS::EvenementNewModifForm>(eveMenu->addAction(tr("Modifier")),false);
     auto styleMenu = calMenu->addMenu(tr("Style"));
-    connectActionToNewModifDialog<dialogMPS::EvenementStyleNewModifForm>(styleMenu->addAction(tr("Créer")),true);
-    connectActionToNewModifDialog<dialogMPS::EvenementStyleNewModifForm>(styleMenu->addAction(tr("Modifier")),false);
+    connectActionToNewModifDialog<dialogMPS::evenement_styleNewModifForm>(styleMenu->addAction(tr("Créer")),true);
+    connectActionToNewModifDialog<dialogMPS::evenement_styleNewModifForm>(styleMenu->addAction(tr("Modifier")),false);
     //Classe
     auto * classeMenu = m_newModifMenu->addMenu(tr("Classe"));
     connectActionToNewModifDialog<ClasseNewModifForm>(classeMenu->addAction(tr("Créer")),true);

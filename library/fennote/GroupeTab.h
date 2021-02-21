@@ -47,7 +47,7 @@ protected:
     QVBoxLayout * m_mainLayout;                 //!< Calque principal.
 
 public:
-    //! Position des colonnes.
+    //! position des colonnes.
     enum colonne {Nom, Prenom, Naissance, Sexe};
 
     //! Constructeur.

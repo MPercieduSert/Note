@@ -42,13 +42,13 @@ void ClasseSelectWidget::setEnabledEtabClasse(bool bb) {
     }
 }
 
-void ClasseSelectWidget::setId(idt id) {
+void ClasseSelectWidget::set_id(idt id) {
     if(m_box->isEnabled()) {
         Classe cl(id);
         if(m_bdd.get(cl)) {
-            m_anneeSelect->setId(cl.idAn());
-            m_etabSelect->setId(cl.idEtab());
-            ComboBoxEntitySelectWidget::setId(id);
+            m_anneeSelect->set_id(cl.idAn());
+            m_etabSelect->set_id(cl.idEtab());
+            ComboBoxEntitySelectWidget::set_id(id);
         }
     }
 }
@@ -71,11 +71,11 @@ EleveSelectWidget::EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orienta
     m_mainLayout->addLayout(m_eleveLayout);
 }
 
-void EleveSelectWidget::setId(idt id) {
+void EleveSelectWidget::set_id(idt id) {
     auto list = m_bdd.getList<ClasseEleve>(ClasseEleve::IdEleve,id,ClasseEleve::IdClasse);
     if(!list.empty())
-        m_classeSelect->setId(list.back().idClasse());
-    ComboBoxEntitySelectWidget::setId(id);
+        m_classeSelect->set_id(list.back().idClasse());
+    ComboBoxEntitySelectWidget::set_id(id);
 }
 
 void EleveSelectWidget::updateEleve() {
@@ -85,7 +85,7 @@ void EleveSelectWidget::updateEleve() {
                  [](const Eleve & el)->QString {return QString(el.nom()).append(" ")
                                                                         .append(el.prenom())
                                                                         .append(" (")
-                                                                        .append(el.date().toString("dd/MM/yyyy"))
+                                                                        .append(el.date().to_string("dd/MM/yyyy"))
                                                                         .append(")");});
 }
 
@@ -140,19 +140,19 @@ void GroupeSelectWidget::catChange() {
     updateType();
 }
 
-void GroupeSelectWidget::setId(idt id){
+void GroupeSelectWidget::set_id(idt id){
     Groupe gr(id);
     if(m_bdd.get(gr)) {
         if(gr.idAn()) {
             m_catCB->setCurrentIndex(0);
-            m_classeSelect->setIdAn(gr.idAn());
+            m_classeSelect->set_idAn(gr.idAn());
         }
         else {
             m_catCB->setCurrentIndex(1);
-            m_classeSelect->setId(gr.idClasse());
+            m_classeSelect->set_id(gr.idClasse());
         }
         m_typeCB->setCurrentIndexId(gr.type());
-        ComboBoxEntitySelectWidget::setId(id);
+        ComboBoxEntitySelectWidget::set_id(id);
     }
 }
 
@@ -170,12 +170,12 @@ void GroupeSelectWidget::updateGroupe() {
 
 void GroupeSelectWidget::updateType() {
     m_typeCB->clear();
-    std::map<TypePermission::Position,QVariant> where;
-    where[TypePermission::Cible] = bdd().cible<Groupe>();
-    std::vector<std::pair<Type::Position,bool>> order;
+    std::map<type_permission::position,QVariant> where;
+    where[type_permission::Cible] = bdd().cible<Groupe>();
+    std::vector<std::pair<Type::position,bool>> order;
     order.push_back({Type::Nom,true});
-    auto vec = m_bdd.getList<Type,TypePermission>(Type::Id,TypePermission::IdType,std::map<Type::Position,QVariant>(),where,order);
-    std::map<Groupe::Position,QVariant> map;
+    auto vec = m_bdd.getList<Type,type_permission>(Type::Id,type_permission::id_type,std::map<Type::position,QVariant>(),where,order);
+    std::map<Groupe::position,QVariant> map;
     if(m_catCB->currentData().toBool())
         map[Groupe::IdClasse] = m_classeSelect->id();
     else
@@ -191,7 +191,7 @@ void GroupeSelectWidget::updateType() {
     m_typeCB->addText(vec,[](const Type & type)->QString {return QString(type.nom()).append(" (").append(type.nc()).append(")");});
 }
 
-void NiveauxSelectWidget::setIdEtab(idt id) {
+void NiveauxSelectWidget::set_idEtab(idt id) {
     m_box->clear();
     if(id == 0)
         m_box->addText(m_bdd.getList<Niveau>(Niveau::Nom),

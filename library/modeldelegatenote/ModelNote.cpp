@@ -39,7 +39,7 @@ void ClasseEleveModel::add(idt idEleve){
         auto row = rowCount();
         insertRow(row);
         static_cast<ClasseEleveVecTableau&>(static_cast<ClasseEleveCompositionTableau&>(*m_data)
-                                                   .tableau(ClasseEleveCompositionTableau::EleveTableau)).internalData(ligne).setId(idEleve);
+                                                   .tableau(ClasseEleveCompositionTableau::EleveTableau)).internalData(ligne).set_id(idEleve);
         hydrate(row);
     }
 }
@@ -72,9 +72,9 @@ std::vector<std::pair<idt, int>> EleveGroupeModel::remove(const QModelIndexList 
     return vecIdNum;
 }
 
-void EleveGroupeModel::setIdGroupe(idt idGroupe){
+void EleveGroupeModel::set_idGroupe(idt idGroupe){
     beginResetModel();
-        static_cast<EleveGroupeTableau&>(*m_data).setIdGroupe(idGroupe);
+        static_cast<EleveGroupeTableau&>(*m_data).set_idGroupe(idGroupe);
         m_colonnes.clear();
         NewColonneInfo info;
         info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;

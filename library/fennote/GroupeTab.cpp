@@ -78,7 +78,7 @@ void GroupeTab::affecte(int column) {
                 if(num != column) {
                     auto id = m_candidatModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt();
                     listId.push_front(id);
-                    m_candidatModel->setData(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
+                    m_candidatModel->set_data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
                     if(num >= 0)
                         delGrId[static_cast<szt>(num)].push_front(id);
                 }
@@ -93,7 +93,7 @@ void GroupeTab::affecte(int column) {
                     ++iterNum;
                 if(iterNum == listNum.cend() || iterNum->toUInt() != col) {
                     listId.push_front(m_candidatModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt());
-                    m_candidatModel->setData(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
+                    m_candidatModel->set_data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
                 }
             }
         }
@@ -117,7 +117,7 @@ void GroupeTab::updateEleve() {
     m_candidatView->setModel(m_candidatModel);
     if(model)
         delete model;
-    static_cast<EleveGroupeModel&>(*m_model).setIdGroupe(m_groupeSelect->id());
+    static_cast<EleveGroupeModel&>(*m_model).set_idGroupe(m_groupeSelect->id());
     m_exclusifCheck->setChecked(static_cast<EleveGroupeModel&>(*m_model).groupe().code().test(Groupe::Exclusif));
     m_totalCheck->setChecked(static_cast<EleveGroupeModel&>(*m_model).groupe().code().test(Groupe::Total));
 }

@@ -4,7 +4,7 @@
 #ifndef CONFIGNOTE_H
 #define CONFIGNOTE_H
 
-#include "Config.h"
+#include "config.h"
 
 /*! \ingroup groupeNoyau
  * \brief Chemin XML du dossier de l'application par default.
@@ -27,15 +27,15 @@ namespace noteMPS {
  *
  * Gestionnaire du fichier de configuration enregistré sous la forme d'un document XML. Tous les noeuds ont des chemins uniques.
  */
-class ConfigNote : public fichierMPS::Config {
+class configNote : public fichierMPS::Config {
 public:
-    using Config::Config;
+    using config::Config;
 
     //! Créer un fichier de configuration avec les entrées par défault.
     bool creer() override;
 
     //! Renvoie le chemin du dossier par default.
-    QString defaultDirectory() override;
+    QString default_directory() override;
 };
 }
 #endif // CONFIGNOTE_H

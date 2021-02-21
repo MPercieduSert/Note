@@ -8,7 +8,7 @@
 #include <QAbstractSpinBox>
 #include <QLineEdit>
 #include "EntityNote.h"
-#include "ConteneurPtr.h"
+#include "conteneur_ptr.h"
 
 namespace  noteMPS{
 /*! \defgroup groupeWidgetNote Dialogues de note
@@ -24,7 +24,7 @@ class SpinBoxAnneeScolaire : public QAbstractSpinBox
 protected:
     szt m_pos = 0;
     Annee m_value;          //!< Annee courante.
-    conteneurMPS::VectorPtr<Annee> m_vec;   //!< Tableau d'année.
+    conteneurMPS::vector_ptr<Annee> m_vec;   //!< Tableau d'année.
 
 public:
     //! Constructeur.
@@ -33,30 +33,30 @@ public:
     //! Constructeur.
     SpinBoxAnneeScolaire(const Annee & an, QWidget * parent = nullptr)
         : SpinBoxAnneeScolaire(parent)
-        {setValue(an);}
+        {set_value(an);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(const conteneurMPS::VectorPtr<Annee> & vec, QWidget * parent = nullptr)
+    SpinBoxAnneeScolaire(const conteneurMPS::vector_ptr<Annee> & vec, QWidget * parent = nullptr)
         : SpinBoxAnneeScolaire(parent)
-        {setValues(vec);}
+        {set_values(vec);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(conteneurMPS::VectorPtr<Annee> && vec, QWidget * parent = nullptr)
+    SpinBoxAnneeScolaire(conteneurMPS::vector_ptr<Annee> && vec, QWidget * parent = nullptr)
         : SpinBoxAnneeScolaire(parent)
-        {setValues(std::move(vec));}
+        {set_values(std::move(vec));}
 
     //! Place la valeur sur l'annee actuelle si possible ou sur la dernière année de la liste sinon.
     void setNowValue();
 
     //! Mutateur de l'année courante (recherche par num (byNum=true) ou par id (byNum=false).
-    void setValue(const Annee & annee, bool byNum = true);
+    void set_value(const Annee & annee, bool byNum = true);
 
     //! Mutateur de la liste des année disponible courante.
-    void setValues(const conteneurMPS::VectorPtr<Annee> & vec)
+    void set_values(const conteneurMPS::vector_ptr<Annee> & vec)
         {m_vec = vec;}
 
     //! Mutateur de la liste des année disponible courante.
-    void setValues(conteneurMPS::VectorPtr<Annee> && vec)
+    void set_values(conteneurMPS::vector_ptr<Annee> && vec)
         {m_vec = std::move(vec);}
 
     //! Taille du widget.
@@ -72,7 +72,7 @@ public:
     }
 
     //! Accesseur de la liste des valeurs.
-    const conteneurMPS::VectorPtr<Annee> & values() const
+    const conteneurMPS::vector_ptr<Annee> & values() const
         {return m_vec;}
 
 signals:

@@ -1,10 +1,10 @@
 #include "BddNote.h"
 
 using namespace noteMPS;
-bool BddNote::delP(idt id, entidt idEntity) {
+bool BddNote::delP(idt id, entidt id_entity) {
     auto controle = true;
     // Spécifique
-    switch (idEntity) {
+    switch (id_entity) {
     case Annee::ID:
         controle = delList<Classe>(Classe::IdAn,id);
         break;
@@ -35,27 +35,27 @@ bool BddNote::delP(idt id, entidt idEntity) {
                 && delList<FiliationNiveau>(FiliationNiveau::IdSuivant,id);
         break;
     case TypeControle::ID:
-        controle = delList<Controle>(Controle::IdType,id);
+        controle = delList<Controle>(Controle::id_type,id);
         break;
     case TypeEtablissement::ID:
         controle = delList<EtablissementType>(EtablissementType::IdTpEtab,id)
                 && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,id);
         break;
     }
-    controle = controle && delList<Controle>(Controle::Cible,cible(idEntity),
-                                             Controle::IdCible,id);
-    return controle && BddPredef::delP(id,idEntity);
+    controle = controle && delList<Controle>(Controle::Cible,cible(id_entity),
+                                             Controle::Id_Cible,id);
+    return controle && BddPredef::delP(id,id_entity);
 }
 
-bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
-    auto controle = bddMPS::BddPredef::testAutorisationP(id,idEntity,autoris);
+bool BddNote::testAutorisationP(idt id, entidt id_entity, flag autoris) {
+    auto controle = bddMPS::BddPredef::testAutorisationP(id,id_entity,autoris);
     if(controle && autoris & bddMPS::Suppr) {
         //Cible
         controle = controle && testAutorisationList<Controle>(autoris,
-                                                              Controle::Cible,cible(idEntity),
-                                                              Controle::IdCible,id);
+                                                              Controle::Cible,cible(id_entity),
+                                                              Controle::Id_Cible,id);
         if(controle){
-            switch (idEntity) {
+            switch (id_entity) {
             case Annee::ID:
                 controle = controle && testAutorisationList<Classe>(autoris,Classe::IdAn,id);
                 break;
@@ -86,7 +86,7 @@ bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
                         && testAutorisationList<NiveauTypeEtablissement>(autoris,NiveauTypeEtablissement::IdNiveau,id);
                 break;
             case TypeControle::ID:
-                controle = controle && testAutorisationList<Controle>(autoris,Controle::IdType,id);
+                controle = controle && testAutorisationList<Controle>(autoris,Controle::id_type,id);
                 break;
             case TypeEtablissement::ID:
                 controle = controle && testAutorisationList<NiveauTypeEtablissement>(autoris, NiveauTypeEtablissement::IdTpEtab,id)
@@ -98,9 +98,9 @@ bool BddNote::testAutorisationP(idt id, entidt idEntity, flag autoris) {
     return controle;
 }
 
-enumt BddNote::strIdToEnum(const QString & str, idt idEntity, QString &controle) const noexcept {
-    switch (idEntity) {
-    case DonneeCard::ID:
+enumt BddNote::strIdToEnum(const QString & str, idt id_entity, QString &controle) const noexcept {
+    switch (id_entity) {
+    case donnee_card::ID:
         if(str == "NbrDefaultDateClasse")
             return donnee::NbrDefaultDateClasse;
         break;
@@ -185,7 +185,7 @@ enumt BddNote::strIdToEnum(const QString & str, idt idEntity, QString &controle)
             return TypeControle::TypeNoteModifiable;
         break;
     }
-    return BddPredef::strIdToEnum(str,idEntity,controle);
+    return BddPredef::strIdToEnum(str,id_entity,controle);
 }
 
 void BddNote::listeMiseAJourBdd(int version, idt type) {
@@ -219,6 +219,6 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
         //creerTable<Point>();
         //creerTable<EnoncePoint>();
         //creerTable<Note>();
-        //creerTable<Valide>();
+        //creerTable<_valide>();
     }
 }

@@ -3,28 +3,28 @@
 using namespace noteMPS;
 using namespace fichierMPS;
 
-bool ConfigNote::creer(){
-    XmlDoc doc;
+bool configNote::creer(){
+    doc_xml doc;
     auto iter = doc.begin();
-    XmlElement elt;
-    elt.setName("conf");
+    element_xml elt;
+    elt.set_name("conf");
     *iter = elt;
-    elt.setName("directories");
+    elt.set_name("directories");
     iter = doc.push_back(iter, elt);
-    elt.setName("default");
-    elt.setText(QDir::homePath()+"/note/");
+    elt.set_name("default");
+    elt.set_text(QDir::homePath()+"/note/");
     iter = doc.push_back(iter, elt);
-    iter.toParent(2);
-    elt.setName("files");
-    elt.setText("");
+    iter.to_parent(2);
+    elt.set_name("files");
+    elt.set_text("");
     iter = doc.push_back(iter, elt);
-    elt.setName("databases");
+    elt.set_name("databases");
     doc.push_back(iter, elt);
 
-    writeConf(doc);
+    write(doc);
     return true;
 }
 
 //! Renvoie le chemin du dossier par default.
-QString ConfigNote::defaultDirectory()
-    {return getVars(DEFAULT_DIRECTORY);}
+QString configNote::default_directory()
+    {return get_vars(DEFAULT_DIRECTORY);}

@@ -71,7 +71,7 @@ void AbstractControleNewModifForm::barreEnable() {
     if(enable) {
         decimaleChange();
         totalChange();
-        m_minimaSpinBox->setValueDouble(m_totalSpinBox->value() / 2.);
+        m_minimaSpinBox->set_valueDouble(m_totalSpinBox->value() / 2.);
         connect(m_decimaleCB,qOverload<int>(&QComboBox::currentIndexChanged),this,&TypeControleNewModifForm::decimaleChange);
         connect(m_totalSpinBox,qOverload<int>(&widgetMPS::SpinBoxLettre::valueChanged),this,&TypeControleNewModifForm::totalChange);
     }
@@ -123,33 +123,33 @@ void AbstractControleNewModifForm::noteEnable() {
 }
 
 void AbstractControleNewModifForm::typeNoteChange() {
-    using attDecimale = attributMPS::AttributDecimale;
+    using attDecimale = attributMPS::attribut_decimale;
     if(m_chiffreRadio->isChecked()) {
-        m_totalLabel->setText("Total :");
-        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Arabe);
+        m_totalLabel->set_text("Total :");
+        m_totalSpinBox->set_style(diversMPS::num_to_string::Arabe);
         m_totalSpinBox->setMinimum(1);
         m_totalSpinBox->setMaximum(1000);
-        m_totalSpinBox->setValue(20);
+        m_totalSpinBox->set_value(20);
         m_depassementCheck->setEnabled(m_noteCheck->isChecked());
         m_courbeCheck->setEnabled(m_noteCheck->isChecked());
-        m_decimalLabel->setText(tr("Décimale :"));
+        m_decimalLabel->set_text(tr("Décimale :"));
         m_decimaleCB->clear();
-        for (szt i = 0; i != attDecimale::NbrValues; ++i)
+        for (szt i = 0; i != attDecimale::Nbr_Values; ++i)
             m_decimaleCB->addItem(QString::number(1./ attDecimale::Decimale.at(i),'f',attDecimale::Precision.at(i)),
                                   attDecimale::Decimale.at(i));
         m_classementCheck->setEnabled(m_noteCheck->isChecked());
     }
     else {
-        m_totalLabel->setText("De A à :");
-        m_totalSpinBox->setStyle(diversMPS::NumToTexte::Majuscule);
+        m_totalLabel->set_text("De A à :");
+        m_totalSpinBox->set_style(diversMPS::num_to_string::Majuscule);
         m_totalSpinBox->setMinimum(0);
         m_totalSpinBox->setMaximum(25);
-        m_totalSpinBox->setValue(3);
+        m_totalSpinBox->set_value(3);
         m_depassementCheck->setEnabled(false);
         m_depassementCheck->setChecked(false);
         m_courbeCheck->setEnabled(false);
         m_courbeCheck->setChecked(false);
-        m_decimalLabel->setText(tr("Ajustement :"));
+        m_decimalLabel->set_text(tr("Ajustement :"));
         m_classementCheck->setEnabled(false);
         m_classementCheck->setChecked(false);
         m_decimaleCB->clear();
@@ -184,7 +184,7 @@ AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * pa
     else if (!m_spinBox->values().empty())
         m_mainLayout->addWidget(m_spinBox);
     else
-        m_anneeLabel->setText("Vous devez préalablement créer une année scolaire dans le menu :\n "
+        m_anneeLabel->set_text("Vous devez préalablement créer une année scolaire dans le menu :\n "
                               "fichier>Nouveau>Année scolaire");
 }
 
@@ -250,7 +250,7 @@ ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
 
 void ClasseNewModifForm::connexion() {
     AbstractNcNomNewModifForm::connexion();
-    connect(m_etabSelect,&EtablissementSelectWidget::idChanged,m_nivSelect,&NiveauxSelectWidget::setIdEtab);
+    connect(m_etabSelect,&EtablissementSelectWidget::idChanged,m_nivSelect,&NiveauxSelectWidget::set_idEtab);
     connect(m_anneeSelect,&AnneeSelectWidget::idChanged,this,&ClasseNewModifForm::updateCalendar);
     connect(m_debutCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
     connect(m_finCalendar,&QCalendarWidget::selectionChanged,this,[this](){emit savePermis(valide());});
@@ -259,25 +259,25 @@ void ClasseNewModifForm::connexion() {
 void ClasseNewModifForm::save() {
     Classe cl;
     if(!m_new)
-        cl.setId(id());
+        cl.set_id(id());
     cl.setNc(nc());
     cl.setNom(nom());
-    cl.setIdAn(m_anneeSelect->id());
-    cl.setIdEtab(m_etabSelect->id());
-    cl.setIdNiveau(m_nivSelect->id());
+    cl.set_idAn(m_anneeSelect->id());
+    cl.set_idEtab(m_etabSelect->id());
+    cl.set_idNiveau(m_nivSelect->id());
     cl.setNum(m_numSpinBox->value());
     m_bdd.save(cl);
     if(m_new)
         m_idClasse = cl.id();
-    DonneeCible dnCb;
-    dnCb.setIdDonnee(bdd().refToId<Donnee>("date_defaut_dn"));
-    dnCb.setIdCible(m_idClasse);
-    dnCb.setCible(bdd().cible<Classe>());
+    donnee_cible dnCb;
+    dnCb.set_iddonnee(bdd().refToId<donnee>("date_defaut_dn"));
+    dnCb.set_id_cible(m_idClasse);
+    dnCb.set_cible(bdd().cible<Classe>());
     dnCb.setNum(donnee::EntreeNum);
     bdd().getUnique(dnCb);
     dnCb.setValeur(m_debutCalendar->selectedDate());
     bdd().save(dnCb);
-    dnCb.setId(0);
+    dnCb.set_id(0);
     dnCb.setNum(donnee::SortieNum);
     bdd().getUnique(dnCb);
     dnCb.setValeur(m_finCalendar->selectedDate());
@@ -296,26 +296,26 @@ void ClasseNewModifForm::updateCalendar() {
 
 void ClasseNewModifForm::updateData() {
     if(m_new) {
-        m_nivSelect->setIdEtab(m_etabSelect->id());
+        m_nivSelect->set_idEtab(m_etabSelect->id());
         updateCalendar();
     }
     else {
         Classe cl;
-        updateTemp<Classe>(cl);
+        update_temp<Classe>(cl);
         m_idClasse = cl.id();
-        m_anneeSelect->setId(cl.idAn());
-        m_etabSelect->setId(cl.idEtab());
-        m_nivSelect->setIdEtab(cl.idEtab());
-        m_nivSelect->setId(cl.idNiveau());
-        m_numSpinBox->setValue(cl.num());
-        DonneeCible dnCb;
-        dnCb.setIdDonnee(bdd().refToId<Donnee>("date_defaut_dn"));
-        dnCb.setIdCible(m_idClasse);
-        dnCb.setCible(bdd().cible<Classe>());
+        m_anneeSelect->set_id(cl.idAn());
+        m_etabSelect->set_id(cl.idEtab());
+        m_nivSelect->set_idEtab(cl.idEtab());
+        m_nivSelect->set_id(cl.idNiveau());
+        m_numSpinBox->set_value(cl.num());
+        donnee_cible dnCb;
+        dnCb.set_iddonnee(bdd().refToId<donnee>("date_defaut_dn"));
+        dnCb.set_id_cible(m_idClasse);
+        dnCb.set_cible(bdd().cible<Classe>());
         dnCb.setNum(donnee::EntreeNum);
         bdd().getUnique(dnCb);
         m_debutCalendar->setSelectedDate(dnCb.valeur().toDate());
-        dnCb.setId(0);
+        dnCb.set_id(0);
         dnCb.setNum(donnee::SortieNum);
         bdd().getUnique(dnCb);
         m_finCalendar->setSelectedDate(dnCb.valeur().toDate());
@@ -343,7 +343,7 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
                           [](const TypeControle & tc)->QTreeWidgetItem * {
         auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
-        item->setData(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
+        item->set_data(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
         if(!tc.code().test(TypeControle::Categorie))
             item->setFlags(Qt::ItemIsEnabled|Qt::ItemIsSelectable);
         else
@@ -394,9 +394,9 @@ void ControleNewModifForm::connexion() {
 
 void ControleNewModifForm::save() {
     auto ctr = entityNoteOption<Controle>(true);
-    ctr.setIdType(idParent());
-    ctr.setCible(m_pourBG->checkedId());
-    ctr.setIdCible(m_entitySelect->id());
+    ctr.set_id_type(idParent());
+    ctr.set_cible(m_pourBG->checkedId());
+    ctr.set_id_cible(m_entitySelect->id());
     ctr.setNum(m_numSpinBox->value());
     ctr.setDateTime(m_dateTimeEdit->dateTime());
     m_bdd.save(ctr);
@@ -405,13 +405,13 @@ void ControleNewModifForm::save() {
 void ControleNewModifForm::updateData() {
     if(!m_new){
         Controle ctr;
-        AbstractNcNomNewModifForm::updateTemp(ctr);
-        setParent(ctr.idType());
+        AbstractNcNomNewModifForm::update_temp(ctr);
+        set_parent(ctr.id_type());
         m_pourBG->button(ctr.cible())->setChecked(true);
         updateSelectEntity(ctr.cible());
-        m_entitySelect->setId(ctr.idCible());
+        m_entitySelect->set_id(ctr.id_cible());
         updateNum();
-        m_numSpinBox->setValue(ctr.num());
+        m_numSpinBox->set_value(ctr.num());
         m_dateTimeEdit->setDateTime(ctr.dateTime());
     }
     else
@@ -420,11 +420,11 @@ void ControleNewModifForm::updateData() {
 
 void ControleNewModifForm::updateNum() {
     auto listCtr = m_bdd.getList<Controle>(Controle::Cible,m_cibleEntitySelect,
-                                           Controle::IdCible,m_entitySelect->id(),
-                                           Controle::IdType,idParent());
+                                           Controle::Id_Cible,m_entitySelect->id(),
+                                           Controle::id_type,idParent());
     if(listCtr.empty()) {
         m_numSpinBox->clearList();
-        m_numSpinBox->setValue(0);
+        m_numSpinBox->set_value(0);
     }
     else {
         auto listNum = std::list<int>();
@@ -432,7 +432,7 @@ void ControleNewModifForm::updateNum() {
             listNum.push_back(iter->num());
         m_numSpinBox->setList(listNum);
         auto max = std::max_element(listNum.cbegin(),listNum.cend());
-        m_numSpinBox->setValue(*max + 1);
+        m_numSpinBox->set_value(*max + 1);
     }
 }
 
@@ -486,26 +486,26 @@ void EtablissementNewModifForm::connexion() {
 void EtablissementNewModifForm::save() {
     Etablissement etab;
     if(!m_new)
-        etab.setId(id());
+        etab.set_id(id());
     etab.setNc(nc());
     etab.setNom(nom());
     m_bdd.save(etab);
     widgetMPS::Checklist::Save<EtablissementType>::save(m_bdd,m_TEList,
                                                         [&etab](EtablissementType & etabType, idt idTE){
-                                                                        etabType.setIdEtab(etab.id());
-                                                                        etabType.setIdTpEtab(idTE);
+                                                                        etabType.set_idEtab(etab.id());
+                                                                        etabType.set_idTpEtab(idTE);
                                                                     });
     widgetMPS::Checklist::Save<EtablissementNiveau>::save(m_bdd,m_nivList,
                                                           [&etab](EtablissementNiveau & etabNiv, idt idNiv){
-                                                                        etabNiv.setIdEtab(etab.id());
-                                                                        etabNiv.setIdNiveau(idNiv);
+                                                                        etabNiv.set_idEtab(etab.id());
+                                                                        etabNiv.set_idNiveau(idNiv);
                                                                     });
 }
 
 void EtablissementNewModifForm::updateData() {
     if(!m_new) {
         Etablissement etab;
-        updateTemp<Etablissement>(etab);
+        update_temp<Etablissement>(etab);
         m_TEList->setChecksById<EtablissementType>(m_bdd.getList<EtablissementType>(EtablissementType::IdEtab,etab.id()),
                        [](const EtablissementType& entity)->idt{return entity.idTpEtab();});
         m_nivList->setChecksById<EtablissementNiveau>(m_bdd.getList<EtablissementNiveau>(EtablissementNiveau::IdEtab,etab.id()),
@@ -563,12 +563,12 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
     // Identifiant des groupes.
     m_alphaLabel = new QLabel(tr("Identifiant des groupes :"));
     m_alphaCB = new QComboBox;
-    m_alphaCB->addItem(tr("Nombre arabe (1)"),diversMPS::NumToTexte::ArabeSuivant);
-    m_alphaCB->addItem(tr("Nombre romain (I)"),diversMPS::NumToTexte::RomainSuivant);
-    m_alphaCB->addItem(tr("Minuscule (a)"),diversMPS::NumToTexte::Minuscule);
-    m_alphaCB->addItem(tr("Majuscule (A)"),diversMPS::NumToTexte::Majuscule);
-    m_alphaCB->addItem(tr("Minuscule grec (\u03B1)"),diversMPS::NumToTexte::GrecMinuscule);
-    m_alphaCB->addItem(tr("Majuscule grec (\u0394)"),diversMPS::NumToTexte::GrecMajuscule);
+    m_alphaCB->addItem(tr("Nombre arabe (1)"),diversMPS::num_to_string::ArabeSuivant);
+    m_alphaCB->addItem(tr("Nombre romain (I)"),diversMPS::num_to_string::RomainSuivant);
+    m_alphaCB->addItem(tr("Minuscule (a)"),diversMPS::num_to_string::Minuscule);
+    m_alphaCB->addItem(tr("Majuscule (A)"),diversMPS::num_to_string::Majuscule);
+    m_alphaCB->addItem(tr("Minuscule grec (\u03B1)"),diversMPS::num_to_string::GrecMinuscule);
+    m_alphaCB->addItem(tr("Majuscule grec (\u0394)"),diversMPS::num_to_string::GrecMajuscule);
 
     // Option
     m_optGr = new QGroupBox(tr("Options :"));
@@ -599,22 +599,22 @@ void GroupeNewModifForm::connexion() {
 void GroupeNewModifForm::save() {
     Groupe groupe;
     if(!m_new)
-        groupe.setId(id());
+        groupe.set_id(id());
     groupe.setNc(nc());
     groupe.setNom(nom());
-    groupe.setType(idType());
-    groupe.setStyleNum(m_alphaCB->currentData().toUInt());
+    groupe.setType(id_type());
+    groupe.set_styleNum(m_alphaCB->currentData().toUInt());
     if(m_exclusifCheck->isChecked())
         groupe.add(Groupe::Exclusif);
     if(m_totalCheck->isChecked())
         groupe.add(Groupe::Total);
     if(m_clRadio->isChecked()) {
-        groupe.setIdAn(0);
-        groupe.setIdClasse(m_classeSelect->id());
+        groupe.set_idAn(0);
+        groupe.set_idClasse(m_classeSelect->id());
     }
     else {
-        groupe.setIdAn(m_classeSelect->idAn());
-        groupe.setIdClasse(0);
+        groupe.set_idAn(m_classeSelect->idAn());
+        groupe.set_idClasse(0);
     }
     m_bdd.save(groupe);
 }
@@ -622,7 +622,7 @@ void GroupeNewModifForm::save() {
 void GroupeNewModifForm::updateData() {
     if(!m_new) {
         Groupe groupe;
-        updateTemp<Groupe>(groupe);
+        update_temp<Groupe>(groupe);
         m_alphaCB->setCurrentIndex(m_alphaCB->findData(groupe.styleNum()));
         m_exclusifCheck->setChecked(groupe.code().test(Groupe::Exclusif));
         m_totalCheck->setChecked(groupe.code().test(Groupe::Total));
@@ -630,12 +630,12 @@ void GroupeNewModifForm::updateData() {
         if(groupe.idClasse()){
             Classe cl(groupe.idClasse());
             m_bdd.get(cl);
-            m_classeSelect->setIdAn(cl.idAn());
-            m_classeSelect->setIdEtab(cl.idEtab());
-            m_classeSelect->setId(cl.id());
+            m_classeSelect->set_idAn(cl.idAn());
+            m_classeSelect->set_idEtab(cl.idEtab());
+            m_classeSelect->set_id(cl.id());
         }
         else
-            m_classeSelect->setIdAn(groupe.idAn());
+            m_classeSelect->set_idAn(groupe.idAn());
     }
     else {
         m_exclusifCheck->setChecked(true);
@@ -693,29 +693,29 @@ NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget *
 void NiveauNewModifForm::save() {
     Niveau niv;
     if(!m_new)
-        niv.setId(id());
+        niv.set_id(id());
     niv.setNc(nc());
     niv.setNom(nom());
-    niv.setType(idType());
+    niv.setType(id_type());
     m_bdd.save(niv);
     widgetMPS::Checklist::Save<NiveauTypeEtablissement>::save(m_bdd,m_TEList,[&niv](NiveauTypeEtablissement & nivTE, idt idTE){
-                                                                                        nivTE.setIdNiveau(niv.id());
-                                                                                        nivTE.setIdTpEtab(idTE);
+                                                                                        nivTE.set_idNiveau(niv.id());
+                                                                                        nivTE.set_idTpEtab(idTE);
                                                                                     });
     widgetMPS::Checklist::Save<FiliationNiveau>::save(m_bdd,m_nivPrecList,[&niv](FiliationNiveau & filNiv, idt idNiv){
-                                                                                        filNiv.setIdPrecedent(idNiv);
-                                                                                        filNiv.setIdSuivant(niv.id());
+                                                                                        filNiv.set_idPrecedent(idNiv);
+                                                                                        filNiv.set_idSuivant(niv.id());
                                                                                     });
     widgetMPS::Checklist::Save<FiliationNiveau>::save(m_bdd,m_nivSuivList,[&niv](FiliationNiveau & filNiv, idt idNiv){
-                                                                                        filNiv.setIdPrecedent(niv.id());
-                                                                                        filNiv.setIdSuivant(idNiv);
+                                                                                        filNiv.set_idPrecedent(niv.id());
+                                                                                        filNiv.set_idSuivant(idNiv);
                                                                                     });
 }
 
 void NiveauNewModifForm::updateData() {
     if(!m_new) {
         Niveau niv;
-        updateTemp<Niveau>(niv);
+        update_temp<Niveau>(niv);
         m_TEList->setChecksById<NiveauTypeEtablissement>(m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,niv.id()),
                        [](const NiveauTypeEtablissement& entity)->idt{return entity.idTpEtab();});
         m_nivPrecList->setChecksById<FiliationNiveau>(m_bdd.getList<FiliationNiveau>(FiliationNiveau::IdSuivant,niv.id()),
@@ -844,7 +844,7 @@ void TypeControleNewModifForm::optionEnable() {
 
 void TypeControleNewModifForm::save() {
     auto tpc = entityNoteOption<TypeControle>(!m_categorieCheck->isChecked());
-    tpc.setParent(idParent());
+    tpc.set_parent(idParent());
     if(m_categorieCheck->isChecked())
         tpc.add(TypeControle::Categorie);
     else {
@@ -889,7 +889,7 @@ void TypeControleNewModifForm::save() {
 void TypeControleNewModifForm::updateData() {
     if(!m_new){
         TypeControle tpc;
-        updateTemp(tpc);
+        update_temp(tpc);
         m_categorieCheck->setChecked(tpc.code().test(TypeControle::Categorie));
         if(!m_categorieCheck->isChecked()) {
             updateNoteOption(tpc);
@@ -962,7 +962,7 @@ void TypeEtablissementNewModifForm::save() {
                 m_bdd.del(nivTE);
             }
             else
-                j->setValue(0);
+                j->set_value(0);
         }
         for (auto j = nivNew.cbegin(); j != nivNew.cend(); ++j) {
             if(j->toUInt() != 0)
@@ -977,11 +977,11 @@ void TypeEtablissementNewModifForm::updateData() {
         std::map<QVariant, QString> nivOut;
         for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i)
             nivOut[i->id()] = i->nom();
-        m_selectNiv->setValue(nivOut,std::map<QVariant, QString>());
+        m_selectNiv->set_value(nivOut,std::map<QVariant, QString>());
     }
     else {
         TypeEtablissement te;
-        updateTemp<TypeEtablissement>(te);
+        update_temp<TypeEtablissement>(te);
         auto vecNiv = m_bdd.getList<Niveau>();
         std::map<QVariant, QString> nivIn;
         std::map<QVariant, QString> nivOut;
@@ -991,6 +991,6 @@ void TypeEtablissementNewModifForm::updateData() {
             else
                 nivOut[i->id()] = i->nom();
         }
-        m_selectNiv->setValue(nivOut,nivIn);
+        m_selectNiv->set_value(nivOut,nivIn);
     }
 }

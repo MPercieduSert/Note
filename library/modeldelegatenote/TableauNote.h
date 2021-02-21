@@ -22,8 +22,8 @@ protected:
     BddNote & m_bdd;                    //!< Lien avec la base de données.
     Groupe m_groupe;                    //!< Identifiant du groupe.
 public:
-    //! Position des tableaux.
-    enum positionTableau {EleveTableau, EleveGroupeTableau, DonneeTableau, NbrTableau};
+    //! position des tableaux.
+    enum positionTableau {EleveTableau, EleveGroupeTableau, donneeTableau, NbrTableau};
     enum {NonAffecter = -1, NumRole = Qt::UserRole + 1};
     //! Constructeur.
     CandidatGroupeTableau(BddNote & bdd, idt idGroupe);
@@ -56,7 +56,7 @@ protected:
     BddNote & m_bdd;    //!< Lien avec la base de données.
     idt m_idClasse;     //!< Identifiant de la classe à la quelle les élèves appartiennent.
 public:
-    //! Position des tableaux.
+    //! position des tableaux.
     enum positionTableau {EleveTableau, ClasseEleveTableau, NbrTableau};
 
     //! Constructeur.
@@ -76,7 +76,7 @@ public:
         {return m_idClasse;}
 
     //! Mutateur de l'identifiant de la classe.
-    void setIdClasse(idt id);
+    void set_idClasse(idt id);
 };
 
 /*! \ingroup groupeModelNote
@@ -108,10 +108,10 @@ public:
                     Sexe};
 
     //! Colonne des noms des éléves
-    class NomColonne : public modelMPS::VectorPtrIdColonne<Eleve> {
+    class NomColonne : public modelMPS::vector_ptrIdColonne<Eleve> {
     public:
         //! Constructeur.
-        NomColonne(const QString & name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec);
+        NomColonne(const QString & name, Qt::ItemFlags flags, conteneurMPS::vector_ptr<Eleve> & vec);
 
         //! Compare entre deux lignes ( ligne1 < ligne2).
         bool compare(szt ligne1, szt ligne2) const override
@@ -136,7 +136,7 @@ class EleveGroupeTableau : public modelMPS::HeterogeneTailleTableau<Eleve> {
 protected:
     BddNote & m_bdd;        //!< Lien avec la base de données.
     Groupe m_groupe;        //!< Identifiant du groupe.
-    diversMPS::NumToTexte m_styleNum;   //!< Convertiseur des numéros de groupe.
+    diversMPS::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Constructeur.
     EleveGroupeTableau(BddNote & bdd)
@@ -160,7 +160,7 @@ public:
     void remove(const std::map<szt,std::list<idt>> & map);
 
     //! Mutateur de l'identifiant du groupe.
-    void setIdGroupe(idt id);
+    void set_idGroupe(idt id);
 
     //! Convertissuer de numero en texte..
     QString numToTexte(int num) const
@@ -173,7 +173,7 @@ public:
 class GroupeForTableau  {
 protected:
     Groupe m_groupe;            //!< groupe associé à la colonne.
-    diversMPS::NumToTexte m_styleNum;   //!< Convertiseur des numéros de groupe.
+    diversMPS::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Accesseur du groupe.
     const Groupe & groupe() const
@@ -182,7 +182,7 @@ public:
     //! Mutateur du groupe.
     void setGroupe(const Groupe & groupe) {
         m_groupe = groupe;
-        m_styleNum.setStyle(m_groupe.styleNum());
+        m_styleNum.set_style(m_groupe.styleNum());
     }
 
     //! Convertissuer de numero en texte..

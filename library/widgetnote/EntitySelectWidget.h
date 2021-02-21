@@ -33,8 +33,8 @@ public:
         {return m_spinBox->value().id();}
 public slots:
     //! Mutateur de l'identifiant de l'entité séléctionnée.
-    void setId(idt id) override
-        {m_spinBox->setValue(Annee(id),false);}
+    void set_id(idt id) override
+        {m_spinBox->set_value(Annee(id),false);}
 };
 
 /*! \ingroup groupeWidgetNote
@@ -77,15 +77,15 @@ public slots:
     void setEnabledEtabClasse(bool bb);
 
     //! Mutateur de l'identifiant de la classe.
-    void setId(idt id) override;
+    void set_id(idt id) override;
 
     //! Mutateur de l'identifiant de l'année de la classe.
-    void setIdAn(idt id)
-        {m_anneeSelect->setId(id);}
+    void set_idAn(idt id)
+        {m_anneeSelect->set_id(id);}
 
     //! Mutateur de l'identifiant de l'établissement de la classe.
-    void setIdEtab(idt id)
-        {m_etabSelect->setId(id);}
+    void set_idEtab(idt id)
+        {m_etabSelect->set_id(id);}
 
     //! Mise à jour de la liste des classes.
     void updateClasse();
@@ -121,19 +121,19 @@ public:
 
 public slots:
     //! Mutateur de l'identifiant de l'élève.
-    void setId(idt id) override;
+    void set_id(idt id) override;
 
     //! Mutateur de l'identifiant de l'année de la classe.
-    void setIdAn(idt id)
-        {m_classeSelect->setIdAn(id);}
+    void set_idAn(idt id)
+        {m_classeSelect->set_idAn(id);}
 
     //! Mutateur de l'identifiant de la classe.
-    void setIdClasse(idt id)
-        {m_classeSelect->setId(id);}
+    void set_idClasse(idt id)
+        {m_classeSelect->set_id(id);}
 
     //! Mutateur de l'identifiant de l'établissement de la classe.
-    void setIdEtab(idt id)
-        {m_classeSelect->setIdEtab(id);}
+    void set_idEtab(idt id)
+        {m_classeSelect->set_idEtab(id);}
 
     //! Mise à jour de la liste des éléves.
     void updateEleve();
@@ -165,7 +165,7 @@ public slots:
     void catChange();
 
     //! Mutateur de l'identifiant du groupe.
-    void setId(idt id) override;
+    void set_id(idt id) override;
 
     //! Mise à jour des groupes.
     void updateGroupe();
@@ -184,11 +184,11 @@ public:
     //! Constructeur.
     NiveauxSelectWidget(bddMPS::Bdd & bdd, idt idEtab = 0, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
         : ComboBoxEntitySelectWidget(bdd,tr("Niveaux : "),orientation,parent)
-    {setIdEtab(idEtab);}
+    {set_idEtab(idEtab);}
 
 public slots:
     //! Mutateur de l'identifiant de l'établissement hébergement les niveaux.
-    void setIdEtab(idt id);
+    void set_idEtab(idt id);
 };
 }
 #endif // ENTITYSELECTWIDGET_H

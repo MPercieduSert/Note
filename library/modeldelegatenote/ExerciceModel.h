@@ -18,20 +18,20 @@ protected:
 public:
     //! Cible des données du model.
     enum dataCible {SourceCible,
-                    TexteCible,
+                    texte_cible,
                     TitreCible,
                     VersionCible,
                     NbrCible};
 
-    //! Position des sous-noeud.
-    enum positionNode{ZeroPosition,
-                      UnPosition,
-                      DeuxPosition,
-                      TroisPosition,
-                      TitrePosition = ZeroPosition,
-                      TextePosition = UnPosition,
-                      VersionPosition = DeuxPosition,
-                      SourcePosition = TroisPosition};
+    //! position des sous-noeud.
+    enum positionNode{Zeroposition,
+                      Unposition,
+                      Deuxposition,
+                      Troisposition,
+                      Titreposition = Zeroposition,
+                      Texteposition = Unposition,
+                      Versionposition = Deuxposition,
+                      Sourceposition = Troisposition};
 
     //! constructeur.
     ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent = nullptr);
@@ -79,7 +79,7 @@ public:
     void save(bddMPS::Bdd & bdd) override {}
 
     //! Mutateur des données du noeud.
-    flag setData(int cible, const QVariant & value, int role, numt num = 0) override;
+    flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;
 };
 
 /*! \ingroup groupeModelNote

@@ -39,7 +39,7 @@ protected:
     QVBoxLayout * m_secondLayout;   //!< Calque secondaire.
 
 public:
-    //! Position des colonnes.
+    //! position des colonnes.
     enum colonne {Nom, Prenom, Naissance, Sexe};
 
     //! Constructeur.

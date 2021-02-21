@@ -6,7 +6,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     : AbstractTabTableau(bdd,pair,parent) {
     m_classeSelect = new ClasseSelectWidget(bdd);
     m_model = new ClasseEleveModel(bdd,m_classeSelect->id(),this);
-    connect(m_classeSelect,&ClasseSelectWidget::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::setIdClasse);
+    connect(m_classeSelect,&ClasseSelectWidget::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::set_idClasse);
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectRows);

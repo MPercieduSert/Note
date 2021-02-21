@@ -27,7 +27,7 @@ DESTR_VIDE_DEF(Note)
 DESTR_VIDE_DEF(PrenomAttribut)
 DESTR_VIDE_DEF(SortieAttribut)
 DESTR_VIDE_DEF(TypeControle)
-DESTR_VIDE_DEF(Valide)
+DESTR_VIDE_DEF(_valide)
 
 bool Eleve::operator < (const Eleve & eleve) const {
     if(nom() < eleve.nom())

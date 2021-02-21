@@ -40,7 +40,7 @@ protected:
     QVBoxLayout * m_mainLayout;                     //!< Calque Principal.
 
 public:
-    //! Position des colonnes du model de sélection de éléves.
+    //! position des colonnes du model de sélection de éléves.
     enum colonneEleve {NomEl, PrenomEl, NaissanceEl, SexeEl};
 
     //! Constructeur.

@@ -56,7 +56,7 @@ protected:
     QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
     QGridLayout * m_optLayout;                      //!< Calque des options.
 
-    //! Position des widget dans le calques des notes.
+    //! position des widget dans le calques des notes.
     enum position { ColonneZero = 0,
                     ColonneUne = 1,
                     ColonneDeux = 2,
@@ -98,7 +98,7 @@ public slots:
 
     //! Met à jour la décimale de minima.
     void decimaleChange() {
-        m_minimaSpinBox->setPrecision(attributMPS::AttributDecimale::precisionDecimale(m_decimaleCB->currentData().toInt()));
+        m_minimaSpinBox->setPrecision(attributMPS::attribut_decimale::precision_decimale(m_decimaleCB->currentData().toInt()));
         m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
     }
 
@@ -477,7 +477,7 @@ protected:
     // Calque
     QGridLayout * m_modifLayout;                    //!< Calque des options de modifiactions.
 
-    //! Position des widget dans le calques des notes.
+    //! position des widget dans le calques des notes.
     enum position { NoteModifColonne = ColonneUne,
                     NombreModifColonne = ColonneDeux,
                     OptionModifColonne = ColonneZero
@@ -520,7 +520,7 @@ public slots:
 template<class Ent> Ent AbstractControleNewModifForm::entityNoteOption(bool noteOption) {
     Ent entity;
     if(!m_new)
-        entity.setId(id());
+        entity.set_id(id());
     entity.setNc(nc());
     entity.setNom(nom());
     if(noteOption) {
@@ -565,7 +565,7 @@ template<class Ent> void AbstractControleNewModifForm::updateNoteOption(Ent & en
     m_noteCheck->setChecked(entity.code().test(TypeControle::Note));
     if(m_noteCheck->isChecked()){
         m_lettreRadio->setChecked(entity.code().test(TypeControle::Lettre));
-        m_totalSpinBox->setValue(entity.total());
+        m_totalSpinBox->set_value(entity.total());
         auto index = m_decimaleCB->findData(entity.decimale());
         if(index != -1)
             m_decimaleCB->setCurrentIndex(index);
@@ -576,7 +576,7 @@ template<class Ent> void AbstractControleNewModifForm::updateNoteOption(Ent & en
             if(m_classementCheck->isChecked()){
                 m_barreCheck->setChecked(entity.code().test(TypeControle::Barre));
                 if(m_barreCheck->isChecked())
-                    m_minimaSpinBox->setValue(entity.minima());
+                    m_minimaSpinBox->set_value(entity.minima());
             }
         }
     }

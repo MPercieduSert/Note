@@ -14,22 +14,22 @@ namespace bddMPS {
         //! Type de mise à jour.
         enum typeBddNote{NoteType = NbrType, NbrTypeNote};
     }
-    namespace idProg {
+    namespace Id_Prog {
         //! Identifiant de programmation de la cible configuration de la table cibleDonnéee.
-        enum idProgConfiguration {AnneeCourante = 1};
+        enum Id_ProgConfiguration {AnneeCourante = 1};
     }
 }
 
 namespace donnee {
     //! Identitifant de programmation de la table donnée.
-    enum idProgDonnee {
+    enum Id_Progdonnee {
         ConfigurationId,
-        DefaultValueId,
+        Default_ValueId,
         DefaultDateId
     };
 
     //! Numero d'une donnée
-    enum numDonnee {
+    enum numdonnee {
         EntreeNum,
         SortieNum,
         NbrDefaultDateClasse
@@ -53,14 +53,14 @@ public:
     //! Destructeur. Referme la base de donnée.
     ~BddNote() override = default;
 
-    //! Renvoie l'enumeration associé à str pour une entitée de type idEntity.
-    enumt strIdToEnum(const QString & str, idt idEntity, QString &controle) const noexcept override;
+    //! Renvoie l'enumeration associé à str pour une entitée de type id_entity.
+    enumt strIdToEnum(const QString & str, idt id_entity, QString &controle) const noexcept override;
 protected:
-    //! Supprime l'entité d'identifiant id de type d'identifiant idEntity de la base de données.
-    bool delP(idt id, entidt idEntity) override;
+    //! Supprime l'entité d'identifiant id de type d'identifiant id_entity de la base de données.
+    bool delP(idt id, entidt id_entity) override;
 
     //! Renvoie l'autorisation de modification de l'entité donnée en argument.
-    bool testAutorisationP(idt id, entidt idEntity, flag autoris) override;
+    bool testAutorisationP(idt id, entidt id_entity, flag autoris) override;
 
     //! Mise à jour de la base de donnée.
     void listeMiseAJourBdd(int version, idt type) override;

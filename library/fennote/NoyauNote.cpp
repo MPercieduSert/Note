@@ -8,19 +8,19 @@ using namespace noteMPS;
 //}
 
 void NoyauNote::setAnnee(const Annee & an) {
-    DonneeCible dnC;
-    dnC.setIdDonnee(Donnee::IdProgIdND);
-    dnC.setCible(bddMPS::cibleId::Configuration);
-    dnC.setIdCible(bddMPS::idProg::AnneeCourante);
+    donnee_cible dnC;
+    dnC.set_iddonnee(donnee::Id_Prog_IdND);
+    dnC.set_cible(bddMPS::cibleId::Configuration);
+    dnC.set_id_cible(bddMPS::Id_Prog::AnneeCourante);
     Annee anBdd;
     if(bdd().getUnique(dnC)) {
-        anBdd.setId(dnC.valeur().toUInt());
+        anBdd.set_id(dnC.valeur().toUInt());
         bdd().get(anBdd);
     }
-    if(!an.isNew() && an.id() != anBdd.id()) {
+    if(!an.is_new() && an.id() != anBdd.id()) {
         dnC.setValeur(an.id());
         bdd().save(dnC);
-        anBdd.setId(an.id());
+        anBdd.set_id(an.id());
         bdd().get(anBdd);
     }
     m_annee = anBdd;

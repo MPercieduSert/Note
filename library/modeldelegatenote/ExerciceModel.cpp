@@ -18,7 +18,7 @@ ExerciceEditModel::ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * p
 numt ExerciceEditModel::dataCount(const NodeIndex & index) const {
     switch (index.cible()) {
     case ExerciceEditModel::SourceCible:
-    case ExerciceEditModel::TexteCible:
+    case ExerciceEditModel::texte_cible:
     case ExerciceEditModel::TitreCible:
     case ExerciceEditModel::VersionCible:
         return 1;
@@ -50,7 +50,7 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
             return map;
         }
         break;
-    case ExerciceEditModel::TexteCible:
+    case ExerciceEditModel::texte_cible:
         if(role == StringRole)
             return m_texte;
         break;
@@ -72,22 +72,22 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
         if(role == SubNodeRole) {
             QList<QVariant> init;
             switch (num) {
-            case ExerciceEditModel::SourcePosition:
+            case ExerciceEditModel::Sourceposition:
                 init.append(ExerciceEditModel::SourceCible);
                 init.append(0);
                 init.append(ComboBoxSubNode);
                 return init;
-            case ExerciceEditModel::TextePosition:
-                init.append(ExerciceEditModel::TexteCible);
+            case ExerciceEditModel::Texteposition:
+                init.append(ExerciceEditModel::texte_cible);
                 init.append(0);
                 init.append(TexteEditSubNode);
                 return init;
-            case ExerciceEditModel::TitrePosition:
+            case ExerciceEditModel::Titreposition:
                 init.append(ExerciceEditModel::TitreCible);
                 init.append(0);
                 init.append(LineEditSubNode);
                 return init;
-            case ExerciceEditModel::VersionPosition:
+            case ExerciceEditModel::Versionposition:
                 init.append(ExerciceEditModel::VersionCible);
                 init.append(0);
                 init.append(LineEditSubNode);
@@ -115,7 +115,7 @@ void ExerciceNode::insert(bddMPS::Bdd & bdd) {
     bdd.insert(m_exo,idParent,m_iter.position());
 }
 
-flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num) {
+flag ExerciceNode::set_data(int cible, const QVariant & value, int role, numt num) {
     switch (role) {
     case ExerciceEditModel::SourceCible:
         if(role == IntRole){
@@ -123,15 +123,15 @@ flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num
             return IntRole;
         }
         break;
-    case ExerciceEditModel::TexteCible:
+    case ExerciceEditModel::texte_cible:
         if(role == StringRole){
-            m_texte = value.toString();
+            m_texte = value.to_string();
             return StringRole;
         }
         break;
     case ExerciceEditModel::TitreCible:
         if(role == modelMPS::StringRole) {
-            m_titre = value.toString();
+            m_titre = value.to_string();
             return StringRole;
         }
         break;
@@ -141,5 +141,5 @@ flag ExerciceNode::setData(int cible, const QVariant & value, int role, numt num
             return NumRole;
         }
     }
-    return ItemBddNode::setData(cible, value, role, num);
+    return ItemBddNode::set_data(cible, value, role, num);
 }

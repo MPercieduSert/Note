@@ -4,16 +4,16 @@
 #ifndef ENTITYNOTE_H
 #define ENTITYNOTE_H
 
-#include "EntityPredef.h"
+#include "entity_predef.h"
 
 /*! \defgroup groupeManagerNote Entités et base de données note
  * \brief Ensemble des entités, managers et base de données de l'application note.
  */
 
-namespace infoEntityNote {
+namespace info_entityNote {
 
     //! Liste des identifiants des entités
-    enum entityId{AnneeId = infoEntity::NbrEntityPredefinie,
+    enum entityId{AnneeId = info_entity::NbrEntityPredefinie,
                   BaremeId,
                   ClasseId,
                   ClasseEleveId,
@@ -37,7 +37,7 @@ namespace infoEntityNote {
                   PointId,
                   TypeControleId,
                   TypeEtablissementId,
-                  ValideId,
+                  _valideId,
                   NbrEntityId};
 }
 
@@ -45,57 +45,57 @@ namespace infoEntityNote {
  * \brief Espace de noms de l'application note.
  */
 namespace noteMPS {
-using namespace typeMPS;
+using namespace type_mps;
 namespace emps = entityMPS;
 
 // Entités prédéfinies
-using namespace emps::ensembleCommentaire;
-using namespace emps::ensembleDonnee;
-using namespace emps::ensembleEvenement;
-using namespace emps::ensembleMotCle;
-using namespace emps::ensembleRestriction;
-using namespace emps::ensembleTexte;
-using namespace emps::ensembleType;
-using namespace emps::ensembleUtilisation;
+using namespace emps::ensemble_commentaire;
+using namespace emps::ensemble_donnee;
+using namespace emps::ensemble_evenement;
+using namespace emps::ensemble_mot_cle;
+using namespace emps::ensemble_restriction;
+using namespace emps::ensemble_texte;
+using namespace emps::ensemble_type;
+using namespace emps::ensemble_utilisation;
 
 // Entités de type prédéfinies
-RELATION_ENTITY(EleveGroupe,RelationNum,infoEntityNote::EleveGroupeId,Eleve,Groupe)
-RELATION_ENTITY(EtablissementNiveau,Relation,infoEntityNote::EtablissementNiveauId,Etab,Niveau)
-RELATION_ENTITY(EtablissementType,Relation,infoEntityNote::EtablissementTypeId,Etab,TpEtab)
-RELATION_ENTITY(FiliationNiveau,Relation,infoEntityNote::FiliationNiveauId,Precedent,Suivant)
-RELATION_ENTITY(NiveauTypeEtablissement,Relation,infoEntityNote::NiveauTypeEtablissementId,Niveau,TpEtab)
-RELATION_ENTITY(Note,RelationDateTimeCurrentSaisieValeurInt,infoEntityNote::NoteId,Controle,Eleve)
-RELATION_ENTITY(Valide,RelationDateTimeCurrentValeurInt,infoEntityNote::ValideId,Note,Point)
-//using Annee = entityBaseMPS::NumEntity<infoEntityNote::AnneeId>;
-using Bareme = entityBaseMPS::CibleSimpleTypeValeurDoubleEntity<infoEntityNote::BaremeId>;
-using Enonce = entityBaseMPS::TypeVersionEntity<infoEntityNote::EnonceId>;
-using Etablissement = entityBaseMPS::NcNomEntity<infoEntityNote::EtablissementId>;
-using Niveau = entityBaseMPS::NcNomTypeEntity<infoEntityNote::NiveauId>;
-using Point = entityBaseMPS::TypeValeurIntVersionEntity<infoEntityNote::PointId>;
-using TypeEtablissement = entityBaseMPS::NcNomEntity<infoEntityNote::TypeEtablissementId>;
+RELATION_ENTITY(EleveGroupe,relation_num,info_entityNote::EleveGroupeId,Eleve,Groupe)
+RELATION_ENTITY(EtablissementNiveau,Relation,info_entityNote::EtablissementNiveauId,Etab,Niveau)
+RELATION_ENTITY(EtablissementType,Relation,info_entityNote::EtablissementTypeId,Etab,TpEtab)
+RELATION_ENTITY(FiliationNiveau,Relation,info_entityNote::FiliationNiveauId,Precedent,Suivant)
+RELATION_ENTITY(NiveauTypeEtablissement,Relation,info_entityNote::NiveauTypeEtablissementId,Niveau,TpEtab)
+RELATION_ENTITY(Note,RelationDateTime_current_saisie_valeurInt,info_entityNote::NoteId,Controle,Eleve)
+RELATION_ENTITY(_valide,RelationDateTime_current_valeurInt,info_entityNote::_valideId,Note,Point)
+//using Annee = entityBaseMPS::NumEntity<info_entityNote::AnneeId>;
+using Bareme = entityBaseMPS::cible_type_valeurDoubleEntity<info_entityNote::BaremeId>;
+using Enonce = entityBaseMPS::TypeVersionEntity<info_entityNote::EnonceId>;
+using Etablissement = entityBaseMPS::NcNomEntity<info_entityNote::EtablissementId>;
+using Niveau = entityBaseMPS::Ncnom_typeEntity<info_entityNote::NiveauId>;
+using Point = entityBaseMPS::type_valeurIntVersionEntity<info_entityNote::PointId>;
+using TypeEtablissement = entityBaseMPS::NcNomEntity<info_entityNote::TypeEtablissementId>;
 
 // Attribut
-SINGLE_ATTRIBUT(EnsPointAttribut,attributMPS::AttributId,EnsPoint,ensPoint)
-SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::AttributDateValide,Entree,entree)
-SINGLE_ATTRIBUT(FilleAttribut,attributMPS::AttributBool,Fille,fille)
-SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::AttributIntSup<0>,Minima,minima)
-SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::AttributIntSup<-1>,Num,num)
-SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::AttributStringNotEmpty,Prenom,prenom)
-SINGLE_ATTRIBUT(SortieAttribut,attributMPS::AttributDateValide,Sortie,sortie)
+SINGLE_ATTRIBUT(EnsPointAttribut,attributMPS::Attribut_id,EnsPoint,ensPoint)
+SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::attribut_date_valide,Entree,entree)
+SINGLE_ATTRIBUT(FilleAttribut,attributMPS::attribut_bool,Fille,fille)
+SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::attribut_int_sup<0>,Minima,minima)
+SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::attribut_int_sup<-1>,Num,num)
+SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::attribut_string_not_empty,Prenom,prenom)
+SINGLE_ATTRIBUT(SortieAttribut,attributMPS::attribut_date_valide,Sortie,sortie)
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Annee.
  */
-class Annee : public emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut> {
+class Annee : public emps::EntityID<info_entityNote::AnneeId,attributMPS::num_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Annee>;
+    template<class T> using positionEnum = emps::positionEnum<T,Annee>;
 public:
-using EAID = emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut>;
+using EAID = emps::EntityID<info_entityNote::AnneeId,attributMPS::num_attribut>;
 
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Num = PositionEnum<NumAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt};
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Num = positionEnum<num_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att};
 
     using EAID::EntityID;
     BASE_ENTITY(Annee)
@@ -113,33 +113,33 @@ using EAID = emps::EntityID<infoEntityNote::AnneeId,attributMPS::NumAttribut>;
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Classe.
  */
-class Classe : public emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
-                                                               attributMPS::Id2Attribut,
-                                                               attributMPS::Id3Attribut,
-                                                               attributMPS::NcAttribut,
-                                                               attributMPS::NomAttribut,
-                                                               attributMPS::NumAttribut> {
+class Classe : public emps::EntityIDs<info_entityNote::ClasseId,attributMPS::id_1_attribut,
+                                                               attributMPS::id_2_attribut,
+                                                               attributMPS::id_3_attribut,
+                                                               attributMPS::nc_attribut,
+                                                               attributMPS::nom_attribut,
+                                                               attributMPS::num_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Classe>;
+    template<class T> using positionEnum = emps::positionEnum<T,Classe>;
 public:
-using EAID = emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
-                                                      attributMPS::Id2Attribut,
-                                                      attributMPS::Id3Attribut,
-                                                      attributMPS::NcAttribut,
-                                                      attributMPS::NomAttribut,
-                                                      attributMPS::NumAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1Attribut>::Position,
-                   Id2 = PositionEnum<Id2Attribut>::Position,
-                   Id3 = PositionEnum<Id3Attribut>::Position,
-                   Nc = PositionEnum<NcAttribut>::Position,
-                   Nom = PositionEnum<NomAttribut>::Position,
-                   Num = PositionEnum<NumAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
+using EAID = emps::EntityIDs<info_entityNote::ClasseId,attributMPS::id_1_attribut,
+                                                      attributMPS::id_2_attribut,
+                                                      attributMPS::id_3_attribut,
+                                                      attributMPS::nc_attribut,
+                                                      attributMPS::nom_attribut,
+                                                      attributMPS::num_attribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_attribut>::position,
+                   Id2 = positionEnum<id_2_attribut>::position,
+                   id_3 = positionEnum<id_3_attribut>::position,
+                   Nc = positionEnum<nc_attribut>::position,
+                   Nom = positionEnum<nom_attribut>::position,
+                   Num = positionEnum<num_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
                    IdAn = Id1,
                    IdEtab = Id2,
-                   IdNiveau = Id3,
+                   IdNiveau = id_3,
                    };
 
     using EAID::EntityID;
@@ -151,9 +151,9 @@ using EAID = emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
     //! Constructeur à partir des valeurs attributs.
     Classe(idt idAn, idt idEtab, idt idNiveau, const QString & nc, const QString & nom, int num, idt id = 0)
         : EAID(id) {
-        setIdAn(idAn);
-        setIdEtab(idEtab);
-        setIdNiveau(idNiveau);
+        set_idAn(idAn);
+        set_idEtab(idEtab);
+        set_idNiveau(idNiveau);
         setNc(nc);
         setNom(nom);
         setNum(num);
@@ -163,22 +163,22 @@ using EAID = emps::EntityIDs<infoEntityNote::ClasseId,attributMPS::Id1Attribut,
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité ClasseEleve.
  */
-class ClasseEleve : public emps::EntityIDs<infoEntityNote::ClasseEleveId,attributMPS::RelationAttribut,
+class ClasseEleve : public emps::EntityIDs<info_entityNote::ClasseEleveId,attributMPS::relation_attribut,
                                                                          EntreeAttribut,
                                                                          SortieAttribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,ClasseEleve>;
+    template<class T> using positionEnum = emps::positionEnum<T,ClasseEleve>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::ClasseEleveId,attributMPS::RelationAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::ClasseEleveId,attributMPS::relation_attribut,
                                                                EntreeAttribut,
                                                                SortieAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1Attribut>::Position,
-                   Id2 = PositionEnum<Id2Attribut>::Position,
-                   Entree = PositionEnum<EntreeAttribut>::Position,
-                   Sortie = PositionEnum<SortieAttribut>::Position,
-                   NbrAtt =EAID::NbrAtt,
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_attribut>::position,
+                   Id2 = positionEnum<id_2_attribut>::position,
+                   Entree = positionEnum<EntreeAttribut>::position,
+                   Sortie = positionEnum<SortieAttribut>::position,
+                   Nbr_Att =EAID::Nbr_Att,
                    IdClasse = Id1,
                    IdEleve = Id2};
 
@@ -190,8 +190,8 @@ public:
     //! Constructeur à partir d'un jeux de valeurs attributs unique.
     ClasseEleve(idt idCl, idt idEl, idt id = 0)
         : EAID(id) {
-        setIdClasse(idCl);
-        setIdEleve(idEl);
+        set_idClasse(idCl);
+        set_idEleve(idEl);
     }
 
     //! Constructeur à partir des valeurs attributs.
@@ -202,50 +202,50 @@ public:
     }
 
     //! Validité de l'entitée.
-    bool isValid() const override {
-        return EAID::isValid() && entree() <= sortie();
+    bool is_valid() const override {
+        return EAID::is_valid() && entree() <= sortie();
     }
 };
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Controle.
  */
-class Controle : public emps::EntityIDs<infoEntityNote::ControleId,attributMPS::Id1Attribut,
-                                                                   attributMPS::CibleAttributs,
-                                                                   attributMPS::CodeAttribut,
-                                                                   attributMPS::DateTimeValideAttribut,
-                                                                   attributMPS::DecimaleAttribut,
+class Controle : public emps::EntityIDs<info_entityNote::ControleId,attributMPS::id_1_attribut,
+                                                                   attributMPS::cibles_attribut,
+                                                                   attributMPS::code_attribut,
+                                                                   attributMPS::date_time_valide_attribut,
+                                                                   attributMPS::decimale_attribut,
                                                                    MinimaAttribut,
-                                                                   attributMPS::NcNomAttribut,
-                                                                   attributMPS::NumAttribut,
-                                                                   attributMPS::TotalAttribut> {
+                                                                   attributMPS::nc_nom_attribut,
+                                                                   attributMPS::num_attribut,
+                                                                   attributMPS::total_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Controle>;
+    template<class T> using positionEnum = emps::positionEnum<T,Controle>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::ControleId,attributMPS::Id1Attribut,
-                                                            attributMPS::CibleAttributs,
-                                                            attributMPS::CodeAttribut,
-                                                            attributMPS::DateTimeValideAttribut,
-                                                            attributMPS::DecimaleAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::ControleId,attributMPS::id_1_attribut,
+                                                            attributMPS::cibles_attribut,
+                                                            attributMPS::code_attribut,
+                                                            attributMPS::date_time_valide_attribut,
+                                                            attributMPS::decimale_attribut,
                                                             MinimaAttribut,
-                                                            attributMPS::NcNomAttribut,
-                                                            attributMPS::NumAttribut,
-                                                            attributMPS::TotalAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1Attribut>::Position,
-                   IdCible = PositionEnum<IdCibleAttribut>::Position,
-                   Cible = PositionEnum<CibleAttribut>::Position,
-                   Code = PositionEnum<CodeAttribut>::Position,
-                   DateTime = PositionEnum<DateTimeValideAttribut>::Position,
-                   Decimale = PositionEnum<DecimaleAttribut>::Position,
-                   Minima = PositionEnum<MinimaAttribut>::Position,
-                   Nc = PositionEnum<NcAttribut>::Position,
-                   Nom = PositionEnum<NomAttribut>::Position,
-                   Num = PositionEnum<NumAttribut>::Position,
-                   Total = PositionEnum<TotalAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
-                   IdType = Id1,
+                                                            attributMPS::nc_nom_attribut,
+                                                            attributMPS::num_attribut,
+                                                            attributMPS::total_attribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_attribut>::position,
+                   Id_Cible = positionEnum<id_cible_attribut>::position,
+                   Cible = positionEnum<cible_attribut>::position,
+                   Code = positionEnum<code_attribut>::position,
+                   DateTime = positionEnum<date_time_valide_attribut>::position,
+                   Decimale = positionEnum<decimale_attribut>::position,
+                   Minima = positionEnum<MinimaAttribut>::position,
+                   Nc = positionEnum<nc_attribut>::position,
+                   Nom = positionEnum<nom_attribut>::position,
+                   Num = positionEnum<num_attribut>::position,
+                   Total = positionEnum<total_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
+                   id_type = Id1,
                    };
 
     //! Decimale pour les lettres.
@@ -256,7 +256,7 @@ public:
     };
 
     //! Code du type de controle.
-    enum codeFlag : flag::flag_type {Aucun = 0x0,
+    enum code_flag : flag::flag_type {Aucun = 0x0,
                                      Note = 0x1,
                                      Lettre = 0x2,
                                      Depassement = 0x4,
@@ -284,13 +284,13 @@ public:
         {setNom(nom);}
 
     //! Constructeur à partir des valeurs attributs.
-    Controle(idt idTp, idt idCible, int cible, flag code, const QDateTime & dateTime, int decimale, int minima,
+    Controle(idt idTp, idt id_cible, int cible, flag code, const QDateTime & dateTime, int decimale, int minima,
              const QString & nc, const QString & nom, int num, int total, idt id = 0)
         : Controle(nom, id) {
-        setIdType(idTp);
-        setIdCible(idCible);
-        setCible(cible);
-        setCode(code);
+        set_id_type(idTp);
+        set_id_cible(id_cible);
+        set_cible(cible);
+        set_code(code);
         setDateTime(dateTime);
         setDecimale(decimale);
         setMinima(minima);
@@ -303,9 +303,9 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Les attributs de l'entité ControleEpreuve.
  */
-class ControleEpreuveAttribut : public emps::Attributs<attributMPS::RelationTroisExactOneNotNullAttribut,
-                                                       attributMPS::Id4Attribut,
-                                                       attributMPS::Id5Attribut,
+class ControleEpreuveAttribut : public emps::Attributs<attributMPS::relation_trois_exact_one_not_null_attribut,
+                                                       attributMPS::id_4_attribut,
+                                                       attributMPS::id_5_attribut,
                                                        NumCEAttribut> {
 public:
     CONSTR_DEFAUT(ControleEpreuveAttribut)
@@ -315,33 +315,33 @@ public:
     ~ControleEpreuveAttribut() override;
 
     //! Teste si l'entité est valide.
-    bool isValid() const override
-        {return (num() == -1 &&((Id1NullAttribut::isValid() && id2() == 0 && id3() == 0)
-                                || (Id2NullAttribut::isValid() && id1() == 0 && id3() == 0)))
-                || (num() >= 0 && Id3NullAttribut::isValid() && id1() == 0 && id2() == 0);}
+    bool is_valid() const override
+        {return (num() == -1 &&((id_1_null_attribut::is_valid() && id2() == 0 && id_3() == 0)
+                                || (id_2_null_attribut::is_valid() && id1() == 0 && id_3() == 0)))
+                || (num() >= 0 && id_3_null_attribut::is_valid() && id1() == 0 && id2() == 0);}
 };
 
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité ControleEpreuve.
  */
-class ControleEpreuve : public emps::EntityIDs<infoEntityNote::ControleEpreuveId,ControleEpreuveAttribut> {
+class ControleEpreuve : public emps::EntityIDs<info_entityNote::ControleEpreuveId,ControleEpreuveAttribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,ControleEpreuve>;
+    template<class T> using positionEnum = emps::positionEnum<T,ControleEpreuve>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::ControleEpreuveId,ControleEpreuveAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1NullAttribut>::Position,
-                   Id2 = PositionEnum<Id2NullAttribut>::Position,
-                   Id3 = PositionEnum<Id3NullAttribut>::Position,
-                   Id4 = PositionEnum<Id4Attribut>::Position,
-                   Id5 = PositionEnum<Id5Attribut>::Position,
-                   Num = PositionEnum<NumCEAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
+    using EAID = emps::EntityIDs<info_entityNote::ControleEpreuveId,ControleEpreuveAttribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_null_attribut>::position,
+                   Id2 = positionEnum<id_2_null_attribut>::position,
+                   id_3 = positionEnum<id_3_null_attribut>::position,
+                   Id4 = positionEnum<id_4_attribut>::position,
+                   Id5 = positionEnum<id_5_attribut>::position,
+                   Num = positionEnum<NumCEAttribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
                    IdClasse = Id1,
                    IdEleve = Id2,
-                   IdGroupe = Id3,
+                   IdGroupe = id_3,
                    IdControle = Id4,
                    IdEpreuve= Id5
                   };
@@ -357,11 +357,11 @@ public:
     //! Constructeur à partir des valeurs attributs.
     ControleEpreuve(idt idClasse, idt idControle, idt idEleve, idt idEpreuve, idt idGroupe, int num, idt id = 0)
         : EAID(id) {
-        setIdClasse(idClasse);
-        setIdControle(idControle);
-        setIdEleve(idEleve);
-        setIdEpreuve(idEpreuve);
-        setIdGroupe(idGroupe);
+        set_idClasse(idClasse);
+        set_idControle(idControle);
+        set_idEleve(idEleve);
+        set_idEpreuve(idEpreuve);
+        set_idGroupe(idGroupe);
         setNum(num);
     }
 };
@@ -369,24 +369,24 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Eleve.
  */
-class Eleve : public emps::EntityIDs<infoEntityNote::EleveId,attributMPS::DateValideAttribut,
+class Eleve : public emps::EntityIDs<info_entityNote::EleveId,attributMPS::date_valide_attribut,
                                                              FilleAttribut,
-                                                             attributMPS::NomAttribut,
+                                                             attributMPS::nom_attribut,
                                                              PrenomAttribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Eleve>;
+    template<class T> using positionEnum = emps::positionEnum<T,Eleve>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::EleveId,attributMPS::DateValideAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::EleveId,attributMPS::date_valide_attribut,
                                                          FilleAttribut,
-                                                         attributMPS::NomAttribut,
+                                                         attributMPS::nom_attribut,
                                                          PrenomAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Date = PositionEnum<DateValideAttribut>::Position,
-                   Fille = PositionEnum<FilleAttribut>::Position,
-                   Nom = PositionEnum<NomAttribut>::Position,
-                   Prenom = PositionEnum<PrenomAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Date = positionEnum<date_valide_attribut>::position,
+                   Fille = positionEnum<FilleAttribut>::position,
+                   Nom = positionEnum<nom_attribut>::position,
+                   Prenom = positionEnum<PrenomAttribut>::position,
+                   Nbr_Att = EAID::Nbr_Att
                   };
 
     using EAID::EntityID;
@@ -412,22 +412,22 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité EnoncePoint.
  */
-class EnoncePoint : public emps::EntityIDs<infoEntityNote::EnoncePointId,attributMPS::RelationAttribut,
+class EnoncePoint : public emps::EntityIDs<info_entityNote::EnoncePointId,attributMPS::relation_attribut,
                                                                          EnsPointAttribut,
-                                                                         attributMPS::NumAttribut> {
+                                                                         attributMPS::num_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,EnoncePoint>;
+    template<class T> using positionEnum = emps::positionEnum<T,EnoncePoint>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::EnoncePointId,attributMPS::RelationAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::EnoncePointId,attributMPS::relation_attribut,
                                                                EnsPointAttribut,
-                                                               attributMPS::NumAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1Attribut>::Position,
-                   Id2 = PositionEnum<Id2Attribut>::Position,
-                   EnsPoint = PositionEnum<EnsPointAttribut>::Position,
-                   Num = PositionEnum<NumAttribut>::Position,
-                   NbrAtt =EAID::NbrAtt,
+                                                               attributMPS::num_attribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_attribut>::position,
+                   Id2 = positionEnum<id_2_attribut>::position,
+                   EnsPoint = positionEnum<EnsPointAttribut>::position,
+                   Num = positionEnum<num_attribut>::position,
+                   Nbr_Att =EAID::Nbr_Att,
                    IdEnonce = Id1,
                    IdPoint = Id2};
 
@@ -439,7 +439,7 @@ public:
     //! Constructeur à partir d'un jeux de valeurs attributs unique.
     EnoncePoint(idt idEn, idt ensPt, int num , idt id = 0)
         : EAID(id) {
-        setIdEnonce(idEn);
+        set_idEnonce(idEn);
         setEnsPoint(ensPt);
         setNum(num);
     }
@@ -447,27 +447,27 @@ public:
     //! Constructeur à partir des valeurs attributs.
     EnoncePoint(idt idEn, idt idPt, idt ensPt, int num, idt id = 0)
         : EnoncePoint(idEn, ensPt, num, id)
-        {setIdPoint(idPt);}
+        {set_idPoint(idPt);}
 };
 
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Exercice.
  */
-class Exercice : public emps::EntityIDs<infoEntityNote::ExerciceId,attributMPS::Id1NullAttribut,
-                                                                   attributMPS::TypeAttribut,
-                                                                   attributMPS::VersionAttribut> {
+class Exercice : public emps::EntityIDs<info_entityNote::ExerciceId,attributMPS::id_1_null_attribut,
+                                                                   attributMPS::type_attribut,
+                                                                   attributMPS::version_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Exercice>;
+    template<class T> using positionEnum = emps::positionEnum<T,Exercice>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::ExerciceId,attributMPS::Id1NullAttribut,
-                                                            attributMPS::TypeAttribut,
-                                                            attributMPS::VersionAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1NullAttribut>::Position,
-                   Type = PositionEnum<TypeAttribut>::Position,
-                   Version = PositionEnum<VersionAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
+    using EAID = emps::EntityIDs<info_entityNote::ExerciceId,attributMPS::id_1_null_attribut,
+                                                            attributMPS::type_attribut,
+                                                            attributMPS::version_attribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_null_attribut>::position,
+                   Type = positionEnum<type_attribut>::position,
+                   Version = positionEnum<version_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
                    IdOriginal = Id1};
 
     using EAID::EntityID;
@@ -477,7 +477,7 @@ public:
     //! Constructeur à partir des valeurs attributs.
     Exercice(idt idOriginal, idt type, int version,  idt id = 0)
         : EAID(id) {
-        setIdOriginal(idOriginal);
+        set_idOriginal(idOriginal);
         setType(type);
         setVersion(version);
     }
@@ -486,19 +486,19 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Epreuve.
  */
-class Epreuve : public emps::EntityIDs<infoEntityNote::EpreuveId,attributMPS::RelationAttribut,
+class Epreuve : public emps::EntityIDs<info_entityNote::EpreuveId,attributMPS::relation_attribut,
                                                                  EnsPointAttribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Epreuve>;
+    template<class T> using positionEnum = emps::positionEnum<T,Epreuve>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::EpreuveId,attributMPS::RelationAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::EpreuveId,attributMPS::relation_attribut,
     EnsPointAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1Attribut>::Position,
-                   Id2 = PositionEnum<Id2Attribut>::Position,
-                   EnsPoint = PositionEnum<EnsPointAttribut>::Position,
-                   NbrAtt =EAID::NbrAtt,
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_attribut>::position,
+                   Id2 = positionEnum<id_2_attribut>::position,
+                   EnsPoint = positionEnum<EnsPointAttribut>::position,
+                   Nbr_Att =EAID::Nbr_Att,
                    IdBareme = Id1,
                    IdEnonce= Id2};
 
@@ -510,8 +510,8 @@ public:
     //! Constructeur à partir des valeurs attributs.
     Epreuve(idt idBar, idt idEn, idt ensPt, idt id = 0)
         : EAID(id) {
-        setIdBareme(idBar);
-        setIdEnonce(idEn);
+        set_idBareme(idBar);
+        set_idEnonce(idEn);
         setEnsPoint(ensPt);
     }
 };
@@ -519,33 +519,33 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité Groupe.
  */
-class Groupe : public emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
-                                                            attributMPS::StyleNumAttribut,
-                                                            attributMPS::CodeAttribut,
-                                                            attributMPS::NcNomTypeAttribut> {
+class Groupe : public emps::EntityIDs<info_entityNote::GroupeId,attributMPS::relation_exact_one_not_null_attribut,
+                                                            attributMPS::style_num_attribut,
+                                                            attributMPS::code_attribut,
+                                                            attributMPS::nc_nom_type_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,Groupe>;
+    template<class T> using positionEnum = emps::positionEnum<T,Groupe>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::GroupeId,attributMPS::RelationExactOneNotNullAttribut,
-                                                          attributMPS::StyleNumAttribut,
-                                                          attributMPS::CodeAttribut,
-                                                          attributMPS::NcNomTypeAttribut>;
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Id1 = PositionEnum<Id1NullAttribut>::Position,
-                   Id2 = PositionEnum<Id2NullAttribut>::Position,
-                   Code = PositionEnum<CodeAttribut>::Position,
-                   Nc = PositionEnum<NcAttribut>::Position,
-                   Nom = PositionEnum<NomAttribut>::Position,
-                   StyleNum = PositionEnum<StyleNumAttribut>::Position,
-                   Type = PositionEnum<TypeAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
+    using EAID = emps::EntityIDs<info_entityNote::GroupeId,attributMPS::relation_exact_one_not_null_attribut,
+                                                          attributMPS::style_num_attribut,
+                                                          attributMPS::code_attribut,
+                                                          attributMPS::nc_nom_type_attribut>;
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Id1 = positionEnum<id_1_null_attribut>::position,
+                   Id2 = positionEnum<id_2_null_attribut>::position,
+                   Code = positionEnum<code_attribut>::position,
+                   Nc = positionEnum<nc_attribut>::position,
+                   Nom = positionEnum<nom_attribut>::position,
+                   StyleNum = positionEnum<style_num_attribut>::position,
+                   Type = positionEnum<type_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
                    IdAn = Id1,
                    IdClasse = Id2,
                   };
 
     //! Code du groupe.
-    enum codeFlag : flag::flag_type {Aucun = 0x0,
+    enum code_flag : flag::flag_type {Aucun = 0x0,
                                      Exclusif = 0x1,
                                      Total = 0x2
     };
@@ -563,10 +563,10 @@ public:
     //! Constructeur à partir des valeurs attributs.
     Groupe(idt idAn, idt idClasse, flag_type code, const QString & nc, const QString & nom,  enumt styleNum, idt type,  idt id = 0)
         : Groupe(nom,id) {
-        setIdAn(idAn);
-        setIdClasse(idClasse);
-        setStyleNum(styleNum);
-        setCode(code);
+        set_idAn(idAn);
+        set_idClasse(idClasse);
+        set_styleNum(styleNum);
+        set_code(code);
         setNc(nc);
         setNom(nom);
         setType(type);
@@ -576,23 +576,23 @@ public:
 /*! \ingroup groupeManagerNote
  * \brief Représentation de l'entité TypeControle.
  */
-class TypeControle : public emps::EntityIDs<infoEntityNote::TypeControleId,attributMPS::CodeAttribut,
-                                                                           attributMPS::DecimaleAttribut,
+class TypeControle : public emps::EntityIDs<info_entityNote::TypeControleId,attributMPS::code_attribut,
+                                                                           attributMPS::decimale_attribut,
                                                                            MinimaAttribut,
-                                                                           attributMPS::NcNomAttribut,
-                                                                           attributMPS::ParentAttribut,
-                                                                           attributMPS::TotalAttribut> {
+                                                                           attributMPS::nc_nom_attribut,
+                                                                           attributMPS::parent_attribut,
+                                                                           attributMPS::total_attribut> {
 protected:
-    template<class T> using PositionEnum = emps::PositionEnum<T,TypeControle>;
+    template<class T> using positionEnum = emps::positionEnum<T,TypeControle>;
 public:
-    using EAID = emps::EntityIDs<infoEntityNote::TypeControleId,attributMPS::CodeAttribut,
-                                                                attributMPS::DecimaleAttribut,
+    using EAID = emps::EntityIDs<info_entityNote::TypeControleId,attributMPS::code_attribut,
+                                                                attributMPS::decimale_attribut,
                                                                 MinimaAttribut,
-                                                                attributMPS::NcNomAttribut,
-                                                                attributMPS::ParentAttribut,
-                                                                attributMPS::TotalAttribut>;
+                                                                attributMPS::nc_nom_attribut,
+                                                                attributMPS::parent_attribut,
+                                                                attributMPS::total_attribut>;
     //! Code du type de controle.
-    enum codeFlag : flag::flag_type {Aucun = 0x0,
+    enum code_flag : flag::flag_type {Aucun = 0x0,
                                      Note = Controle::Note,
                                      Lettre = Controle::Lettre,
                                      Depassement = Controle::Depassement,
@@ -619,16 +619,16 @@ public:
                                      AppreciationModifiable = NonCommun * 0x1000,
                                      CommentaireModifiable = NonCommun * 0x2000
     };
-    //! Positions des attributs.
-    enum Position {Id = PositionEnum<IdAttribut>::Position,
-                   Code = PositionEnum<CodeAttribut>::Position,
-                   Decimale = PositionEnum<DecimaleAttribut>::Position,
-                   Minima = PositionEnum<MinimaAttribut>::Position,
-                   Nc = PositionEnum<NcAttribut>::Position,
-                   Nom = PositionEnum<NomAttribut>::Position,
-                   Parent = PositionEnum<ParentAttribut>::Position,
-                   Total = PositionEnum<TotalAttribut>::Position,
-                   NbrAtt = EAID::NbrAtt,
+    //! positions des attributs.
+    enum position {Id = positionEnum<id_attribut>::position,
+                   Code = positionEnum<code_attribut>::position,
+                   Decimale = positionEnum<decimale_attribut>::position,
+                   Minima = positionEnum<MinimaAttribut>::position,
+                   Nc = positionEnum<nc_attribut>::position,
+                   Nom = positionEnum<nom_attribut>::position,
+                   Parent = positionEnum<parent_attribut>::position,
+                   Total = positionEnum<total_attribut>::position,
+                   Nbr_Att = EAID::Nbr_Att,
                    Ordre = Nom,
                    };
 
@@ -644,11 +644,11 @@ public:
     TypeControle(flag code, int decimale, int minima, const QString & nc,
                  const QString & nom, idt parent, int total, idt id = 0)
         : TypeControle(nom, id) {
-        setCode(code);
+        set_code(code);
         setDecimale(decimale);
         setMinima(minima);
         setNc(nc);
-        setParent(parent);
+        set_parent(parent);
         setTotal(total);
     }
 };

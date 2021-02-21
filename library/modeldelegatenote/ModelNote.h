@@ -17,7 +17,7 @@ class CandidatGroupeModel : public modelMPS::TableModel {
 protected:
     AbstractColonnesModel::NewColonneInfo m_groupeInfo;     //! Information sur la colone de groupe
 public:
-    //! Position des colonnes du model des éléves affectés à la classe.
+    //! position des colonnes du model des éléves affectés à la classe.
     enum colonneClasseEleve {NomColonne, PrenomColonne, GroupeColonne, NbrColonne};
     enum {NumRole = CandidatGroupeTableau::NumRole};
 
@@ -37,7 +37,7 @@ public:
 class ClasseEleveModel : public modelMPS::TableModel {
     Q_OBJECT
 public:
-    //! Position des colonnes du model des éléves affectés à la classe.
+    //! position des colonnes du model des éléves affectés à la classe.
     enum colonneClasseEleve {NomColonne, PrenomColonne, NaissanceColonne, SexeColonne, EntreeColonne, SortieColonne, NbrColonne};
 
     //! Constructeur.
@@ -47,9 +47,9 @@ public:
     void add(idt idEleve);
 public slots:
     //! Mutateur de l'identifiant de la classe.
-    void setIdClasse(idt idClasse){
+    void set_idClasse(idt idClasse){
         beginResetModel();
-            static_cast<ClasseEleveCompositionTableau&>(*m_data).setIdClasse(idClasse);
+            static_cast<ClasseEleveCompositionTableau&>(*m_data).set_idClasse(idClasse);
             resetRowToLigne();
         endResetModel();
     }
@@ -82,7 +82,7 @@ public slots:
     void push_back();
 
     //! Mutateur de l'identifiant de la classe.
-    void setIdGroupe(idt idGroupe);
+    void set_idGroupe(idt idGroupe);
 };
 }
 #endif // MODELNOTE_H

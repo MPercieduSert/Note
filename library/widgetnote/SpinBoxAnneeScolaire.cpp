@@ -13,7 +13,7 @@ SpinBoxAnneeScolaire::SpinBoxAnneeScolaire(QWidget * parent)
 }
 
 void SpinBoxAnneeScolaire::printValue() {
-    lineEdit()->setText(QString::number(value().num()).append("-").append(QString::number(value().num()+1)));
+    lineEdit()->set_text(QString::number(value().num()).append("-").append(QString::number(value().num()+1)));
     emit valueChanged();
 }
 
@@ -22,17 +22,17 @@ void SpinBoxAnneeScolaire::setNowValue() {
     Annee an;
     an.setNum(date.month()<=6 ? date.year() - 1
                               : date.year());
-    setValue(an);
-    if(!m_vec.empty() && m_value.isNew()){
+    set_value(an);
+    if(!m_vec.empty() && m_value.is_new()){
         m_pos = static_cast<szt>(m_vec.size())-1;
         printValue();
     }
 }
 
-void SpinBoxAnneeScolaire::setValue(const Annee & annee, bool byNum){
+void SpinBoxAnneeScolaire::set_value(const Annee & annee, bool byNum){
     if(m_vec.empty()) {
         m_value = annee;
-        m_value.setId(0);
+        m_value.set_id(0);
         printValue();
     }
     else {

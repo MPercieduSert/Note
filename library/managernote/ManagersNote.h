@@ -34,7 +34,7 @@ namespace bddMPS {
                         Point,
                         TypeControle,
                         TypeEtablissement,
-                        Valide,
+                        _valide,
                         Exercice,
                        NbrCible};
 }}
@@ -101,11 +101,11 @@ protected:
 
 /*! \ingroup groupeManagerNote
  * \brief Classe condition d'unicité pour les entités ControleEpreuve sur les trois conditions
- * (id1,id4), (id2,id4,num) et (id3,id4).
+ * (id1,id4), (id2,id4,num) et (id_3,id4).
  */
-class UniqueControleEpreuve : public managerMPS::TripleExactOneNotNullUniqueSql<ControleEpreuve> {
+class UniqueControleEpreuve : public managerMPS::TripleExactOneNot_nullUniqueSql<ControleEpreuve> {
 protected:
-    using TEUnique = TripleExactOneNotNullUniqueSql<ControleEpreuve>;
+    using TEUnique = TripleExactOneNot_nullUniqueSql<ControleEpreuve>;
     using TEUnique::bindValue;
 
 public:

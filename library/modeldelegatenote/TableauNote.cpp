@@ -5,7 +5,7 @@ using namespace noteMPS;
 ////////////////////////////////////////// CandidatGroupeTableau ////////////////////////////////
 CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bdd(bdd) {
     push_back(std::make_unique<EleveVecTableau>(bdd),false);
-    m_groupe.setId(idGroupe);
+    m_groupe.set_id(idGroupe);
     m_bdd.get(m_groupe);
     if(m_groupe.idClasse())
         static_cast<EleveVecTableau&>(tableau(EleveTableau))
@@ -31,8 +31,8 @@ void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
     if(m_groupe.test(Groupe::Exclusif)) {
         auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
         if(vec.empty()) {
-            elGr.setIdEleve(idEl);
-            elGr.setIdGroupe(m_groupe.id());
+            elGr.set_idEleve(idEl);
+            elGr.set_idGroupe(m_groupe.id());
             elGr.setNum(NonAffecter);
         }
         else
@@ -68,14 +68,14 @@ void CandidatGroupeTableau::save(szt ligne) {
         auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
         if(elGr.num() >=0)
             m_bdd.save(elGr);
-        else if (!elGr.isNew())
+        else if (!elGr.is_new())
             m_bdd.del(elGr);
     }
     else {
         auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
         auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id();
         for (auto iter = elGr.begin(); iter != elGr.end(); ++iter)
-            iter->setIdEleve(idEl);
+            iter->set_idEleve(idEl);
         auto vec = m_bdd.getList<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
         auto iterTab = elGr.begin();
         auto iterBdd = vec.begin();
@@ -108,33 +108,33 @@ void CandidatGroupeTableau::save(szt ligne) {
 ClasseEleveCompositionTableau::ClasseEleveCompositionTableau(BddNote & bdd, idt idClasse) : m_bdd(bdd) {
     push_back(std::make_unique<EleveVecTableau>(bdd),false);
     push_back(std::make_unique<ClasseEleveVecTableau>(bdd));
-    setIdClasse(idClasse);
+    set_idClasse(idClasse);
 }
 
 void ClasseEleveCompositionTableau::hydrateClasseEleve(szt ligne){
     auto & clEl = static_cast<ClasseEleveVecTableau&>(tableau(ClasseEleveTableau)).internalData(ligne);
-    clEl.setIdEleve(static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id());
-    clEl.setIdClasse(m_idClasse);
+    clEl.set_idEleve(static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id());
+    clEl.set_idClasse(m_idClasse);
     if(!m_bdd.getUnique(clEl)){
-        DonneeCible dnCb;
-        dnCb.setIdDonnee(m_bdd.refToId<Donnee>("date_defaut_dn"));
-        dnCb.setCible(m_bdd.cible<Classe>());
-        dnCb.setIdCible(m_idClasse);
+        donnee_cible dnCb;
+        dnCb.set_iddonnee(m_bdd.refToId<donnee>("date_defaut_dn"));
+        dnCb.set_cible(m_bdd.cible<Classe>());
+        dnCb.set_id_cible(m_idClasse);
         dnCb.setNum(donnee::EntreeNum);
         if(m_bdd.getUnique(dnCb))
             clEl.setEntree(dnCb.valeur().toDate());
-        dnCb.setId(0);
+        dnCb.set_id(0);
         dnCb.setNum(donnee::SortieNum);
         if(m_bdd.getUnique(dnCb))
             clEl.setSortie(dnCb.valeur().toDate());
     }
 }
 
-void ClasseEleveCompositionTableau::setIdClasse(idt id) {
+void ClasseEleveCompositionTableau::set_idClasse(idt id) {
     m_idClasse = id;
     static_cast<EleveVecTableau&>(tableau(EleveTableau))
             .setVecData(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_idClasse));
-    static_cast<ClasseEleveVecTableau&>(tableau(ClasseEleveTableau)).setVecData(conteneurMPS::VectorPtr<ClasseEleve>(size()));
+    static_cast<ClasseEleveVecTableau&>(tableau(ClasseEleveTableau)).setVecData(conteneurMPS::vector_ptr<ClasseEleve>(size()));
     for(szt ligne = 0; ligne != size(); ++ligne)
         hydrateClasseEleve(ligne);
 }
@@ -144,7 +144,7 @@ std::unique_ptr<modelMPS::AbstractColonnesModel::AbstractColonne>
 ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneInfo & info) {
     switch (info.id) {
     case Entree:
-        return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
+        return std::make_unique<modelMPS::vector_ptrColonne<ClasseEleve>>(info.name,info.flags,
                                                                          modelMPS::DateColonneType,m_vec,
             [](const ClasseEleve & clEl,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
@@ -157,7 +157,7 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
                     return true;}
                 return false;});
     case Sortie:
-        return std::make_unique<modelMPS::VectorPtrColonne<ClasseEleve>>(info.name,info.flags,
+        return std::make_unique<modelMPS::vector_ptrColonne<ClasseEleve>>(info.name,info.flags,
                                                                          modelMPS::DateColonneType,m_vec,
             [](const ClasseEleve & clEl,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
@@ -175,8 +175,8 @@ ClasseEleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
 }
 
 /////////////////////////////////////////// EleveVecTableau ///////////////////////////////////////////////////
-EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags, conteneurMPS::VectorPtr<Eleve> & vec)
-    : modelMPS::VectorPtrIdColonne<Eleve>(name, flags,modelMPS::TexteColonneType,vec,
+EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags, conteneurMPS::vector_ptr<Eleve> & vec)
+    : modelMPS::vector_ptrIdColonne<Eleve>(name, flags,modelMPS::TexteColonneType,vec,
     [](const Eleve & eleve, int role)->QVariant{
         if(role == Qt::DisplayRole || role == Qt::EditRole)
             return eleve.nom();
@@ -184,7 +184,7 @@ EleveVecTableau::NomColonne::NomColonne(const QString &name, Qt::ItemFlags flags
     [](const Eleve & eleve)->QVariant{return eleve.nom();},
     [](Eleve & eleve, const QVariant & value, int role){
         if(role == Qt::EditRole){
-            eleve.setNom(value.toString());
+            eleve.setNom(value.to_string());
             return true;}
         return false;}) {}
 
@@ -200,7 +200,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
     case Nom:
         return std::make_unique<NomColonne>(info.name,info.flags,m_vec);
     case Prenom:
-        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,
+        return std::make_unique<modelMPS::vector_ptrColonne<Eleve>>(info.name,info.flags,
                                                                    modelMPS::TexteColonneType,m_vec,
             [](const Eleve & eleve,int role)->QVariant {
                 if(role == Qt::DisplayRole || role == Qt::EditRole)
@@ -209,11 +209,11 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
             [](const Eleve & eleve)->QVariant{return eleve.prenom();},
             [](Eleve & eleve, const QVariant & value, int role)->bool {
                 if(role == Qt::EditRole) {
-                    eleve.setPrenom(value.toString());
+                    eleve.setPrenom(value.to_string());
                     return true;}
                 return false;});
     case Naissance:
-        return std::make_unique<modelMPS::VectorPtrColonne<Eleve>>(info.name,info.flags,
+        return std::make_unique<modelMPS::vector_ptrColonne<Eleve>>(info.name,info.flags,
                                                                    modelMPS::DateColonneType,m_vec,
            [](const Eleve & eleve,int role)->QVariant {
                if(role == Qt::DisplayRole || role == Qt::EditRole)
@@ -226,7 +226,7 @@ EleveVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewColonneIn
                    return true;}
                return false;});
     case Sexe:
-        return std::make_unique<modelMPS::VectorPtrBoolColonne<Eleve>>(info.name,info.flags,
+        return std::make_unique<modelMPS::vector_ptrBoolColonne<Eleve>>(info.name,info.flags,
                                                                        modelMPS::BoolColonneType,m_vec,
            [](const Eleve & eleve)->bool {return eleve.fille();},
            [](Eleve & eleve, bool value) {eleve.setFille(value);},
@@ -283,10 +283,10 @@ void EleveGroupeTableau::remove(const std::map<szt,std::list<idt>> & map) {
     updateNbrLine();
 }
 
-void EleveGroupeTableau::setIdGroupe(idt id) {
-    m_groupe.setId(id);
+void EleveGroupeTableau::set_idGroupe(idt id) {
+    m_groupe.set_id(id);
     m_bdd.get(m_groupe);
-    m_styleNum.setStyle(m_groupe.styleNum());
+    m_styleNum.set_style(m_groupe.styleNum());
     m_tableau.clear();
     szt nbrGr = 0;
     if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id())) {
@@ -330,7 +330,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
     auto write = [this](std::list<EleveGroupe> & elGr, const QVariant & value, int role)->bool {
         if(role == Qt::EditRole){
             EleveGroupe eg;
-            eg.setIdGroupe(m_groupe.id());
+            eg.set_idGroupe(m_groupe.id());
             eg.setNum(value.toInt());
             elGr.push_back(eg);
             elGr.sort([](const EleveGroupe & elGr1, const EleveGroupe & elGr2)->bool
@@ -338,7 +338,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
             return true;
         }
         return false;};
-    return std::make_unique<modelMPS::TempBaseColonne<decltype (read), decltype (find), decltype (write),
+    return std::make_unique<modelMPS::_tempBaseColonne<decltype (read), decltype (find), decltype (write),
                                                       std::vector<std::list<EleveGroupe>>>>(info.name,info.flags,
                                                                      modelMPS::TexteColonneType,m_vec,
                                                                      read,find,write);
@@ -364,9 +364,9 @@ EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
             elGr.setNum(value.toInt());
             return true;}
         return false;};
-        auto colonne = std::make_unique<modelMPS::TempBaseColorColonne<decltype (backFore), decltype (backFore),
+        auto colonne = std::make_unique<modelMPS::_tempBaseColorColonne<decltype (backFore), decltype (backFore),
                                                                decltype (read), decltype (find), decltype (write),
-                                                               conteneurMPS::VectorPtr<EleveGroupe>>>(info.name,info.flags,
+                                                               conteneurMPS::vector_ptr<EleveGroupe>>>(info.name,info.flags,
                                                                          modelMPS::TexteColonneType,m_vec,
                                                                          backFore,backFore,
                                                                          read,find,write);
