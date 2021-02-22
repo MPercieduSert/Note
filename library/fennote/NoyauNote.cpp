@@ -10,10 +10,10 @@ using namespace noteMPS;
 void NoyauNote::setAnnee(const Annee & an) {
     donnee_cible dnC;
     dnC.set_iddonnee(donnee::Id_Prog_IdND);
-    dnC.set_cible(bddMPS::cibleId::Configuration);
-    dnC.set_id_cible(bddMPS::Id_Prog::AnneeCourante);
+    dnC.set_cible(b2d::cible_id::Configuration);
+    dnC.set_id_cible(b2d::Id_Prog::AnneeCourante);
     Annee anBdd;
-    if(bdd().getUnique(dnC)) {
+    if(bdd().get_unique(dnC)) {
         anBdd.set_id(dnC.valeur().toUInt());
         bdd().get(anBdd);
     }

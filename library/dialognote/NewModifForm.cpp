@@ -3,7 +3,7 @@
 using namespace noteMPS;
 
 // AbstractControle
-AbstractControleNewModifForm::AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & LabelParent,
+AbstractControleNewModifForm::AbstractControleNewModifForm(b2d::Bdd &bdd, const QString & LabelParent,
                                                            const QString &labelNc, const QString &labelNom,
                                                            bool newEnt, QWidget * parent)
     : AbstractParentNcNomNewModifForm(bdd, {"nom","nom abrégé"},
@@ -161,7 +161,7 @@ void AbstractControleNewModifForm::typeNoteChange() {
 }
 
 // Annee
-AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+AnneeNewModifForm::AnneeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNewModifForm (bdd,newEnt,parent) {
     // Annee
     m_anneeLabel = new QLabel(newEnt ? tr("Nouvelle année scolaire :")
@@ -171,7 +171,7 @@ AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * pa
         m_anneeCourante = new QCheckBox(tr("Année courante"));
     }
     else
-        m_spinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
+        m_spinBox = new SpinBoxAnneeScolaire(m_bdd.get_list<Annee>(Annee::Num));
     m_spinBox->setNowValue();
 
     // Calque
@@ -190,8 +190,8 @@ AnneeNewModifForm::AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * pa
 
 void AnneeNewModifForm::connexion() {
     if(m_new){
-        connect(m_spinBox,&SpinBoxAnneeScolaire::valueChanged,this,[this](){emit savePermis(!m_bdd.existsUnique(m_spinBox->value()));});
-        emit savePermis(!m_bdd.existsUnique(m_spinBox->value()));
+        connect(m_spinBox,&SpinBoxAnneeScolaire::valueChanged,this,[this](){emit savePermis(!m_bdd.exists_unique(m_spinBox->value()));});
+        emit savePermis(!m_bdd.exists_unique(m_spinBox->value()));
     }
     else if (m_spinBox->values().empty())
         emit savePermis(false);
@@ -203,14 +203,14 @@ void AnneeNewModifForm::save() {
 }
 
 // Classe
-ClasseNewModifForm::ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+ClasseNewModifForm::ClasseNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé de la classe :"),
                                             tr("Nom de la classe :"),
                                             newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<Classe>(Classe::Nom));
+        setNoms(m_bdd.get_list<Classe>(Classe::Nom));
 
     // Annee - Etab - Niveaux
     m_anneeSelect = new AnneeSelectWidget(m_bdd);
@@ -265,21 +265,21 @@ void ClasseNewModifForm::save() {
     cl.set_idAn(m_anneeSelect->id());
     cl.set_idEtab(m_etabSelect->id());
     cl.set_idNiveau(m_nivSelect->id());
-    cl.setNum(m_numSpinBox->value());
+    cl.set_num(m_numSpinBox->value());
     m_bdd.save(cl);
     if(m_new)
         m_idClasse = cl.id();
     donnee_cible dnCb;
-    dnCb.set_iddonnee(bdd().refToId<donnee>("date_defaut_dn"));
+    dnCb.set_iddonnee(bdd().ref_to_id<donnee>("date_defaut_dn"));
     dnCb.set_id_cible(m_idClasse);
     dnCb.set_cible(bdd().cible<Classe>());
-    dnCb.setNum(donnee::EntreeNum);
-    bdd().getUnique(dnCb);
+    dnCb.set_num(donnee::EntreeNum);
+    bdd().get_unique(dnCb);
     dnCb.setValeur(m_debutCalendar->selectedDate());
     bdd().save(dnCb);
     dnCb.set_id(0);
-    dnCb.setNum(donnee::SortieNum);
-    bdd().getUnique(dnCb);
+    dnCb.set_num(donnee::SortieNum);
+    bdd().get_unique(dnCb);
     dnCb.setValeur(m_finCalendar->selectedDate());
     bdd().save(dnCb);
 }
@@ -309,15 +309,15 @@ void ClasseNewModifForm::updateData() {
         m_nivSelect->set_id(cl.idNiveau());
         m_numSpinBox->set_value(cl.num());
         donnee_cible dnCb;
-        dnCb.set_iddonnee(bdd().refToId<donnee>("date_defaut_dn"));
+        dnCb.set_iddonnee(bdd().ref_to_id<donnee>("date_defaut_dn"));
         dnCb.set_id_cible(m_idClasse);
         dnCb.set_cible(bdd().cible<Classe>());
-        dnCb.setNum(donnee::EntreeNum);
-        bdd().getUnique(dnCb);
+        dnCb.set_num(donnee::EntreeNum);
+        bdd().get_unique(dnCb);
         m_debutCalendar->setSelectedDate(dnCb.valeur().toDate());
         dnCb.set_id(0);
-        dnCb.setNum(donnee::SortieNum);
-        bdd().getUnique(dnCb);
+        dnCb.set_num(donnee::SortieNum);
+        bdd().get_unique(dnCb);
         m_finCalendar->setSelectedDate(dnCb.valeur().toDate());
     }
 }
@@ -329,7 +329,7 @@ bool ClasseNewModifForm::valide() const {
 }
 
 // Controle
-ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+ControleNewModifForm::ControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
     : AbstractControleNewModifForm(bdd,
                                       "Type :",
                                       "Nom abrégé du controle :",
@@ -337,7 +337,7 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
                                       newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<Controle>(Controle::Nom));
+        setNoms(m_bdd.get_list<Controle>(Controle::Nom));
 
     // Type
     m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
@@ -357,11 +357,11 @@ ControleNewModifForm::ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidge
     m_eleveRadio = new QRadioButton(tr("Eleve"));
     m_groupeRadio = new QRadioButton(tr("Groupe"));
     m_pourBG = new QButtonGroup(this);
-    m_pourBG->addButton(m_classeRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID));
-    m_pourBG->addButton(m_eleveRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Eleve::ID));
-    m_pourBG->addButton(m_groupeRadio,static_cast<bddMPS::BddPredef&>(m_bdd).cible(Groupe::ID));
+    m_pourBG->addButton(m_classeRadio,static_cast<b2d::bdd_predef&>(m_bdd).cible(Classe::ID));
+    m_pourBG->addButton(m_eleveRadio,static_cast<b2d::bdd_predef&>(m_bdd).cible(Eleve::ID));
+    m_pourBG->addButton(m_groupeRadio,static_cast<b2d::bdd_predef&>(m_bdd).cible(Groupe::ID));
     m_entitySelect = new ClasseSelectWidget(m_bdd,Qt::Vertical);
-    m_cibleEntitySelect = static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID);
+    m_cibleEntitySelect = static_cast<b2d::bdd_predef&>(m_bdd).cible(Classe::ID);
     m_pourGr = new QGroupBox("Pour :");
     m_pourButtonLayout = new QHBoxLayout;
     m_pourButtonLayout->addWidget(m_classeRadio);
@@ -394,10 +394,10 @@ void ControleNewModifForm::connexion() {
 
 void ControleNewModifForm::save() {
     auto ctr = entityNoteOption<Controle>(true);
-    ctr.set_id_type(idParent());
+    ctr.set_id_type(id_parent());
     ctr.set_cible(m_pourBG->checkedId());
     ctr.set_id_cible(m_entitySelect->id());
-    ctr.setNum(m_numSpinBox->value());
+    ctr.set_num(m_numSpinBox->value());
     ctr.setDateTime(m_dateTimeEdit->dateTime());
     m_bdd.save(ctr);
 }
@@ -419,9 +419,9 @@ void ControleNewModifForm::updateData() {
 }
 
 void ControleNewModifForm::updateNum() {
-    auto listCtr = m_bdd.getList<Controle>(Controle::Cible,m_cibleEntitySelect,
+    auto listCtr = m_bdd.get_list<Controle>(Controle::Cible,m_cibleEntitySelect,
                                            Controle::Id_Cible,m_entitySelect->id(),
-                                           Controle::id_type,idParent());
+                                           Controle::id_type,id_parent());
     if(listCtr.empty()) {
         m_numSpinBox->clearList();
         m_numSpinBox->set_value(0);
@@ -439,11 +439,11 @@ void ControleNewModifForm::updateNum() {
 void ControleNewModifForm::updateSelectEntity(int cible){
     if(cible != m_cibleEntitySelect) {
         widgetMPS::AbstractEntitySelectWidget * newEntitySelect = nullptr;
-        if(cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Classe::ID))
+        if(cible == static_cast<b2d::bdd_predef&>(m_bdd).cible(Classe::ID))
             newEntitySelect = new ClasseSelectWidget(m_bdd,Qt::Vertical);
-        else if (cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Eleve::ID))
+        else if (cible == static_cast<b2d::bdd_predef&>(m_bdd).cible(Eleve::ID))
             newEntitySelect = new EleveSelectWidget(m_bdd,Qt::Vertical);
-        else if (cible == static_cast<bddMPS::BddPredef&>(m_bdd).cible(Groupe::ID))
+        else if (cible == static_cast<b2d::bdd_predef&>(m_bdd).cible(Groupe::ID))
             newEntitySelect = new GroupeSelectWidget(m_bdd,Qt::Vertical);
         m_pourLayout->replaceWidget(m_entitySelect,newEntitySelect,Qt::FindDirectChildrenOnly);
         m_cibleEntitySelect = cible;
@@ -454,22 +454,22 @@ void ControleNewModifForm::updateSelectEntity(int cible){
     }
 }
 // Etablissement
-EtablissementNewModifForm::EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+EtablissementNewModifForm::EtablissementNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé de l'établissement :"),
                                             tr("Nom de l'établissement :"),
                                             newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<Etablissement>());
+        setNoms(m_bdd.get_list<Etablissement>());
 
     // Type d'établissment
     m_TELabel = new QLabel(tr("Type(s) de l'établissement :"));
-    m_TEList = new widgetMPS::Checklist(m_bdd.getList<TypeEtablissement>());
+    m_TEList = new widgetMPS::Checklist(m_bdd.get_list<TypeEtablissement>());
 
     // Niveaux
     m_nivLabel = new QLabel(tr("Niveaux présent dans l'établissement:"));
-    m_nivList = new widgetMPS::Checklist(m_bdd.getList<Niveau>());
+    m_nivList = new widgetMPS::Checklist(m_bdd.get_list<Niveau>());
 
     // Calque
     m_mainLayout->addWidget(m_TELabel);
@@ -506,10 +506,10 @@ void EtablissementNewModifForm::updateData() {
     if(!m_new) {
         Etablissement etab;
         update_temp<Etablissement>(etab);
-        m_TEList->setChecksById<EtablissementType>(m_bdd.getList<EtablissementType>(EtablissementType::IdEtab,etab.id()),
-                       [](const EtablissementType& entity)->idt{return entity.idTpEtab();});
-        m_nivList->setChecksById<EtablissementNiveau>(m_bdd.getList<EtablissementNiveau>(EtablissementNiveau::IdEtab,etab.id()),
-                       [](const EtablissementNiveau& entity)->idt{return entity.idNiveau();});
+        m_TEList->setChecksById<EtablissementType>(m_bdd.get_list<EtablissementType>(EtablissementType::IdEtab,etab.id()),
+                       [](const EtablissementType& entity)->idt{return ent.idTpEtab();});
+        m_nivList->setChecksById<EtablissementNiveau>(m_bdd.get_list<EtablissementNiveau>(EtablissementNiveau::IdEtab,etab.id()),
+                       [](const EtablissementNiveau& entity)->idt{return ent.idNiveau();});
     }
     updateNiveau();
 }
@@ -521,7 +521,7 @@ void EtablissementNewModifForm::updateNiveau() {
             listIdTE.push_front(m_TEList->id(i));
     std::list<idt> listIdNiv;
     for(auto iter = listIdTE.cbegin(); iter != listIdTE.cend(); ++iter) {
-        auto vecNivTE = m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,*iter,NiveauTypeEtablissement::IdNiveau);
+        auto vecNivTE = m_bdd.get_list<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,*iter,NiveauTypeEtablissement::IdNiveau);
         std::list<idt> listIdNivOther;
         for (auto iterNiv = vecNivTE.cbegin(); iterNiv != vecNivTE.cend(); ++iterNiv)
             listIdNivOther.push_back(iterNiv->idNiveau());
@@ -541,8 +541,8 @@ void EtablissementNewModifForm::updateNiveau() {
 }
 
 // Groupe
-GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
-    : AbstractTypeNcNomNewModifForm(static_cast<bddMPS::BddPredef &>(bdd),
+GroupeNewModifForm::GroupeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
+    : AbstractTypeNcNomNewModifForm(static_cast<b2d::bdd_predef &>(bdd),
                                     "groupe_root_tp",
                                     Groupe::ID,
                                     tr("Type de groupe :"),
@@ -551,7 +551,7 @@ GroupeNewModifForm::GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * 
                                     newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<Groupe>(Groupe::Nom));
+        setNoms(m_bdd.get_list<Groupe>(Groupe::Nom));
 
     // Choix de groupe année - classe
     m_anClGr = new QGroupBox(tr("Groupe pour une :"));
@@ -645,8 +645,8 @@ void GroupeNewModifForm::updateData() {
 
 
 // Niveau
-NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
-    : dialogMPS::AbstractTypeNcNomNewModifForm (static_cast<bddMPS::BddPredef &>(bdd),
+NiveauNewModifForm::NiveauNewModifForm(b2d::Bdd & bdd, bool newEnt, QWidget * parent)
+    : dialogMPS::AbstractTypeNcNomNewModifForm (static_cast<b2d::bdd_predef &>(bdd),
                                                 "etude_root_tp",
                                                 Niveau::ID,
                                                 tr("Type de niveau :"),
@@ -656,13 +656,13 @@ NiveauNewModifForm::NiveauNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget *
 {
 
     // Nom
-    auto niveaux = m_bdd.getList<Niveau>();
+    auto niveaux = m_bdd.get_list<Niveau>();
     if(!m_new)
         setNoms(niveaux);
 
     // Type d'établissment
     m_listLabel = new QLabel(tr("Type d'établissement pouvant accueillir le niveau:"));
-    m_TEList = new widgetMPS::Checklist(m_bdd.getList<TypeEtablissement>());
+    m_TEList = new widgetMPS::Checklist(m_bdd.get_list<TypeEtablissement>());
 
     // Niveaux précédents
     m_nivPrecLabel = new QLabel(tr("Niveaux précédents:"));
@@ -716,17 +716,17 @@ void NiveauNewModifForm::updateData() {
     if(!m_new) {
         Niveau niv;
         update_temp<Niveau>(niv);
-        m_TEList->setChecksById<NiveauTypeEtablissement>(m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,niv.id()),
-                       [](const NiveauTypeEtablissement& entity)->idt{return entity.idTpEtab();});
-        m_nivPrecList->setChecksById<FiliationNiveau>(m_bdd.getList<FiliationNiveau>(FiliationNiveau::IdSuivant,niv.id()),
-                       [](const FiliationNiveau & entity){return entity.idPrecedent();});
-        m_nivSuivList->setChecksById<FiliationNiveau>(m_bdd.getList<FiliationNiveau>(FiliationNiveau::IdPrecedent,niv.id()),
-                       [](const FiliationNiveau & entity){return entity.idSuivant();});
+        m_TEList->setChecksById<NiveauTypeEtablissement>(m_bdd.get_list<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,niv.id()),
+                       [](const NiveauTypeEtablissement& entity)->idt{return ent.idTpEtab();});
+        m_nivPrecList->setChecksById<FiliationNiveau>(m_bdd.get_list<FiliationNiveau>(FiliationNiveau::IdSuivant,niv.id()),
+                       [](const FiliationNiveau & entity){return ent.idPrecedent();});
+        m_nivSuivList->setChecksById<FiliationNiveau>(m_bdd.get_list<FiliationNiveau>(FiliationNiveau::IdPrecedent,niv.id()),
+                       [](const FiliationNiveau & entity){return ent.idSuivant();});
     }
 }
 
 // Typecontrole
-TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent)
+TypeControleNewModifForm::TypeControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent)
     : AbstractControleNewModifForm(bdd,
                                       "Parent :",
                                       "Nom abrégé du type de controle :",
@@ -734,7 +734,7 @@ TypeControleNewModifForm::TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt
                                       newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<TypeControle>(TypeControle::Nom));
+        setNoms(m_bdd.get_list<TypeControle>(TypeControle::Nom));
 
     // parent
     m_parentTree->setTreeNcNomId(bdd.getArbre<TypeControle>());
@@ -844,7 +844,7 @@ void TypeControleNewModifForm::optionEnable() {
 
 void TypeControleNewModifForm::save() {
     auto tpc = entityNoteOption<TypeControle>(!m_categorieCheck->isChecked());
-    tpc.set_parent(idParent());
+    tpc.set_parent(id_parent());
     if(m_categorieCheck->isChecked())
         tpc.add(TypeControle::Categorie);
     else {
@@ -919,14 +919,14 @@ void TypeControleNewModifForm::updateData() {
 }
 
 // TypeEtablissement
-TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent)
+TypeEtablissementNewModifForm::TypeEtablissementNewModifForm(b2d::Bdd & bdd, bool newEnt, QWidget * parent)
     : dialogMPS::AbstractNcNomNewModifForm (bdd,
                                             tr("Nom abrégé du type d'établissment :"),
                                             tr("Nom du type d'établissement :"),
                                             newEnt,parent) {
     // Nom
     if(!m_new)
-        setNoms(m_bdd.getList<TypeEtablissement>(TypeEtablissement::Nom));
+        setNoms(m_bdd.get_list<TypeEtablissement>(TypeEtablissement::Nom));
 
     // Niveaux
     m_selectNiv = new widgetMPS::SelectInListBox(tr("Niveaux existents :"),tr("Niveaux présents :"));
@@ -945,12 +945,12 @@ void TypeEtablissementNewModifForm::save() {
     }
     else {
         TypeEtablissement te(id());
-        if(m_bdd.testAutorisation(te,bddMPS::Modif)) {
+        if(m_bdd.test_autorisation(te,b2d::Modif)) {
             te.setNc(nc());
             te.setNom(nom());
             m_bdd.save(te);
         }
-        auto nivOld = m_bdd.getList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,te.id());
+        auto nivOld = m_bdd.get_list<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,te.id());
         auto nivNew = m_selectNiv->value().second;
         for(auto i = nivOld.cbegin(); i != nivOld.cend(); ++i) {
             auto j = nivNew.begin();
@@ -958,7 +958,7 @@ void TypeEtablissementNewModifForm::save() {
                 ++j;
             if(j == nivNew.end()) {
                 NiveauTypeEtablissement nivTE(i->idNiveau(),te.id());
-                m_bdd.getUnique(nivTE);
+                m_bdd.get_unique(nivTE);
                 m_bdd.del(nivTE);
             }
             else
@@ -973,7 +973,7 @@ void TypeEtablissementNewModifForm::save() {
 
 void TypeEtablissementNewModifForm::updateData() {
     if(m_new) {
-        auto vecNiv = m_bdd.getList<Niveau>();
+        auto vecNiv = m_bdd.get_list<Niveau>();
         std::map<QVariant, QString> nivOut;
         for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i)
             nivOut[i->id()] = i->nom();
@@ -982,11 +982,11 @@ void TypeEtablissementNewModifForm::updateData() {
     else {
         TypeEtablissement te;
         update_temp<TypeEtablissement>(te);
-        auto vecNiv = m_bdd.getList<Niveau>();
+        auto vecNiv = m_bdd.get_list<Niveau>();
         std::map<QVariant, QString> nivIn;
         std::map<QVariant, QString> nivOut;
         for(auto i = vecNiv.cbegin(); i != vecNiv.cend(); ++i) {
-            if(m_bdd.existsUnique(NiveauTypeEtablissement(i->id(),te.id())))
+            if(m_bdd.exists_unique(NiveauTypeEtablissement(i->id(),te.id())))
                 nivIn[i->id()] = i->nom();
             else
                 nivOut[i->id()] = i->nom();

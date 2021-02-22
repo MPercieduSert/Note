@@ -2,10 +2,10 @@
 
 using namespace noteMPS;
 
-AnneeSelectWidget::AnneeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
+AnneeSelectWidget::AnneeSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
     : AbstractEntitySelectWidget(bdd,orientation,parent) {
     m_label = new QLabel(tr("Annee scolaire : "));
-    m_spinBox = new SpinBoxAnneeScolaire(m_bdd.getList<Annee>(Annee::Num));
+    m_spinBox = new SpinBoxAnneeScolaire(m_bdd.get_list<Annee>(Annee::Num));
     m_spinBox->setNowValue();
     m_spinBox->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     connect(m_spinBox,&SpinBoxAnneeScolaire::valueChanged,this,[this](){emit idChanged(id());});
@@ -13,7 +13,7 @@ AnneeSelectWidget::AnneeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orienta
     m_mainLayout->addWidget(m_spinBox);
 }
 
-ClasseSelectWidget::ClasseSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
+ClasseSelectWidget::ClasseSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
     : ComboBoxEntitySelectWidget(bdd,tr("Classe : "),orientation,parent) {
     m_anneeSelect = new AnneeSelectWidget(bdd);
     m_etabSelect = new EtablissementSelectWidget(bdd);
@@ -56,11 +56,11 @@ void ClasseSelectWidget::set_id(idt id) {
 void ClasseSelectWidget::updateClasse() {
     m_box->clear();
     if(m_anneeSelect->id() != 0 && m_etabSelect->id() != 0)
-        m_box->addText(m_bdd.getList<Classe>(Classe::IdAn,m_anneeSelect->id(),Classe::IdEtab,m_etabSelect->id(),Classe::Nom),
+        m_box->addText(m_bdd.get_list<Classe>(Classe::IdAn,m_anneeSelect->id(),Classe::IdEtab,m_etabSelect->id(),Classe::Nom),
                  [](const Classe & cl)->QString {return cl.nc();});
 }
 
-EleveSelectWidget::EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
+EleveSelectWidget::EleveSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
     : ComboBoxEntitySelectWidget(bdd,tr("Eleve : "),orientation,parent) {
     m_classeSelect = new ClasseSelectWidget(bdd,orientation);
     connect(m_classeSelect,&ClasseSelectWidget::idChanged,this,&EleveSelectWidget::updateEleve);
@@ -72,7 +72,7 @@ EleveSelectWidget::EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orienta
 }
 
 void EleveSelectWidget::set_id(idt id) {
-    auto list = m_bdd.getList<ClasseEleve>(ClasseEleve::IdEleve,id,ClasseEleve::IdClasse);
+    auto list = m_bdd.get_list<ClasseEleve>(ClasseEleve::IdEleve,id,ClasseEleve::IdClasse);
     if(!list.empty())
         m_classeSelect->set_id(list.back().idClasse());
     ComboBoxEntitySelectWidget::set_id(id);
@@ -81,7 +81,7 @@ void EleveSelectWidget::set_id(idt id) {
 void EleveSelectWidget::updateEleve() {
     m_box->clear();
     if(m_classeSelect->id() != 0)
-        m_box->addText(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_classeSelect->id(),Eleve::Nom),
+        m_box->addText(m_bdd.get_list<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_classeSelect->id(),Eleve::Nom),
                  [](const Eleve & el)->QString {return QString(el.nom()).append(" ")
                                                                         .append(el.prenom())
                                                                         .append(" (")
@@ -89,7 +89,7 @@ void EleveSelectWidget::updateEleve() {
                                                                         .append(")");});
 }
 
-GroupeSelectWidget::GroupeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
+GroupeSelectWidget::GroupeSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation, QWidget * parent)
     : ComboBoxEntitySelectWidget(bdd,tr("Groupe : "),orientation,parent) {
     m_catLabel = new QLabel("Catégorie :");
     m_catCB = new QComboBox;
@@ -159,11 +159,11 @@ void GroupeSelectWidget::set_id(idt id){
 void GroupeSelectWidget::updateGroupe() {
     m_box->clear();
     if(m_catCB->currentData().toBool())
-        m_box->addText(m_bdd.getList<Groupe>(Groupe::IdClasse,m_classeSelect->id(),Groupe::Type,m_typeCB->id(),Groupe::Nom),
+        m_box->addText(m_bdd.get_list<Groupe>(Groupe::IdClasse,m_classeSelect->id(),Groupe::Type,m_typeCB->id(),Groupe::Nom),
                       [](const Groupe & groupe)->QString
                             {return QString(groupe.nom()).append(" (").append(groupe.nc()).append(")");});
     else
-        m_box->addText(m_bdd.getList<Groupe>(Groupe::IdAn,m_classeSelect->idAn(),Groupe::Type,m_typeCB->id(),Groupe::Nom),
+        m_box->addText(m_bdd.get_list<Groupe>(Groupe::IdAn,m_classeSelect->idAn(),Groupe::Type,m_typeCB->id(),Groupe::Nom),
                       [](const Groupe & groupe)->QString
                             {return QString(groupe.nom()).append(" (").append(groupe.nc()).append(")");});
 }
@@ -174,7 +174,7 @@ void GroupeSelectWidget::updateType() {
     where[type_permission::Cible] = bdd().cible<Groupe>();
     std::vector<std::pair<Type::position,bool>> order;
     order.push_back({Type::Nom,true});
-    auto vec = m_bdd.getList<Type,type_permission>(Type::Id,type_permission::id_type,std::map<Type::position,QVariant>(),where,order);
+    auto vec = m_bdd.get_list<Type,type_permission>(Type::Id,type_permission::id_type,std::map<Type::position,QVariant>(),where,order);
     std::map<Groupe::position,QVariant> map;
     if(m_catCB->currentData().toBool())
         map[Groupe::IdClasse] = m_classeSelect->id();
@@ -194,9 +194,9 @@ void GroupeSelectWidget::updateType() {
 void NiveauxSelectWidget::set_idEtab(idt id) {
     m_box->clear();
     if(id == 0)
-        m_box->addText(m_bdd.getList<Niveau>(Niveau::Nom),
+        m_box->addText(m_bdd.get_list<Niveau>(Niveau::Nom),
                      [](const Niveau & niv)->QString {return QString(niv.nom()).append(" (").append(niv.nc()).append(")");});
     else
-        m_box->addText(m_bdd.getList<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,EtablissementNiveau::IdEtab,id),
+        m_box->addText(m_bdd.get_list<Niveau,EtablissementNiveau>(EtablissementNiveau::IdNiveau,EtablissementNiveau::IdEtab,id),
                      [](const Niveau & niv)->QString {return QString(niv.nom()).append(" (").append(niv.nc()).append(")");});
 }

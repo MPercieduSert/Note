@@ -20,7 +20,7 @@ void SpinBoxAnneeScolaire::printValue() {
 void SpinBoxAnneeScolaire::setNowValue() {
     auto date = QDate::currentDate();
     Annee an;
-    an.setNum(date.month()<=6 ? date.year() - 1
+    an.set_num(date.month()<=6 ? date.year() - 1
                               : date.year());
     set_value(an);
     if(!m_vec.empty() && m_value.is_new()){
@@ -56,7 +56,7 @@ QSize SpinBoxAnneeScolaire::sizeHint() const
 
 void SpinBoxAnneeScolaire::stepBy(int steps) {
     if(m_vec.empty()) {
-        m_value.setNum(m_value.num() + steps);
+        m_value.set_num(m_value.num() + steps);
         printValue();
     }
     else if (steps < 0 && static_cast<int>(m_pos) + steps >= 0) {

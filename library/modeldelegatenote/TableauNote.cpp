@@ -9,10 +9,10 @@ CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bd
     m_bdd.get(m_groupe);
     if(m_groupe.idClasse())
         static_cast<EleveVecTableau&>(tableau(EleveTableau))
-            .setVecData(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_groupe.idClasse()));
+            .setVecData(m_bdd.get_list<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_groupe.idClasse()));
     else
         static_cast<EleveVecTableau&>(tableau(EleveTableau))
-            .setVecData(m_bdd.getList<Eleve,ClasseEleve,Classe>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,Classe::IdAn,m_groupe.idAn()));
+            .setVecData(m_bdd.get_list<Eleve,ClasseEleve,Classe>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,Classe::IdAn,m_groupe.idAn()));
     if(m_groupe.test(Groupe::Exclusif)) {
         push_back(std::make_unique<EleveGroupeVecTableau>(m_bdd,tableau(EleveTableau).size()),true);
         static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).setGroupe(m_groupe);
@@ -27,13 +27,13 @@ CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bd
 
 void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
     auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id();
-    auto vec = m_bdd.getList<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
+    auto vec = m_bdd.get_list<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
     if(m_groupe.test(Groupe::Exclusif)) {
         auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(ligne);
         if(vec.empty()) {
             elGr.set_idEleve(idEl);
             elGr.set_idGroupe(m_groupe.id());
-            elGr.setNum(NonAffecter);
+            elGr.set_num(NonAffecter);
         }
         else
             elGr = vec.front();
@@ -55,7 +55,7 @@ void CandidatGroupeTableau::remove(std::vector<std::pair<idt, int> > &&vecIdNum)
             ++i;
         if(i != size()) {
             if(m_groupe.test(Groupe::Exclusif))
-                static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(i).setNum(NonAffecter);
+                static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internalData(i).set_num(NonAffecter);
             else
                 static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internalData(i).remove_if(
                         [iter](const EleveGroupe & elGr)->bool{return elGr.num() == iter->second;});
@@ -76,7 +76,7 @@ void CandidatGroupeTableau::save(szt ligne) {
         auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id();
         for (auto iter = elGr.begin(); iter != elGr.end(); ++iter)
             iter->set_idEleve(idEl);
-        auto vec = m_bdd.getList<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
+        auto vec = m_bdd.get_list<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
         auto iterTab = elGr.begin();
         auto iterBdd = vec.begin();
         while(iterTab != elGr.end() && iterBdd != vec.end()){
@@ -115,17 +115,17 @@ void ClasseEleveCompositionTableau::hydrateClasseEleve(szt ligne){
     auto & clEl = static_cast<ClasseEleveVecTableau&>(tableau(ClasseEleveTableau)).internalData(ligne);
     clEl.set_idEleve(static_cast<EleveVecTableau&>(tableau(EleveTableau)).internalData(ligne).id());
     clEl.set_idClasse(m_idClasse);
-    if(!m_bdd.getUnique(clEl)){
+    if(!m_bdd.get_unique(clEl)){
         donnee_cible dnCb;
-        dnCb.set_iddonnee(m_bdd.refToId<donnee>("date_defaut_dn"));
+        dnCb.set_iddonnee(m_bdd.ref_to_id<donnee>("date_defaut_dn"));
         dnCb.set_cible(m_bdd.cible<Classe>());
         dnCb.set_id_cible(m_idClasse);
-        dnCb.setNum(donnee::EntreeNum);
-        if(m_bdd.getUnique(dnCb))
+        dnCb.set_num(donnee::EntreeNum);
+        if(m_bdd.get_unique(dnCb))
             clEl.setEntree(dnCb.valeur().toDate());
         dnCb.set_id(0);
-        dnCb.setNum(donnee::SortieNum);
-        if(m_bdd.getUnique(dnCb))
+        dnCb.set_num(donnee::SortieNum);
+        if(m_bdd.get_unique(dnCb))
             clEl.setSortie(dnCb.valeur().toDate());
     }
 }
@@ -133,7 +133,7 @@ void ClasseEleveCompositionTableau::hydrateClasseEleve(szt ligne){
 void ClasseEleveCompositionTableau::set_idClasse(idt id) {
     m_idClasse = id;
     static_cast<EleveVecTableau&>(tableau(EleveTableau))
-            .setVecData(m_bdd.getList<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_idClasse));
+            .setVecData(m_bdd.get_list<Eleve,ClasseEleve>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,m_idClasse));
     static_cast<ClasseEleveVecTableau&>(tableau(ClasseEleveTableau)).setVecData(conteneurMPS::vector_ptr<ClasseEleve>(size()));
     for(szt ligne = 0; ligne != size(); ++ligne)
         hydrateClasseEleve(ligne);
@@ -290,9 +290,9 @@ void EleveGroupeTableau::set_idGroupe(idt id) {
     m_tableau.clear();
     szt nbrGr = 0;
     if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id())) {
-        nbrGr = 1 + m_bdd.fonctionAgrega<EleveGroupe>(bddMPS::agrega::Max,EleveGroupe::Num,EleveGroupe::IdGroupe,m_groupe.id()).toUInt();
+        nbrGr = 1 + m_bdd.fonction_agrega<EleveGroupe>(b2d::agrega::Max,EleveGroupe::Num,EleveGroupe::IdGroupe,m_groupe.id()).toUInt();
         for (szt num = 0; num != nbrGr; ++num) {
-            auto vecEl = m_bdd.getList<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
+            auto vecEl = m_bdd.get_list<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
                                                           EleveGroupe::IdGroupe,m_groupe.id(),
                                                           EleveGroupe::Num,static_cast<uint>(num));
             push_back(vecEl.size());
@@ -331,7 +331,7 @@ EleveGroupeListTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCo
         if(role == Qt::EditRole){
             EleveGroupe eg;
             eg.set_idGroupe(m_groupe.id());
-            eg.setNum(value.toInt());
+            eg.set_num(value.toInt());
             elGr.push_back(eg);
             elGr.sort([](const EleveGroupe & elGr1, const EleveGroupe & elGr2)->bool
                         {return elGr1.num() < elGr2.num();});
@@ -361,7 +361,7 @@ EleveGroupeVecTableau::makeColonne(const modelMPS::AbstractColonnesModel::NewCol
     auto find = [](const EleveGroupe & elGr)->QVariant {return elGr.num();};
     auto write = [](EleveGroupe & elGr, const QVariant & value, int role)->bool {
         if(role == Qt::EditRole){
-            elGr.setNum(value.toInt());
+            elGr.set_num(value.toInt());
             return true;}
         return false;};
         auto colonne = std::make_unique<modelMPS::_tempBaseColorColonne<decltype (backFore), decltype (backFore),

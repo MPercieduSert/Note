@@ -73,10 +73,10 @@ public:
         {return m_exo.id();}
 
     //! Enregistre les données du noeud.
-    void insert(bddMPS::Bdd & bdd) override;
+    void insert(b2d::Bdd & bdd) override;
 
     //! Enregistre les données du noeud.
-    void save(bddMPS::Bdd & bdd) override {}
+    void save(b2d::Bdd & bdd) override {}
 
     //! Mutateur des données du noeud.
     flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;

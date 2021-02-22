@@ -6,7 +6,7 @@
 
 #include "entity_predef.h"
 
-/*! \defgroup groupeManagerNote Entités et base de données note
+/*! \defgroup groupe_managerNote Entités et base de données note
  * \brief Ensemble des entités, managers et base de données de l'application note.
  */
 
@@ -41,12 +41,12 @@ namespace info_entityNote {
                   NbrEntityId};
 }
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Espace de noms de l'application note.
  */
 namespace noteMPS {
 using namespace type_mps;
-namespace emps = entityMPS;
+namespace emps = entities;
 
 // Entités prédéfinies
 using namespace emps::ensemble_commentaire;
@@ -76,14 +76,14 @@ using TypeEtablissement = entityBaseMPS::NcNomEntity<info_entityNote::TypeEtabli
 
 // Attribut
 SINGLE_ATTRIBUT(EnsPointAttribut,attributMPS::Attribut_id,EnsPoint,ensPoint)
-SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::attribut_date_valide,Entree,entree)
+SINGLE_ATTRIBUT(EntreeAttribut,attributMPS::attribut_date_valide,Entree,entr)
 SINGLE_ATTRIBUT(FilleAttribut,attributMPS::attribut_bool,Fille,fille)
 SINGLE_ATTRIBUT(MinimaAttribut,attributMPS::attribut_int_sup<0>,Minima,minima)
 SINGLE_ATTRIBUT(NumCEAttribut,attributMPS::attribut_int_sup<-1>,Num,num)
 SINGLE_ATTRIBUT(PrenomAttribut,attributMPS::attribut_string_not_empty,Prenom,prenom)
 SINGLE_ATTRIBUT(SortieAttribut,attributMPS::attribut_date_valide,Sortie,sortie)
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Annee.
  */
 class Annee : public emps::EntityID<info_entityNote::AnneeId,attributMPS::num_attribut> {
@@ -103,14 +103,14 @@ using EAID = emps::EntityID<info_entityNote::AnneeId,attributMPS::num_attribut>;
     //! Constructeur à partir des valeurs attributs.
     Annee(int num, idt id = 0)
         : EAID(id)
-        {setNum(num);}
+        {set_num(num);}
 
     //! Renvoie la chaîne de caractères "Num"-"Num+1".
     QString texte() const
         {return QString::number(num()).append("-").append(QString::number(num()+1));}
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Classe.
  */
 class Classe : public emps::EntityIDs<info_entityNote::ClasseId,attributMPS::id_1_attribut,
@@ -156,11 +156,11 @@ using EAID = emps::EntityIDs<info_entityNote::ClasseId,attributMPS::id_1_attribu
         set_idNiveau(idNiveau);
         setNc(nc);
         setNom(nom);
-        setNum(num);
+        set_num(num);
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité ClasseEleve.
  */
 class ClasseEleve : public emps::EntityIDs<info_entityNote::ClasseEleveId,attributMPS::relation_attribut,
@@ -197,7 +197,7 @@ public:
     //! Constructeur à partir des valeurs attributs.
     ClasseEleve(idt idCl, idt idEl, const QDate & entree, const QDate & sortie = QDate(), idt id = 0)
         : ClasseEleve(idCl, idEl, id) {
-          setEntree(entree);
+          setEntree(entr);
           setSortie(sortie);
     }
 
@@ -207,7 +207,7 @@ public:
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Controle.
  */
 class Controle : public emps::EntityIDs<info_entityNote::ControleId,attributMPS::id_1_attribut,
@@ -295,12 +295,12 @@ public:
         setDecimale(decimale);
         setMinima(minima);
         setNc(nc);
-        setNum(num);
+        set_num(num);
         setTotal(total);
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Les attributs de l'entité ControleEpreuve.
  */
 class ControleEpreuveAttribut : public emps::Attributs<attributMPS::relation_trois_exact_one_not_null_attribut,
@@ -322,7 +322,7 @@ public:
 };
 
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité ControleEpreuve.
  */
 class ControleEpreuve : public emps::EntityIDs<info_entityNote::ControleEpreuveId,ControleEpreuveAttribut> {
@@ -362,11 +362,11 @@ public:
         set_idEleve(idEleve);
         set_idEpreuve(idEpreuve);
         set_idGroupe(idGroupe);
-        setNum(num);
+        set_num(num);
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Eleve.
  */
 class Eleve : public emps::EntityIDs<info_entityNote::EleveId,attributMPS::date_valide_attribut,
@@ -409,7 +409,7 @@ public:
     bool operator < (const Eleve & eleve) const;
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité EnoncePoint.
  */
 class EnoncePoint : public emps::EntityIDs<info_entityNote::EnoncePointId,attributMPS::relation_attribut,
@@ -441,7 +441,7 @@ public:
         : EAID(id) {
         set_idEnonce(idEn);
         setEnsPoint(ensPt);
-        setNum(num);
+        set_num(num);
     }
 
     //! Constructeur à partir des valeurs attributs.
@@ -450,7 +450,7 @@ public:
         {set_idPoint(idPt);}
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Exercice.
  */
 class Exercice : public emps::EntityIDs<info_entityNote::ExerciceId,attributMPS::id_1_null_attribut,
@@ -483,7 +483,7 @@ public:
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Epreuve.
  */
 class Epreuve : public emps::EntityIDs<info_entityNote::EpreuveId,attributMPS::relation_attribut,
@@ -516,7 +516,7 @@ public:
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité Groupe.
  */
 class Groupe : public emps::EntityIDs<info_entityNote::GroupeId,attributMPS::relation_exact_one_not_null_attribut,
@@ -573,7 +573,7 @@ public:
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Représentation de l'entité TypeControle.
  */
 class TypeControle : public emps::EntityIDs<info_entityNote::TypeControleId,attributMPS::code_attribut,

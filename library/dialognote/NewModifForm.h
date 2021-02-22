@@ -79,7 +79,7 @@ protected:
 
 public:
     //! Constructeur.
-    AbstractControleNewModifForm(bddMPS::Bdd &bdd, const QString & labelParent,
+    AbstractControleNewModifForm(b2d::Bdd &bdd, const QString & labelParent,
                                  const QString &labelNc, const QString &labelNom,
                                  bool newEnt, QWidget * parent = nullptr);
 
@@ -133,7 +133,7 @@ protected:
 
 public:
     //! Constructeur.
-    AnneeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    AnneeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //! Destructeur.
     ~AnneeNewModifForm() override = default;
@@ -197,7 +197,7 @@ protected:
 
 public:
     //! Constructeur.
-    ClasseNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    ClasseNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~ClasseNewModifForm() override = default;
@@ -258,7 +258,7 @@ protected:
 
 public:
     //! Constructeur.
-    ControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    ControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~ControleNewModifForm() override = default;
@@ -302,7 +302,7 @@ protected:
 
 public:
     //! Constructeur.
-    EtablissementNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    EtablissementNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~EtablissementNewModifForm() override = default;
@@ -354,7 +354,7 @@ protected:
 
 public:
     //! Constructeur.
-    GroupeNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    GroupeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~GroupeNewModifForm() override = default;
@@ -397,7 +397,7 @@ protected:
 
 public:
     //! Constructeur.
-    NiveauNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    NiveauNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~NiveauNewModifForm() override = default;
@@ -429,7 +429,7 @@ protected:
 
 public:
     //! Constructeur.
-    TypeEtablissementNewModifForm(bddMPS::Bdd & bdd, bool newEnt, QWidget * parent = nullptr);
+    TypeEtablissementNewModifForm(b2d::Bdd & bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~TypeEtablissementNewModifForm() override = default;
@@ -485,7 +485,7 @@ protected:
 
 public:
     //! Constructeur.
-    TypeControleNewModifForm(bddMPS::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    TypeControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~TypeControleNewModifForm() override = default;
@@ -520,71 +520,71 @@ public slots:
 template<class Ent> Ent AbstractControleNewModifForm::entityNoteOption(bool noteOption) {
     Ent entity;
     if(!m_new)
-        entity.set_id(id());
-    entity.setNc(nc());
-    entity.setNom(nom());
+        ent.set_id(id());
+    ent.setNc(nc());
+    ent.setNom(nom());
     if(noteOption) {
         //Note
         if(m_noteCheck->isChecked()){
-            entity.add(TypeControle::Note);
-            entity.setTotal(m_totalSpinBox->value());
-            entity.setDecimale(m_decimaleCB->currentData().toInt());
+            ent.add(TypeControle::Note);
+            ent.setTotal(m_totalSpinBox->value());
+            ent.setDecimale(m_decimaleCB->currentData().toInt());
             if(m_chiffreRadio->isChecked()) {
                 if(m_depassementCheck->isChecked())
-                    entity.add(TypeControle::Depassement);
+                    ent.add(TypeControle::Depassement);
                 if(m_courbeCheck->isChecked())
-                    entity.add(TypeControle::Courbe);
+                    ent.add(TypeControle::Courbe);
                 if(m_classementCheck->isChecked()) {
-                    entity.add(TypeControle::Classement);
+                    ent.add(TypeControle::Classement);
                     if(m_barreCheck->isChecked()){
-                        entity.add(TypeControle::Barre);
-                        entity.setMinima(m_minimaSpinBox->value());
+                        ent.add(TypeControle::Barre);
+                        ent.setMinima(m_minimaSpinBox->value());
                     }
                 }
             }
             else
-                entity.add(TypeControle::Lettre);
+                ent.add(TypeControle::Lettre);
         }
         else
-            entity.setTotal(1);
+            ent.setTotal(1);
         //Option
         if(m_appreciationCheck->isChecked())
-            entity.add(TypeControle::Appreciation);
+            ent.add(TypeControle::Appreciation);
         if(m_capaciteCheck->isChecked())
-            entity.add(TypeControle::Capacites);
+            ent.add(TypeControle::Capacites);
         if(m_commentaireCheck->isChecked())
-            entity.add(TypeControle::Commentaire);
+            ent.add(TypeControle::Commentaire);
         if(m_competenceCheck->isChecked())
-            entity.add(TypeControle::Competences);
+            ent.add(TypeControle::Competences);
     }
     return entity;
 }
 
 template<class Ent> void AbstractControleNewModifForm::updateNoteOption(Ent & entity) {
     //Note
-    m_noteCheck->setChecked(entity.code().test(TypeControle::Note));
+    m_noteCheck->setChecked(ent.code().test(TypeControle::Note));
     if(m_noteCheck->isChecked()){
-        m_lettreRadio->setChecked(entity.code().test(TypeControle::Lettre));
-        m_totalSpinBox->set_value(entity.total());
-        auto index = m_decimaleCB->findData(entity.decimale());
+        m_lettreRadio->setChecked(ent.code().test(TypeControle::Lettre));
+        m_totalSpinBox->set_value(ent.total());
+        auto index = m_decimaleCB->findData(ent.decimale());
         if(index != -1)
             m_decimaleCB->setCurrentIndex(index);
         if(m_chiffreRadio->isChecked()){
-            m_depassementCheck->setChecked(entity.code().test(TypeControle::Depassement));
-            m_courbeCheck->setChecked(entity.code().test(TypeControle::Courbe));
-            m_classementCheck->setChecked(entity.code().test(TypeControle::Classement));
+            m_depassementCheck->setChecked(ent.code().test(TypeControle::Depassement));
+            m_courbeCheck->setChecked(ent.code().test(TypeControle::Courbe));
+            m_classementCheck->setChecked(ent.code().test(TypeControle::Classement));
             if(m_classementCheck->isChecked()){
-                m_barreCheck->setChecked(entity.code().test(TypeControle::Barre));
+                m_barreCheck->setChecked(ent.code().test(TypeControle::Barre));
                 if(m_barreCheck->isChecked())
-                    m_minimaSpinBox->set_value(entity.minima());
+                    m_minimaSpinBox->set_value(ent.minima());
             }
         }
     }
     //Option
-    m_appreciationCheck->setChecked(entity.code().test(TypeControle::Appreciation));
-    m_capaciteCheck->setChecked(entity.code().test(TypeControle::Capacites));
-    m_commentaireCheck->setChecked(entity.code().test(TypeControle::Commentaire));
-    m_competenceCheck->setChecked(entity.code().test(TypeControle::Competences));
+    m_appreciationCheck->setChecked(ent.code().test(TypeControle::Appreciation));
+    m_capaciteCheck->setChecked(ent.code().test(TypeControle::Capacites));
+    m_commentaireCheck->setChecked(ent.code().test(TypeControle::Commentaire));
+    m_competenceCheck->setChecked(ent.code().test(TypeControle::Competences));
 }
 }
 #endif // NEWMODIFFORM_H

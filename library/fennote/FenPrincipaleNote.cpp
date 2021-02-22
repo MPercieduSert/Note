@@ -28,7 +28,7 @@ void FenPrincipaleNote::createMenuNewModif() {
         dialogMPS::NewModifDialog diag(form,this);
         if(diag.exec() && form->anneeCourante()) {
             auto an = form->annee();
-            noyau()->bdd().getUnique(an);
+            noyau()->bdd().get_unique(an);
             noyau()->setAnnee(an);
         }
     });

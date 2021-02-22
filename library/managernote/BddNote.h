@@ -5,14 +5,14 @@
 #define BDDNOTE_H
 
 #include "ManagersNote.h"
-#include "BddPredef.h"
+#include "bdd_predef.h"
 
-namespace bddMPS {
-    namespace bddVersion {
+namespace b2d {
+    namespace bdd_version {
         //! Version de la base de données.
-        enum versionBddNote{NbrVersionBddNote = NbrVersion};
+        enum versionBddNote{Nbr_VersionBddNote = Nbr_Version};
         //! Type de mise à jour.
-        enum typeBddNote{NoteType = NbrType, NbrTypeNote};
+        enum type_bddNote{NoteType = Nbr_Type, Nbr_TypeNote};
     }
     namespace Id_Prog {
         //! Identifiant de programmation de la cible configuration de la table cibleDonnéee.
@@ -37,30 +37,30 @@ namespace donnee {
 }
 
 namespace noteMPS {
-/*! \ingroup groupeManagerInv
+/*! \ingroup groupe_managerInv
  * \brief Base de donnée de l'application inventaire.
  */
-class BddNote : public bmps::BddPredef {
+class BddNote : public b2d::bdd_predef {
 public:
     //! Constructeurs hérités.
-    using BddPredef::BddPredef;
+    using bdd_predef::bdd_predef;
 
     //Constructeur.
     BddNote()
-        :BddPredef("QSQLITE",{bmps::bddVersion::NbrVersionPredef -1, bmps::bddVersion::NbrVersionBddNote - 1},
-                   std::make_unique<ManagersNote>()) {}
+        :bdd_predef("QSQLITE",{b2d::bdd_version::Nbr_Version_Predef -1, b2d::bdd_version::Nbr_VersionBddNote - 1},
+                   std::make_unique<managers_note>()) {}
 
     //! Destructeur. Referme la base de donnée.
     ~BddNote() override = default;
 
-    //! Renvoie l'enumeration associé à str pour une entitée de type id_entity.
-    enumt strIdToEnum(const QString & str, idt id_entity, QString &controle) const noexcept override;
+    //! Renvoie l'enumeration associé à str pour une entitée de type id_ent.
+    enumt str_id_to_enum(const QString & str, idt id_entity, QString &controle) const noexcept override;
 protected:
     //! Supprime l'entité d'identifiant id de type d'identifiant id_entity de la base de données.
-    bool delP(idt id, entidt id_entity) override;
+    bool del_v(idt id, entidt id_entity) override;
 
     //! Renvoie l'autorisation de modification de l'entité donnée en argument.
-    bool testAutorisationP(idt id, entidt id_entity, flag autoris) override;
+    bool test_autorisation_v(idt id, entidt id_entity, flag autoris) override;
 
     //! Mise à jour de la base de donnée.
     void listeMiseAJourBdd(int version, idt type) override;

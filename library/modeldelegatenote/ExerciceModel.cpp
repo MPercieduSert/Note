@@ -44,7 +44,7 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
             return Qt::Horizontal;
         case ListOfValues:
             QMap<QString,QVariant> map;
-            auto vecScr = m_model->bdd().getList<Source>();
+            auto vecScr = m_model->bdd().get_list<Source>();
             for (auto iter = vecScr.cbegin(); iter != vecScr.cend(); ++iter)
                 map.insert(QString(iter->nom()).append(" (").append(iter->nc()).append(")"),iter->id());
             return map;
@@ -108,11 +108,11 @@ flag ExerciceNode::flags(int cible, numt num) const {
     return ItemBddNode::flags(cible,num);
 }
 
-void ExerciceNode::insert(bddMPS::Bdd & bdd) {
-    idt idParent = 0;
+void ExerciceNode::insert(b2d::Bdd & bdd) {
+    idt id_parent = 0;
     if(!m_iter.root())
-        idParent = static_cast<const ExerciceNode &>(**m_iter.parent()).idExo();
-    bdd.insert(m_exo,idParent,m_iter.position());
+        id_parent = static_cast<const ExerciceNode &>(**m_iter.parent()).idExo();
+    bdd.insert(m_exo,id_parent,m_iter.position());
 }
 
 flag ExerciceNode::set_data(int cible, const QVariant & value, int role, numt num) {

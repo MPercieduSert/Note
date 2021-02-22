@@ -6,7 +6,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     : AbstractTabTableau(bdd,pair,parent) {
     //Model et vue
     m_model = new modelMPS::TableModel(true,true,this);
-    m_model->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve>()));
+    m_model->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
     m_model->insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
     m_model->insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,

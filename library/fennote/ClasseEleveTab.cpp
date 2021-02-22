@@ -29,7 +29,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
 
     // Eleve
     m_eleveModel = new modelMPS::TableModel(false,false,this);
-    m_eleveModel->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.getList<Eleve>()));
+    m_eleveModel->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
     m_eleveModel->insertColonne(NomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
     m_eleveModel->insertColonne(PrenomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,

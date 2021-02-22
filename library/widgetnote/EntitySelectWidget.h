@@ -6,7 +6,7 @@
 
 #include <QLabel>
 #include "AbstractEntitySelectWidget.h"
-#include "BddPredef.h"
+#include "bdd_predef.h"
 #include "IdComboBox.h"
 #include "SpinBoxAnneeScolaire.h"
 
@@ -22,7 +22,7 @@ protected:
 
 public:
     //! Constructeur.
-    AnneeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+    AnneeSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
 
     //! Accesseur du numéro de l'année slectionnée.
     int num() const
@@ -44,9 +44,9 @@ class EtablissementSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
     Q_OBJECT
 public:
     //! Constructeur.
-    EtablissementSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
+    EtablissementSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
         : ComboBoxEntitySelectWidget(bdd,tr("Etablissement : "),orientation,parent) {
-        m_box->addText(m_bdd.getList<Etablissement>(Etablissement::Nom),
+        m_box->addText(m_bdd.get_list<Etablissement>(Etablissement::Nom),
                        [](const Etablissement & etab)->QString
                              {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
     }
@@ -63,7 +63,7 @@ protected:
     QHBoxLayout * m_classeLayout;               //!< Calque du choix de la classe.
 public:
     //! Constructeur.
-    ClasseSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+    ClasseSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
 
     //! Accesseur de l'identifiant de l'année.
     idt idAn() const
@@ -105,7 +105,7 @@ protected:
     QHBoxLayout * m_eleveLayout;               //!< Calque du choix de la classe.
 public:
     //! Constructeur.
-    EleveSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+    EleveSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
 
     //! Accesseur de l'identifiant de l'année.
     idt idAn() const
@@ -154,11 +154,11 @@ protected:
     QHBoxLayout * m_typeLayout;                 //!< Calque du choix du type de groupe.
 public:
     //! Constructeur.
-    GroupeSelectWidget(bddMPS::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
+    GroupeSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
 
     //! Accesseur de la base de donnée.
-    bddMPS::BddPredef & bdd() const
-        {return static_cast<bddMPS::BddPredef &>(m_bdd);}
+    b2d::bdd_predef & bdd() const
+        {return static_cast<b2d::bdd_predef &>(m_bdd);}
 
 public slots:
     //! Mise à jour après changement de catégorie.
@@ -182,7 +182,7 @@ class NiveauxSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
     Q_OBJECT
 public:
     //! Constructeur.
-    NiveauxSelectWidget(bddMPS::Bdd & bdd, idt idEtab = 0, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
+    NiveauxSelectWidget(b2d::Bdd & bdd, idt idEtab = 0, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
         : ComboBoxEntitySelectWidget(bdd,tr("Niveaux : "),orientation,parent)
     {set_idEtab(idEtab);}
 

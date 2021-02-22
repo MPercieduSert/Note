@@ -1,7 +1,7 @@
 #include "ConfigNote.h"
 
 using namespace noteMPS;
-using namespace fichierMPS;
+using namespace fichier;
 
 bool configNote::creer(){
     doc_xml doc;

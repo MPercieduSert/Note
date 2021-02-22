@@ -8,10 +8,10 @@
 #include "GestionRestrictionCible.h"
 #include "ManagersPredef.h"
 
-namespace bddMPS {
-    namespace cibleId {
+namespace b2d {
+    namespace cible_id {
         //! Numéro de cible des entités de Note non prédéfinies.
-        enum EntityNote {Annee = cibleId::NbrCibleEntPredef,
+        enum EntityNote {Annee = cible_id::Nbr_Cible_Predef,
                         Bareme,
                         Classe,
                         ClasseEleve,
@@ -40,29 +40,29 @@ namespace bddMPS {
 }}
 
 namespace noteMPS {
-namespace bmps = bddMPS;
-/*! \ingroup groupeManagerNote
+namespace b2d = b2d;
+/*! \ingroup groupe_managerNote
  * \brief Managers de l'application note.
  */
-class ManagersNote : public managerMPS::ManagersPredef {
+class managers_note : public manager::managers_predef {
 
 public:
     //! Constructeur.
-    ManagersNote();
+    managers_note();
 
     //! Destructeur.
-    ~ManagersNote() = default;
+    ~managers_note() = default;
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Classe condition d'unicité pour les entités Eleve, unicité du triple (nom, prenom, date).
  */
-class UniqueEleve : public managerMPS::NomUniqueSql<Eleve> {
+class UniqueEleve : public manager::nom_unique_sql<Eleve> {
 protected:
-    using NomUniqueSql<Eleve>::bindValue;
+    using nom_unique_sql<Eleve>::bindValue;
 
 public:
-    enum {DateUnique = NomUniqueSql<Eleve>::NbrUnique, PrenomUnique, NbrUnique};
+    enum {DateUnique = nom_unique_sql<Eleve>::Nbr_Unique, PrenomUnique, Nbr_Unique};
     CONSTR_DEFAUT(UniqueEleve)
 
     //! Destructeur.
@@ -70,22 +70,22 @@ public:
 
 protected:
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée.
-    void bindValuesUnique(const Eleve &entity) override {
-        NomUniqueSql<Eleve>::bindValuesUnique(entity);
-        bindValue(DateUnique,entity.date());
-        bindValue(PrenomUnique,entity.prenom());
+    void bind_values_unique(const Eleve &entity) override {
+        nom_unique_sql<Eleve>::bind_values_unique(ent);
+        bindValue(DateUnique,ent.date());
+        bindValue(PrenomUnique,ent.prenom());
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Classe condition d'unicité pour les entités Epreuve, unicité du triple (id1,id2,EnsPoint).
  */
-class UniqueEpreuve : public managerMPS::RelationUniqueSql<Epreuve> {
+class UniqueEpreuve : public manager::relation_unique_sql<Epreuve> {
 protected:
-    using RelationUniqueSql<Epreuve>::bindValue;
+    using relation_unique_sql<Epreuve>::bindValue;
 
 public:
-    enum {EnsPointUnique = RelationUniqueSql<Epreuve>::NbrUnique, NbrUnique};
+    enum {EnsPointUnique = relation_unique_sql<Epreuve>::Nbr_Unique, Nbr_Unique};
     CONSTR_DEFAUT(UniqueEpreuve)
 
     //! Destructeur.
@@ -93,28 +93,28 @@ public:
 
 protected:
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée.
-    void bindValuesUnique(const Epreuve &entity) override {
-        RelationUniqueSql<Epreuve>::bindValuesUnique(entity);
-        bindValue(EnsPointUnique,entity.ensPoint());
+    void bind_values_unique(const Epreuve &entity) override {
+        relation_unique_sql<Epreuve>::bind_values_unique(ent);
+        bindValue(EnsPointUnique,ent.ensPoint());
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Classe condition d'unicité pour les entités ControleEpreuve sur les trois conditions
  * (id1,id4), (id2,id4,num) et (id_3,id4).
  */
-class UniqueControleEpreuve : public managerMPS::TripleExactOneNot_nullUniqueSql<ControleEpreuve> {
+class UniqueControleEpreuve : public manager::triple_exact_one_not_null_unique_sql<ControleEpreuve> {
 protected:
-    using TEUnique = TripleExactOneNot_nullUniqueSql<ControleEpreuve>;
+    using TEUnique = triple_exact_one_not_null_unique_sql<ControleEpreuve>;
     using TEUnique::bindValue;
 
 public:
-    enum {Id4Unique_1 = TEUnique::NbrUnique_1, NbrUnique_1,
-         Id4Unique_2 = TEUnique::NbrUnique_2, NumUnique, NbrUnique_2,
-         Id4Unique_3 = TEUnique::NbrUnique_3, NbrUnique_3,
-         Id4Unique_1Set = TEUnique::UniqueSet1,
-         Id4Unique_2Set = TEUnique::UniqueSet2, NumUniqueSet = TEUnique::UniqueSet2,
-         Id4Unique_3Set = TEUnique::UniqueSet3};
+    enum {Id4Unique_1 = TEUnique::Nbr_Unique_1, Nbr_Unique_1,
+         Id4Unique_2 = TEUnique::Nbr_Unique_2, Num_Unique, Nbr_Unique_2,
+         Id4Unique_3 = TEUnique::Nbr_Unique_3, Nbr_Unique_3,
+         Id4Unique_1Set = TEUnique::Unique_Set_1,
+         Id4Unique_2Set = TEUnique::Unique_Set_2, Num_Unique_Set = TEUnique::Unique_Set_2,
+         Id4Unique_3Set = TEUnique::Unique_Set_3};
     CONSTR_DEFAUT(UniqueControleEpreuve)
 
     //! Destructeur.
@@ -122,34 +122,34 @@ public:
 
 protected:
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée unique1.
-    void bindValuesUnique(const ControleEpreuve &entity) override {
-        TEUnique::bindValuesUnique(entity);
-        bindValue(Id4Unique_1,entity.id4());
+    void bind_values_unique(const ControleEpreuve &entity) override {
+        TEUnique::bind_values_unique(ent);
+        bindValue(Id4Unique_1,ent.id4());
     }
 
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée unique2.
-    void bindValuesUnique_2(const ControleEpreuve &entity) override {
-        TEUnique::bindValuesUnique_2(entity);
-        bindValue(Id4Unique_2,entity.id4());
-        bindValue(NumUnique,entity.id4());
+    void bind_values_unique_2(const ControleEpreuve &entity) override {
+        TEUnique::bind_values_unique_2(ent);
+        bindValue(Id4Unique_2,ent.id4());
+        bindValue(Num_Unique,ent.id4());
     }
 
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée unique3.
-    void bindValuesUnique_3(const ControleEpreuve &entity) override {
-        TEUnique::bindValuesUnique_3(entity);
-        bindValue(Id4Unique_3,entity.id4());
+    void bind_values_unique_3(const ControleEpreuve &entity) override {
+        TEUnique::bind_values_unique_3(ent);
+        bindValue(Id4Unique_3,ent.id4());
     }
 };
 
-/*! \ingroup groupeManagerNote
+/*! \ingroup groupe_managerNote
  * \brief Classe condition d'unicité pour les entités EnoncePoint, unicité du triple (id1, EnsPoint, num).
  */
-class UniqueEnoncePoint : public managerMPS::IdNumUniqueSql<EnoncePoint> {
+class UniqueEnoncePoint : public manager::id_num_unique_sql<EnoncePoint> {
 protected:
-    using IdNumUniqueSql<EnoncePoint>::bindValue;
+    using id_num_unique_sql<EnoncePoint>::bindValue;
 
 public:
-    enum {EnsPointUnique = IdNumUniqueSql<EnoncePoint>::NbrUnique, NbrUnique};
+    enum {EnsPointUnique = id_num_unique_sql<EnoncePoint>::Nbr_Unique, Nbr_Unique};
     CONSTR_DEFAUT(UniqueEnoncePoint)
 
     //! Destructeur.
@@ -157,9 +157,9 @@ public:
 
 protected:
     //! Transmet les valeurs des attributs uniques à la requète SQL préparée.
-    void bindValuesUnique(const EnoncePoint &entity) override {
-        IdNumUniqueSql<EnoncePoint>::bindValuesUnique(entity);
-        bindValue(EnsPointUnique,entity.ensPoint());
+    void bind_values_unique(const EnoncePoint &entity) override {
+        id_num_unique_sql<EnoncePoint>::bind_values_unique(ent);
+        bindValue(EnsPointUnique,ent.ensPoint());
     }
 };
 }

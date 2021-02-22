@@ -1,96 +1,96 @@
 #include "BddNote.h"
 
 using namespace noteMPS;
-bool BddNote::delP(idt id, entidt id_entity) {
+bool BddNote::del_v(idt id, entidt id_entity) {
     auto controle = true;
     // Spécifique
     switch (id_entity) {
     case Annee::ID:
-        controle = delList<Classe>(Classe::IdAn,id);
+        controle = del_list<Classe>(Classe::IdAn,id);
         break;
     case Classe::ID:
-        controle = delList<ClasseEleve>(ClasseEleve::IdClasse,id);
-                //&& delList<ControleEpreuve>(ControleEpreuve::IdClasse,id);
+        controle = del_list<ClasseEleve>(ClasseEleve::IdClasse,id);
+                //&& del_list<ControleEpreuve>(ControleEpreuve::IdClasse,id);
         break;
     case Eleve::ID:
-        controle = delList<ClasseEleve>(ClasseEleve::IdEleve,id)
-                //&& delList<ControleEpreuve>(ControleEpreuve::IdEleve,id)
-                && delList<EleveGroupe>(EleveGroupe::IdEleve,id)
-                && delList<Note>(Note::IdEleve,id);
+        controle = del_list<ClasseEleve>(ClasseEleve::IdEleve,id)
+                //&& del_list<ControleEpreuve>(ControleEpreuve::IdEleve,id)
+                && del_list<EleveGroupe>(EleveGroupe::IdEleve,id)
+                && del_list<Note>(Note::IdEleve,id);
         break;
     case Etablissement::ID:
-        controle = delList<EtablissementNiveau>(EtablissementNiveau::IdEtab,id)
-                && delList<EtablissementType>(EtablissementType::IdEtab,id)
-                && delList<Classe>(Classe::IdEtab,id);
+        controle = del_list<EtablissementNiveau>(EtablissementNiveau::IdEtab,id)
+                && del_list<EtablissementType>(EtablissementType::IdEtab,id)
+                && del_list<Classe>(Classe::IdEtab,id);
         break;
     case Groupe::ID:
-        controle = delList<EleveGroupe>(EleveGroupe::IdGroupe,id);
-                //&& delList<ControleEpreuve>(ControleEpreuve::IdGroupe,id);
+        controle = del_list<EleveGroupe>(EleveGroupe::IdGroupe,id);
+                //&& del_list<ControleEpreuve>(ControleEpreuve::IdGroupe,id);
         break;
     case Niveau::ID:
-        controle = delList<Classe>(Classe::IdNiveau,id)
-                && delList<EtablissementNiveau>(EtablissementNiveau::IdNiveau,id)
-                && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,id)
-                && delList<FiliationNiveau>(FiliationNiveau::IdPrecedent,id)
-                && delList<FiliationNiveau>(FiliationNiveau::IdSuivant,id);
+        controle = del_list<Classe>(Classe::IdNiveau,id)
+                && del_list<EtablissementNiveau>(EtablissementNiveau::IdNiveau,id)
+                && del_list<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdNiveau,id)
+                && del_list<FiliationNiveau>(FiliationNiveau::IdPrecedent,id)
+                && del_list<FiliationNiveau>(FiliationNiveau::IdSuivant,id);
         break;
     case TypeControle::ID:
-        controle = delList<Controle>(Controle::id_type,id);
+        controle = del_list<Controle>(Controle::id_type,id);
         break;
     case TypeEtablissement::ID:
-        controle = delList<EtablissementType>(EtablissementType::IdTpEtab,id)
-                && delList<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,id);
+        controle = del_list<EtablissementType>(EtablissementType::IdTpEtab,id)
+                && del_list<NiveauTypeEtablissement>(NiveauTypeEtablissement::IdTpEtab,id);
         break;
     }
-    controle = controle && delList<Controle>(Controle::Cible,cible(id_entity),
+    controle = controle && del_list<Controle>(Controle::Cible,cible(id_entity),
                                              Controle::Id_Cible,id);
-    return controle && BddPredef::delP(id,id_entity);
+    return controle && bdd_predef::del_v(id,id_entity);
 }
 
-bool BddNote::testAutorisationP(idt id, entidt id_entity, flag autoris) {
-    auto controle = bddMPS::BddPredef::testAutorisationP(id,id_entity,autoris);
-    if(controle && autoris & bddMPS::Suppr) {
+bool BddNote::test_autorisation_v(idt id, entidt id_entity, flag autoris) {
+    auto controle = b2d::bdd_predef::test_autorisation_v(id,id_entity,autoris);
+    if(controle && autoris & b2d::Suppr) {
         //Cible
-        controle = controle && testAutorisationList<Controle>(autoris,
+        controle = controle && test_autorisation_list<Controle>(autoris,
                                                               Controle::Cible,cible(id_entity),
                                                               Controle::Id_Cible,id);
         if(controle){
             switch (id_entity) {
             case Annee::ID:
-                controle = controle && testAutorisationList<Classe>(autoris,Classe::IdAn,id);
+                controle = controle && test_autorisation_list<Classe>(autoris,Classe::IdAn,id);
                 break;
             case Classe::ID:
-                controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdClasse,id);
-                        //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
+                controle = controle && test_autorisation_list<ClasseEleve>(autoris,ClasseEleve::IdClasse,id);
+                        //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::IdClasse,id);
                 break;
             case Eleve::ID:
-                controle = controle && testAutorisationList<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
-                        //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
-                        && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
-                        && testAutorisationList<Note>(autoris,Note::IdEleve,id);
+                controle = controle && test_autorisation_list<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
+                        //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
+                        && test_autorisation_list<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
+                        && test_autorisation_list<Note>(autoris,Note::IdEleve,id);
                 break;
             case Groupe::ID:
-                controle = controle //&& testAutorisationList<ControleEpreuve>(autoris,ControleEpreuve::IdGroupe,id)
-                        && testAutorisationList<EleveGroupe>(autoris,EleveGroupe::IdGroupe,id);
+                controle = controle //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::IdGroupe,id)
+                        && test_autorisation_list<EleveGroupe>(autoris,EleveGroupe::IdGroupe,id);
                 break;
             case Etablissement::ID:
-                controle = controle && testAutorisationList<Classe>(autoris,Classe::IdEtab,id)
-                        && testAutorisationList<EtablissementType>(autoris,EtablissementType::IdEtab,id)
-                        && testAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
+                controle = controle && test_autorisation_list<Classe>(autoris,Classe::IdEtab,id)
+                        && test_autorisation_list<EtablissementType>(autoris,EtablissementType::IdEtab,id)
+                        && test_autorisation_list<EtablissementNiveau>(autoris,EtablissementNiveau::Id,id);
                 break;
             case Niveau::ID:
-                controle = controle && testAutorisationList<Classe>(autoris,Classe::IdNiveau,id)
-                        && testAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdPrecedent,id)
-                        && testAutorisationList<FiliationNiveau>(autoris,FiliationNiveau::IdSuivant,id)
-                        && testAutorisationList<EtablissementNiveau>(autoris,EtablissementNiveau::IdNiveau,id)
-                        && testAutorisationList<NiveauTypeEtablissement>(autoris,NiveauTypeEtablissement::IdNiveau,id);
+                controle = controle && test_autorisation_list<Classe>(autoris,Classe::IdNiveau,id)
+                        && test_autorisation_list<FiliationNiveau>(autoris,FiliationNiveau::IdPrecedent,id)
+                        && test_autorisation_list<FiliationNiveau>(autoris,FiliationNiveau::IdSuivant,id)
+                        && test_autorisation_list<EtablissementNiveau>(autoris,EtablissementNiveau::IdNiveau,id)
+                        && test_autorisation_list<NiveauTypeEtablissement>(autoris,NiveauTypeEtablissement::IdNiveau,id);
                 break;
             case TypeControle::ID:
-                controle = controle && testAutorisationList<Controle>(autoris,Controle::id_type,id);
+                controle = controle && test_autorisation_list<Controle>(autoris,Controle::id_type,id);
                 break;
             case TypeEtablissement::ID:
-                controle = controle && testAutorisationList<NiveauTypeEtablissement>(autoris, NiveauTypeEtablissement::IdTpEtab,id)
-                        && testAutorisationList<EtablissementType>(autoris, EtablissementType::IdTpEtab,id);
+                controle = controle && test_autorisation_list<NiveauTypeEtablissement>(autoris, NiveauTypeEtablissement::IdTpEtab,id)
+                        && test_autorisation_list<EtablissementType>(autoris, EtablissementType::IdTpEtab,id);
                 break;
             }
         }
@@ -98,7 +98,7 @@ bool BddNote::testAutorisationP(idt id, entidt id_entity, flag autoris) {
     return controle;
 }
 
-enumt BddNote::strIdToEnum(const QString & str, idt id_entity, QString &controle) const noexcept {
+enumt BddNote::str_id_to_enum(const QString & str, idt id_entity, QString &controle) const noexcept {
     switch (id_entity) {
     case donnee_card::ID:
         if(str == "NbrDefaultDateClasse")
@@ -185,40 +185,40 @@ enumt BddNote::strIdToEnum(const QString & str, idt id_entity, QString &controle
             return TypeControle::TypeNoteModifiable;
         break;
     }
-    return BddPredef::strIdToEnum(str,id_entity,controle);
+    return bdd_predef::str_id_to_enum(str,id_entity,controle);
 }
 
 void BddNote::listeMiseAJourBdd(int version, idt type) {
-    BddPredef::listeMiseAJourBdd(version,type);
-    if(type == bmps::bddVersion::NoteType) {
+    bdd_predef::listeMiseAJourBdd(version,type);
+    if(type == b2d::bdd_version::NoteType) {
         switch (version) {
-        case bmps::bddVersion::Initiale: {
-            creerTable<Annee>();
-            creerTable<TypeEtablissement>();
-            creerTable<Etablissement>();
-            creerTable<EtablissementType>();
-            creerTable<Niveau>();
-            creerTable<Classe>();
-            creerTable<Eleve>();
-            creerTable<ClasseEleve>();
-            creerTable<EtablissementNiveau>();
-            creerTable<FiliationNiveau>();
-            creerTable<NiveauTypeEtablissement>();
-            creerTable<Groupe>();
-            creerTable<EleveGroupe>();
-            creerTable<TypeControle>();
-            creerTable<Controle>();
-            creerTable<Exercice>();
-            m_manager->saveVersion(bmps::bddVersion::Creation,bmps::bddVersion::NoteType);
+        case b2d::bdd_version::Initiale: {
+            creer_table<Annee>();
+            creer_table<TypeEtablissement>();
+            creer_table<Etablissement>();
+            creer_table<EtablissementType>();
+            creer_table<Niveau>();
+            creer_table<Classe>();
+            creer_table<Eleve>();
+            creer_table<ClasseEleve>();
+            creer_table<EtablissementNiveau>();
+            creer_table<FiliationNiveau>();
+            creer_table<NiveauTypeEtablissement>();
+            creer_table<Groupe>();
+            creer_table<EleveGroupe>();
+            creer_table<TypeControle>();
+            creer_table<Controle>();
+            creer_table<Exercice>();
+            m_manager->save_version(b2d::bdd_version::Creation,b2d::bdd_version::NoteType);
         }
         }
-        //creerTable<Bareme>();
-        //creerTable<Enonce>();
-        //creerTable<Epreuve>();
-        //creerTable<ControleEpreuve>();
-        //creerTable<Point>();
-        //creerTable<EnoncePoint>();
-        //creerTable<Note>();
-        //creerTable<_valide>();
+        //creer_table<Bareme>();
+        //creer_table<Enonce>();
+        //creer_table<Epreuve>();
+        //creer_table<ControleEpreuve>();
+        //creer_table<Point>();
+        //creer_table<EnoncePoint>();
+        //creer_table<Note>();
+        //creer_table<_valide>();
     }
 }
