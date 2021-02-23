@@ -12,10 +12,10 @@
 #include "AbstractTabTableau.h"
 #include "BddNote.h"
 #include "EntitySelectWidget.h"
-#include "FindWidget.h"
-#include "IdComboBox.h"
+#include "find_widget.h"
+#include "id_combo_box.h"
 #include "ModelNote.h"
-#include "SpinBoxAnneeScolaire.h"
+#include "spin_box_anneeScolaire.h"
 #include "TableauNote.h"
 
 
@@ -36,15 +36,15 @@ protected:
     QGroupBox * m_findGroup;                    //!< Groupe de recherche.
     QCheckBox * m_exclusifCheck;                //!< Etat exclusif du groupe.
     QCheckBox * m_totalCheck;                   //!< Etat total du groupe.
-    QPushButton * m_addGroupeButton;            //!< Bouton d'ajout d'un groupe.
+    QPushButton * m_add_groupeButton;            //!< Bouton d'ajout d'un groupe.
     QPushButton * m_delEleveButton;             //!< Bouton d'ajout des éléves sélectionnés au groupe sélectionné.
-    widgetMPS::FindWidget * m_findWidget;       //!< Recherche dans la liste d'éléve.
+    widget::find_widget * m_findWidget;       //!< Recherche dans la liste d'éléve.
 
     // Calque
-    QHBoxLayout * m_buttonLayout;               //!< Calque des boutons.
-    QHBoxLayout * m_eleveLayout;                //!< Claque de sélection des éléves.
+    QHBoxLayout * m_bouton_layout;               //!< Calque des boutons.
+    QHBoxLayout * m_eleve_layout;                //!< Claque de sélection des éléves.
     QVBoxLayout * m_findLayout;                 //!< Claque de recherche.
-    QVBoxLayout * m_mainLayout;                 //!< Calque principal.
+    QVBoxLayout * m_main_layout;                 //!< Calque principal.
 
 public:
     //! position des colonnes.
@@ -63,9 +63,9 @@ public:
     
 public slots:
     //! Ajout un groupe contenant les élèves sélectionnés.
-    void addGroupe() {
-        static_cast<EleveGroupeModel&>(*m_model).push_back();
-        affecte(static_cast<EleveGroupeModel&>(*m_model).columnCount() - 1);
+    void add_groupe() {
+        static_cast<Eleve_groupeModel&>(*m_model).push_back();
+        affecte(static_cast<Eleve_groupeModel&>(*m_model).columnCount() - 1);
     }
 
     //! Affecte les éléves séléctionnés dans la vue de candidature au groupe choisi.

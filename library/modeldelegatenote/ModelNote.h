@@ -22,7 +22,7 @@ public:
     enum {Num_Role = CandidatGroupeTableau::Num_Role};
 
     //! Constructeur.
-    CandidatGroupeModel(BddNote & bdd, idt idGroupe, QObject * parent = nullptr);
+    CandidatGroupeModel(BddNote & bdd, idt id_groupe, QObject * parent = nullptr);
 
     //! Retire des élèves des groupes.
     void remove(std::vector<std::pair<idt,int>> && vecIdNum) {
@@ -58,18 +58,18 @@ public slots:
 /*! \ingroup groupe_modelNote
  * \brief Model des éléves par groupe.
  */
-class EleveGroupeModel : public model_base::table_model {
+class Eleve_groupeModel : public model_base::table_model {
     Q_OBJECT
 public:
     //! Constructeur.
-    EleveGroupeModel(BddNote & bdd, QObject * parent = nullptr)
+    Eleve_groupeModel(BddNote & bdd, QObject * parent = nullptr)
         : table_model(false,false,parent) {
-        set_tableau(std::make_unique<EleveGroupeTableau>(bdd));
+        set_tableau(std::make_unique<Eleve_groupeTableau>(bdd));
     }
 
     //! Accesseur du groupe du tableau.
     const Groupe & groupe() const
-        {return static_cast<EleveGroupeTableau&>(*m_data).groupe();}
+        {return static_cast<Eleve_groupeTableau&>(*m_data).groupe();}
 
     //! Mes à jour les éléves d'un groupe.
     void updateEleve(const std::list<idt> & listEl, szt num, const std::map<szt,std::forward_list<idt>> & mapDel);
@@ -82,7 +82,7 @@ public slots:
     void push_back();
 
     //! Mutateur de l'identifiant de la classe.
-    void set_idGroupe(idt idGroupe);
+    void set_id_groupe(idt id_groupe);
 };
 }
 #endif // MODELNOTE_H

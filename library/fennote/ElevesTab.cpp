@@ -21,7 +21,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_model->sort(Nom);
     m_view->horizontalHeader()->setSectionsMovable(true);
     //Recheche
-    m_findWidget = new widgetMPS::FindWidget(m_model);
+    m_findWidget = new widget::find_widget(m_model);
     m_findLayout = new QVBoxLayout();
     m_findGroup = new QGroupBox(tr("Filtrer :"));
     m_findLayout->addWidget(m_findWidget);
@@ -50,7 +50,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_secondLayout->addWidget(m_saveButton);
     m_secondLayout->addWidget(m_delButton);
     m_secondLayout->addStretch();
-    m_mainLayout = new QHBoxLayout(this);
-    m_mainLayout->addWidget(m_view);
-    m_mainLayout->addLayout(m_secondLayout);
+    m_main_layout = new QHBoxLayout(this);
+    m_main_layout->addWidget(m_view);
+    m_main_layout->addLayout(m_secondLayout);
 }

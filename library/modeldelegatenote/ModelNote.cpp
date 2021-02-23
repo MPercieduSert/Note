@@ -2,10 +2,10 @@
 
 using namespace noteMPS;
 
-CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, idt idGroupe, QObject * parent)
+CandidatGroupeModel::CandidatGroupeModel(BddNote & bdd, idt id_groupe, QObject * parent)
     : table_model(false,false,parent),
-      m_groupeInfo({Qt::ItemIsEnabled|Qt::ItemIsSelectable,0,tr("Groupe"),0,CandidatGroupeTableau::EleveGroupeTableau}){
-    set_tableau(std::make_unique<CandidatGroupeTableau>(bdd,idGroupe));
+      m_groupeInfo({Qt::ItemIsEnabled|Qt::ItemIsSelectable,0,tr("Groupe"),0,CandidatGroupeTableau::Eleve_groupeTableau}){
+    set_tableau(std::make_unique<CandidatGroupeTableau>(bdd,id_groupe));
     insertColonne(NomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0,CandidatGroupeTableau::EleveTableau});
     insertColonne(PrenomColonne,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
@@ -44,16 +44,16 @@ void ClasseEleveModel::add(idt idEleve){
     }
 }
 
-void EleveGroupeModel::push_back(){
-    static_cast<EleveGroupeTableau&>(*m_data).push_back();
+void Eleve_groupeModel::push_back(){
+    static_cast<Eleve_groupeTableau&>(*m_data).push_back();
     new_colonne_info info;
     info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
-    info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(columnCount());
+    info.name = static_cast<Eleve_groupeTableau&>(*m_data).numToTexte(columnCount());
     info.tableau = static_cast<numt>(columnCount());
     push_back_colonne(info);
 }
 
-std::vector<std::pair<idt, int>> EleveGroupeModel::remove(const QModelIndexList & selection){
+std::vector<std::pair<idt, int>> Eleve_groupeModel::remove(const QModelIndexList & selection){
     std::map<szt,std::list<idt>> map;
     std::vector<std::pair<idt, int>> vecIdNum;
     for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {
@@ -66,20 +66,20 @@ std::vector<std::pair<idt, int>> EleveGroupeModel::remove(const QModelIndexList 
     for(auto iterList = map.begin(); iterList != map.end(); ++iterList)
         iterList->second.sort();
     beginResetModel();
-        static_cast<EleveGroupeTableau&>(*m_data).remove(map);
+        static_cast<Eleve_groupeTableau&>(*m_data).remove(map);
         reset_row_to_ligne();
     end_reset_model();
     return vecIdNum;
 }
 
-void EleveGroupeModel::set_idGroupe(idt idGroupe){
+void Eleve_groupeModel::set_id_groupe(idt id_groupe){
     beginResetModel();
-        static_cast<EleveGroupeTableau&>(*m_data).set_idGroupe(idGroupe);
+        static_cast<Eleve_groupeTableau&>(*m_data).set_id_groupe(id_groupe);
         m_colonnes.clear();
         new_colonne_info info;
         info.flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable;
-        for (numt num = 0; num != static_cast<EleveGroupeTableau&>(*m_data).size_column(); ++num){
-            info.name = static_cast<EleveGroupeTableau&>(*m_data).numToTexte(static_cast<int>(num));
+        for (numt num = 0; num != static_cast<Eleve_groupeTableau&>(*m_data).size_column(); ++num){
+            info.name = static_cast<Eleve_groupeTableau&>(*m_data).numToTexte(static_cast<int>(num));
             info.tableau = num;
             push_back_colonne(info);
         }
@@ -87,8 +87,8 @@ void EleveGroupeModel::set_idGroupe(idt idGroupe){
     end_reset_model();
 }
 
-void EleveGroupeModel::updateEleve(const std::list<idt> & listEl, szt num, const std::map<szt,std::forward_list<idt>> & mapDel) {
-    auto & tableau = static_cast<EleveGroupeTableau&>(*m_data);
+void Eleve_groupeModel::updateEleve(const std::list<idt> & listEl, szt num, const std::map<szt,std::forward_list<idt>> & mapDel) {
+    auto & tableau = static_cast<Eleve_groupeTableau&>(*m_data);
     if(num < tableau.size_column()){
         if(mapDel.empty()) {
             if(tableau.size_of_column(num) + listEl.size() < nbr_lignes()){

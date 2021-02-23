@@ -6,11 +6,11 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     : AbstractTabTableau(bdd,pair,parent) {
     m_classeSelect = new ClasseSelectWidget(bdd);
     m_model = new ClasseEleveModel(bdd,m_classeSelect->id(),this);
-    connect(m_classeSelect,&ClasseSelectWidget::idChanged,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::set_idClasse);
+    connect(m_classeSelect,&ClasseSelectWidget::id_changed,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::set_idClasse);
     m_view = new QTableView;
     m_view->setModel(m_model);
     m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_view->setselection_mode(QAbstractItemView::Extended_Selection);
     m_view->setSortingEnabled(true);
     m_model->sort(ClasseEleveModel::NomColonne);
     m_view->horizontalHeader()->setSectionsMovable(true);
@@ -41,23 +41,23 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     m_eleveView = new QTableView;
     m_eleveView->setModel(m_eleveModel);
     m_eleveView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_eleveView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_eleveView->setselection_mode(QAbstractItemView::Extended_Selection);
     m_eleveView->setSortingEnabled(true);
     m_eleveModel->sort(NomEl);
     m_eleveView->horizontalHeader()->setSectionsMovable(true);
-    m_eleveFind = new widgetMPS::FindWidget(m_eleveModel);
+    m_eleveFind = new widget::find_widget(m_eleveModel);
 
     // Calque
-    m_buttonLayout = new QHBoxLayout;
-    m_buttonLayout->addWidget(m_addButton);
-    m_buttonLayout->addWidget(m_delButton);
-    m_buttonLayout->addWidget(m_saveButton);
-    m_eleveLayout = new QHBoxLayout;
-    m_eleveLayout->addWidget(m_eleveView);
-    m_eleveLayout->addWidget(m_eleveFind);
-    m_mainLayout = new QVBoxLayout(this);
-    m_mainLayout->addWidget(m_classeSelect);
-    m_mainLayout->addWidget(m_view);
-    m_mainLayout->addLayout(m_buttonLayout);
-    m_mainLayout->addLayout(m_eleveLayout);
+    m_bouton_layout = new QHBoxLayout;
+    m_bouton_layout->addWidget(m_addButton);
+    m_bouton_layout->addWidget(m_delButton);
+    m_bouton_layout->addWidget(m_saveButton);
+    m_eleve_layout = new QHBoxLayout;
+    m_eleve_layout->addWidget(m_eleveView);
+    m_eleve_layout->addWidget(m_eleveFind);
+    m_main_layout = new QVBoxLayout(this);
+    m_main_layout->addWidget(m_classeSelect);
+    m_main_layout->addWidget(m_view);
+    m_main_layout->addLayout(m_bouton_layout);
+    m_main_layout->addLayout(m_eleve_layout);
 }

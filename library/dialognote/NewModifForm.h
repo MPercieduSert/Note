@@ -13,11 +13,11 @@
 #include <QSpinBox>
 #include <QRadioButton>
 #include "BddNote.h"
-#include "Checklist.h"
+#include "check_list.h"
 #include "EntitySelectWidget.h"
-#include "NewModifDialog.h"
-#include "SelectInListBox.h"
-#include "SpinBoxAnneeScolaire.h"
+#include "new_modif_dialog.h"
+#include "select_in_list_box.h"
+#include "spin_box_anneeScolaire.h"
 #include "SpinBox.h"
 
 namespace noteMPS {
@@ -28,13 +28,13 @@ namespace noteMPS {
 /*! \ingroup groupeDialogNote
  * \brief Classe mère des formulaire de création et modification des controles et de leurs types..
  */
-class AbstractControleNewModifForm : public dialogMPS::AbstractParentNcNomNewModifForm {
+class AbstractControleNewModifForm : public dialogue::AbstractParentNcNomNewModifForm {
     Q_OBJECT
 protected:
     // Widget
     QLabel * m_decimalLabel;                        //!< Label du choix des décimale.
     QLabel * m_totalLabel;                          //!< Label du choix du total.
-    QLabel * m_typeLabel;                           //!< Label du choix d'une notation chiffré ou avec lettre.
+    QLabel * m_type_label;                           //!< Label du choix d'une notation chiffré ou avec lettre.
     QCheckBox * m_appreciationCheck;                //!< Option d'appreciation.
     QCheckBox * m_barreCheck;                       //!< Option de présence de barre de classement.
     QCheckBox * m_capaciteCheck;                    //!< Option de capacités.
@@ -44,16 +44,16 @@ protected:
     QCheckBox * m_courbeCheck;                      //!< Option de courbe d'ajustement.
     QCheckBox * m_depassementCheck;                 //!< Option de depassement.
     QCheckBox * m_noteCheck;                        //!< Option de controle noté.
-    QComboBox * m_decimaleCB;                       //!< Choix des décimales.
+    QComboBox * m_decimale_cb;                       //!< Choix des décimales.
     QRadioButton * m_chiffreRadio;                  //!< Note chiffrée.
     QRadioButton * m_lettreRadio;                   //!< Note avec lettre.
-    widgetMPS::SpinBoxLettre * m_totalSpinBox;      //!< Choix du total.
-    widgetMPS::SpinBoxDecimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
+    widget::spin_box_lettre * m_totalSpinBox;      //!< Choix du total.
+    widget::spin_box_decimale * m_minimaSpinBox;   //!< Choix de la barre de classement.
     QGroupBox * m_noteGr;                           //!< Groupe d'option de notation.
     QGroupBox * m_optGr;                            //!< Groupe des options.
 
     // Calque
-    QGridLayout * m_noteLayout;                     //!< Calque des options de notation.
+    QGridLayout * m_note_layout;                     //!< Calque des options de notation.
     QGridLayout * m_optLayout;                      //!< Calque des options.
 
     //! position des widget dans le calques des notes.
@@ -81,7 +81,7 @@ public:
     //! Constructeur.
     AbstractControleNewModifForm(b2d::Bdd &bdd, const QString & labelParent,
                                  const QString &labelNc, const QString &labelNom,
-                                 bool newEnt, QWidget * parent = nullptr);
+                                 bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~AbstractControleNewModifForm() override = default;
@@ -98,8 +98,8 @@ public slots:
 
     //! Met à jour la décimale de minima.
     void decimaleChange() {
-        m_minimaSpinBox->setPrecision(attributMPS::attribut_decimale::precision_decimale(m_decimaleCB->currentData().toInt()));
-        m_minimaSpinBox->setDecimale(m_decimaleCB->currentData().toInt());
+        m_minimaSpinBox->set_precision(attributMPS::attribut_decimale::precision_decimale(m_decimale_cb->currentData().toInt()));
+        m_minimaSpinBox->set_decimale(m_decimale_cb->currentData().toInt());
     }
 
     //! Active et désactive les options de notations.
@@ -107,7 +107,7 @@ public slots:
 
     //! Met à jour la décimale de minima.
     void totalChange()
-        {m_minimaSpinBox->setMaximumDouble(m_totalSpinBox->value());}
+        {m_minimaSpinBox->set_maximum_double(m_totalSpinBox->value());}
 
     //! Passe d'un type de notation à l'autre.
     void typeNoteChange();
@@ -123,17 +123,17 @@ protected:
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création des Annees.
  */
-class AnneeNewModifForm : public dialogMPS::AbstractNewModifForm {
+class AnneeNewModifForm : public dialogue::abstract_new_modif_form {
     Q_OBJECT
 protected:
-    QLabel * m_anneeLabel;                  //!< Label du choix de l'année.
+    QLabel * m_annee_label;                  //!< Label du choix de l'année.
     QCheckBox * m_anneeCourante;            //!< CheckBox demandant si l'année crée devient courante.
-    SpinBoxAnneeScolaire * m_spinBox;       //!< Choix de l'année.
-    QVBoxLayout * m_mainLayout;             //!< Calque Principale.
+    spin_box_anneeScolaire * m_spinBox;       //!< Choix de l'année.
+    QVBoxLayout * m_main_layout;             //!< Calque Principale.
 
 public:
     //! Constructeur.
-    AnneeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    AnneeNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //! Destructeur.
     ~AnneeNewModifForm() override = default;
@@ -150,7 +150,7 @@ public:
     void connexion() override;
 
     //! Évite le bouton supprimer.
-    bool delDisable() const noexcept override
+    bool del_disable() const noexcept override
         {return true;}
 
     //! Titre de la fenêtre de dialogue.
@@ -167,13 +167,13 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override {}
+    void update_data() override {}
 };
 
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des classes.
  */
-class ClasseNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
+class ClasseNewModifForm : public dialogue::AbstractNcNomNewModifForm {
     Q_OBJECT
 protected:
     idt m_idClasse = 0;                         //!< Identifiant de la classe (après enregistrement pour la nouvelle).
@@ -181,8 +181,8 @@ protected:
     //Widget
     QLabel * m_debutLabel;                      //!< Label du choix de la date du dédut des cours.
     QLabel * m_finLabel;                        //!< Label du choix de la date de la fin des cours.
-    QLabel * m_numLabel;                        //!< Label du numéro de la classe.
-    QLabel * m_listeEleveLabel;                 //!< Label de la liste des éléves.
+    QLabel * m_num_label;                        //!< Label du numéro de la classe.
+    QLabel * m_listeEleve_label;                 //!< Label de la liste des éléves.
     AnneeSelectWidget * m_anneeSelect;          //!< Choix de l'annee Scolaire.
     EtablissementSelectWidget * m_etabSelect;   //!< Choix de l'établissement.
     NiveauxSelectWidget * m_nivSelect;          //!< Choix du niveau.
@@ -192,12 +192,12 @@ protected:
 
     //Calque
     QHBoxLayout * m_calendarLayout;             //!< Calque du choix des dates de début et fin des cours.
-    QVBoxLayout * m_debutLayout;                //!< Calque du choix du début des cours.
-    QVBoxLayout * m_finLayout;                  //!< Calque du choix du fin des cours.
+    QVBoxLayout * m_debut_layout;                //!< Calque du choix du début des cours.
+    QVBoxLayout * m_fin_layout;                  //!< Calque du choix du fin des cours.
 
 public:
     //! Constructeur.
-    ClasseNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    ClasseNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~ClasseNewModifForm() override = default;
@@ -230,7 +230,7 @@ public slots:
     void updateCalendar();
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 };
 
 /*! \ingroup groupeDialogNote
@@ -241,24 +241,24 @@ class ControleNewModifForm : public AbstractControleNewModifForm {
 protected:
     // Widget
     int m_cibleEntitySelect;                                       //!< Identifiant du type d'entité sélectionné.
-    QLabel * m_dateLabel;                                       //!< Date et heure du controle.
-    QLabel * m_numLabel;                                        //!< Numéro du controle.
+    QLabel * m_date_label;                                       //!< Date et heure du controle.
+    QLabel * m_num_label;                                        //!< Numéro du controle.
     QButtonGroup * m_pourBG;                                    //!< Groupe des boutons de destination.
     QDateTimeEdit * m_dateTimeEdit;                             //!< Choix de la date du controle.
-    widgetMPS::AbstractEntitySelectWidget * m_entitySelect;     //!< Choix de la destination.
+    widget::AbstractEntitySelectWidget * m_entitySelect;     //!< Choix de la destination.
     QRadioButton * m_classeRadio;                                //!< Destination pour classe.
     QRadioButton * m_eleveRadio;                                 //!< Destination pour eleve.
     QRadioButton * m_groupeRadio;                                //!< Destination pour groupe.
-    widgetMPS::SpinBoxNumExclu * m_numSpinBox;                                    //!< Choix du numéro du controle.
+    widget::spin_box_num_exclu * m_numSpinBox;                                    //!< Choix du numéro du controle.
     QGroupBox * m_pourGr;                                       //!< Choix de la destination du controle.
 
     // Calque
-    QHBoxLayout * m_pourButtonLayout;       //!< Calque de positionnement des boutons de destination.
+    QHBoxLayout * m_pourButton_layout;       //!< Calque de positionnement des boutons de destination.
     QVBoxLayout * m_pourLayout;             //!< Calque du groupe du choix de la destination du controle.
 
 public:
     //! Constructeur.
-    ControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    ControleNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~ControleNewModifForm() override = default;
@@ -280,7 +280,7 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 
     //! Met à jour la liste des numéro exclu.
     void updateNum();
@@ -292,17 +292,17 @@ public slots:
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des établissements.
  */
-class EtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
+class EtablissementNewModifForm : public dialogue::AbstractNcNomNewModifForm {
     Q_OBJECT
 protected:
     QLabel * m_nivLabel;                    //!< Label de la liste des niveaux.
     QLabel * m_TELabel;                     //!< Label de la liste des types d'établissement.
-    widgetMPS::Checklist * m_nivList;       //!< Liste des niveaux.
-    widgetMPS::Checklist * m_TEList;        //!< Liste des types d'établissement.
+    widget::check_list * m_nivList;       //!< Liste des niveaux.
+    widget::check_list * m_TEList;        //!< Liste des types d'établissement.
 
 public:
     //! Constructeur.
-    EtablissementNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    EtablissementNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~EtablissementNewModifForm() override = default;
@@ -324,7 +324,7 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 
     //! Met à jour les niveaux disponible.
     void updateNiveau();
@@ -333,7 +333,7 @@ public slots:
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des groupe.
  */
-class GroupeNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
+class GroupeNewModifForm : public dialogue::AbstractTypeNcNomNewModifForm {
     Q_OBJECT
 protected:
     // Widget
@@ -354,7 +354,7 @@ protected:
 
 public:
     //! Constructeur.
-    GroupeNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    GroupeNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~GroupeNewModifForm() override = default;
@@ -376,28 +376,28 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 };
 
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des niveaux.
  */
-class NiveauNewModifForm : public dialogMPS::AbstractTypeNcNomNewModifForm {
+class NiveauNewModifForm : public dialogue::AbstractTypeNcNomNewModifForm {
     Q_OBJECT
 protected:
     QLabel * m_listLabel;                 //!< Label de la liste des types d'établissement.
     QLabel * m_nivPrecLabel;                //!< Label du choix des niveaux précédents.
     QLabel * m_nivSuivLabel;                //!< Label du choix des niveaux précédents.
-    widgetMPS::Checklist * m_nivPrecList;            //!< Liste des niveaux précédents.
-    widgetMPS::Checklist * m_nivSuivList;            //!< Liste des niveaux suivants
-    widgetMPS::Checklist * m_TEList;                 //!< Liste des types d'établissement.
+    widget::check_list * m_nivPrecList;            //!< Liste des niveaux précédents.
+    widget::check_list * m_nivSuivList;            //!< Liste des niveaux suivants
+    widget::check_list * m_TEList;                 //!< Liste des types d'établissement.
     QHBoxLayout * m_nivLayout;              //!< Calque du choix des niveaux précédents et suivants.
     QVBoxLayout * m_nivPrecLayout;          //!< Calque du choix des niveaux précédents.
     QVBoxLayout * m_nivSuivLayout;          //!< Calque du choix des niveaux suivants.
 
 public:
     //! Constructeur.
-    NiveauNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    NiveauNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~NiveauNewModifForm() override = default;
@@ -416,20 +416,20 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 };
 
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création et modification des types d'établissement.
  */
-class TypeEtablissementNewModifForm : public dialogMPS::AbstractNcNomNewModifForm {
+class TypeEtablissementNewModifForm : public dialogue::AbstractNcNomNewModifForm {
     Q_OBJECT
 protected:
-    widgetMPS::SelectInListBox * m_selectNiv;                 //!< Sélection des niveaux.
+    widget::select_in_list_box * m_selectNiv;                 //!< Sélection des niveaux.
 
 public:
     //! Constructeur.
-    TypeEtablissementNewModifForm(b2d::Bdd & bdd, bool newEnt, QWidget * parent = nullptr);
+    TypeEtablissementNewModifForm(b2d::Bdd & bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~TypeEtablissementNewModifForm() override = default;
@@ -448,7 +448,7 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 };
 
 /*! \ingroup groupeDialogNote
@@ -485,7 +485,7 @@ protected:
 
 public:
     //! Constructeur.
-    TypeControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget * parent = nullptr);
+    TypeControleNewModifForm(b2d::Bdd &bdd, bool new_ent, QWidget * parent = nullptr);
 
     //!Destructeur.
     ~TypeControleNewModifForm() override = default;
@@ -513,7 +513,7 @@ public slots:
     void save() override;
 
     //! Met à jour le formulaire.
-    void updateData() override;
+    void update_data() override;
 };
 
 ///////////////////////////////////////////////// Définition //////////////////////////////////////////////////
@@ -528,7 +528,7 @@ template<class Ent> Ent AbstractControleNewModifForm::entityNoteOption(bool note
         if(m_noteCheck->isChecked()){
             ent.add(TypeControle::Note);
             ent.setTotal(m_totalSpinBox->value());
-            ent.setDecimale(m_decimaleCB->currentData().toInt());
+            ent.set_decimale(m_decimale_cb->currentData().toInt());
             if(m_chiffreRadio->isChecked()) {
                 if(m_depassementCheck->isChecked())
                     ent.add(TypeControle::Depassement);
@@ -566,9 +566,9 @@ template<class Ent> void AbstractControleNewModifForm::updateNoteOption(Ent & en
     if(m_noteCheck->isChecked()){
         m_lettreRadio->setChecked(ent.code().test(TypeControle::Lettre));
         m_totalSpinBox->set_value(ent.total());
-        auto index = m_decimaleCB->findData(ent.decimale());
+        auto index = m_decimale_cb->findData(ent.decimale());
         if(index != -1)
-            m_decimaleCB->setCurrentIndex(index);
+            m_decimale_cb->setCurrentIndex(index);
         if(m_chiffreRadio->isChecked()){
             m_depassementCheck->setChecked(ent.code().test(TypeControle::Depassement));
             m_courbeCheck->setChecked(ent.code().test(TypeControle::Courbe));

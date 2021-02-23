@@ -1,8 +1,8 @@
-#include "SpinBoxAnneeScolaire.h"
+#include "spin_box_anneeScolaire.h"
 
 using namespace noteMPS;
 
-SpinBoxAnneeScolaire::SpinBoxAnneeScolaire(QWidget * parent)
+spin_box_anneeScolaire::spin_box_anneeScolaire(QWidget * parent)
     :QAbstractSpinBox (parent) {
     setReadOnly(true);
     setAlignment(Qt::AlignHCenter);
@@ -12,12 +12,12 @@ SpinBoxAnneeScolaire::SpinBoxAnneeScolaire(QWidget * parent)
     setMinimumSize(QSize(fm.averageCharWidth()*12,fm.height()));
 }
 
-void SpinBoxAnneeScolaire::printValue() {
+void spin_box_anneeScolaire::printValue() {
     lineEdit()->set_text(QString::number(value().num()).append("-").append(QString::number(value().num()+1)));
     emit valueChanged();
 }
 
-void SpinBoxAnneeScolaire::setNowValue() {
+void spin_box_anneeScolaire::setNowValue() {
     auto date = QDate::currentDate();
     Annee an;
     an.set_num(date.month()<=6 ? date.year() - 1
@@ -29,7 +29,7 @@ void SpinBoxAnneeScolaire::setNowValue() {
     }
 }
 
-void SpinBoxAnneeScolaire::set_value(const Annee & annee, bool byNum){
+void spin_box_anneeScolaire::set_value(const Annee & annee, bool byNum){
     if(m_vec.empty()) {
         m_value = annee;
         m_value.set_id(0);
@@ -51,10 +51,10 @@ void SpinBoxAnneeScolaire::set_value(const Annee & annee, bool byNum){
     }
 }
 
-QSize SpinBoxAnneeScolaire::sizeHint() const
+QSize spin_box_anneeScolaire::sizeHint() const
     {return QSize(fontMetrics().size(Qt::TextSingleLine,text()));}
 
-void SpinBoxAnneeScolaire::stepBy(int steps) {
+void spin_box_anneeScolaire::stepBy(int steps) {
     if(m_vec.empty()) {
         m_value.set_num(m_value.num() + steps);
         printValue();
@@ -69,5 +69,5 @@ void SpinBoxAnneeScolaire::stepBy(int steps) {
     }
 }
 
-QAbstractSpinBox::StepEnabled SpinBoxAnneeScolaire::stepEnabled() const
+QAbstractSpinBox::StepEnabled spin_box_anneeScolaire::stepEnabled() const
     {return (StepUpEnabled| StepDownEnabled);}

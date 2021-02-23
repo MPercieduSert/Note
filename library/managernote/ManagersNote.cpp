@@ -158,8 +158,8 @@ managers_note::managers_note()
     set_cible<ClasseEleve>(b2d::cible_id::ClasseEleve);
 
     //Groupe
-    using UniqueGroupe = nom_unique_sql<Groupe>;
-    info_bdd infoGroupe(Groupe::Name(),"Groupe",Groupe::Nbr_Att,{UniqueGroupe::Nbr_Unique});
+    using Unique_groupe = nom_unique_sql<Groupe>;
+    info_bdd infoGroupe(Groupe::Name(),"Groupe",Groupe::Nbr_Att,{Unique_groupe::Nbr_Unique});
     infoGroupe.set_attribut(Groupe::IdAn,"idAn",b2d::type_attribut_bdd::Integer,false);
     infoGroupe.set_attribut(Groupe::IdClasse,"idCl",b2d::type_attribut_bdd::Integer,false);
     infoGroupe.set_attribut(Groupe::StyleNum,"al");
@@ -167,14 +167,14 @@ managers_note::managers_note()
     infoGroupe.set_attribut(Groupe::Nc,"nc",b2d::type_attribut_bdd::Text);
     infoGroupe.set_attribut(Groupe::Nom,"nm",b2d::type_attribut_bdd::Text);
     infoGroupe.set_attribut(Groupe::Type,"tp");
-    infoGroupe.set_unique(Groupe::Nom,UniqueGroupe::Nom_Unique);
+    infoGroupe.set_unique(Groupe::Nom,Unique_groupe::Nom_Unique);
     infoGroupe.set_foreign_key(Groupe::IdAn,infoAn);
     infoGroupe.set_foreign_key(Groupe::IdClasse,infoClasse);
     setTypeForeignKey<Groupe>(infoGroupe);
     set_manager<Groupe>(std::make_unique<manager_modif_controle<Groupe>>(infoGroupe,
               std::make_unique<gestion_restriction_cible_code<Groupe,Restriction>>(b2d::cible_id::Groupe,
                                                                                       get<Restriction>()),
-              std::make_unique<UniqueGroupe>()));
+              std::make_unique<Unique_groupe>()));
     set_cible<Groupe>(b2d::cible_id::Groupe);
 
     //TypeControle
@@ -248,11 +248,11 @@ managers_note::managers_note()
     infoCtrEp.set_attribut(ControleEpreuve::IdControle,"idCtr");
     infoCtrEp.set_attribut(ControleEpreuve::IdEleve,"idEl",b2d::type_attribut_bdd::Integer,false);
     infoCtrEp.set_attribut(ControleEpreuve::IdEpreuve,"idEp");
-    infoCtrEp.set_attribut(ControleEpreuve::IdGroupe,"idGr",b2d::type_attribut_bdd::Integer,false);
+    infoCtrEp.set_attribut(ControleEpreuve::Id_groupe,"idGr",b2d::type_attribut_bdd::Integer,false);
     infoCtrEp.set_attribut(ControleEpreuve::Num,"num");
     infoCtrEp.set_unique(ControleEpreuve::IdClasse,UniqueControleEpreuve::Id1Unique,UniqueControleEpreuve::Id1Unique_Set);
     infoCtrEp.set_unique(ControleEpreuve::IdControle,UniqueControleEpreuve::Id4Unique_1,UniqueControleEpreuve::Id4Unique_1Set);
-    infoCtrEp.set_unique(ControleEpreuve::IdGroupe,UniqueControleEpreuve::Id2Unique,UniqueControleEpreuve::Id2Unique_Set);
+    infoCtrEp.set_unique(ControleEpreuve::Id_groupe,UniqueControleEpreuve::Id2Unique,UniqueControleEpreuve::Id2Unique_Set);
     infoCtrEp.set_unique(ControleEpreuve::IdControle,UniqueControleEpreuve::Id4Unique_2,UniqueControleEpreuve::Id4Unique_2Set);
     infoCtrEp.set_unique(ControleEpreuve::Num,UniqueControleEpreuve::Num_Unique,UniqueControleEpreuve::Num_Unique_Set);
     infoCtrEp.set_unique(ControleEpreuve::IdEleve,UniqueControleEpreuve::id_3_Unique,UniqueControleEpreuve::Id_3_Unique_Set);
@@ -262,23 +262,23 @@ managers_note::managers_note()
     infoCtrEp.set_foreign_key(ControleEpreuve::IdControle,infoCtr);
     infoCtrEp.set_foreign_key(ControleEpreuve::IdEleve,infoEleve);
     infoCtrEp.set_foreign_key(ControleEpreuve::IdEpreuve,infoEpreuve);
-    infoCtrEp.set_foreign_key(ControleEpreuve::IdGroupe,infoGroupe);
+    infoCtrEp.set_foreign_key(ControleEpreuve::Id_groupe,infoGroupe);
     set_manager<ControleEpreuve>(std::make_unique<manager_sql<ControleEpreuve>>(infoCtrEp, std::make_unique<UniqueControleEpreuve>()));
     set_cible<ControleEpreuve>(b2d::cible_id::ControleEpreuve);
 
-    //EleveGroupe
-    using UniqueElGr = relation_num_unique_sql<EleveGroupe>;
-    info_bdd infoElGr(EleveGroupe::Name(),"EleveGroupe",EleveGroupe::Nbr_Att,{UniqueElGr::Nbr_Unique});
-    infoElGr.set_attribut(EleveGroupe::IdEleve,"idEl");
-    infoElGr.set_attribut(EleveGroupe::IdGroupe,"idGr");
-    infoElGr.set_attribut(EleveGroupe::Num,"num");
-    infoElGr.set_unique(EleveGroupe::IdEleve,UniqueElGr::Id1Unique);
-    infoElGr.set_unique(EleveGroupe::IdGroupe,UniqueElGr::Id2Unique);
-    infoElGr.set_unique(EleveGroupe::Num,UniqueElGr::Num_Unique);
-    infoElGr.set_foreign_key(EleveGroupe::IdEleve,infoEleve);
-    infoElGr.set_foreign_key(EleveGroupe::IdGroupe,infoGroupe);
-    set_manager<EleveGroupe>(std::make_unique<manager_sql<EleveGroupe>>(infoElGr, std::make_unique<UniqueElGr>()));
-    set_cible<EleveGroupe>(b2d::cible_id::EleveGroupe);
+    //Eleve_groupe
+    using UniqueElGr = relation_num_unique_sql<Eleve_groupe>;
+    info_bdd infoElGr(Eleve_groupe::Name(),"Eleve_groupe",Eleve_groupe::Nbr_Att,{UniqueElGr::Nbr_Unique});
+    infoElGr.set_attribut(Eleve_groupe::IdEleve,"idEl");
+    infoElGr.set_attribut(Eleve_groupe::Id_groupe,"idGr");
+    infoElGr.set_attribut(Eleve_groupe::Num,"num");
+    infoElGr.set_unique(Eleve_groupe::IdEleve,UniqueElGr::Id1Unique);
+    infoElGr.set_unique(Eleve_groupe::Id_groupe,UniqueElGr::Id2Unique);
+    infoElGr.set_unique(Eleve_groupe::Num,UniqueElGr::Num_Unique);
+    infoElGr.set_foreign_key(Eleve_groupe::IdEleve,infoEleve);
+    infoElGr.set_foreign_key(Eleve_groupe::Id_groupe,infoGroupe);
+    set_manager<Eleve_groupe>(std::make_unique<manager_sql<Eleve_groupe>>(infoElGr, std::make_unique<UniqueElGr>()));
+    set_cible<Eleve_groupe>(b2d::cible_id::Eleve_groupe);
 
     //Point
     info_bdd infoPoint("Point","Point",Point::Nbr_Att);

@@ -18,7 +18,7 @@ namespace  noteMPS{
 /*! \ingroup groupeWidgetNote
  * \brief Widget de choix d'une Annees.
  */
-class SpinBoxAnneeScolaire : public QAbstractSpinBox
+class spin_box_anneeScolaire : public QAbstractSpinBox
 {
     Q_OBJECT
 protected:
@@ -28,21 +28,21 @@ protected:
 
 public:
     //! Constructeur.
-    SpinBoxAnneeScolaire(QWidget * parent = nullptr);
+    spin_box_anneeScolaire(QWidget * parent = nullptr);
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(const Annee & an, QWidget * parent = nullptr)
-        : SpinBoxAnneeScolaire(parent)
+    spin_box_anneeScolaire(const Annee & an, QWidget * parent = nullptr)
+        : spin_box_anneeScolaire(parent)
         {set_value(an);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(const vector_ptr<Annee> & vec, QWidget * parent = nullptr)
-        : SpinBoxAnneeScolaire(parent)
+    spin_box_anneeScolaire(const vector_ptr<Annee> & vec, QWidget * parent = nullptr)
+        : spin_box_anneeScolaire(parent)
         {set_values(vec);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(vector_ptr<Annee> && vec, QWidget * parent = nullptr)
-        : SpinBoxAnneeScolaire(parent)
+    spin_box_anneeScolaire(vector_ptr<Annee> && vec, QWidget * parent = nullptr)
+        : spin_box_anneeScolaire(parent)
         {set_values(std::move(vec));}
 
     //! Place la valeur sur l'annee actuelle si possible ou sur la dernière année de la liste sinon.

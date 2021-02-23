@@ -11,10 +11,10 @@
 #include "AbstractTabTableau.h"
 #include "BddNote.h"
 #include "EntitySelectWidget.h"
-#include "FindWidget.h"
-#include "IdComboBox.h"
+#include "find_widget.h"
+#include "id_combo_box.h"
 #include "ModelNote.h"
-#include "SpinBoxAnneeScolaire.h"
+#include "spin_box_anneeScolaire.h"
 #include "TableauNote.h"
 
 namespace noteMPS {
@@ -32,12 +32,12 @@ protected:
     QPushButton * m_addButton;                      //!< Bouton d'ajout des élèves séléctionnés.
     QPushButton * m_delButton;                      //!< Bouton de retrait des élèves séléctionnés.
     QTableView * m_eleveView;                       //!< Vue de sélection des élèves.
-    widgetMPS::FindWidget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
+    widget::find_widget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
 
     // Calque
-    QHBoxLayout * m_buttonLayout;                   //!< Calque des boutons.
-    QHBoxLayout * m_eleveLayout;                    //!< Calque de séléction des éléves.
-    QVBoxLayout * m_mainLayout;                     //!< Calque Principal.
+    QHBoxLayout * m_bouton_layout;                   //!< Calque des boutons.
+    QHBoxLayout * m_eleve_layout;                    //!< Calque de séléction des éléves.
+    QVBoxLayout * m_main_layout;                     //!< Calque Principal.
 
 public:
     //! position des colonnes du model de sélection de éléves.

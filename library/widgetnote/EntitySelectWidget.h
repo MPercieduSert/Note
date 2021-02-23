@@ -7,18 +7,18 @@
 #include <QLabel>
 #include "AbstractEntitySelectWidget.h"
 #include "bdd_predef.h"
-#include "IdComboBox.h"
-#include "SpinBoxAnneeScolaire.h"
+#include "id_combo_box.h"
+#include "spin_box_anneeScolaire.h"
 
 namespace  noteMPS{
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'une Annee scolaire.
  */
-class AnneeSelectWidget : public widgetMPS::AbstractEntitySelectWidget{
+class AnneeSelectWidget : public widget::AbstractEntitySelectWidget{
     Q_OBJECT
 protected:
     QLabel * m_label;     //!< Label du choix de l'annee.
-    SpinBoxAnneeScolaire * m_spinBox;      //!< Choix de l'annee Scolaire.
+    spin_box_anneeScolaire * m_spinBox;      //!< Choix de l'annee Scolaire.
 
 public:
     //! Constructeur.
@@ -37,30 +37,30 @@ public slots:
         {m_spinBox->set_value(Annee(id),false);}
 };
 
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'un etablissement.
  */
-class EtablissementSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+class EtablissementSelectWidget : public widget::ComboBoxEntitySelectWidget{
     Q_OBJECT
 public:
     //! Constructeur.
     EtablissementSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr)
         : ComboBoxEntitySelectWidget(bdd,tr("Etablissement : "),orientation,parent) {
-        m_box->addText(m_bdd.get_list<Etablissement>(Etablissement::Nom),
+        m_box->add_text(m_bdd.get_list<Etablissement>(Etablissement::Nom),
                        [](const Etablissement & etab)->QString
                              {return QString(etab.nom()).append(" (").append(etab.nc()).append(")");});
     }
 };
 
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'une classe.
  */
-class ClasseSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+class ClasseSelectWidget : public widget::ComboBoxEntitySelectWidget{
     Q_OBJECT
 protected:
     AnneeSelectWidget * m_anneeSelect;          //!< Choix de l'année de la classe.
     EtablissementSelectWidget * m_etabSelect;   //!< Choix de l'établissement de la classe.
-    QHBoxLayout * m_classeLayout;               //!< Calque du choix de la classe.
+    QHBoxLayout * m_classe_layout;               //!< Calque du choix de la classe.
 public:
     //! Constructeur.
     ClasseSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
@@ -95,14 +95,14 @@ signals:
     void idAnChanged(idt idAn);
 };
 
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'un élève.
  */
-class EleveSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+class EleveSelectWidget : public widget::ComboBoxEntitySelectWidget{
     Q_OBJECT
 protected:
     ClasseSelectWidget * m_classeSelect;        //!< Choix de la classe.
-    QHBoxLayout * m_eleveLayout;               //!< Calque du choix de la classe.
+    QHBoxLayout * m_eleve_layout;               //!< Calque du choix de la classe.
 public:
     //! Constructeur.
     EleveSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
@@ -138,20 +138,20 @@ public slots:
     //! Mise à jour de la liste des éléves.
     void updateEleve();
 };
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'un Groupe.
  */
-class GroupeSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+class GroupeSelectWidget : public widget::ComboBoxEntitySelectWidget{
     Q_OBJECT
 protected:
     QLabel * m_catLabel;                        //!< Label du choix de la catégorie du groupe.
-    QLabel * m_typeLabel;                       //!< Label de sélection du type.
+    QLabel * m_type_label;                       //!< Label de sélection du type.
     QComboBox * m_catCB;                        //!< Sélection de la catégorie du groupe.
-    widgetMPS::IdComboBox * m_typeCB;           //!< Sélection du type.
+    widget::id_combo_box * m_type_cb;           //!< Sélection du type.
     ClasseSelectWidget * m_classeSelect;        //!< Choix de la classe ou de l'année.
     QHBoxLayout * m_catLayout;                  //!< Calque du choix de la catégorie du groupe.
-    QHBoxLayout * m_groupeLayout;               //!< Calque du choix du type groupe.
-    QHBoxLayout * m_typeLayout;                 //!< Calque du choix du type de groupe.
+    QHBoxLayout * m_groupe_layout;               //!< Calque du choix du type groupe.
+    QHBoxLayout * m_type_layout;                 //!< Calque du choix du type de groupe.
 public:
     //! Constructeur.
     GroupeSelectWidget(b2d::Bdd & bdd, Qt::Orientations orientation = Qt::Horizontal, QWidget * parent = nullptr);
@@ -168,17 +168,17 @@ public slots:
     void set_id(idt id) override;
 
     //! Mise à jour des groupes.
-    void updateGroupe();
+    void update_groupe();
 
     //! Mise à jour des types.
     void updateType();
 };
 
 
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_WidgetNote
  * \brief Formulaire du choix d'un niveaux.
  */
-class NiveauxSelectWidget : public widgetMPS::ComboBoxEntitySelectWidget{
+class NiveauxSelectWidget : public widget::ComboBoxEntitySelectWidget{
     Q_OBJECT
 public:
     //! Constructeur.

@@ -3,9 +3,9 @@
 using namespace noteMPS;
 
 ////////////////////////////////////////// CandidatGroupeTableau ////////////////////////////////
-CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bdd(bdd) {
+CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt id_groupe) : m_bdd(bdd) {
     push_back(std::make_unique<EleveVecTableau>(bdd),false);
-    m_groupe.set_id(idGroupe);
+    m_groupe.set_id(id_groupe);
     m_bdd.get(m_groupe);
     if(m_groupe.idClasse())
         static_cast<EleveVecTableau&>(tableau(EleveTableau))
@@ -14,32 +14,32 @@ CandidatGroupeTableau::CandidatGroupeTableau(BddNote & bdd, idt idGroupe) : m_bd
         static_cast<EleveVecTableau&>(tableau(EleveTableau))
             .set_vec_data(m_bdd.get_list<Eleve,ClasseEleve,Classe>(ClasseEleve::IdEleve,ClasseEleve::IdClasse,Classe::IdAn,m_groupe.idAn()));
     if(m_groupe.test(Groupe::Exclusif)) {
-        push_back(std::make_unique<EleveGroupeVecTableau>(m_bdd,tableau(EleveTableau).size()),true);
-        static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).setGroupe(m_groupe);
+        push_back(std::make_unique<Eleve_groupeVecTableau>(m_bdd,tableau(EleveTableau).size()),true);
+        static_cast<Eleve_groupeVecTableau&>(tableau(Eleve_groupeTableau)).setGroupe(m_groupe);
     }
     else {
-        push_back(std::make_unique<EleveGroupeListTableau>(m_bdd,tableau(EleveTableau).size()),true);
-        static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).setGroupe(m_groupe);
+        push_back(std::make_unique<Eleve_groupeListTableau>(m_bdd,tableau(EleveTableau).size()),true);
+        static_cast<Eleve_groupeListTableau&>(tableau(Eleve_groupeTableau)).setGroupe(m_groupe);
     }
     for(szt ligne = 0; ligne != size(); ++ligne)
-        hydrateEleveGroupe(ligne);
+        hydrateEleve_groupe(ligne);
 }
 
-void CandidatGroupeTableau::hydrateEleveGroupe(szt ligne) {
+void CandidatGroupeTableau::hydrateEleve_groupe(szt ligne) {
     auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internal_data(ligne).id();
-    auto vec = m_bdd.get_list<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
+    auto vec = m_bdd.get_list<Eleve_groupe>(Eleve_groupe::IdEleve,idEl,Eleve_groupe::Id_groupe,m_groupe.id(),Eleve_groupe::Num);
     if(m_groupe.test(Groupe::Exclusif)) {
-        auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internal_data(ligne);
+        auto & elGr = static_cast<Eleve_groupeVecTableau&>(tableau(Eleve_groupeTableau)).internal_data(ligne);
         if(vec.empty()) {
             elGr.set_idEleve(idEl);
-            elGr.set_idGroupe(m_groupe.id());
+            elGr.set_id_groupe(m_groupe.id());
             elGr.set_num(NonAffecter);
         }
         else
             elGr = vec.front();
     }
     else {
-        auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internal_data(ligne);
+        auto & elGr = static_cast<Eleve_groupeListTableau&>(tableau(Eleve_groupeTableau)).internal_data(ligne);
         elGr.clear();
         if(!vec.empty())
             for (auto iter = vec.cbegin(); iter != vec.cend(); ++iter)
@@ -55,28 +55,28 @@ void CandidatGroupeTableau::remove(std::vector<std::pair<idt, int> > &&vecIdNum)
             ++i;
         if(i != size()) {
             if(m_groupe.test(Groupe::Exclusif))
-                static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internal_data(i).set_num(NonAffecter);
+                static_cast<Eleve_groupeVecTableau&>(tableau(Eleve_groupeTableau)).internal_data(i).set_num(NonAffecter);
             else
-                static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internal_data(i).remove_if(
-                        [iter](const EleveGroupe & elGr)->bool{return elGr.num() == iter->second;});
+                static_cast<Eleve_groupeListTableau&>(tableau(Eleve_groupeTableau)).internal_data(i).remove_if(
+                        [iter](const Eleve_groupe & elGr)->bool{return elGr.num() == iter->second;});
         }
     }
 }
 
 void CandidatGroupeTableau::save(szt ligne) {
     if(m_groupe.test(Groupe::Exclusif)) {
-        auto & elGr = static_cast<EleveGroupeVecTableau&>(tableau(EleveGroupeTableau)).internal_data(ligne);
+        auto & elGr = static_cast<Eleve_groupeVecTableau&>(tableau(Eleve_groupeTableau)).internal_data(ligne);
         if(elGr.num() >=0)
             m_bdd.save(elGr);
         else if (!elGr.is_new())
             m_bdd.del(elGr);
     }
     else {
-        auto & elGr = static_cast<EleveGroupeListTableau&>(tableau(EleveGroupeTableau)).internal_data(ligne);
+        auto & elGr = static_cast<Eleve_groupeListTableau&>(tableau(Eleve_groupeTableau)).internal_data(ligne);
         auto idEl = static_cast<EleveVecTableau&>(tableau(EleveTableau)).internal_data(ligne).id();
         for (auto iter = elGr.begin(); iter != elGr.end(); ++iter)
             iter->set_idEleve(idEl);
-        auto vec = m_bdd.get_list<EleveGroupe>(EleveGroupe::IdEleve,idEl,EleveGroupe::IdGroupe,m_groupe.id(),EleveGroupe::Num);
+        auto vec = m_bdd.get_list<Eleve_groupe>(Eleve_groupe::IdEleve,idEl,Eleve_groupe::Id_groupe,m_groupe.id(),Eleve_groupe::Num);
         auto iterTab = elGr.begin();
         auto iterBdd = vec.begin();
         while(iterTab != elGr.end() && iterBdd != vec.end()){
@@ -236,8 +236,8 @@ EleveVecTableau::make_colonne(const model_base::abstract_colonnes_model::new_col
     }
 }
 
-///////////////////////////////////////////////// EleveGroupeTableau ///////////////////////////////////////////////////
-void EleveGroupeTableau::addEleve(const std::list<idt> &listEl, szt num) {
+///////////////////////////////////////////////// Eleve_groupeTableau ///////////////////////////////////////////////////
+void Eleve_groupeTableau::addEleve(const std::list<idt> &listEl, szt num) {
     if(num < size_column()) {
         auto & refCol = colonne(num);
         for (auto iterId = listEl.cbegin(); iterId != listEl.cend(); ++iterId) {
@@ -251,7 +251,7 @@ void EleveGroupeTableau::addEleve(const std::list<idt> &listEl, szt num) {
     }
 }
 
-void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<idt>> &mapDel) {
+void Eleve_groupeTableau::delEleve(const std::map<szt, std::forward_list<idt>> &mapDel) {
     for (auto iter = mapDel.cbegin(); iter != mapDel.cend(); ++iter) {
         for (auto iterId = iter->second.cbegin(); iterId != iter->second.cend(); ++iterId) {
             auto iterVec = colonne_at(iter->first).cbegin();
@@ -264,7 +264,7 @@ void EleveGroupeTableau::delEleve(const std::map<szt, std::forward_list<idt>> &m
 }
 
 std::unique_ptr<model_base::abstract_colonnes_model::abstract_colonne>
-EleveGroupeTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
+Eleve_groupeTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
     return std::make_unique<model_base::vector_ref_heterogene_taille_id_colonne<Eleve>>(info.name,info.flags,
                                                                                model_base::Texte_Colonne_Type,
                                                                                colonne_at(info.tableau),
@@ -276,25 +276,25 @@ EleveGroupeTableau::make_colonne(const model_base::abstract_colonnes_model::new_
     [](Eleve &, const QVariant &, int)->bool {return false;});
 }
 
-void EleveGroupeTableau::remove(const std::map<szt,std::list<idt>> & map) {
+void Eleve_groupeTableau::remove(const std::map<szt,std::list<idt>> & map) {
     for (auto iter = map.cbegin(); iter != map.cend(); ++iter)
         for (auto iterList = iter->second.crbegin(); iterList != iter->second.crend(); ++iterList)
             m_tableau[iter->first]->erase(std::next(m_tableau[iter->first]->cbegin(),*iterList));
     update_nbr_line();
 }
 
-void EleveGroupeTableau::set_idGroupe(idt id) {
+void Eleve_groupeTableau::set_id_groupe(idt id) {
     m_groupe.set_id(id);
     m_bdd.get(m_groupe);
     m_styleNum.set_style(m_groupe.styleNum());
     m_tableau.clear();
     szt nbrGr = 0;
-    if(m_bdd.exists<EleveGroupe>(EleveGroupe::IdGroupe,m_groupe.id())) {
-        nbrGr = 1 + m_bdd.fonction_agrega<EleveGroupe>(b2d::agrega::Max,EleveGroupe::Num,EleveGroupe::IdGroupe,m_groupe.id()).toUInt();
+    if(m_bdd.exists<Eleve_groupe>(Eleve_groupe::Id_groupe,m_groupe.id())) {
+        nbrGr = 1 + m_bdd.fonction_agrega<Eleve_groupe>(b2d::agrega::Max,Eleve_groupe::Num,Eleve_groupe::Id_groupe,m_groupe.id()).toUInt();
         for (szt num = 0; num != nbrGr; ++num) {
-            auto vecEl = m_bdd.get_list<Eleve,EleveGroupe>(EleveGroupe::IdEleve,
-                                                          EleveGroupe::IdGroupe,m_groupe.id(),
-                                                          EleveGroupe::Num,static_cast<uint>(num));
+            auto vecEl = m_bdd.get_list<Eleve,Eleve_groupe>(Eleve_groupe::IdEleve,
+                                                          Eleve_groupe::Id_groupe,m_groupe.id(),
+                                                          Eleve_groupe::Num,static_cast<uint>(num));
             push_back(vecEl.size());
             auto iterWrite = colonne(num).begin();
             for (auto iterRead = vecEl.cbegin(); iterRead != vecEl.cend(); ++iterRead, ++iterWrite)
@@ -304,10 +304,10 @@ void EleveGroupeTableau::set_idGroupe(idt id) {
     update_nbr_line();
 }
 
-///////////////////////////////////////////////// EleveGroupeListTableau ///////////////////////////////////////////////
+///////////////////////////////////////////////// Eleve_groupeListTableau ///////////////////////////////////////////////
 std::unique_ptr<model_base::abstract_colonnes_model::abstract_colonne>
-EleveGroupeListTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
-    auto read = [this](const std::list<EleveGroupe> & listElGr,int role)->QVariant {
+Eleve_groupeListTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
+    auto read = [this](const std::list<Eleve_groupe> & listElGr,int role)->QVariant {
         switch (role) {
         case Qt::DisplayRole: {
             QString str;
@@ -326,29 +326,29 @@ EleveGroupeListTableau::make_colonne(const model_base::abstract_colonnes_model::
             }
         default:
             return QVariant();}};
-    auto find = [read](const std::list<EleveGroupe>& listElGr)->QVariant {return read(listElGr,CandidatGroupeTableau::Num_Role);};
-    auto write = [this](std::list<EleveGroupe> & elGr, const QVariant & value, int role)->bool {
+    auto find = [read](const std::list<Eleve_groupe>& listElGr)->QVariant {return read(listElGr,CandidatGroupeTableau::Num_Role);};
+    auto write = [this](std::list<Eleve_groupe> & elGr, const QVariant & value, int role)->bool {
         if(role == Qt::EditRole){
-            EleveGroupe eg;
-            eg.set_idGroupe(m_groupe.id());
+            Eleve_groupe eg;
+            eg.set_id_groupe(m_groupe.id());
             eg.set_num(value.toInt());
             elGr.push_back(eg);
-            elGr.sort([](const EleveGroupe & elGr1, const EleveGroupe & elGr2)->bool
+            elGr.sort([](const Eleve_groupe & elGr1, const Eleve_groupe & elGr2)->bool
                         {return elGr1.num() < elGr2.num();});
             return true;
         }
         return false;};
     return std::make_unique<model_base::base_colonne_temp<decltype (read), decltype (find), decltype (write),
-                                                      std::vector<std::list<EleveGroupe>>>>(info.name,info.flags,
+                                                      std::vector<std::list<Eleve_groupe>>>>(info.name,info.flags,
                                                                      model_base::Texte_Colonne_Type,m_vec,
                                                                      read,find,write);
 }
 
-///////////////////////////////////////////////// EleveGroupeVecTableau ///////////////////////////////////////////////
+///////////////////////////////////////////////// Eleve_groupeVecTableau ///////////////////////////////////////////////
 std::unique_ptr<model_base::abstract_colonnes_model::abstract_colonne>
-EleveGroupeVecTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
-    auto backFore = [](const EleveGroupe & elGr)->szt {return static_cast<szt>(elGr.num() + 1);};
-    auto read = [this](const EleveGroupe & elGr,int role)->QVariant {
+Eleve_groupeVecTableau::make_colonne(const model_base::abstract_colonnes_model::new_colonne_info & info) {
+    auto backFore = [](const Eleve_groupe & elGr)->szt {return static_cast<szt>(elGr.num() + 1);};
+    auto read = [this](const Eleve_groupe & elGr,int role)->QVariant {
         switch (role) {
         case Qt::DisplayRole:
             return numToTexte(elGr.num());
@@ -358,15 +358,15 @@ EleveGroupeVecTableau::make_colonne(const model_base::abstract_colonnes_model::n
             return elGr.num();
         default:
             return QVariant();}};
-    auto find = [](const EleveGroupe & elGr)->QVariant {return elGr.num();};
-    auto write = [](EleveGroupe & elGr, const QVariant & value, int role)->bool {
+    auto find = [](const Eleve_groupe & elGr)->QVariant {return elGr.num();};
+    auto write = [](Eleve_groupe & elGr, const QVariant & value, int role)->bool {
         if(role == Qt::EditRole){
             elGr.set_num(value.toInt());
             return true;}
         return false;};
         auto colonne = std::make_unique<model_base::base_color_colonne_temp<decltype (backFore), decltype (backFore),
                                                                decltype (read), decltype (find), decltype (write),
-                                                               vector_ptr<EleveGroupe>>>(info.name,info.flags,
+                                                               vector_ptr<Eleve_groupe>>>(info.name,info.flags,
                                                                          model_base::Texte_Colonne_Type,m_vec,
                                                                          backFore,backFore,
                                                                          read,find,write);

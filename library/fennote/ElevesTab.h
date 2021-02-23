@@ -15,7 +15,7 @@
 #include <QSpinBox>
 #include "AbstractTabTableau.h"
 #include "BddNote.h"
-#include "FindWidget.h"
+#include "find_widget.h"
 #include "TableauNote.h"
 
 namespace noteMPS {
@@ -31,11 +31,11 @@ protected:
     QPushButton * m_addButton;      //!< Bouton de l'ajout des éléves dans le tableau.
     QPushButton * m_delButton;      //!< Bouton de suppression d'éléves.
     QSpinBox * m_addSpinBox;        //!< Choix du nombre l'éléve à ajouter.
-    widgetMPS::FindWidget * m_findWidget;      //!< Recherche dans la liste d'éléve.
+    widget::find_widget * m_findWidget;      //!< Recherche dans la liste d'éléve.
 
     QVBoxLayout * m_findLayout;     //!< Claque de recherche.
     QHBoxLayout * m_addLayout;      //!< Calque de l'ajout d'éléve dans le tableau.
-    QHBoxLayout * m_mainLayout;     //!< Calque principal.
+    QHBoxLayout * m_main_layout;     //!< Calque principal.
     QVBoxLayout * m_secondLayout;   //!< Calque secondaire.
 
 public:

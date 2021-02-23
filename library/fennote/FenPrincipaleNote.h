@@ -5,7 +5,7 @@
 #define FENPRINCIPALENOTE_H
 
 #include <QDockWidget>
-#include "FindWidget.h"
+#include "find_widget.h"
 #include "NewModifForm.h"
 #include "NewModifPredef.h"
 #include "NoyauNote.h"

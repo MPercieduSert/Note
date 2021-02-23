@@ -23,19 +23,19 @@ protected:
     Groupe m_groupe;                    //!< Identifiant du groupe.
 public:
     //! position des tableaux.
-    enum positionTableau {EleveTableau, EleveGroupeTableau, donneeTableau, NbrTableau};
+    enum positionTableau {EleveTableau, Eleve_groupeTableau, donneeTableau, NbrTableau};
     enum {NonAffecter = -1, Num_Role = Qt::UserRole + 1};
     //! Constructeur.
-    CandidatGroupeTableau(BddNote & bdd, idt idGroupe);
+    CandidatGroupeTableau(BddNote & bdd, idt id_groupe);
 
     //! Hydrate la donnée d'une ligne du tableau.
     void hydrate(szt ligne) override {
         m_tableaux.front()->hydrate(ligne);
-        hydrateEleveGroupe(ligne);
+        hydrateEleve_groupe(ligne);
     }
 
     //! Hydrate la donnée d'une ligne du tableau.
-    void hydrateEleveGroupe(szt ligne);
+    void hydrateEleve_groupe(szt ligne);
 
     //! Acceseur de groupe.
     const Groupe  & groupe() const
@@ -132,20 +132,20 @@ public:
 /*! \ingroup groupe_modelNote
  * \brief Tableau des éléves dans les groupes.
  */
-class EleveGroupeTableau : public model_base::heterogene_taille_tableau<Eleve> {
+class Eleve_groupeTableau : public model_base::heterogene_taille_tableau<Eleve> {
 protected:
     BddNote & m_bdd;        //!< Lien avec la base de données.
     Groupe m_groupe;        //!< Identifiant du groupe.
-    diversMPS::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
+    divers::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Constructeur.
-    EleveGroupeTableau(BddNote & bdd)
+    Eleve_groupeTableau(BddNote & bdd)
         : m_bdd(bdd) {}
 
     //! Ajoute un éléve à un groupe.
     void addEleve(const std::list<idt> &listEl, szt num);
 
-    //! Supprime les éléves des groupes (paire (idGroupe,idEleve)).
+    //! Supprime les éléves des groupes (paire (id_groupe,idEleve)).
     void delEleve(const std::map<szt,std::forward_list<idt>> & mapDel);
 
     //! Acceseur de l'identifiant du groupe.
@@ -160,7 +160,7 @@ public:
     void remove(const std::map<szt,std::list<idt>> & map);
 
     //! Mutateur de l'identifiant du groupe.
-    void set_idGroupe(idt id);
+    void set_id_groupe(idt id);
 
     //! Convertissuer de numero en texte..
     QString numToTexte(int num) const
@@ -173,7 +173,7 @@ public:
 class GroupeForTableau  {
 protected:
     Groupe m_groupe;            //!< groupe associé à la colonne.
-    diversMPS::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
+    divers::num_to_string m_styleNum;   //!< Convertiseur des numéros de groupe.
 public:
     //! Accesseur du groupe.
     const Groupe & groupe() const
@@ -193,14 +193,14 @@ public:
 /*! \ingroup groupe_modelNote
  * \brief Tableau d'un vecteur de listes eleve-groupe.
  */
-class EleveGroupeListTableau : public GroupeForTableau, public model_base::AbstractBddvector_list_Tableau<EleveGroupe> {
+class Eleve_groupeListTableau : public GroupeForTableau, public model_base::AbstractBddvector_list_Tableau<Eleve_groupe> {
 public:
     //! Constructeur.
-    EleveGroupeListTableau(BddNote & bdd, szt count)
-     : model_base::AbstractBddvector_list_Tableau<EleveGroupe>(bdd,count) {}
+    Eleve_groupeListTableau(BddNote & bdd, szt count)
+     : model_base::AbstractBddvector_list_Tableau<Eleve_groupe>(bdd,count) {}
 
     //! Comparaison d'égalité entre deux éléments d'une liste.
-    bool egal_element(const EleveGroupe & element1, const EleveGroupe & element2) const override
+    bool egal_element(const Eleve_groupe & element1, const Eleve_groupe & element2) const override
         {return element1.num() == element2.num();}
 
     //! Fabrique une colonne lié aux données du tableau.
@@ -211,11 +211,11 @@ public:
 /*! \ingroup groupe_modelNote
  * \brief Tableau d'un vecteur de eleve-groupe.
  */
-class EleveGroupeVecTableau : public GroupeForTableau, public model_base::AbstractBddVectorEntTableau<EleveGroupe> {
+class Eleve_groupeVecTableau : public GroupeForTableau, public model_base::AbstractBddVectorEntTableau<Eleve_groupe> {
 public:
     //! Constructeur.
-    EleveGroupeVecTableau(BddNote & bdd, szt count)
-     : model_base::AbstractBddVectorEntTableau<EleveGroupe>(bdd,count) {}
+    Eleve_groupeVecTableau(BddNote & bdd, szt count)
+     : model_base::AbstractBddVectorEntTableau<Eleve_groupe>(bdd,count) {}
 
     //! Fabrique une colonne lié aux données du tableau.
     std::unique_ptr<model_base::abstract_colonnes_model::abstract_colonne>

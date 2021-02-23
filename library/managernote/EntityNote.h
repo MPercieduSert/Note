@@ -17,11 +17,11 @@ namespace info_entityNote {
                   BaremeId,
                   ClasseId,
                   ClasseEleveId,
-                  ClasseGroupeId,
+                  Classe_groupeId,
                   ControleId,
                   ControleEpreuveId,
                   EleveId,
-                  EleveGroupeId,
+                  Eleve_groupeId,
                   EnonceId,
                   EnoncePointId,
                   EpreuveId,
@@ -59,7 +59,7 @@ using namespace emps::ensemble_type;
 using namespace emps::ensemble_utilisation;
 
 // Entités de type prédéfinies
-RELATION_ENTITY(EleveGroupe,relation_num,info_entityNote::EleveGroupeId,Eleve,Groupe)
+RELATION_ENTITY(Eleve_groupe,relation_num,info_entityNote::Eleve_groupeId,Eleve,Groupe)
 RELATION_ENTITY(EtablissementNiveau,Relation,info_entityNote::EtablissementNiveauId,Etab,Niveau)
 RELATION_ENTITY(EtablissementType,Relation,info_entityNote::EtablissementTypeId,Etab,TpEtab)
 RELATION_ENTITY(FiliationNiveau,Relation,info_entityNote::FiliationNiveauId,Precedent,Suivant)
@@ -268,7 +268,7 @@ public:
                                      Appreciation = 0x100,
                                      Commentaire = 0x200,
                                      NonCommun = 0x10000,
-                                     HoraireGroupe = NonCommun,
+                                     Horaire_groupe = NonCommun,
                                      HoraireEleve = NonCommun * 0x2,
                                      SujetGroupe = NonCommun * 0x4,
                                      SujetEleve = NonCommun * 0x8
@@ -292,7 +292,7 @@ public:
         set_cible(cible);
         set_code(code);
         setDateTime(dateTime);
-        setDecimale(decimale);
+        set_decimale(decimale);
         setMinima(minima);
         setNc(nc);
         set_num(num);
@@ -341,7 +341,7 @@ public:
                    Nbr_Att = EAID::Nbr_Att,
                    IdClasse = Id1,
                    IdEleve = Id2,
-                   IdGroupe = id_3,
+                   Id_groupe = id_3,
                    IdControle = Id4,
                    IdEpreuve= Id5
                   };
@@ -355,13 +355,13 @@ public:
     ALIAS_CLE(Epreuve,5)
 
     //! Constructeur à partir des valeurs attributs.
-    ControleEpreuve(idt idClasse, idt idControle, idt idEleve, idt idEpreuve, idt idGroupe, int num, idt id = 0)
+    ControleEpreuve(idt idClasse, idt idControle, idt idEleve, idt idEpreuve, idt id_groupe, int num, idt id = 0)
         : EAID(id) {
         set_idClasse(idClasse);
         set_idControle(idControle);
         set_idEleve(idEleve);
         set_idEpreuve(idEpreuve);
-        set_idGroupe(idGroupe);
+        set_id_groupe(id_groupe);
         set_num(num);
     }
 };
@@ -645,7 +645,7 @@ public:
                  const QString & nom, idt parent, int total, idt id = 0)
         : TypeControle(nom, id) {
         set_code(code);
-        setDecimale(decimale);
+        set_decimale(decimale);
         setMinima(minima);
         setNc(nc);
         set_parent(parent);

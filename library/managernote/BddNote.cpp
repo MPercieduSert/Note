@@ -15,7 +15,7 @@ bool BddNote::del_v(idt id, entidt id_entity) {
     case Eleve::ID:
         controle = del_list<ClasseEleve>(ClasseEleve::IdEleve,id)
                 //&& del_list<ControleEpreuve>(ControleEpreuve::IdEleve,id)
-                && del_list<EleveGroupe>(EleveGroupe::IdEleve,id)
+                && del_list<Eleve_groupe>(Eleve_groupe::IdEleve,id)
                 && del_list<Note>(Note::IdEleve,id);
         break;
     case Etablissement::ID:
@@ -24,8 +24,8 @@ bool BddNote::del_v(idt id, entidt id_entity) {
                 && del_list<Classe>(Classe::IdEtab,id);
         break;
     case Groupe::ID:
-        controle = del_list<EleveGroupe>(EleveGroupe::IdGroupe,id);
-                //&& del_list<ControleEpreuve>(ControleEpreuve::IdGroupe,id);
+        controle = del_list<Eleve_groupe>(Eleve_groupe::Id_groupe,id);
+                //&& del_list<ControleEpreuve>(ControleEpreuve::Id_groupe,id);
         break;
     case Niveau::ID:
         controle = del_list<Classe>(Classe::IdNiveau,id)
@@ -66,12 +66,12 @@ bool BddNote::test_autorisation_v(idt id, entidt id_entity, flag autoris) {
             case Eleve::ID:
                 controle = controle && test_autorisation_list<ClasseEleve>(autoris,ClasseEleve::IdEleve,id)
                         //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::IdEleve,id)
-                        && test_autorisation_list<EleveGroupe>(autoris,EleveGroupe::IdEleve,id)
+                        && test_autorisation_list<Eleve_groupe>(autoris,Eleve_groupe::IdEleve,id)
                         && test_autorisation_list<Note>(autoris,Note::IdEleve,id);
                 break;
             case Groupe::ID:
-                controle = controle //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::IdGroupe,id)
-                        && test_autorisation_list<EleveGroupe>(autoris,EleveGroupe::IdGroupe,id);
+                controle = controle //&& test_autorisation_list<ControleEpreuve>(autoris,ControleEpreuve::Id_groupe,id)
+                        && test_autorisation_list<Eleve_groupe>(autoris,Eleve_groupe::Id_groupe,id);
                 break;
             case Etablissement::ID:
                 controle = controle && test_autorisation_list<Classe>(autoris,Classe::IdEtab,id)
@@ -123,8 +123,8 @@ enumt BddNote::str_id_to_enum(const QString & str, idt id_entity, QString &contr
             return Controle::Depassement;
         if(str == "HoraireEleve")
             return Controle::HoraireEleve;
-        if(str == "HoraireGroupe")
-            return Controle::HoraireGroupe;
+        if(str == "Horaire_groupe")
+            return Controle::Horaire_groupe;
         if(str == "Lettre")
             return Controle::Lettre;
         if(str == "Note")
@@ -205,7 +205,7 @@ void BddNote::listeMiseAJourBdd(int version, idt type) {
             creer_table<FiliationNiveau>();
             creer_table<NiveauTypeEtablissement>();
             creer_table<Groupe>();
-            creer_table<EleveGroupe>();
+            creer_table<Eleve_groupe>();
             creer_table<TypeControle>();
             creer_table<Controle>();
             creer_table<Exercice>();
