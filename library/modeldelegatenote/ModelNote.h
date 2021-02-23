@@ -5,21 +5,21 @@
 #define MODELNOTE_H
 
 #include "BddNote.h"
-#include "TableModel.h"
+#include "table_model.h"
 #include "TableauNote.h"
 
 namespace noteMPS {
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Model de la liste des élèves à affecter dans un groupe.
  */
-class CandidatGroupeModel : public modelMPS::TableModel {
+class CandidatGroupeModel : public model_base::table_model {
     Q_OBJECT
 protected:
-    AbstractColonnesModel::NewColonneInfo m_groupeInfo;     //! Information sur la colone de groupe
+    abstract_colonnes_model::new_colonne_info m_groupeInfo;     //! Information sur la colone de groupe
 public:
     //! position des colonnes du model des éléves affectés à la classe.
     enum colonneClasseEleve {NomColonne, PrenomColonne, GroupeColonne, NbrColonne};
-    enum {NumRole = CandidatGroupeTableau::NumRole};
+    enum {Num_Role = CandidatGroupeTableau::Num_Role};
 
     //! Constructeur.
     CandidatGroupeModel(BddNote & bdd, idt idGroupe, QObject * parent = nullptr);
@@ -27,14 +27,14 @@ public:
     //! Retire des élèves des groupes.
     void remove(std::vector<std::pair<idt,int>> && vecIdNum) {
         static_cast<CandidatGroupeTableau&>(*m_data).remove(std::move(vecIdNum));
-        dataChanged(index(0,GroupeColonne),index(rowCount()-1,GroupeColonne));
+        dataChanged(index(0,GroupeColonne),index(row_count()-1,GroupeColonne));
     }
 };
 
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Model des élèves d'une classe.
  */
-class ClasseEleveModel : public modelMPS::TableModel {
+class ClasseEleveModel : public model_base::table_model {
     Q_OBJECT
 public:
     //! position des colonnes du model des éléves affectés à la classe.
@@ -49,22 +49,22 @@ public slots:
     //! Mutateur de l'identifiant de la classe.
     void set_idClasse(idt idClasse){
         beginResetModel();
-            static_cast<ClasseEleveCompositionTableau&>(*m_data).set_idClasse(idClasse);
-            resetRowToLigne();
-        endResetModel();
+            static_cast<ClasseElevecomposition_tableau&>(*m_data).set_idClasse(idClasse);
+            reset_row_to_ligne();
+        end_reset_model();
     }
 };
 
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Model des éléves par groupe.
  */
-class EleveGroupeModel : public modelMPS::TableModel {
+class EleveGroupeModel : public model_base::table_model {
     Q_OBJECT
 public:
     //! Constructeur.
     EleveGroupeModel(BddNote & bdd, QObject * parent = nullptr)
-        : TableModel(false,false,parent) {
-        setTableau(std::make_unique<EleveGroupeTableau>(bdd));
+        : table_model(false,false,parent) {
+        set_tableau(std::make_unique<EleveGroupeTableau>(bdd));
     }
 
     //! Accesseur du groupe du tableau.

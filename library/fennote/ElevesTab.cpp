@@ -5,8 +5,8 @@ using namespace noteMPS;
 ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     : AbstractTabTableau(bdd,pair,parent) {
     //Model et vue
-    m_model = new modelMPS::TableModel(true,true,this);
-    m_model->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
+    m_model = new model_base::table_model(true,true,this);
+    m_model->set_tableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
     m_model->insertColonne(Nom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
     m_model->insertColonne(Prenom,{Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable,
@@ -33,7 +33,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_addGroup->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     m_addButton = new QPushButton(tr("Ajouter"));
     m_addSpinBox = new QSpinBox;
-    connect(m_addButton,&QPushButton::clicked,this,[this](){m_model->insertRows(m_model->rowCount(),m_addSpinBox->value());});
+    connect(m_addButton,&QPushButton::clicked,this,[this](){m_model->insert_rows(m_model->row_count(),m_addSpinBox->value());});
     //Save
     m_saveButton = new QPushButton(tr("Sauvegarder les éléves validés"));
     connect(m_saveButton,&QPushButton::clicked,this,&ElevesTab::sauver);

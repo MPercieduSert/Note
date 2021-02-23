@@ -6,10 +6,10 @@ ExerciceTab::ExerciceTab(BddNote & bdd, std::pair<int,int> pair, QWidget * paren
     : AbstractTabModuleWithBdd(bdd,pair,parent) {
     // Widget
     m_saveButton = new QPushButton(tr("Sauvegarder"));
-    m_view = new widgetMPS::NodeView(std::make_unique<widgetMPS::RoundedArcPainter>());
+    m_view = new widgetMPS::node_ptrView(std::make_unique<widgetMPS::RoundedArcPainter>());
     m_model = new ExerciceEditModel(static_cast<idt>(pair.second), static_cast<BddNote &>(bdd),this);
     m_view->setModel(m_model);
-    m_view->setDelegate(new delegateMPS::StandardNodeDelegate(this));
+    m_view->setDelegate(new delegateMPS::Standardnode_ptrDelegate(this));
     connect(m_saveButton,&QPushButton::clicked,this,&ExerciceTab::sauver);
 
     // Calque

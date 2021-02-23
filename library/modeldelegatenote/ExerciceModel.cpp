@@ -1,48 +1,48 @@
 #include "ExerciceModel.h"
 
-using namespace modelMPS;
+using namespace model_base;
 using namespace noteMPS;
 
 ///////////////////////////////////////// ExerciceEditModel
 ExerciceEditModel::ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent)
-    : ItemNodeBddModel(bdd,parent) {
+    : item_node_bdd_model(bdd,parent) {
     if(idRacineExo == IdNew){
-        m_data.setRoot(std::make_unique<ExerciceEditNode>(this));
-        m_data.push_back(index(NodeIndex(),0), std::make_unique<ExerciceEditNode>(this));
+        m_data.set_root(std::make_unique<ExerciceEditnode_ptr>(this));
+        m_data.push_back(index(node_index(),0), std::make_unique<ExerciceEditnode_ptr>(this));
     }
     else {
 
     }
 }
 
-numt ExerciceEditModel::dataCount(const NodeIndex & index) const {
+numt ExerciceEditModel::data_count(const node_index & index) const {
     switch (index.cible()) {
     case ExerciceEditModel::SourceCible:
     case ExerciceEditModel::texte_cible:
     case ExerciceEditModel::TitreCible:
     case ExerciceEditModel::VersionCible:
         return 1;
-    case SubNodeCible:
+    case Sub_Node_Cible:
         return NbrCible;
     }
-    return ItemNodeModel::dataCount(index);
+    return item_node_model::data_count(index);
 }
 
-modelMPS::Node ExerciceEditModel::nodeFactory(const modelMPS::NodeIndex & /*parent*/, numt /*pos*/, int /*type*/)
-    {return std::make_unique<ExerciceEditNode>(this);}
+model_base::node_ptr ExerciceEditModel::node_factory(const model_base::node_index & /*parent*/, numt /*pos*/, int /*type*/)
+    {return std::make_unique<ExerciceEditnode_ptr>(this);}
 
-////////////////////////////////////////////////// ExerciceNode /////////////////////////////////
-QVariant ExerciceNode::data(int cible, int role, numt num) const {
+////////////////////////////////////////////////// Exercicenode_ptr /////////////////////////////////
+QVariant Exercicenode_ptr::data(int cible, int role, numt num) const {
     switch (cible) {
     case ExerciceEditModel::SourceCible:
         switch (role) {
-        case IntRole:
+        case Int_Role:
             return m_idScr;
-        case LabelRole:
+        case Label_Role:
             return "Source :";
-        case OrientationRole:
+        case Orientation_Role:
             return Qt::Horizontal;
-        case ListOfValues:
+        case List_Of_Values:
             QMap<QString,QVariant> map;
             auto vecScr = m_model->bdd().get_list<Source>();
             for (auto iter = vecScr.cbegin(); iter != vecScr.cend(); ++iter)
@@ -51,95 +51,95 @@ QVariant ExerciceNode::data(int cible, int role, numt num) const {
         }
         break;
     case ExerciceEditModel::texte_cible:
-        if(role == StringRole)
+        if(role == String_Role)
             return m_texte;
         break;
     case ExerciceEditModel::TitreCible:
         switch (role) {
-        case OrientationRole:
+        case Orientation_Role:
             return Qt::Horizontal;
-        case LabelRole:
+        case Label_Role:
             return "Titre :";
-        case StringRole:
+        case String_Role:
             return m_titre;
         }
         break;
     case ExerciceEditModel::VersionCible:
-        if(role == NumRole)
+        if(role == Num_Role)
             return m_exo.version();
         break;
-    case modelMPS::SubNodeCible:
-        if(role == SubNodeRole) {
+    case model_base::Sub_Node_Cible:
+        if(role == Sub_Node_Role) {
             QList<QVariant> init;
             switch (num) {
-            case ExerciceEditModel::Sourceposition:
+            case ExerciceEditModel::Source_Position:
                 init.append(ExerciceEditModel::SourceCible);
                 init.append(0);
-                init.append(ComboBoxSubNode);
+                init.append(Combo_Box_Sub_Node);
                 return init;
-            case ExerciceEditModel::Texteposition:
+            case ExerciceEditModel::Texte_Position:
                 init.append(ExerciceEditModel::texte_cible);
                 init.append(0);
-                init.append(TexteEditSubNode);
+                init.append(Texte_Edit_Sub_Node);
                 return init;
-            case ExerciceEditModel::Titreposition:
+            case ExerciceEditModel::Titre_Position:
                 init.append(ExerciceEditModel::TitreCible);
                 init.append(0);
-                init.append(LineEditSubNode);
+                init.append(Line_Edit_Sub_Node);
                 return init;
             case ExerciceEditModel::Versionposition:
                 init.append(ExerciceEditModel::VersionCible);
                 init.append(0);
-                init.append(LineEditSubNode);
+                init.append(Line_Edit_Sub_Node);
                 return init;
             }
         }
         break;
-    case modelMPS::NodeCible:
-        if(role == OrientationRole)
+    case model_base::Node_Cible:
+        if(role == Orientation_Role)
             return Qt::Vertical;
     }
-    return ItemBddNode::data(cible, role, num);
+    return item_bdd_node::data(cible, role, num);
 }
 
-flag ExerciceNode::flags(int cible, numt num) const {
+flag Exercicenode_ptr::flags(int cible, numt num) const {
     if(m_iter.root())
-        return NoFlagNode;
-    return ItemBddNode::flags(cible,num);
+        return No_Flag_Node;
+    return item_bdd_node::flags(cible,num);
 }
 
-void ExerciceNode::insert(b2d::Bdd & bdd) {
+void Exercicenode_ptr::insert(b2d::Bdd & bdd) {
     idt id_parent = 0;
     if(!m_iter.root())
-        id_parent = static_cast<const ExerciceNode &>(**m_iter.parent()).idExo();
+        id_parent = static_cast<const Exercicenode_ptr &>(**m_iter.parent()).idExo();
     bdd.insert(m_exo,id_parent,m_iter.position());
 }
 
-flag ExerciceNode::set_data(int cible, const QVariant & value, int role, numt num) {
+flag Exercicenode_ptr::set_data(int cible, const QVariant & value, int role, numt num) {
     switch (role) {
     case ExerciceEditModel::SourceCible:
-        if(role == IntRole){
+        if(role == Int_Role){
             m_idScr = value.toUInt();
-            return IntRole;
+            return Int_Role;
         }
         break;
     case ExerciceEditModel::texte_cible:
-        if(role == StringRole){
+        if(role == String_Role){
             m_texte = value.to_string();
-            return StringRole;
+            return String_Role;
         }
         break;
     case ExerciceEditModel::TitreCible:
-        if(role == modelMPS::StringRole) {
+        if(role == model_base::String_Role) {
             m_titre = value.to_string();
-            return StringRole;
+            return String_Role;
         }
         break;
     case ExerciceEditModel::VersionCible:
-        if(role == modelMPS::NumRole) {
+        if(role == model_base::Num_Role) {
             m_exo.setVersion(value.toInt());
-            return NumRole;
+            return Num_Role;
         }
     }
-    return ItemBddNode::set_data(cible, value, role, num);
+    return item_bdd_node::set_data(cible, value, role, num);
 }

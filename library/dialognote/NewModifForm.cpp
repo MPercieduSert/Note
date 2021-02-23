@@ -340,14 +340,14 @@ ControleNewModifForm::ControleNewModifForm(b2d::Bdd &bdd, bool newEnt, QWidget *
         setNoms(m_bdd.get_list<Controle>(Controle::Nom));
 
     // Type
-    m_parentTree->setTreeRef(bdd.getArbre<TypeControle>(),
+    m_parentTree->set_treeRef(bdd.getArbre<TypeControle>(),
                           [](const TypeControle & tc)->QTreeWidgetItem * {
         auto item = new QTreeWidgetItem({tc.nom(),tc.nc()});
-        item->set_data(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::IdRole,tc.id());
+        item->set_data(widgetMPS::TreeWidget::IdColonne,widgetMPS::TreeWidget::Id_Role,tc.id());
         if(!tc.code().test(TypeControle::Categorie))
-            item->setFlags(Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+            item->set_flags(Qt::ItemIsEnabled|Qt::ItemIsSelectable);
         else
-            item->setFlags(Qt::ItemIsEnabled);
+            item->set_flags(Qt::ItemIsEnabled);
         return item;
     });
 
@@ -737,7 +737,7 @@ TypeControleNewModifForm::TypeControleNewModifForm(b2d::Bdd &bdd, bool newEnt, Q
         setNoms(m_bdd.get_list<TypeControle>(TypeControle::Nom));
 
     // parent
-    m_parentTree->setTreeNcNomId(bdd.getArbre<TypeControle>());
+    m_parentTree->set_treeNcNomId(bdd.getArbre<TypeControle>());
     m_parentTree->expandAll();
 
     //Catégorie

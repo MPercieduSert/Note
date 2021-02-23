@@ -25,7 +25,7 @@ class ClasseEleveTab: public fenMPS::AbstractTabTableau {
     Q_OBJECT
 protected:
     // Model
-    modelMPS::TableModel * m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
+    model_base::table_model * m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
 
     // Widget
     ClasseSelectWidget * m_classeSelect;            //!< Choix de la classe.

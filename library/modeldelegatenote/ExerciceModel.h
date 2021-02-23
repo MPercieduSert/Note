@@ -5,33 +5,33 @@
 #define EXERCICEMODEL_H
 
 #include "BddNote.h"
-#include "ItemNodeModel.h"
+#include "item_node_model.h"
 
 namespace noteMPS {
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Model d'édition d'exercice.
  */
-class ExerciceEditModel : public modelMPS::ItemNodeBddModel {
+class ExerciceEditModel : public model_base::item_node_bdd_model {
     Q_OBJECT
 protected:
     enum {IdNew = 0};
 public:
     //! Cible des données du model.
-    enum dataCible {SourceCible,
+    enum data_cible {SourceCible,
                     texte_cible,
                     TitreCible,
                     VersionCible,
                     NbrCible};
 
     //! position des sous-noeud.
-    enum positionNode{Zeroposition,
-                      Unposition,
-                      Deuxposition,
-                      Troisposition,
-                      Titreposition = Zeroposition,
-                      Texteposition = Unposition,
-                      Versionposition = Deuxposition,
-                      Sourceposition = Troisposition};
+    enum position_node{Zero_Position,
+                      Un_Position,
+                      Deux_Position,
+                      Trois_Position,
+                      Titre_Position = Zero_Position,
+                      Texte_Position = Un_Position,
+                      Versionposition = Deux_Position,
+                      Source_Position = Trois_Position};
 
     //! constructeur.
     ExerciceEditModel(idt idRacineExo, BddNote & bdd, QObject * parent = nullptr);
@@ -41,16 +41,16 @@ public:
         {return static_cast<BddNote &>(m_bdd);}
 
     //! Nombre de donné associé à une cible.
-    numt dataCount(const modelMPS::NodeIndex & index) const override;
+    numt data_count(const model_base::node_index & index) const override;
 
     //! Fabrique des noeuds.
-    modelMPS::Node nodeFactory(const modelMPS::NodeIndex & parent, numt pos, int type) override;
+    model_base::node_ptr node_factory(const model_base::node_index & parent, numt pos, int type) override;
 };
 
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Noeud parent des model d'exercice.
  */
-class ExerciceNode : public modelMPS::ItemBddNode {
+class Exercicenode_ptr : public model_base::item_bdd_node {
 protected:
     ExerciceEditModel * m_model;
     Exercice m_exo;     //!< Exercice associé au noeud.
@@ -59,7 +59,7 @@ protected:
     QString m_titre;    //!< Titre de d'exercice.
 public:
     //! Constructeur.
-    ExerciceNode(ExerciceEditModel * model)
+    Exercicenode_ptr(ExerciceEditModel * model)
         : m_model(model){}
 
     //! Accesseur des données du noeud.
@@ -82,15 +82,15 @@ public:
     flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;
 };
 
-/*! \ingroup groupeModelNote
+/*! \ingroup groupe_modelNote
  * \brief Noeud du model d'édition d'exercice.
  */
-class ExerciceEditNode : public ExerciceNode {
+class ExerciceEditnode_ptr : public Exercicenode_ptr {
 protected:
 
 public:
     //! Constructeur.
-    using ExerciceNode::ExerciceNode;
+    using Exercicenode_ptr::Exercicenode_ptr;
 };
 }
 #endif // EXERCICEMODEL_H

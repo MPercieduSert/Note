@@ -74,9 +74,9 @@ void GroupeTab::affecte(int column) {
             m_candidatView->selectionModel()->clear();
             for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {
                 auto num = m_candidatModel->data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),
-                                                 CandidatGroupeModel::NumRole).toInt();
+                                                 CandidatGroupeModel::Num_Role).toInt();
                 if(num != column) {
-                    auto id = m_candidatModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt();
+                    auto id = m_candidatModel->data(*iter,model_base::abstract_colonnes_model::Id_Role).toUInt();
                     listId.push_front(id);
                     m_candidatModel->set_data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
                     if(num >= 0)
@@ -87,12 +87,12 @@ void GroupeTab::affecte(int column) {
         else {
             for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter) {
                 auto listNum = m_candidatModel->data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),
-                                                     CandidatGroupeModel::NumRole).toList();
+                                                     CandidatGroupeModel::Num_Role).toList();
                 auto iterNum = listNum.cbegin();
                 while(iterNum != listNum.cend() && iterNum->toUInt() < col)
                     ++iterNum;
                 if(iterNum == listNum.cend() || iterNum->toUInt() != col) {
-                    listId.push_front(m_candidatModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt());
+                    listId.push_front(m_candidatModel->data(*iter,model_base::abstract_colonnes_model::Id_Role).toUInt());
                     m_candidatModel->set_data(iter->siblingAtColumn(CandidatGroupeModel::GroupeColonne),col);
                 }
             }

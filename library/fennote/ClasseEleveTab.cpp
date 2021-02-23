@@ -20,7 +20,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     connect(m_addButton,&QPushButton::clicked,this,[this](){
         auto selection = m_eleveView->selectionModel()->selectedRows();
         for (auto iter = selection.cbegin(); iter != selection.cend(); ++iter)
-            static_cast<ClasseEleveModel*>(m_model)->add(m_eleveModel->data(*iter,modelMPS::AbstractColonnesModel::IdRole).toUInt());
+            static_cast<ClasseEleveModel*>(m_model)->add(m_eleveModel->data(*iter,model_base::abstract_colonnes_model::Id_Role).toUInt());
     });
     m_delButton = new QPushButton(tr("Retirer de la classe"));
     connect(m_delButton,&QPushButton::clicked,this,&ClasseEleveTab::supprimer);
@@ -28,8 +28,8 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     connect(m_saveButton,&QPushButton::clicked,this,&ClasseEleveTab::sauver);
 
     // Eleve
-    m_eleveModel = new modelMPS::TableModel(false,false,this);
-    m_eleveModel->setTableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
+    m_eleveModel = new model_base::table_model(false,false,this);
+    m_eleveModel->set_tableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
     m_eleveModel->insertColonne(NomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,
                                 EleveVecTableau::Nom,tr("Nom"),0});
     m_eleveModel->insertColonne(PrenomEl,{Qt::ItemIsEnabled|Qt::ItemIsSelectable,

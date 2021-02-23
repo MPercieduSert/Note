@@ -197,7 +197,7 @@ public:
     //! Constructeur à partir des valeurs attributs.
     ClasseEleve(idt idCl, idt idEl, const QDate & entree, const QDate & sortie = QDate(), idt id = 0)
         : ClasseEleve(idCl, idEl, id) {
-          setEntree(entr);
+          set_entree(entr);
           setSortie(sortie);
     }
 

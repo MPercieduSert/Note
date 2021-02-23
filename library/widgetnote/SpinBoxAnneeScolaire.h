@@ -24,7 +24,7 @@ class SpinBoxAnneeScolaire : public QAbstractSpinBox
 protected:
     szt m_pos = 0;
     Annee m_value;          //!< Annee courante.
-    conteneurMPS::vector_ptr<Annee> m_vec;   //!< Tableau d'année.
+    vector_ptr<Annee> m_vec;   //!< Tableau d'année.
 
 public:
     //! Constructeur.
@@ -36,12 +36,12 @@ public:
         {set_value(an);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(const conteneurMPS::vector_ptr<Annee> & vec, QWidget * parent = nullptr)
+    SpinBoxAnneeScolaire(const vector_ptr<Annee> & vec, QWidget * parent = nullptr)
         : SpinBoxAnneeScolaire(parent)
         {set_values(vec);}
 
     //! Constructeur.
-    SpinBoxAnneeScolaire(conteneurMPS::vector_ptr<Annee> && vec, QWidget * parent = nullptr)
+    SpinBoxAnneeScolaire(vector_ptr<Annee> && vec, QWidget * parent = nullptr)
         : SpinBoxAnneeScolaire(parent)
         {set_values(std::move(vec));}
 
@@ -52,11 +52,11 @@ public:
     void set_value(const Annee & annee, bool byNum = true);
 
     //! Mutateur de la liste des année disponible courante.
-    void set_values(const conteneurMPS::vector_ptr<Annee> & vec)
+    void set_values(const vector_ptr<Annee> & vec)
         {m_vec = vec;}
 
     //! Mutateur de la liste des année disponible courante.
-    void set_values(conteneurMPS::vector_ptr<Annee> && vec)
+    void set_values(vector_ptr<Annee> && vec)
         {m_vec = std::move(vec);}
 
     //! Taille du widget.
@@ -72,7 +72,7 @@ public:
     }
 
     //! Accesseur de la liste des valeurs.
-    const conteneurMPS::vector_ptr<Annee> & values() const
+    const vector_ptr<Annee> & values() const
         {return m_vec;}
 
 signals:
