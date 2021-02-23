@@ -8,7 +8,7 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "AbstractTabTableau.h"
+#include "abstract_tab_tableau.h"
 #include "BddNote.h"
 #include "EntitySelectWidget.h"
 #include "find_widget.h"
@@ -21,7 +21,7 @@ namespace noteMPS {
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création des Annees.
  */
-class ClasseEleveTab: public fenMPS::AbstractTabTableau {
+class ClasseEleveTab: public fenetre::abstract_tab_tableau {
     Q_OBJECT
 protected:
     // Model
@@ -44,7 +44,7 @@ public:
     enum colonneEleve {NomEl, PrenomEl, NaissanceEl, SexeEl};
 
     //! Constructeur.
-    ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
+    ClasseEleveTab(BddNote & bdd, tab_index pair, QWidget * parent = nullptr);
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() const override

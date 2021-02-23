@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "FenPrincipaleNote.h"
+#include "fen_principaleNote.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     auto bdd = std::make_unique<BddNote>();
     auto * zoneCentrale = new ZoneCentraleNote(new TabNote(*bdd, nullptr));
-    FenPrincipaleNote fen(new NoyauNote,std::move(bdd),zoneCentrale);
+    fen_principaleNote fen(new NoyauNote,std::move(bdd),zoneCentrale);
     fen.show();
     return a.exec();
 }

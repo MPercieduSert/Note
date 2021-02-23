@@ -2,8 +2,8 @@
 
 using namespace noteMPS;
 
-GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
-    : AbstractTabTableau(bdd,pair,parent) {
+GroupeTab::GroupeTab(BddNote & bdd, tab_index pair, QWidget * parent)
+    : abstract_tab_tableau(bdd,pair,parent) {
     // Choix du groupe.
     m_groupeSelect = new GroupeSelectWidget(bdd);
 
@@ -30,7 +30,7 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     // Boutons
     m_delEleveButton = new QPushButton(tr("Retirer les éléves"));
     m_add_groupeButton = new QPushButton(tr("Ajouter un groupe"));
-    m_saveButton = new QPushButton(tr("Sauvegarder"));
+    m_save_bouton = new QPushButton(tr("Sauvegarder"));
     m_propGrLabel = new QLabel(tr("Propriétés du groupe :"));
     m_exclusifCheck = new QCheckBox(tr("Exclusif"));
     m_exclusifCheck->setDisabled(true);
@@ -42,7 +42,7 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     connect(m_groupeSelect,&GroupeSelectWidget::id_changed,this,&GroupeTab::updateEleve);
     connect(m_add_groupeButton,&QPushButton::clicked,this,&GroupeTab::add_groupe);
     connect(m_delEleveButton,&QPushButton::clicked,this,&GroupeTab::remove);
-    connect(m_saveButton,&QPushButton::clicked,this,&GroupeTab::sauver);
+    connect(m_save_bouton,&QPushButton::clicked,this,&GroupeTab::sauver);
     connect(m_view->horizontalHeader(),&QHeaderView::sectionClicked,this,&GroupeTab::affecte);
 
 
@@ -53,7 +53,7 @@ GroupeTab::GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent)
     m_bouton_layout = new QHBoxLayout;
     m_bouton_layout->addWidget(m_add_groupeButton);
     m_bouton_layout->addWidget(m_delEleveButton);
-    m_bouton_layout->addWidget(m_saveButton);
+    m_bouton_layout->addWidget(m_save_bouton);
     m_bouton_layout->addWidget(m_propGrLabel);
     m_bouton_layout->addWidget(m_exclusifCheck);
     m_bouton_layout->addWidget(m_totalCheck);
@@ -102,7 +102,7 @@ void GroupeTab::affecte(int column) {
 }
 
 void GroupeTab::becomeCurrent()
-    {emit actionPermise(fenMPS::EffacerAction|fenMPS::SauverAction);}
+    {emit action_permise(fenetre::Effacer_Action|fenetre::Sauver_Action);}
 
 void GroupeTab::remove(){
     auto selection = m_view->selectionModel()->selectedIndexes();

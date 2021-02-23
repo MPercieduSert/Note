@@ -5,13 +5,13 @@
 #define ZONECENTRALENOTE_H
 
 #include "TabNote.h"
-#include "PredefZoneCentrale.h"
+#include "predef_zone_centrale.h"
 
 namespace noteMPS {
-/*! \ingroup groupeFenNote
+/*! \ingroup groupe_fenNote
  * \brief Zone centrale de l'application note.
  */
-class ZoneCentraleNote : public fmps::PredefZoneCentrale
+class ZoneCentraleNote : public fmps::predef_zone_centrale
 {
 public:
     //! Constructeur.

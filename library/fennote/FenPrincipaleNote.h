@@ -10,34 +10,34 @@
 #include "NewModifPredef.h"
 #include "NoyauNote.h"
 #include "ZoneCentraleNote.h"
-#include "PredefFenPrincipale.h"
+#include "predef_fen_principale.h"
 
 namespace noteMPS {
-/*! \ingroup groupeFenNote
+/*! \ingroup groupe_fenNote
  * \brief Fenêtre principale de l'application note.
  *
  * Fenêtre principale de l'application note:
  *  + Crée les différents menus.
  *
  */
-class FenPrincipaleNote : public fmps::PredefFenPrincipale {
+class fen_principaleNote : public fmps::predef_fen_principale {
     Q_OBJECT
 protected:
 
 public:
     //! Constructeur.
-    FenPrincipaleNote(NoyauNote * noyau,
+    fen_principaleNote(NoyauNote * noyau,
                       std::unique_ptr<BddNote>  bdd,
-                      ZoneCentraleNote * centralZone,
-                      const QString &bddPathXML = DATA_BASE,
-                      const QString & configPath = QDir::currentPath().append("/Config.xml"),
+                      ZoneCentraleNote * central_zone,
+                      const QString &bdd_path_xml = DATA_BASE,
+                      const QString & config_path = QDir::currentPath().append("/Config.xml"),
                       QWidget *parent = nullptr);
 
     //! Destructeur.
-    ~FenPrincipaleNote() override = default;
+    ~fen_principaleNote() override = default;
 
     //! Création du sous-menu nouvau.
-    void createMenuNewModif();
+    void create_menuNewModif();
 
     //! Acceseur du noyau.
     NoyauNote * noyau() override

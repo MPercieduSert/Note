@@ -13,7 +13,7 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QSpinBox>
-#include "AbstractTabTableau.h"
+#include "abstract_tab_tableau.h"
 #include "BddNote.h"
 #include "find_widget.h"
 #include "TableauNote.h"
@@ -22,7 +22,7 @@ namespace noteMPS {
 /*! \ingroup groupeDialogNote
  * \brief Formulaire de création des Annees.
  */
-class ElevesTab : public fenMPS::AbstractTabTableau {
+class ElevesTab : public fenetre::abstract_tab_tableau {
     Q_OBJECT
 protected:
     bool m_findEnabled = true;      //! Autorise la rechercha.
@@ -43,7 +43,7 @@ public:
     enum colonne {Nom, Prenom, Naissance, Sexe};
 
     //! Constructeur.
-    ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
+    ElevesTab(BddNote & bdd, tab_index pair, QWidget * parent = nullptr);
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() const override

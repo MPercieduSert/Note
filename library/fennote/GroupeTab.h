@@ -9,7 +9,7 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QRadioButton>
-#include "AbstractTabTableau.h"
+#include "abstract_tab_tableau.h"
 #include "BddNote.h"
 #include "EntitySelectWidget.h"
 #include "find_widget.h"
@@ -23,7 +23,7 @@ namespace noteMPS {
 /*! \ingroup groupeDialogNote
  * \brief Onglet de gestion des élèves dans les groupes.
  */
-class GroupeTab : public fenMPS::AbstractTabTableau {
+class GroupeTab : public fenetre::abstract_tab_tableau {
     Q_OBJECT
 protected:
     // Model et vue
@@ -51,7 +51,7 @@ public:
     enum colonne {Nom, Prenom, Naissance, Sexe};
 
     //! Constructeur.
-    GroupeTab(BddNote & bdd, std::pair<int,int> pair, QWidget * parent = nullptr);
+    GroupeTab(BddNote & bdd, tab_index pair, QWidget * parent = nullptr);
 
     //! Accesseur de la base de donnée.
     BddNote & bdd() const override

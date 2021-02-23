@@ -3,7 +3,7 @@
 using namespace noteMPS;
 
 //NoyauNote::NoyauNote()
-//    : AbstractNoyau() {
+//    : abstract_noyau() {
 //    setAnnee();
 //}
 
@@ -26,5 +26,5 @@ void NoyauNote::setAnnee(const Annee & an) {
     m_annee = anBdd;
 }
 
-void NoyauNote::setConfigByPath(const QString &configPath, QWidget *modalParent)
-    {setConfig(std::make_unique<ConfigNote>(configPath), modalParent);}
+void NoyauNote::set_config_by_path(const QString &config_path, QWidget *modal_parent)
+    {set_config(std::make_unique<ConfigNote>(config_path), modal_parent);}

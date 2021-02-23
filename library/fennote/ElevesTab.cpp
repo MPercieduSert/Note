@@ -2,8 +2,8 @@
 
 using namespace noteMPS;
 
-ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
-    : AbstractTabTableau(bdd,pair,parent) {
+ElevesTab::ElevesTab(BddNote & bdd, tab_index pair, QWidget *parent)
+    : abstract_tab_tableau(bdd,pair,parent) {
     //Model et vue
     m_model = new model_base::table_model(true,true,this);
     m_model->set_tableau(std::make_unique<EleveVecTableau>(bdd,bdd.get_list<Eleve>()));
@@ -35,8 +35,8 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_addSpinBox = new QSpinBox;
     connect(m_addButton,&QPushButton::clicked,this,[this](){m_model->insert_rows(m_model->row_count(),m_addSpinBox->value());});
     //Save
-    m_saveButton = new QPushButton(tr("Sauvegarder les éléves validés"));
-    connect(m_saveButton,&QPushButton::clicked,this,&ElevesTab::sauver);
+    m_save_bouton = new QPushButton(tr("Sauvegarder les éléves validés"));
+    connect(m_save_bouton,&QPushButton::clicked,this,&ElevesTab::sauver);
     //Del
     m_delButton = new QPushButton(tr("Supprimer les éléves selectionnés"));
     connect(m_delButton,&QPushButton::clicked,this,&ElevesTab::supprimer);
@@ -47,7 +47,7 @@ ElevesTab::ElevesTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
     m_secondLayout = new QVBoxLayout;
     m_secondLayout->addWidget(m_findGroup);
     m_secondLayout->addWidget(m_addGroup);
-    m_secondLayout->addWidget(m_saveButton);
+    m_secondLayout->addWidget(m_save_bouton);
     m_secondLayout->addWidget(m_delButton);
     m_secondLayout->addStretch();
     m_main_layout = new QHBoxLayout(this);

@@ -6,17 +6,17 @@
 
 #include "config.h"
 
-/*! \ingroup groupeNoyau
+/*! \ingroup groupe_noyau
  * \brief Chemin XML du dossier de l'application par default.
  */
 #define DEFAULT_DIRECTORY "conf/directories/default"
 
-/*! \ingroup groupeNoyau
+/*! \ingroup groupe_noyau
  * \brief Chemin XML de la base de donnée.
  */
 #define DATA_BASE "conf/files/databases/database"
 
-/*! \ingroup groupeNoyau
+/*! \ingroup groupe_noyau
  * \brief Chemin XML de l'année par default.
  */
 #define DEFAULT_ANNEE "conf/parametre/initialisation/anneeDefaut"
@@ -27,7 +27,7 @@ namespace noteMPS {
  *
  * Gestionnaire du fichier de configuration enregistré sous la forme d'un document XML. Tous les noeuds ont des chemins uniques.
  */
-class configNote : public fichier::Config {
+class configNote : public fichier::config {
 public:
     using config::Config;
 

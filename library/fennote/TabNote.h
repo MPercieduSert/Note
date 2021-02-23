@@ -8,29 +8,29 @@
 #include "ElevesTab.h"
 #include "ExerciceTab.h"
 #include "GroupeTab.h"
-#include "PredefTab.h"
+#include "predef_tab.h"
 
 
 namespace noteMPS {
-namespace fmps = fenMPS;
-/*! \ingroup groupeFenInv
+namespace fmps = fenetre;
+/*! \ingroup groupe_fenInv
  * \brief Fenêtre à onglet de l'application inventaire.
  */
-class TabNote : public fmps::PredefTab {
+class TabNote : public fmps::predef_tab {
 public:
-    enum NoteTabId {ClasseEleveTabId = NbrPredefTabId,
+    enum NoteTabId {ClasseEleveTabId = Nbr_Predef_Tab_Id,
                     ElevesTabId,
                     ExerciceTabId,
                     GroupeTabId
                     };
-    using PredefTab::PredefTab;
+    using predef_tab::predef_tab;
 
     //! Connect l'onglet aux signaux commun à tous les onglets.
-    void connectTab(fmps::AbstractTabModule * tab) const override
-        {PredefTab::connectTab(tab);}
+    void connect_tab(fmps::abstract_tab_module * tab) const override
+        {predef_tab::connect_tab(tab);}
 
     //! Créateur d'onglet.
-    fmps::AbstractTabModule *createTab(const std::pair<int,int> & pair,
+    fmps::abstract_tab_module *create_tab(const tab_index & pair,
                                        const std::vector<QVariant> & args = std::vector<QVariant>()) const override;
 
     //! Accesseur de la base de donnée.

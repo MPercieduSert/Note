@@ -3,4 +3,4 @@
 using namespace noteMPS;
 
 ZoneCentraleNote::ZoneCentraleNote(TabNote * tab, QWidget * parent)
-    : PredefZoneCentrale (tab,parent) {}
+    : predef_zone_centrale (tab,parent) {}

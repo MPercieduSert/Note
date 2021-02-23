@@ -2,8 +2,8 @@
 
 using namespace noteMPS;
 
-ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *parent)
-    : AbstractTabTableau(bdd,pair,parent) {
+ClasseEleveTab::ClasseEleveTab(BddNote & bdd, tab_index pair, QWidget *parent)
+    : abstract_tab_tableau(bdd,pair,parent) {
     m_classeSelect = new ClasseSelectWidget(bdd);
     m_model = new ClasseEleveModel(bdd,m_classeSelect->id(),this);
     connect(m_classeSelect,&ClasseSelectWidget::id_changed,static_cast<ClasseEleveModel*>(m_model),&ClasseEleveModel::set_idClasse);
@@ -24,8 +24,8 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     });
     m_delButton = new QPushButton(tr("Retirer de la classe"));
     connect(m_delButton,&QPushButton::clicked,this,&ClasseEleveTab::supprimer);
-    m_saveButton = new QPushButton(tr("Sauvegarder"));
-    connect(m_saveButton,&QPushButton::clicked,this,&ClasseEleveTab::sauver);
+    m_save_bouton = new QPushButton(tr("Sauvegarder"));
+    connect(m_save_bouton,&QPushButton::clicked,this,&ClasseEleveTab::sauver);
 
     // Eleve
     m_eleveModel = new model_base::table_model(false,false,this);
@@ -51,7 +51,7 @@ ClasseEleveTab::ClasseEleveTab(BddNote & bdd, std::pair<int,int> pair, QWidget *
     m_bouton_layout = new QHBoxLayout;
     m_bouton_layout->addWidget(m_addButton);
     m_bouton_layout->addWidget(m_delButton);
-    m_bouton_layout->addWidget(m_saveButton);
+    m_bouton_layout->addWidget(m_save_bouton);
     m_eleve_layout = new QHBoxLayout;
     m_eleve_layout->addWidget(m_eleveView);
     m_eleve_layout->addWidget(m_eleveFind);
