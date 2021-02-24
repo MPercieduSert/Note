@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
-<!-- Mot clé - Type de connaissance -->
-<MotCle>
-  <Nc>Tp Connaissance</Nc>
-  <Nom>Type de connaissance</Nom>
-  <Ref>root_tpc</Ref>
-  <Restriction code="modification|suppression"/>
-  <MotClePermission id1_cible="MotCle" code="Visible|Attribuable"/>
-</MotCle>
-<MotCle>
-  <Nc>Matière</Nc>
-  <Nom>Matière</Nom>
-  <Ref>matiere_tpc</Ref>
-  <Arbre ref_parent="root_tpc"/>
-  <Restriction code="modification|suppression"/>
-  <MotClePermission id1_cible="MotCle" code="Visible|Attribuable"/>
-</MotCle>
+<!-- Mot clé - type de connaissance -->
+<mot_cle>
+  <nc>Tp Connaissance</nc>
+  <nom>type de connaissance</nom>
+  <ref>root_tpc</ref>
+  <restriction code="modification|suppression"/>
+  <mot_cle_permission id_1_cible="mot_cle" code="visible|attribuable"/>
+</mot_cle>
+<mot_cle>
+  <nc>Matière</nc>
+  <nom>Matière</nom>
+  <ref>matiere_tpc</ref>
+  <arbre ref_parent="root_tpc"/>
+  <restriction code="modification|suppression"/>
+  <mot_cle_permission id_1_cible="mot_cle" code="visible|attribuable"/>
+</mot_cle>
 
 <!-- Mot clé - Connaissance -->
-<MotCle>
-  <Nc>Connaissance</Nc>
-  <Nom>Connaissance</Nom>
-  <Ref>root_css</Ref>
-  <Restriction code="modification|suppression"/>
-  <MotClePermission id1_cible="Enonce|Exercice|Texte" code="Visible"/>
-  <MotCleCible idcible_id1="root_tpc"/>
-</MotCle>
+<mot_cle>
+  <nc>Connaissance</nc>
+  <nom>Connaissance</nom>
+  <ref>root_css</ref>
+  <restriction code="modification|suppression"/>
+  <mot_cle_permission id_1_cible="enonce|exercice|texte" code="visible"/>
+  <mot_cle_cible id_cible_id_1="root_tpc"/>
+</mot_cle>
 </entities>

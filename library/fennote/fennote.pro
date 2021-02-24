@@ -22,83 +22,81 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    FenPrincipaleNote.cpp \
-    NoyauNote.cpp \
-    TabNote.cpp \
-    ZoneCentraleNote.cpp \
-    ElevesTab.cpp \
-    ClasseEleveTab.cpp \
-    GroupeTab.cpp \
-    ExerciceTab.cpp
+    noyau_note.cpp \
+    tab_note.cpp \
+    eleve_tab.cpp \
+    exercice_tab.cpp \
+    groupe_tab.cpp \
+    zone_centrale_note.cpp \
+    fen_principale_note.cpp
 
 HEADERS += \
-    FenPrincipaleNote.h \
-    NoyauNote.h \
-    TabNote.h \
-    ZoneCentraleNote.h \
-    ElevesTab.h \
-    ClasseEleveTab.h \
-    GroupeTab.h \
-    ExerciceTab.h
+    noyau_note.h \
+    tab_note.h \
+    eleve_tab.h \
+    exercice_tab.h \
+    groupe_tab.h \
+    zone_centrale_note.h \
+    fen_principale_note.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/entities/release/ -lentities
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/entities/debug/ -lentities
-else:unix: LIBS += -L$$PWD/../../../compilation/lib2d/entities/ -lentities
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/entities/release/ -lentities
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/entities/debug/ -lentities
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/entities/ -lentities
 
-INCLUDEPATH += $$PWD/../../../lib2d/entities
-DEPENDPATH += $$PWD/../../../lib2d/entities
+INCLUDEPATH += $$PWD/../../../libmps/entities
+DEPENDPATH += $$PWD/../../../libmps/entities
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/entities/release/libentities.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/entities/debug/libentities.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/entities/release/entities.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/entities/debug/entities.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/entities/libentities.a
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/manager/release/ -lmanager
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/manager/debug/ -lmanager
-else:unix: LIBS += -L$$PWD/../../../compilation/lib2d/manager/ -lmanager
-
-INCLUDEPATH += $$PWD/../../../lib2d/manager
-DEPENDPATH += $$PWD/../../../lib2d/manager
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/manager/release/libmanager.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/manager/debug/libmanager.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/manager/release/manager.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/manager/debug/manager.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/manager/libmanager.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/entities/release/libentities.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/entities/debug/libentities.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/entities/release/entities.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/entities/debug/entities.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/entities/libentities.a
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/widget/release/ -lwidget
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/widget/debug/ -lwidget
-else:unix: LIBS += -L$$PWD/../../../compilation/lib2d/widget/ -lwidget
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/manager/release/ -lmanager
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/manager/debug/ -lmanager
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/manager/ -lmanager
 
-INCLUDEPATH += $$PWD/../../../lib2d/widget
-DEPENDPATH += $$PWD/../../../lib2d/widget
+INCLUDEPATH += $$PWD/../../../libmps/manager
+DEPENDPATH += $$PWD/../../../libmps/manager
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/widget/release/libwidget.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/widget/debug/libwidget.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/widget/release/widget.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/widget/debug/widget.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/widget/libwidget.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/manager/release/libmanager.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/manager/debug/libmanager.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/manager/release/manager.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/manager/debug/manager.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/manager/libmanager.a
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/fen/release/ -lfen
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/fen/debug/ -lfen
-else:unix: LIBS += -L$$PWD/../../../compilation/lib2d/fen/ -lfen
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/widget/release/ -lwidget
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/widget/debug/ -lwidget
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/widget/ -lwidget
 
-INCLUDEPATH += $$PWD/../../../lib2d/fen
-DEPENDPATH += $$PWD/../../../lib2d/fen
+INCLUDEPATH += $$PWD/../../../libmps/widget
+DEPENDPATH += $$PWD/../../../libmps/widget
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/fen/release/libfen.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/fen/debug/libfen.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/fen/release/fen.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/fen/debug/fen.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/fen/libfen.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/widget/release/libwidget.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/widget/debug/libwidget.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/widget/release/widget.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/widget/debug/widget.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/widget/libwidget.a
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/fen/release/ -lfen
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/fen/debug/ -lfen
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/fen/ -lfen
+
+INCLUDEPATH += $$PWD/../../../libmps/fen
+DEPENDPATH += $$PWD/../../../libmps/fen
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/fen/release/libfen.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/fen/debug/libfen.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/fen/release/fen.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/fen/debug/fen.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/fen/libfen.a
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../managernote/release/ -lmanagernote
@@ -153,15 +151,15 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/debug/modeldelegatenote.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../modeldelegatenote/libmodeldelegatenote.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/model/release/ -lmodel
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/lib2d/model/debug/ -lmodel
-else:unix: LIBS += -L$$PWD/../../../compilation/lib2d/model/ -lmodel
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/model/release/ -lmodel
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../compilation/libmps/model/debug/ -lmodel
+else:unix: LIBS += -L$$PWD/../../../compilation/libmps/model/ -lmodel
 
-INCLUDEPATH += $$PWD/../../../lib2d/model
-DEPENDPATH += $$PWD/../../../lib2d/model
+INCLUDEPATH += $$PWD/../../../libmps/model
+DEPENDPATH += $$PWD/../../../libmps/model
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/model/release/libmodel.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/model/debug/libmodel.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/model/release/model.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/model/debug/model.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/lib2d/model/libmodel.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/release/libmodel.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/debug/libmodel.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/release/model.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/debug/model.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../compilation/libmps/model/libmodel.a

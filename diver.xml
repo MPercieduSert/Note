@@ -1,207 +1,207 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
-  <!-- Type - Evenement -->
-  <Type>
-    <Nc>Admin</Nc>
-    <Nom>Administratif</Nom>
-    <Ref>admin_ev</Ref>
-    <Parent Ref="even_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Congé</Nc>
-    <Nom>Congé</Nom>
-    <Ref>conge_ev</Ref>
-    <Parent Ref="even_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Enseignement</Nc>
-    <Nom>Enseignement</Nom>
-    <Ref>ens_ev</Ref>
-    <Parent Ref="even_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>CdC</Nc>
-    <Nom>Conseil de classe</Nom>
-    <Ref>conseil_classe</Ref>
-    <Parent Ref="admin_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Cours</Nc>
-    <Nom>Cours</Nom>
-    <Ref>cours</Ref>
-    <Parent Ref="ens_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>DS</Nc>
-    <Nom>Devoir surveillé</Nom>
-    <Ref>ds_ev</Ref>
-    <Parent Ref="ens_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>JF</Nc>
-    <Nom>Jour Férié</Nom>
-    <Ref>ferie</Ref>
-    <Parent Ref="conge_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Khôlle</Nc>
-    <Nom>Khôlle</Nom>
-    <Ref>kholle_eve</Ref>
-    <Parent Ref="ens_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Réunion</Nc>
-    <Nom>Réunion</Nom>
-    <Ref>reunion</Ref>
-    <Parent Ref="admin_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>TD</Nc>
-    <Nom>Travaux dirigés</Nom>
-    <Ref>td_eve</Ref>
-    <Parent Ref="ens_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>TP</Nc>
-    <Nom>Travaux pratiques</Nom>
-    <Ref>tp_eve</Ref>
-    <Parent Ref="ens_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Vacances</Nc>
-    <Nom>Vacances</Nom>
-    <Ref>vacances</Ref>
-    <Parent Ref="conge_ev"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Evenement" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <!-- Type - Groupe -->
-  <Type>
-    <Nc>Gr</Nc>
-    <Nom>Groupe</Nom>
-    <Ref>groupe_root</Ref>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Groupe" code="Visible" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Khôlle</Nc>
-    <Nom>Khôlle</Nom>
-    <Ref>kholle_gr</Ref>
-    <Parent Ref="groupe_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>TD</Nc>
-    <Nom>Travaux dirigés</Nom>
-    <Ref>td_gr</Ref>
-    <Parent Ref="groupe_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>TP</Nc>
-    <Nom>Travaux pratiques</Nom>
-    <Ref>tp_gr</Ref>
-    <Parent Ref="groupe_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Sc</Nc>
-    <Nom>Scéance</Nom>
-    <Ref>sceance_gr</Ref>
-    <Parent Ref="groupe_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Groupe" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <!-- Type - Source -->
-  <Type>
-    <Nc>Annales</Nc>
-    <Nom>Annales</Nom>
-    <Ref>annales_src</Ref>
-    <Parent Ref="source_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Ens</Nc>
-    <Nom>Enseignant</Nom>
-    <Ref>ens_src</Ref>
-    <Parent Ref="source_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <Type>
-    <Nc>Livre</Nc>
-    <Nom>Livre</Nom>
-    <Ref>livre_src</Ref>
-    <Parent Ref="source_root"/>
-    <Restriction code="modification|suppression"/>
-    <TypePermission id1_cible="Source" code="Visible|Attribuable" restriction="modification|suppression"/>
-  </Type>
-  <!-- TypeControle -->
-  <TypeControle>
-    <Nom>Écrit</Nom>
-    <Nc>(E)</Nc>
-    <Code type="code">Categorie</Code>
-    <Total>1</Total>
-  </TypeControle>
-  <TypeControle>
-    <Nom>Oral</Nom>
-    <Nc>(O)</Nc>
-    <Code type="code">Categorie</Code>
-    <Total>1</Total>
-  </TypeControle>
-  <TypeControle>
-    <Nom>Devoir Surveillé</Nom>
-    <Nc>DS</Nc>
-    <Parent Nom="Écrit"/>
-    <Total>20</Total>
-    <Decimale>10</Decimale>
-    <Minima>6</Minima>
-    <Code type="code">Note|Competences|Capacites</Code>
-  </TypeControle>
-  <TypeControle>
-    <Nom>Interrogation</Nom>
-    <Nc>Interro</Nc>
-    <Parent Nom="Écrit"/>
-    <Total>1</Total>
-    <Code type="code">Competences|Capacites</Code>
-  </TypeControle>
-  <TypeControle>
-    <Nom>khôlle</Nom>
-    <Nc>colle</Nc>
-    <Code type="code">Competences|Capacites</Code>
-    <Parent Nom="Oral"/>
-    <Total>1</Total>
-  </TypeControle>
-  <!-- DonneCard -->
-  <DonneeCard>
-    <IdDonnee Ref="date_defaut"/>
-    <Cible type="cible">Classe</Cible>
-    <Card type="enum">NbrDefaultDateClasse</Card>
-  </DonneeCard>
+  <!-- type - evenement -->
+  <type>
+    <nc>Admin</nc>
+    <nom>Administratif</nom>
+    <ref>admin_ev</ref>
+    <parent ref="even_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Congé</nc>
+    <nom>Congé</nom>
+    <ref>conge_ev</ref>
+    <parent ref="even_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Enseignement</nc>
+    <nom>Enseignement</nom>
+    <ref>ens_ev</ref>
+    <parent ref="even_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>CdC</nc>
+    <nom>Conseil de classe</nom>
+    <ref>conseil_classe</ref>
+    <parent ref="admin_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Cours</nc>
+    <nom>Cours</nom>
+    <ref>cours</ref>
+    <parent ref="ens_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>DS</nc>
+    <nom>Devoir surveillé</nom>
+    <ref>ds_ev</ref>
+    <parent ref="ens_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>JF</nc>
+    <nom>Jour Férié</nom>
+    <ref>ferie</ref>
+    <parent ref="conge_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Khôlle</nc>
+    <nom>Khôlle</nom>
+    <ref>kholle_eve</ref>
+    <parent ref="ens_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Réunion</nc>
+    <nom>Réunion</nom>
+    <ref>reunion</ref>
+    <parent ref="admin_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>TD</nc>
+    <nom>Travaux dirigés</nom>
+    <ref>td_eve</ref>
+    <parent ref="ens_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>TP</nc>
+    <nom>Travaux pratiques</nom>
+    <ref>tp_eve</ref>
+    <parent ref="ens_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Vacances</nc>
+    <nom>Vacances</nom>
+    <ref>vacances</ref>
+    <parent ref="conge_ev"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <!-- type - groupe -->
+  <type>
+    <nc>Gr</nc>
+    <nom>groupe</nom>
+    <ref>groupe_root</ref>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="groupe" code="visible" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Khôlle</nc>
+    <nom>Khôlle</nom>
+    <ref>kholle_gr</ref>
+    <parent ref="groupe_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="groupe" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>TD</nc>
+    <nom>Travaux dirigés</nom>
+    <ref>td_gr</ref>
+    <parent ref="groupe_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="groupe" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>TP</nc>
+    <nom>Travaux pratiques</nom>
+    <ref>tp_gr</ref>
+    <parent ref="groupe_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="groupe" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Sc</nc>
+    <nom>Scéance</nom>
+    <ref>sceance_gr</ref>
+    <parent ref="groupe_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="groupe" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <!-- type - source -->
+  <type>
+    <nc>Annales</nc>
+    <nom>Annales</nom>
+    <ref>annales_src</ref>
+    <parent ref="source_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Ens</nc>
+    <nom>Enseignant</nom>
+    <ref>ens_src</ref>
+    <parent ref="source_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Livre</nc>
+    <nom>Livre</nom>
+    <ref>livre_src</ref>
+    <parent ref="source_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <!-- type_controle -->
+  <type_controle>
+    <nom>Écrit</nom>
+    <nc>(E)</nc>
+    <code type="code">categorie</code>
+    <total>1</total>
+  </type_controle>
+  <type_controle>
+    <nom>Oral</nom>
+    <nc>(O)</nc>
+    <code type="code">categorie</code>
+    <total>1</total>
+  </type_controle>
+  <type_controle>
+    <nom>Devoir Surveillé</nom>
+    <nc>DS</nc>
+    <parent nom="Écrit"/>
+    <total>20</total>
+    <decimale>10</decimale>
+    <minima>6</minima>
+    <code type="code">note|competences|capacites</code>
+  </type_controle>
+  <type_controle>
+    <nom>Interrogation</nom>
+    <nc>Interro</nc>
+    <parent nom="Écrit"/>
+    <total>1</total>
+    <code type="code">competences|capacites</code>
+  </type_controle>
+  <type_controle>
+    <nom>khôlle</nom>
+    <nc>colle</nc>
+    <code type="code">competences|capacites</code>
+    <parent nom="Oral"/>
+    <total>1</total>
+  </type_controle>
+  <!-- Donnecard -->
+  <donnee_card>
+    <id_donnee ref="date_defaut"/>
+    <cible type="cible">classe</cible>
+    <card type="enum">nbr_default_date_classe</card>
+  </donnee_card>
 </entities>
