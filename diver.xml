@@ -1,11 +1,47 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <entities>
+  <!-- type_controle -->
+  <type_controle>
+    <nom>Écrit</nom>
+    <nc>(E)</nc>
+    <code type="code">categorie</code>
+    <total>1</total>
+  </type_controle>
+  <type_controle>
+    <nom>Oral</nom>
+    <nc>(O)</nc>
+    <code type="code">categorie</code>
+    <total>1</total>
+  </type_controle>
+  <type_controle>
+    <nom>Devoir Surveillé</nom>
+    <nc>DS</nc>
+    <parent nom="Écrit"/>
+    <total>20</total>
+    <decimale>10</decimale>
+    <minima>6</minima>
+    <code type="code">note|competences|capacites</code>
+  </type_controle>
+  <type_controle>
+    <nom>Interrogation</nom>
+    <nc>Interro</nc>
+    <parent nom="Écrit"/>
+    <total>1</total>
+    <code type="code">competences|capacites</code>
+  </type_controle>
+  <type_controle>
+    <nom>khôlle</nom>
+    <nc>colle</nc>
+    <code type="code">competences|capacites</code>
+    <parent nom="Oral"/>
+    <total>1</total>
+  </type_controle>
   <!-- type - evenement -->
   <type>
     <nc>Admin</nc>
     <nom>Administratif</nom>
     <ref>admin_ev</ref>
-    <parent ref="even_root"/>
+    <parent ref="evenement_root"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
   </type>
@@ -13,7 +49,7 @@
     <nc>Congé</nc>
     <nom>Congé</nom>
     <ref>conge_ev</ref>
-    <parent ref="even_root"/>
+    <parent ref="evenement_root"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
   </type>
@@ -21,7 +57,7 @@
     <nc>Enseignement</nc>
     <nom>Enseignement</nom>
     <ref>ens_ev</ref>
-    <parent ref="even_root"/>
+    <parent ref="evenement_root"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="evenement" code="visible" restriction="modification|suppression"/>
   </type>
@@ -97,6 +133,94 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="evenement" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
+  <!-- type - Exercice -->
+  <type>
+    <nc>Exo</nc>
+    <nom>Exercci</nom>
+    <ref>exo_root</ref>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Question de cours</nc>
+    <nom>Question de cours</nom>
+    <ref>question_cours</ref>
+    <parent ref="exo_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Exo Cours</nc>
+    <nom>Exercice de cours</nom>
+    <ref>exo_cours</ref>
+    <parent ref="exo_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Question</nc>
+    <nom>Question d'exercice de cours</nom>
+    <ref>question_cours_exo</ref>
+    <parent ref="exo_cours"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Exo</nc>
+    <nom>Exercice</nom>
+    <ref>exo</ref>
+    <parent ref="exo_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Question</nc>
+    <nom>Question d'exercice</nom>
+    <ref>question_exo</ref>
+    <parent ref="exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Sous question</nc>
+    <nom>Sous question d'exercice</nom>
+    <ref>ss_question_exo</ref>
+    <parent ref="question_exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Problème</nc>
+    <nom>Problème</nom>
+    <ref>pb_exo</ref>
+    <parent ref="exo_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Partie</nc>
+    <nom>Partie de problème</nom>
+    <ref>partie_pb_exo</ref>
+    <parent ref="pb_exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Question</nc>
+    <nom>Question de problème</nom>
+    <ref>question_pb_exo</ref>
+    <parent ref="partie_pb_exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
+    <nc>Sous question</nc>
+    <nom>Sous question de problème</nom>
+    <ref>ss_question_pb_exo</ref>
+    <parent ref="question_pb_exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
   <!-- type - groupe -->
   <type>
     <nc>Gr</nc>
@@ -162,42 +286,6 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-  <!-- type_controle -->
-  <type_controle>
-    <nom>Écrit</nom>
-    <nc>(E)</nc>
-    <code type="code">categorie</code>
-    <total>1</total>
-  </type_controle>
-  <type_controle>
-    <nom>Oral</nom>
-    <nc>(O)</nc>
-    <code type="code">categorie</code>
-    <total>1</total>
-  </type_controle>
-  <type_controle>
-    <nom>Devoir Surveillé</nom>
-    <nc>DS</nc>
-    <parent nom="Écrit"/>
-    <total>20</total>
-    <decimale>10</decimale>
-    <minima>6</minima>
-    <code type="code">note|competences|capacites</code>
-  </type_controle>
-  <type_controle>
-    <nom>Interrogation</nom>
-    <nc>Interro</nc>
-    <parent nom="Écrit"/>
-    <total>1</total>
-    <code type="code">competences|capacites</code>
-  </type_controle>
-  <type_controle>
-    <nom>khôlle</nom>
-    <nc>colle</nc>
-    <code type="code">competences|capacites</code>
-    <parent nom="Oral"/>
-    <total>1</total>
-  </type_controle>
   <!-- Donnecard -->
   <donnee_card>
     <id_donnee ref="date_defaut"/>
