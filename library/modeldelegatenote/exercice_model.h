@@ -14,24 +14,30 @@ namespace note_mps {
 class exercice_edit_model : public mps::model_base::item_node_bdd_model {
     Q_OBJECT
 protected:
+    idt m_id_root_exo;      //! Identifiant de la racine de l'exercice, nul si l'exercice est nouveau.
     enum {Id_New = 0};
 public:
     //! Cible des données du model.
-    enum data_cible {Source_Cible,
-                    Texte_Cible,
-                    Titre_Cible,
-                    Version_Cible,
-                    Nbr_Cible};
+    enum data_cible {Label_Cible,
+                     Version_Cible =1,
+                     Source_Cible = 2,
+                     Texte_Cible = 3,
+                     Titre_Cible = 4,
+                     Nbr_Premier_Cible,
+                     Nbr_Only_Premier_Cible = 1,
+                     Nbr_Suivant_Cible = Nbr_Premier_Cible - Nbr_Only_Premier_Cible};
 
     //! position des sous-noeud.
     enum position_node{Zero_Position,
-                      Un_Position,
-                      Deux_Position,
-                      Trois_Position,
-                      Titre_Position = Zero_Position,
-                      Texte_Position = Un_Position,
-                      Version_Position = Deux_Position,
-                      Source_Position = Trois_Position};
+                       Un_Position,
+                       Deux_Position,
+                       Trois_Position,
+                       Quatre_Position,
+                       Label_Position = Zero_Position,
+                       Version_Position = Trois_Position,
+                       Titre_Position = Un_Position,
+                       Texte_Position = Deux_Position,
+                       Source_Position = Quatre_Position};
 
     //! constructeur.
     exercice_edit_model(idt id_racine_exo, bdd_note & bdd, QObject *parent = nullptr);
@@ -41,7 +47,10 @@ public:
         {return static_cast<bdd_note &>(m_bdd);}
 
     //! Nombre de donné associé à une cible.
-    numt data_count(const mps::model_base::node_index & index) const override;
+    numt data_count(const node_index & index) const override;
+
+    //! Insert count noeuds de nature type avant la position pos de parent.
+    std::list<node_iter> insert(const node_index &parent, numt pos, numt count, int type = Default_Type) override;
 
     //! Fabrique des noeuds.
     mps::model_base::node_ptr node_factory(const mps::model_base::node_index & parent, numt pos, int type) override;

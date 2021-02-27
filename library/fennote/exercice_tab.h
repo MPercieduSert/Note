@@ -37,7 +37,7 @@ public slots:
 
     //! Slot coorepondant à l'action sauver.
     void sauver() override
-        {}
+        {m_model->save();}
 };
 }
 #endif // EXERCICE_TAB_H
