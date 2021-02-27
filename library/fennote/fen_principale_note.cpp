@@ -52,18 +52,18 @@ void fen_principale_note::create_menu_new_modif() {
     connect_action_to_new_modif_dialog<classe_new_modif_form>(classeMenu->addAction(tr("Modifier")),false);
     connect_action_to_ppen_tab(classeMenu->addAction(tr("Liste des éléves")),{tab_note::Classe_Eleve_Tab_Id,0});
     //controle
-    auto * ctrl= m_new_modif_menu->addMenu(tr("controle"));
+    auto * ctrl= m_new_modif_menu->addMenu(tr("Controle"));
     connect_action_to_new_modif_dialog<controle_new_modif_form>(ctrl->addAction(tr("Créer")),true);
     connect_action_to_new_modif_dialog<controle_new_modif_form>(ctrl->addAction(tr("Modifier")),false);
     // eleve
-    connect_action_to_ppen_tab(m_new_modif_menu->addAction(tr("eleve")),
+    connect_action_to_ppen_tab(m_new_modif_menu->addAction(tr("Eleve")),
         {tab_note::Eleves_Tab_Id,mps::fenetre::abstract_tab_module::No_Id});
     // Établissement
     auto * etabMenu = m_new_modif_menu->addMenu(tr("Établissement"));
     connect_action_to_new_modif_dialog<etablissement_new_modif_form>(etabMenu->addAction(tr("Créer")),true);
     connect_action_to_new_modif_dialog<etablissement_new_modif_form>(etabMenu->addAction(tr("Modifier")),false);
     // exercice
-    auto * exerciceMenu = m_new_modif_menu->addMenu(tr("exercice"));
+    auto * exerciceMenu = m_new_modif_menu->addMenu(tr("Exercice"));
     connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Créer")),{tab_note::Exercice_Tab_Id,0});
     // Groupe
     auto * gr_menu = m_new_modif_menu->addMenu(tr("Groupe"));
