@@ -136,7 +136,7 @@
   <!-- type - Exercice -->
   <type>
     <nc>Exo</nc>
-    <nom>Exercci</nom>
+    <nom>Exercice</nom>
     <ref>exo_root</ref>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible" restriction="modification|suppression"/>
@@ -146,6 +146,14 @@
     <nom>Question de cours</nom>
     <ref>question_cours</ref>
     <parent ref="exo_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+    <type>
+    <nc>Énoncer</nc>
+    <nom>Énoncer question de cours</nom>
+    <ref>enonce_question_cours</ref>
+    <parent ref="question_cours"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>

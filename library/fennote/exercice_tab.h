@@ -6,6 +6,7 @@
 
 #include "abstract_tab_module.h"
 #include "exercice_model.h"
+#include "id_combo_box.h"
 #include "standard_node_widget.h"
 
 namespace note_mps {
@@ -15,10 +16,12 @@ namespace note_mps {
 class exercice_tab : public mps::fenetre::abstract_tab_module_with_bdd {
     Q_OBJECT
 protected:
-    exercice_edit_model * m_model;            //!< Model.
-    mps::widget::node_view * m_view;           //!< Vue.
-    QPushButton * m_save_bouton;                 //!< Bouton de sauvegarde.
-    QVBoxLayout * m_main_layout;                 //!< Calque principal.
+    exercice_edit_model *m_model;            //!< Model.
+    mps::widget::node_view *m_view;           //!< Vue.
+    mps::widget::sub_node_widget * m_type_exo;    //! choix du type d'exercice.
+    QPushButton *m_save_bouton;                 //!< Bouton de sauvegarde.
+    QHBoxLayout *m_header_layout;               //!< Calque d'entête.
+    QVBoxLayout *m_main_layout;                 //!< Calque principal.
 public:
     //! Constructeur.
     exercice_tab(bdd_note & bdd, tab_index pair, QWidget * parent = nullptr);
@@ -38,6 +41,9 @@ public slots:
     //! Slot coorepondant à l'action sauver.
     void sauver() override
         {m_model->save();}
+
+    //! Met à jour la liste des types possible de l'exercice.
+    void update_type();
 };
 }
 #endif // EXERCICE_TAB_H

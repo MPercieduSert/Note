@@ -23,6 +23,7 @@ public:
                      Source_Cible = 2,
                      Texte_Cible = 3,
                      Titre_Cible = 4,
+                     Type_Cible = 5,
                      Nbr_Premier_Cible,
                      Nbr_Only_Premier_Cible = 1,
                      Nbr_Suivant_Cible = Nbr_Premier_Cible - Nbr_Only_Premier_Cible};
@@ -33,11 +34,14 @@ public:
                        Deux_Position,
                        Trois_Position,
                        Quatre_Position,
+                       Cinq_Position,
                        Label_Position = Zero_Position,
-                       Version_Position = Trois_Position,
+                       Source_Position = Cinq_Position,
+                       Texte_Position = Trois_Position,
                        Titre_Position = Un_Position,
-                       Texte_Position = Deux_Position,
-                       Source_Position = Quatre_Position};
+                       Type_Position = Deux_Position,
+                       Version_Position = Quatre_Position,
+                       };
 
     //! constructeur.
     exercice_edit_model(idt id_racine_exo, bdd_note & bdd, QObject *parent = nullptr);
@@ -54,6 +58,12 @@ public:
 
     //! Fabrique des noeuds.
     mps::model_base::node_ptr node_factory(const mps::model_base::node_index & parent, numt pos, int type) override;
+
+    //! Mutateur des données du model.
+    bool set(const node_index &index, const QVariant &value, int role) override;
+
+    //! Supprimer count noeud de la fratrie en commençant par le noeud node.
+    bool remove(const node_index &index, numt count = 1) override;
 };
 
 /*! \ingroup groupe_modelNote
@@ -89,6 +99,17 @@ public:
 
     //! Mutateur des données du noeud.
     flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;
+
+    //! Mets jour le type d'un nouveau noeud.
+    void update_type() {
+        if(!m_exo.id()){
+            if(m_iter.root())
+                m_exo.set_type(m_model->bdd().ref_to_id<note_mps::type>("question_cours"));
+            else
+                m_exo.set_type(m_model->bdd().get_id_child<note_mps::type>(
+                               static_cast<const exercice_node &>(**m_iter.parent()).m_exo.type(),0));
+        }
+    }
 };
 
 /*! \ingroup groupe_modelNote

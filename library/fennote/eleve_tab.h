@@ -27,17 +27,17 @@ class eleves_tab : public mps::fenetre::abstract_tab_tableau {
     Q_OBJECT
 protected:
     bool m_find_enabled = true;      //! Autorise la rechercha.
-    QGroupBox * m_add_group;         //!< Groupe du choix nombre d'éléves à ajouter.
-    QGroupBox * m_find_group;        //!< Groupe de recherche.
-    QPushButton * m_add_bouton;      //!< Bouton de l'ajout des éléves dans le tableau.
-    QPushButton * m_del_bouton;      //!< Bouton de suppression d'éléves.
-    QSpinBox * m_add_spin_box;        //!< Choix du nombre l'éléve à ajouter.
-    mps::widget::find_widget * m_find_widget;      //!< Recherche dans la liste d'éléve.
+    QGroupBox *m_add_group;         //!< Groupe du choix nombre d'éléves à ajouter.
+    QGroupBox *m_find_group;        //!< Groupe de recherche.
+    QPushButton *m_add_bouton;      //!< Bouton de l'ajout des éléves dans le tableau.
+    QPushButton *m_del_bouton;      //!< Bouton de suppression d'éléves.
+    QSpinBox *m_add_spin_box;        //!< Choix du nombre l'éléve à ajouter.
+    mps::widget::find_widget *m_find_widget;      //!< Recherche dans la liste d'éléve.
 
-    QVBoxLayout * m_find_layout;     //!< Claque de recherche.
-    QHBoxLayout * m_addLayout;      //!< Calque de l'ajout d'éléve dans le tableau.
-    QHBoxLayout * m_main_layout;     //!< Calque principal.
-    QVBoxLayout * m_second_layout;   //!< Calque secondaire.
+    QVBoxLayout *m_find_layout;     //!< Claque de recherche.
+    QHBoxLayout *m_addLayout;      //!< Calque de l'ajout d'éléve dans le tableau.
+    QHBoxLayout *m_main_layout;     //!< Calque principal.
+    QVBoxLayout *m_second_layout;   //!< Calque secondaire.
 
 public:
     //! position des colonnes.
@@ -62,19 +62,19 @@ class classe_eleve_tab: public mps::fenetre::abstract_tab_tableau {
     Q_OBJECT
 protected:
     // Model
-    mps::model_base::table_model * m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
+    mps::model_base::table_model *m_eleveModel;            //!< Model des élèves à sélectionner pour la classe.
 
     // Widget
-    classe_select_widget * m_classeSelect;            //!< Choix de la classe.
-    QPushButton * m_add_bouton;                      //!< Bouton d'ajout des élèves séléctionnés.
-    QPushButton * m_del_bouton;                      //!< Bouton de retrait des élèves séléctionnés.
-    QTableView * m_eleveView;                       //!< Vue de sélection des élèves.
-    mps::widget::find_widget * m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
+    classe_select_widget *m_classeSelect;            //!< Choix de la classe.
+    QPushButton *m_add_bouton;                      //!< Bouton d'ajout des élèves séléctionnés.
+    QPushButton *m_del_bouton;                      //!< Bouton de retrait des élèves séléctionnés.
+    QTableView *m_eleveView;                       //!< Vue de sélection des élèves.
+    mps::widget::find_widget *m_eleveFind;            //!< Recherche des des élèves à sélectionner pour la classe.
 
     // Calque
-    QHBoxLayout * m_bouton_layout;                   //!< Calque des boutons.
-    QHBoxLayout * m_eleve_layout;                    //!< Calque de séléction des éléves.
-    QVBoxLayout * m_main_layout;                     //!< Calque Principal.
+    QHBoxLayout *m_bouton_layout;                   //!< Calque des boutons.
+    QHBoxLayout *m_eleve_layout;                    //!< Calque de séléction des éléves.
+    QVBoxLayout *m_main_layout;                     //!< Calque Principal.
 
 public:
     //! position des colonnes du model de sélection de éléves.
