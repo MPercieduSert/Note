@@ -9,7 +9,7 @@
 #include "tableau_note.h"
 
 namespace note_mps {
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Model de la liste des élèves à affecter dans un groupe.
  */
 class candidat_groupe_model : public mps::model_base::table_model {
@@ -31,7 +31,7 @@ public:
     }
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Model des élèves d'une classe.
  */
 class classe_eleve_model : public mps::model_base::table_model {
@@ -61,7 +61,7 @@ public slots:
     }
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Model des éléves par groupe.
  */
 class eleve_groupe_model : public mps::model_base::table_model {

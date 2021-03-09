@@ -294,6 +294,31 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
+   <!-- type - texte -->
+  <type>
+    <nc>Texte</nc>
+    <nom>Texte principale</nom>
+    <ref>main_txt</ref>
+    <parent ref="texte_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+    <type>
+    <nc>Titre</nc>
+    <nom>Titre</nom>
+    <ref>titre_txt</ref>
+    <parent ref="texte_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+    <type>
+    <nc>Correction</nc>
+    <nom>Correction</nom>
+    <ref>correction_txt</ref>
+    <parent ref="texte_root"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
   <!-- Donnecard -->
   <donnee_card>
     <id_donnee ref="date_defaut"/>

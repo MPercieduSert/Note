@@ -47,7 +47,7 @@ public:
     void save(szt ligne) override;
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau d'un vecteur de classe-eleve.
  */
 class classe_eleve_composition_tableau : public mps::model_base::composition_tableau {
@@ -78,7 +78,7 @@ public:
     void set_id_classe(idt id);
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau d'un vecteur de classe-eleve.
  */
 class classe_eleve_vec_tableau : public mps::model_base::abstract_bdd_vector_ent_tableau<classe_eleve> {
@@ -95,7 +95,7 @@ public:
         make_colonne(const mps::model_base::abstract_colonnes_model::new_colonne_info & info) override;
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau d'éléves.
  */
 class eleve_vec_tableau : public mps::model_base::abstract_bdd_vector_ent_tableau<eleve> {
@@ -128,7 +128,7 @@ public:
         make_colonne(const mps::model_base::abstract_colonnes_model::new_colonne_info & info) override;
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau des éléves dans les groupes.
  */
 class eleve_groupe_tableau : public mps::model_base::heterogene_taille_tableau<eleve> {
@@ -166,7 +166,7 @@ public:
         {return m_style_num.texte(num);}
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Groupe pour les tableau de groupe.
  */
 class groupe_for_tableau  {
@@ -189,7 +189,7 @@ public:
         {return m_style_num.texte(num);}
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau d'un vecteur de listes eleve-groupe.
  */
 class eleve_groupe_list_tableau : public groupe_for_tableau,
@@ -208,7 +208,7 @@ public:
         make_colonne(const mps::model_base::abstract_colonnes_model::new_colonne_info & info) override;
 };
 
-/*! \ingroup groupe_modelNote
+/*! \ingroup groupe_model_note
  * \brief Tableau d'un vecteur de eleve-groupe.
  */
 class eleve_groupe_vec_tableau : public groupe_for_tableau, public mps::model_base::abstract_bdd_vector_ent_tableau<eleve_groupe> {

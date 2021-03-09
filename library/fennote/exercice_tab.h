@@ -16,7 +16,7 @@ namespace note_mps {
 class exercice_tab : public mps::fenetre::abstract_tab_module_with_bdd {
     Q_OBJECT
 protected:
-    exercice_edit_model *m_model;            //!< Model.
+    edit_exercice_model *m_model;            //!< Model.
     mps::widget::node_view *m_view;           //!< Vue.
     mps::widget::sub_node_widget * m_type_exo;    //! choix du type d'exercice.
     QPushButton *m_save_bouton;                 //!< Bouton de sauvegarde.
