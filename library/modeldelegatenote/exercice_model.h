@@ -115,8 +115,9 @@ protected:
     texte m_texte;                      //!< Texte du noeud.
 public:
     //! Constructeur.
-    exercice_node(exercice_model *model = nullptr, int type = item_node::No_Type)
-        : item_bdd_node(type), m_model(model){}
+    exercice_node(exercice_model *model = nullptr, idt exo_id = 0, int type = item_node::No_Type)
+        : item_bdd_node(type), m_model(model)
+        {set_id_exo(exo_id);}
 
     //! Accesseur des données du noeud.
     QVariant data(int cible, int role, numt num = 0) const override;
@@ -140,10 +141,10 @@ public:
  */
 class exercice_root : public virtual exercice_node {
 protected:
-    QString m_titre;    //!< Titre de d'exercice.
+    texte m_titre;    //!< Titre de d'exercice.
 public:
     //! Constructeur.
-    using exercice_node::exercice_node;
+    exercice_root(exercice_model *model = nullptr, idt exo_id = 0, int type = item_node::No_Type);
 
     //! Accesseur des données du noeud.
     QVariant data(int cible, int role, numt num = 0) const override;
@@ -157,8 +158,8 @@ protected:
 
 public:
     //! Constructeur.
-    read_exercice_node(exercice_model * model, int type = exercice_model::Read)
-        : exercice_node(model,type) {}
+    read_exercice_node(exercice_model * model, idt exo_id = 0, int type = exercice_model::Read)
+        : exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
     flag flags(int cible, numt num = 0) const override;
@@ -172,8 +173,8 @@ protected:
 
 public:
     //! Constructeur.
-    read_exercice_root(exercice_model * model, int type = exercice_model::Read_Root)
-        : read_exercice_node(model,type) {}
+    read_exercice_root(exercice_model * model, idt exo_id = 0, int type = exercice_model::Read_Root)
+        : read_exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
     flag flags(int cible, numt num = 0) const override;
@@ -187,8 +188,8 @@ protected:
 
 public:
     //! Constructeur.
-    edit_exercice_node(exercice_model * model = nullptr, int type = exercice_model::Edit)
-        : exercice_node(model,type) {}
+    edit_exercice_node(exercice_model * model = nullptr, idt exo_id = 0, int type = exercice_model::Edit)
+        : exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
     flag flags(int cible, numt num = 0) const override;
@@ -211,8 +212,8 @@ protected:
 
 public:
     //! Constructeur.
-    edit_exercice_root(exercice_model *model, int type = exercice_model::Edit_Root)
-        : exercice_node (model,type){}
+    edit_exercice_root(exercice_model *model, idt exo_id = 0, int type = exercice_model::Edit_Root)
+        : exercice_node (model,exo_id,type){}
 
 //    //! Accesseur des drapeaux associés à column.
 //    flag flags(int cible, numt num = 0) const override;

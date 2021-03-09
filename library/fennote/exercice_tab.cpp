@@ -2,7 +2,7 @@
 
 using namespace note_mps;
 
-exercice_tab::exercice_tab(bdd_note & bdd, tab_index pair, QWidget * parent)
+edit_exercice_tab::edit_exercice_tab(bdd_note & bdd, tab_index pair, QWidget * parent)
     : abstract_tab_module_with_bdd(bdd,pair,parent) {
     //model-view
     m_view = new mps::widget::node_view(std::make_unique<mps::widget::rounded_arc_painter>());
@@ -18,7 +18,7 @@ exercice_tab::exercice_tab(bdd_note & bdd, tab_index pair, QWidget * parent)
     });
     //bouton
     m_save_bouton = new QPushButton(tr("Sauvegarder"));
-    connect(m_save_bouton,&QPushButton::clicked,this,&exercice_tab::sauver);
+    connect(m_save_bouton,&QPushButton::clicked,this,&edit_exercice_tab::sauver);
 
     // Calque
     m_main_layout = new QVBoxLayout(this);
@@ -27,11 +27,37 @@ exercice_tab::exercice_tab(bdd_note & bdd, tab_index pair, QWidget * parent)
     m_main_layout->addWidget(m_save_bouton);
 }
 
-void exercice_tab::become_current()
+void edit_exercice_tab::become_current()
     {emit action_permise(0);}
 
-void exercice_tab::update_type() {
+void edit_exercice_tab::update_type() {
     auto types = m_model->data(m_model->index(mps::model_base::node_index(),0,edit_exercice_model::Type_Cible),
                                mps::model_base::Map_Role);
 
 }
+
+find_exercice_tab::find_exercice_tab(bdd_note & bd, tab_index pair, QWidget * parent)
+    : abstract_tab_module_with_bdd(bd,pair,parent) {
+    //model-view
+    m_view = new mps::widget::node_view(std::make_unique<mps::widget::rounded_arc_painter>());
+    m_model = new read_exercice_model(static_cast<idt>(pair.second), bdd(),this);
+    m_view->set_model(m_model);
+    auto delegate = new mps::delegate::standard_node_delegate(this);
+    m_view->set_delegate(delegate);
+    //bouton
+    m_select_bouton = new QPushButton(tr("Sélectionner"));
+    //connect(m_select_bouton,&QPushButton::clicked,this,&find_exercice_tab::);
+
+    // Calque
+    //m_exo_layout = new QVBoxLayout;
+    //m_exo_layout->addWidget(m_view);
+    m_find_layout = new QVBoxLayout;
+    m_find_layout->addWidget(m_select_bouton);
+
+    m_main_layout = new QHBoxLayout(this);
+    m_main_layout->addWidget(m_view);
+    m_main_layout->addLayout(m_find_layout);
+}
+
+void find_exercice_tab::become_current()
+    {emit action_permise(0);}

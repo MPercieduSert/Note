@@ -18,7 +18,8 @@ class tab_note : public mps::fenetre::predef_tab {
 public:
     enum note_tab_id {Classe_Eleve_Tab_Id = Nbr_Predef_Tab_Id,
                     Eleves_Tab_Id,
-                    Exercice_Tab_Id,
+                    Edit_Exercice_Tab_Id,
+                    Find_Exercice_Tab_Id,
                     Groupe_Tab_Id
                     };
     using predef_tab::predef_tab;

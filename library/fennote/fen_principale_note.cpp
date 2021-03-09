@@ -64,7 +64,8 @@ void fen_principale_note::create_menu_new_modif() {
     connect_action_to_new_modif_dialog<etablissement_new_modif_form>(etabMenu->addAction(tr("Modifier")),false);
     // exercice
     auto * exerciceMenu = m_new_modif_menu->addMenu(tr("Exercice"));
-    connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Créer")),{tab_note::Exercice_Tab_Id,0});
+    connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Créer")),{tab_note::Edit_Exercice_Tab_Id,0});
+    connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Chercher")),{tab_note::Find_Exercice_Tab_Id,0});
     // Groupe
     auto * gr_menu = m_new_modif_menu->addMenu(tr("Groupe"));
     connect_action_to_new_modif_dialog<groupe_new_modif_form>(gr_menu->addAction(tr("Créer")),true);

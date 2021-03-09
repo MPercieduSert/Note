@@ -11,8 +11,10 @@ mps::fenetre::abstract_tab_module * tab_note::create_tab(const tab_index& pair, 
             return new classe_eleve_tab(bdd(),pair);
         case Eleves_Tab_Id:
             return new eleves_tab(bdd(),pair);
-        case Exercice_Tab_Id:
-            return new exercice_tab(bdd(),pair);
+        case Edit_Exercice_Tab_Id:
+            return new edit_exercice_tab(bdd(),pair);
+        case Find_Exercice_Tab_Id:
+            return new find_exercice_tab(bdd(),pair);
         case Groupe_Tab_Id:
             return new groupe_tab(bdd(),pair);
         default:

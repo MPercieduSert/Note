@@ -13,14 +13,12 @@ std::list<node_iter> read_exercice_model::insert(const node_index &parent, numt 
     }
     else if(pos == 0 && count == 1){
         begin_reset_model();
-            m_data.set_root(std::make_unique<edit_exercice_node>(this));
+            m_data.set_root(std::make_unique<read_exercice_node>(this));
             auto roots = bdd().get_list_childs_id<exercice>(0);
             auto root_index = index(node_index(),0);
-            for (auto it = roots.cbegin(); it != roots.cend(); ++it) {
-                auto node = std::make_unique<read_exercice_root>(this);
-                node->set_id_exo(*it);
-                m_data.push_back(root_index,std::move(node));
-            }
+            for (auto it = roots.cbegin(); it != roots.cend(); ++it)
+                m_data.push_back(root_index,std::make_unique<read_exercice_root>(this,*it));
+
         end_reset_model();
     }
     return std::list<node_iter>();
@@ -169,9 +167,9 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
         case Type_Role:
             return Combo_Box_Sub_Node;
         case Map_Role:
+            auto id_type = m_iter.root() ? 0 : static_cast<exercice_node &>(**m_iter.parent()).m_exo.type();
             auto arb = m_model->bdd().get_arbre<note_mps::type>(
-                        m_iter.root() ? m_model->bdd().ref_to_id<note_mps::type>("exo_root")
-                                      : static_cast<exercice_node &>(**m_iter.parent()).m_exo.type());
+                        id_type ? id_type : m_model->bdd().ref_to_id<note_mps::type>("exo_root"));
             QMap<QString,QVariant> map;
             for (auto it = arb.cbegin().cbegin_child(); it; ++it)
                 if(m_iter.hauteur() <= it.hauteur())
@@ -261,7 +259,7 @@ QVariant exercice_root::data(int cible, int role, numt num) const {
         case Label_Role:
             return "Titre :";
         case String_Role:
-            return m_titre;
+            return m_titre.texte();
         case Type_Role:
             return Line_Edit_Sub_Node;
         }
@@ -280,9 +278,11 @@ QVariant exercice_root::data(int cible, int role, numt num) const {
     return exercice_node::data(cible,role,num);
 }
 ///////////////////////////////////////////////////////// read_exercice_node /////////////////////////////////////////////
-flag read_exercice_node::flags(int /*cible*/, numt /*num*/) const {
+flag read_exercice_node::flags(int cible, numt /*num*/) const {
     if(m_iter.root())
         return No_Flag_Node;
+    if(cible == Node_Cible)
+        return Visible_Flag_Node | Expendable_FLag_Node;
     return Visible_Flag_Node;
 }
 ///////////////////////////////////////////////////////// read_exercice_root /////////////////////////////////////////////
@@ -325,7 +325,7 @@ flag edit_exercice_node::set_data(int cible, const QVariant & value, int role, n
         break;
     case exercice_model::Texte_Cible:
         if(role == String_Role){
-            m_texte = value.toString();
+            m_texte.set_texte(value.toString());
             return String_Role;
         }
         break;
@@ -345,9 +345,21 @@ flag edit_exercice_node::set_data(int cible, const QVariant & value, int role, n
     return exercice_node::set_data(cible, value, role, num);
 }
 ///////////////////////////////////////////////////////// edit_exercice_root /////////////////////////////////////////////
+exercice_root::exercice_root(exercice_model *model, idt exo_id, int type)
+    : exercice_node (model,exo_id,type) {
+    if(m_exo.id()) {
+        texte_cible text_cb;
+        text_cb.set_cible(m_model->bdd().cible<exercice>());
+        text_cb.set_id_cible(m_exo.id_original() ? m_exo.id_original() : m_exo.id());
+        text_cb.set_num(m_exo.version());
+        text_cb.set_type(m_model->bdd().ref_to_id<note_mps::type>("titre_txt"));
+        m_model->bdd().get_unique(text_cb);
+    }
+}
+
 flag edit_exercice_root::set_data(int cible, const QVariant & value, int role, numt num) {
     if (cible == exercice_model::Titre_Cible && role == mps::model_base::String_Role) {
-        m_titre = value.toString();
+        m_titre.set_texte(value.toString());
         return String_Role;
     }
     return edit_exercice_node::set_data(cible, value, role, num);
