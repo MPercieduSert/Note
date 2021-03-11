@@ -11,11 +11,11 @@
 #include "conteneur_ptr.h"
 
 namespace  note_mps{
-/*! \defgroup groupeWidgetNote Dialogues de note
+/*! \defgroup groupe_widget_note Dialogues de note
  * \brief Ensemble des widgets de l'application note.
  */
 
-/*! \ingroup groupeWidgetNote
+/*! \ingroup groupe_widget_note
  * \brief Widget de choix d'une Annees.
  */
 class spin_box_annee_scolaire : public QAbstractSpinBox

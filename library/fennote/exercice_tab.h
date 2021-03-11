@@ -5,6 +5,7 @@
 #define EXERCICE_TAB_H
 
 #include "abstract_tab_module.h"
+#include "enum_fen_note.h"
 #include "exercice_model.h"
 #include "find_model.h"
 #include "id_combo_box.h"
@@ -17,7 +18,7 @@ namespace note_mps {
 class edit_exercice_tab : public mps::fenetre::abstract_tab_module_with_bdd {
     Q_OBJECT
 protected:
-    edit_exercice_model *m_model;                   //!< Model.
+    model_exo::edit_exercice_model *m_model;                   //!< Model.
     mps::widget::node_view *m_view;                 //!< Vue.
     mps::widget::sub_node_widget * m_type_exo;      //! choix du type d'exercice.
     QPushButton *m_save_bouton;                     //!< Bouton de sauvegarde.
@@ -52,7 +53,7 @@ public slots:
 class find_exercice_tab : public mps::fenetre::abstract_tab_module_with_bdd {
     Q_OBJECT
 protected:
-    read_exercice_model *m_model;               //!< Model.
+    model_exo::read_exercice_model *m_model;               //!< Model.
     //mps::model_base::find_model
     mps::widget::node_view *m_view;             //!< Vue.
     QPushButton *m_select_bouton;               //!< Bouton de sélection.

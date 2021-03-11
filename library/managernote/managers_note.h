@@ -8,38 +8,6 @@
 #include "gestion_restriction_cible.h"
 #include "managers_predef.h"
 
-namespace mps {
-namespace b2d {
-    namespace cible_id {
-        //! Numéro de cible des entités de Note non prédéfinies.
-        enum EntityNote {Annee = cible_id::Nbr_Cible_Predef,
-                         Bareme,
-                         Classe,
-                         Classe_Eleve,
-                         Classe_Groupe,
-                         Controle,
-                         Controle_Epreuve,
-                         Eleve,
-                         Eleve_Groupe,
-                         Enonce,
-                         Enonce_Point,
-                         Epreuve,
-                         Etablissement,
-                         Etablissement_Niveau,
-                         Etablissement_Type,
-                         Exercice,
-                         Filiation_Niveau,
-                         Groupe,
-                         Niveau,
-                         Niveau_Type_Etablissement,
-                         Note,
-                         Point,
-                         Type_Controle,
-                         Type_Etablissement,
-                         Valide,
-                         Nbr_Cible};
-}}}
-
 namespace note_mps {
 /*! \ingroup groupe_manager_note
  * \brief Managers de l'application note.

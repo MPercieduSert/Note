@@ -37,7 +37,8 @@ HEADERS += \
     exercice_tab.h \
     groupe_tab.h \
     zone_centrale_note.h \
-    fen_principale_note.h
+    fen_principale_note.h \
+    enum_fen_note.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

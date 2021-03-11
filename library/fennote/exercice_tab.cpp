@@ -6,14 +6,14 @@ edit_exercice_tab::edit_exercice_tab(bdd_note & bdd, tab_index pair, QWidget * p
     : abstract_tab_module_with_bdd(bdd,pair,parent) {
     //model-view
     m_view = new mps::widget::node_view(std::make_unique<mps::widget::rounded_arc_painter>());
-    m_model = new edit_exercice_model(static_cast<idt>(pair.second), static_cast<bdd_note &>(bdd),this);
+    m_model = new model_exo::edit_exercice_model(static_cast<idt>(pair.second), static_cast<bdd_note &>(bdd),this);
     m_view->set_model(m_model);
     auto delegate = new mps::delegate::standard_node_delegate(this);
     m_view->set_delegate(delegate);
-    m_type_exo = delegate->create_sub_node(m_model->index(mps::model_base::node_index(),0,edit_exercice_model::Type_Cible));
+    m_type_exo = delegate->create_sub_node(m_model->index(mps::model_base::node_index(),0,model_exo::Type_Cible));
     m_type_exo->update_data(mps::model_base::All_Role);
-    connect(m_model,&edit_exercice_model::data_changed,this,[this](const mps::model_base::node_index &index, flag role){
-        if(index.cible() == edit_exercice_model::Type_Cible && index.is_root())
+    connect(m_model,&model_exo::edit_exercice_model::data_changed,this,[this](const mps::model_base::node_index &index, flag role){
+        if(index.cible() == model_exo::Type_Cible && index.is_root())
             m_type_exo->update_data(role);
     });
     //bouton
@@ -31,7 +31,7 @@ void edit_exercice_tab::become_current()
     {emit action_permise(0);}
 
 void edit_exercice_tab::update_type() {
-    auto types = m_model->data(m_model->index(mps::model_base::node_index(),0,edit_exercice_model::Type_Cible),
+    auto types = m_model->data(m_model->index(mps::model_base::node_index(),0,model_exo::Type_Cible),
                                mps::model_base::Map_Role);
 
 }
@@ -40,13 +40,17 @@ find_exercice_tab::find_exercice_tab(bdd_note & bd, tab_index pair, QWidget * pa
     : abstract_tab_module_with_bdd(bd,pair,parent) {
     //model-view
     m_view = new mps::widget::node_view(std::make_unique<mps::widget::rounded_arc_painter>());
-    m_model = new read_exercice_model(static_cast<idt>(pair.second), bdd(),this);
+    m_model = new model_exo::read_exercice_model(static_cast<idt>(pair.second), bdd(),this);
     m_view->set_model(m_model);
     auto delegate = new mps::delegate::standard_node_delegate(this);
     m_view->set_delegate(delegate);
     //bouton
     m_select_bouton = new QPushButton(tr("Sélectionner"));
-    //connect(m_select_bouton,&QPushButton::clicked,this,&find_exercice_tab::);
+    connect(m_select_bouton,&QPushButton::clicked,this,[this](){
+        if(m_view->selection_model()->has_selection())
+            emit open_tab_requested({info_tab_note::Edit_Exercice_Tab_Id,
+                                     m_view->selection_model()->current_index().data(mps::model_base::Id_Role).toInt()});
+    });
 
     // Calque
     //m_exo_layout = new QVBoxLayout;

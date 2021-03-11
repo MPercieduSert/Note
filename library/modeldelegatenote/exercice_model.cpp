@@ -2,8 +2,16 @@
 
 using namespace mps::model_base;
 using namespace note_mps;
+using namespace model_exo;
 
 ///////////////////////////////////////////////////////// exercice_model /////////////////////////////////////////////////
+exercice_model::exercice_model(idt id_racine_exo, bdd_note & bd, QObject *parent)
+    : item_node_note_model(bd,parent), m_id_root_exo(id_racine_exo),
+      m_type_texte({bdd().ref_to_id<note_mps::type>("main_txt"),
+                   bdd().ref_to_id<note_mps::type>("titre_txt"),
+                   bdd().ref_to_id<note_mps::type>("correction_txt")}){
+
+}
 ///////////////////////////////////////////////////////// read_exercice_model ////////////////////////////////////////////
 std::list<node_iter> read_exercice_model::insert(const node_index &parent, numt pos, numt count, int /*type*/) {
     if(parent.is_valid() && pos <= parent.child_count()) {
@@ -60,12 +68,22 @@ std::list<node_iter> edit_exercice_model::insert(const node_index &parent, numt 
     }
     else if(pos == 0 && count == 1){
         begin_reset_model();
-            m_data.set_root(std::make_unique<edit_exercice_node>(this));
-            static_cast<exercice_node &>(**m_data.cbegin()).update_type();
-            nodes.push_back(m_data.cbegin());
-            auto it = m_data.push_back(index(node_index(),0), std::make_unique<edit_exercice_root>(this));
-            static_cast<exercice_node &>(**it).update_type();
-            nodes.push_back(it);
+            if(m_id_root_exo){
+                m_data.set_tree(bdd().get_arbre<exercice>(m_id_root_exo),
+                                [this](mps::tree<exercice>::const_brother_iterator it)->node_ptr{
+                    if(!it.root() && it.parent().root())
+                        return std::make_unique<edit_exercice_root>(this,it->id());
+                    return std::make_unique<edit_exercice_node>(this,it->id());
+                });
+            }
+            else {
+                m_data.set_root(std::make_unique<edit_exercice_node>(this));
+                static_cast<exercice_node &>(**m_data.cbegin()).update_type();
+                nodes.push_back(m_data.cbegin());
+                auto it = m_data.push_back(index(node_index(),0), std::make_unique<edit_exercice_root>(this));
+                static_cast<exercice_node &>(**it).update_type();
+                nodes.push_back(it);
+            }
         end_reset_model();
     }
     return nodes;
@@ -121,7 +139,7 @@ bool edit_exercice_model::remove(const node_index &index, numt count) {
 ///////////////////////////////////////////////////////// exercice_node //////////////////////////////////////////////////
 QVariant exercice_node::data(int cible, int role, numt num) const {
     switch (cible) {
-    case exercice_model::Label_Cible:
+    case Label_Cible:
         switch (role) {
         case Label_Role:
             if(m_iter.parent().root())
@@ -132,7 +150,7 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
             return Label_Sub_Node;
         }
         break;
-    case exercice_model::Source_Cible:
+    case Source_Cible:
         switch (role) {
 //        case Variant_Role:
 //            return m_id_scr;
@@ -150,13 +168,13 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
             return map;
         }
         break;
-    case exercice_model::Texte_Cible:
+    case Texte_Cible:
         if(role == String_Role)
-            return m_texte.texte();
+            return m_texte[Main_Texte].texte();
         if(role == Type_Role)
             return Texte_Edit_Sub_Node;
         break;
-    case exercice_model::Type_Cible:
+    case Type_Cible:
         switch (role) {
         case Orientation_Role:
             return Qt::Horizontal;
@@ -177,7 +195,7 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
             return map;
         }
         break;
-    case exercice_model::Version_Cible:
+    case Version_Cible:
         switch (role) {
         case Orientation_Role:
             return Qt::Horizontal;
@@ -191,23 +209,27 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
         break;
     case mps::model_base::Node_Cible:
         if(num == Node_Num) {
-            if(role == Orientation_Role)
+            switch (role) {
+            case Id_Role:
+                return m_exo.id();
+            case Nombre_Role:
+                return Suivant_Nombre;
+            case Orientation_Role:
                 return Qt::Vertical;
-            if(role == Nombre_Role)
-                return exercice_model::Suivant_Nombre;
+            }
         }
         else if (role == Cible_Role) {
             switch (num) {
-            case exercice_model::Label_Position:
-                return exercice_model::Label_Cible;
-            case exercice_model::Source_Position:
-                return exercice_model::Source_Cible;
-            case exercice_model::Texte_Position:
-                return exercice_model::Texte_Cible;
-            case exercice_model::Type_Position:
-                return exercice_model::Type_Cible;
-            case exercice_model::Version_Position:
-                return exercice_model::Version_Cible;
+            case Label_Position:
+                return Label_Cible;
+            case Source_Position:
+                return Source_Cible;
+            case Texte_Position:
+                return Texte_Cible;
+            case Type_Position:
+                return Type_Cible;
+            case Version_Position:
+                return Version_Cible;
         }}
         break;
     }
@@ -215,7 +237,7 @@ QVariant exercice_node::data(int cible, int role, numt num) const {
 }
 
 flag exercice_node::flags(int cible, numt num) const {
-    if(m_iter.root() && cible != exercice_model::Type_Cible)
+    if(m_iter.root() && cible != Type_Cible)
         return No_Flag_Node;
     return item_bdd_node::flags(cible,num);
 }
@@ -227,14 +249,18 @@ void exercice_node::set_id_exo(idt id) {
         text_cb.set_cible(m_model->bdd().cible<exercice>());
         text_cb.set_id_cible(m_exo.id_original() ? m_exo.id_original() : m_exo.id());
         text_cb.set_num(m_exo.version());
-        text_cb.set_type(m_model->bdd().ref_to_id<note_mps::type>("main_txt"));
-        m_model->bdd().get_unique(text_cb);
-        m_texte.set_id(text_cb.id_texte());
-        if(m_model->bdd().get(m_texte)) {
-            m_source = m_model->bdd().get_list<source,source_texte>(source_texte::Id_Source,
-                                                                     source_texte::Id_Texte,
-                                                                     m_texte.id(),
-                                                                     source::Nom);
+        for (enumt tp_txt = 0; tp_txt != Nbr_Type_Texte; ++tp_txt) {
+            text_cb.set_type(m_model->type_texte(tp_txt));
+            m_model->bdd().get_unique(text_cb);
+            m_texte[tp_txt].set_id(text_cb.id_texte());
+            if(m_model->bdd().get(m_texte[tp_txt])) {
+                auto src_txt = m_model->bdd().get_list<source_texte>(source_texte::Id_Texte,
+                                                                        m_texte[tp_txt].id(),
+                                                                        source_texte::Id_Source);
+                m_source[tp_txt].clear();
+                for (auto it = src_txt.cbegin(); it != src_txt.cend(); ++it)
+                    m_source[tp_txt].insert(it->id_source());
+            }
         }
     }
     else {
@@ -252,46 +278,49 @@ void exercice_node::update_type() {
 }
 ///////////////////////////////////////////////////////// exercice_root //////////////////////////////////////////////////
 QVariant exercice_root::data(int cible, int role, numt num) const {
-    if(cible == exercice_model::Titre_Cible)
+    if(cible == Titre_Cible)
         switch (role) {
         case Orientation_Role:
             return Qt::Horizontal;
         case Label_Role:
             return "Titre :";
         case String_Role:
-            return m_titre.texte();
+            return m_texte[Titre_Texte].texte();
         case Type_Role:
             return Line_Edit_Sub_Node;
         }
     if(cible == Node_Cible){
         if(num == Node_Num) {
            if(role == Nombre_Role)
-            return exercice_model::Premier_Nombre;
+            return Premier_Nombre;
         }
-        else if (num == exercice_model::Titre_Position) {
+        else if (num == Titre_Position) {
             if(role == Cible_Role)
-                return exercice_model::Titre_Cible;
+                return Titre_Cible;
         }
-        else if (num > exercice_model::Titre_Position)
-            num -= exercice_model::Only_Premier_Nombre;
+        else if (num > Titre_Position)
+            num -= Only_Premier_Nombre;
     }
     return exercice_node::data(cible,role,num);
 }
+
 ///////////////////////////////////////////////////////// read_exercice_node /////////////////////////////////////////////
 flag read_exercice_node::flags(int cible, numt /*num*/) const {
     if(m_iter.root())
         return No_Flag_Node;
     if(cible == Node_Cible)
-        return Visible_Flag_Node | Expendable_FLag_Node;
+        return Default_Flag_Node | Expendable_FLag_Node;
     return Visible_Flag_Node;
 }
+
 ///////////////////////////////////////////////////////// read_exercice_root /////////////////////////////////////////////
 flag read_exercice_root::flags(int cible, numt num) const {
     return read_exercice_node::flags(cible,num);
 }
+
 ///////////////////////////////////////////////////////// edit_exercice_node /////////////////////////////////////////////
 flag edit_exercice_node::flags(int cible, numt num) const {
-    if(m_iter.root() && cible != exercice_model::Type_Cible)
+    if(m_iter.root() && cible != Type_Cible)
         return No_Flag_Node;
     auto fl = item_bdd_node::flags(cible,num);
     if(fl && cible == Node_Cible) {
@@ -316,26 +345,87 @@ void edit_exercice_node::insert(mps::b2d::bdd & bdd) {
     text_cb.set_cible(m_model->bdd().cible<exercice>());
     text_cb.set_id_cible(m_exo.id_original() ? m_exo.id_original() : m_exo.id());
     text_cb.set_num(m_exo.version());
+    for (enumt tp_txt = 0; tp_txt != Nbr_Type_Texte; ++tp_txt) {
+        if(!m_texte[tp_txt].texte().isEmpty()) {
+            text_cb.set_id(0);
+            m_model->bdd().save(m_texte[tp_txt]);
+            text_cb.set_type(m_model->type_texte(tp_txt));
+            text_cb.set_id_texte(m_texte[tp_txt].id());
+            m_model->bdd().save(text_cb);
+            if(!m_source[tp_txt].empty()) {
+                source_texte scr_txt;
+                scr_txt.set_id_texte(m_texte[tp_txt].id());
+                for (auto scr_it = m_source[tp_txt].cbegin(); scr_it != m_source[tp_txt].cend(); ++scr_it) {
+                    scr_txt.set_id(0);
+                    scr_txt.set_id_source(scr_txt.id());
+                    m_model->bdd().save(scr_txt);
+                }
+            }
+        }
+    }
+}
+
+void edit_exercice_node::save(mps::b2d::bdd &bdd) {
+    for (enumt tp_txt = 0; tp_txt != Nbr_Type_Texte; ++tp_txt){
+        if(m_texte[tp_txt].id()) {
+            bdd.save(m_texte[tp_txt]);
+            auto sources_bdd = bdd.get_list<source_texte>(source_texte::Id_Texte,m_texte[tp_txt].id(),source_texte::Id_Source);
+            auto src_bdd_it = sources_bdd.cbegin();
+            auto src_it = m_source[tp_txt].cbegin();
+            while (src_bdd_it != sources_bdd.cend() && src_it != m_source[tp_txt].cend()) {
+                if(src_bdd_it->id_source() == *src_it){
+                    ++src_it;
+                    ++src_bdd_it;
+                }
+                else if (src_bdd_it->id_source() < *src_it) {
+                    bdd.del(*src_bdd_it);
+                    ++src_bdd_it;
+                }
+                else {
+                    source_texte src_txt;
+                    src_txt.set_id_texte(m_texte[tp_txt].id());
+                    src_txt.set_id_source(*src_it);
+                    bdd.save(src_txt);
+                }
+            }
+        }
+        else {
+            bdd.save(m_texte[tp_txt]);
+            texte_cible txt_cb;
+            txt_cb.set_id_texte(m_texte[tp_txt].id());
+            txt_cb.set_num(m_exo.version());
+            txt_cb.set_cible(m_model->bdd().cible<exercice>());
+            txt_cb.set_id_cible(m_exo.id_original() ? m_exo.id_original() : m_exo.id());
+            txt_cb.set_type(m_model->type_texte(tp_txt));
+            bdd.save(txt_cb);
+            for (auto it = m_source[tp_txt].cbegin(); it != m_source[tp_txt].cend(); ++it) {
+                source_texte src_txt;
+                src_txt.set_id_texte(m_texte[tp_txt].id());
+                src_txt.set_id_source(*it);
+                bdd.save(src_txt);
+            }
+        }
+    }
 }
 
 flag edit_exercice_node::set_data(int cible, const QVariant & value, int role, numt num) {
     switch (cible) {
-    case exercice_model::Source_Cible:
+    case Source_Cible:
 //
         break;
-    case exercice_model::Texte_Cible:
+    case Texte_Cible:
         if(role == String_Role){
-            m_texte.set_texte(value.toString());
+            m_texte[Main_Texte].set_texte(value.toString());
             return String_Role;
         }
         break;
-    case exercice_model::Type_Cible:
+    case Type_Cible:
         if(role == mps::model_base::Variant_Role) {
             m_exo.set_type(value.toUInt());
             return Variant_Role;
         }
         break;
-    case exercice_model::Version_Cible:
+    case Version_Cible:
         if(role == mps::model_base::Variant_Role) {
             m_exo.set_version(value.toInt());
             return Variant_Role;
@@ -344,22 +434,11 @@ flag edit_exercice_node::set_data(int cible, const QVariant & value, int role, n
     }
     return exercice_node::set_data(cible, value, role, num);
 }
-///////////////////////////////////////////////////////// edit_exercice_root /////////////////////////////////////////////
-exercice_root::exercice_root(exercice_model *model, idt exo_id, int type)
-    : exercice_node (model,exo_id,type) {
-    if(m_exo.id()) {
-        texte_cible text_cb;
-        text_cb.set_cible(m_model->bdd().cible<exercice>());
-        text_cb.set_id_cible(m_exo.id_original() ? m_exo.id_original() : m_exo.id());
-        text_cb.set_num(m_exo.version());
-        text_cb.set_type(m_model->bdd().ref_to_id<note_mps::type>("titre_txt"));
-        m_model->bdd().get_unique(text_cb);
-    }
-}
 
+///////////////////////////////////////////////////////// edit_exercice_root /////////////////////////////////////////////
 flag edit_exercice_root::set_data(int cible, const QVariant & value, int role, numt num) {
-    if (cible == exercice_model::Titre_Cible && role == mps::model_base::String_Role) {
-        m_titre.set_texte(value.toString());
+    if (cible == Titre_Cible && role == mps::model_base::String_Role) {
+        m_texte[Titre_Texte].set_texte(value.toString());
         return String_Role;
     }
     return edit_exercice_node::set_data(cible, value, role, num);

@@ -7,37 +7,7 @@
 #include "managers_note.h"
 #include "bdd_predef.h"
 
-namespace mps {
-namespace b2d {
-    namespace bdd_version {
-        //! Version de la base de données.
-        enum version_bdd_note{Nbr_Version_Bdd_Note = Nbr_Version};
-        //! Type de mise à jour.
-        enum type_bdd_note{Note_Type = Nbr_Type, Nbr_Type_Note};
-    }
-    namespace Id_Prog {
-        //! Identifiant de programmation de la cible configuration de la table cibleDonnéee.
-        enum Id_Prog_Configuration {Annee_Courante = 1};
-    }
-}}
-
 namespace note_mps {
-namespace donnee_mps {
-    //! Identitifant de programmation de la table donnée.
-    enum id_prog_donnee {
-        Configuration_Id,
-        Default_Value_Id,
-        Default_Date_Id
-    };
-
-    //! Numero d'une donnée
-    enum num_donnee {
-        Entree_Num,
-        Sortie_Num,
-        Nbr_Default_Date_Classe
-    };
-}
-
 /*! \ingroup groupe_managerInv
  * \brief Base de donnée de l'application inventaire.
  */

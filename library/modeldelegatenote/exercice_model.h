@@ -23,44 +23,58 @@ public:
 };
 
 /*! \ingroup groupe_model_note
+ * \brief Espace de noms des modèles d'exercices.
+ */
+namespace model_exo {
+//! Indice des type de texte.
+enum type_texte {Main_Texte,
+                 Titre_Texte,
+                 Correction_Texte,
+                 Nbr_Type_Texte};
+
+//! Type de node d'exercice.
+enum type_node_exercice {Read,
+                        Read_Root,
+                        Edit,
+                        Edit_Root};
+
+//! Cible des données du model.
+enum data_cible {Label_Cible,
+                 Version_Cible =1,
+                 Source_Cible = 2,
+                 Texte_Cible = 3,
+                 Titre_Cible = 4,
+                 Type_Cible = 5,
+                 Premier_Nombre,
+                 Only_Premier_Nombre = 1,
+                 Suivant_Nombre = Premier_Nombre - Only_Premier_Nombre};
+
+//! position des sous-noeud.
+enum position_node{Label_Position = mps::model_base::Un_Sub_Node,
+                   Source_Position = mps::model_base::Cinq_Sub_Node,
+                   Texte_Position = mps::model_base::Trois_Sub_Node,
+                   Titre_Position = mps::model_base::Deux_Sub_Node,
+                   Type_Position = mps::model_base::Deux_Sub_Node,
+                   Version_Position = mps::model_base::Quatre_Sub_Node};
+
+/*! \ingroup groupe_model_note
  * \brief Parent des models d'exercice.
  */
 class exercice_model : public item_node_note_model {
     Q_OBJECT
 protected:
-    idt m_id_root_exo;      //! Identifiant de la racine de l'exercice.
     enum {Id_New = 0,
           All_Root = 0};
+
+    idt m_id_root_exo;                              //! Identifiant de la racine de l'exercice.
+    const std::array<idt,Nbr_Type_Texte> m_type_texte;    //! Identifiant des type de texte.
 public:
-    //! Type de node d'exercice.
-    enum type_node_exercice {Read,
-                            Read_Root,
-                            Edit,
-                            Edit_Root};
-
-    //! Cible des données du model.
-    enum data_cible {Label_Cible,
-                     Version_Cible =1,
-                     Source_Cible = 2,
-                     Texte_Cible = 3,
-                     Titre_Cible = 4,
-                     Type_Cible = 5,
-                     Premier_Nombre,
-                     Only_Premier_Nombre = 1,
-                     Suivant_Nombre = Premier_Nombre - Only_Premier_Nombre};
-
-    //! position des sous-noeud.
-    enum position_node{Label_Position = mps::model_base::Un_Sub_Node,
-                       Source_Position = mps::model_base::Cinq_Sub_Node,
-                       Texte_Position = mps::model_base::Trois_Sub_Node,
-                       Titre_Position = mps::model_base::Deux_Sub_Node,
-                       Type_Position = mps::model_base::Deux_Sub_Node,
-                       Version_Position = mps::model_base::Quatre_Sub_Node,
-                       };
-
     //! constructeur.
-    exercice_model(idt id_racine_exo, bdd_note & bdd, QObject *parent = nullptr)
-        : item_node_note_model(bdd,parent), m_id_root_exo(id_racine_exo) {}
+    exercice_model(idt id_racine_exo, bdd_note & bdd, QObject *parent = nullptr);
+
+    //! Accesseur des type de texte.
+    idt type_texte(enumt num) const noexcept
+        {return num < Nbr_Type_Texte ? m_type_texte[num] : 0;}
 };
 /*! \ingroup groupe_model_note
  * \brief Model de lecture d'exercice.
@@ -109,10 +123,11 @@ protected:
  */
 class exercice_node : public mps::model_base::item_bdd_node {
 protected:
-    exercice_model *m_model;            //!< Pointeur sur le model contenant le noeud.
-    exercice m_exo;                     //!< exercice associé au noeud.
-    mps::vector_ptr<source> m_source;   //!< Identifiant de la source.
-    texte m_texte;                      //!< Texte du noeud.
+    exercice_model *m_model;                                        //!< Pointeur sur le model contenant le noeud.
+    exercice m_exo;                                                 //!< exercice associé au noeud.
+    std::array<std::set<idt>,Nbr_Type_Texte> m_source;             //!< Source associé à un texte
+    std::array<texte,Nbr_Type_Texte> m_texte;                       //!< Texte du noeud.
+
 public:
     //! Constructeur.
     exercice_node(exercice_model *model = nullptr, idt exo_id = 0, int type = item_node::No_Type)
@@ -140,14 +155,15 @@ public:
  * \brief Parent des racines premières d'exercices.
  */
 class exercice_root : public virtual exercice_node {
-protected:
-    texte m_titre;    //!< Titre de d'exercice.
 public:
     //! Constructeur.
-    exercice_root(exercice_model *model = nullptr, idt exo_id = 0, int type = item_node::No_Type);
+    using exercice_node::exercice_node;
 
     //! Accesseur des données du noeud.
     QVariant data(int cible, int role, numt num = 0) const override;
+
+    //! Mutateur de l'identifiant de l'exercice.
+    void set_id_exo(idt id);
 };
 
 /*! \ingroup groupe_model_note
@@ -158,7 +174,7 @@ protected:
 
 public:
     //! Constructeur.
-    read_exercice_node(exercice_model * model, idt exo_id = 0, int type = exercice_model::Read)
+    read_exercice_node(exercice_model * model, idt exo_id = 0, int type = Read)
         : exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
@@ -173,7 +189,7 @@ protected:
 
 public:
     //! Constructeur.
-    read_exercice_root(exercice_model * model, idt exo_id = 0, int type = exercice_model::Read_Root)
+    read_exercice_root(exercice_model * model, idt exo_id = 0, int type = Read_Root)
         : read_exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
@@ -188,17 +204,17 @@ protected:
 
 public:
     //! Constructeur.
-    edit_exercice_node(exercice_model * model = nullptr, idt exo_id = 0, int type = exercice_model::Edit)
+    edit_exercice_node(exercice_model * model = nullptr, idt exo_id = 0, int type = Edit)
         : exercice_node(model,exo_id,type) {}
 
     //! Accesseur des drapeaux associés à column.
     flag flags(int cible, numt num = 0) const override;
 
     //! Enregistre les données du noeud.
-    void insert(mps::b2d::bdd & bdd) override;
+    void insert(mps::b2d::bdd &bdd) override;
 
     //! Enregistre les données du noeud.
-    void save(mps::b2d::bdd & /*bdd*/) override {}
+    void save(mps::b2d::bdd &bdd) override;
 
     //! Mutateur des données du noeud.
     flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;
@@ -212,7 +228,7 @@ protected:
 
 public:
     //! Constructeur.
-    edit_exercice_root(exercice_model *model, idt exo_id = 0, int type = exercice_model::Edit_Root)
+    edit_exercice_root(exercice_model *model, idt exo_id = 0, int type = Edit_Root)
         : exercice_node (model,exo_id,type){}
 
 //    //! Accesseur des drapeaux associés à column.
@@ -227,5 +243,5 @@ public:
     //! Mutateur des données du noeud.
     flag set_data(int cible, const QVariant & value, int role, numt num = 0) override;
 };
-}
+}}
 #endif // EXERCICEMODEL_H

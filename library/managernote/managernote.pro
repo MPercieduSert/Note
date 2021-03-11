@@ -33,7 +33,8 @@ HEADERS += \
     entity_note.h \
     config_note.h \
     managers_note.h \
-    bdd_note.h
+    bdd_note.h \
+    enum_manager_note.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

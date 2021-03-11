@@ -5,6 +5,7 @@
 #define ENTITY_NOTE_H
 
 #include "entity_predef.h"
+#include "enum_manager_note.h"
 
 /*! \defgroup groupe_manager_note Entités et base de données note
  * \brief Ensemble des entités, managers et base de données de l'application note.
@@ -14,36 +15,6 @@
  * \brief Espace de noms de l'application note.
  */
 namespace note_mps {
-namespace info_entity_note {
-
-    //! Liste des identifiants des entités
-    enum entity_id{Annee = mps::info_entity::Nbr_Entity_Predef,
-                  Bareme,
-                  Classe,
-                  Classe_Eleve,
-                  Classe_Groupe,
-                  Controle,
-                  Controle_Epreuve,
-                  Eleve,
-                  Eleve_Groupe,
-                  Enonce,
-                  Enonce_Point,
-                  Epreuve,
-                  Etablissement,
-                  Etablissement_Niveau,
-                  Etablissement_Type,
-                  Exercice,
-                  Filiation_Niveau,
-                  Groupe,
-                  Niveau,
-                  Niveau_Type_Etablissement,
-                  Note,
-                  Point,
-                  Type_Controle,
-                  Type_Etablissement,
-                  Valide,
-                  Nbr_Entity_Note};
-}
 // Type prédéfinies
 using entidt = mps::entidt;
 using enumt = mps::enumt;
