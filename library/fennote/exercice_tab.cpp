@@ -11,7 +11,7 @@ edit_exercice_tab::edit_exercice_tab(bdd_note & bdd, tab_index pair, QWidget * p
     auto delegate = new mps::delegate::standard_node_delegate(this);
     m_view->set_delegate(delegate);
     m_type_exo = delegate->create_sub_node(m_model->index(mps::model_base::node_index(),0,model_exo::Type_Cible));
-    m_type_exo->update_data(mps::model_base::All_Role);
+    m_type_exo->update_data(mps::model_base::All_Data_Change_Flag);
     connect(m_model,&model_exo::edit_exercice_model::data_changed,this,[this](const mps::model_base::node_index &index, flag role){
         if(index.cible() == model_exo::Type_Cible && index.is_root())
             m_type_exo->update_data(role);

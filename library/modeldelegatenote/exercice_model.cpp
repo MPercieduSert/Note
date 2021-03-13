@@ -45,7 +45,7 @@ edit_exercice_model::edit_exercice_model(idt id_racine_exo, bdd_note & bdd, QObj
     connect(this,&item_node_model::nodes_inserted,this,[this](const node_index parent, numt pos, numt count) {
         auto ind = index(parent,pos + count,Label_Cible);
         while (ind.is_valid()) {
-            emit data_changed(ind,Label_Role);
+            emit data_changed(ind,Label_Change_Flag);
             ind = ind.next();
         }
     });
@@ -62,7 +62,7 @@ std::list<node_iter> edit_exercice_model::insert(const node_index &parent, numt 
         end_insert_nodes();
         auto ind = parent.index(Type_Cible);
         while(ind.is_valid()) {
-            emit data_changed(ind,Map_Role);
+            emit data_changed(ind,Setting_Change_Flag);
             ind.to_parent();
         }
     }
@@ -102,13 +102,13 @@ bool edit_exercice_model::set(const node_index &index, const QVariant &value, in
         auto changeRole = m_data.get_node(index).set_data(index.cible(),value,role,index.num());
         if(changeRole){
             emit data_changed(index,changeRole);
-            if(index.cible() == Type_Cible && changeRole & Variant_Role) {
-                emit data_changed(index.index(Node_Cible),Flag_Role);
+            if(index.cible() == Type_Cible && changeRole & Main_Data_Change_Flag) {
+                emit data_changed(index.index(Node_Cible),Flag_Change_Flag);
                 if(!index.leaf()){
                     auto ind = index.first();
                     auto id_parent = index.data(Variant_Role).toUInt();
                     while(ind.is_valid()) {
-                        emit data_changed(ind,Map_Role);
+                        emit data_changed(ind,Setting_Change_Flag);
                         auto arb = bdd().get_arbre<note_mps::type>(id_parent);
                         auto it = arb.cbegin().cbegin_child();
                         while (it && index_to_iterator(ind).hauteur() > it.hauteur())
@@ -130,7 +130,7 @@ bool edit_exercice_model::remove(const node_index &index, numt count) {
     ind.set_cible(Type_Cible);
     auto bb = item_node_bdd_model::remove(index,count);
     while(ind.is_valid()) {
-        emit data_changed(ind,Map_Role);
+        emit data_changed(ind,Setting_Change_Flag);
         ind.to_parent();
     }
     return bb;
@@ -416,19 +416,19 @@ flag edit_exercice_node::set_data(int cible, const QVariant & value, int role, n
     case Texte_Cible:
         if(role == String_Role){
             m_texte[Main_Texte].set_texte(value.toString());
-            return String_Role;
+            return Main_Same_Change_Flag;
         }
         break;
     case Type_Cible:
         if(role == mps::model_base::Variant_Role) {
             m_exo.set_type(value.toUInt());
-            return Variant_Role;
+            return Main_Same_Change_Flag;
         }
         break;
     case Version_Cible:
         if(role == mps::model_base::Variant_Role) {
             m_exo.set_version(value.toInt());
-            return Variant_Role;
+            return Main_Same_Change_Flag;
         }
         break;
     }
