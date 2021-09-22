@@ -149,7 +149,7 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-    <type>
+  <type>
     <nc>Énoncer</nc>
     <nom>Énoncer question de cours</nom>
     <ref>enonce_question_cours</ref>
@@ -166,10 +166,18 @@
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
   <type>
+    <nc>Début</nc>
+    <nom>Début d'exercice de cours</nom>
+    <ref>debut_cours_exo</ref>
+    <parent ref="exo_cours"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
     <nc>Question</nc>
     <nom>Question d'exercice de cours</nom>
     <ref>question_cours_exo</ref>
-    <parent ref="exo_cours"/>
+    <parent ref="debut_cours_exo"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
@@ -182,10 +190,18 @@
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
   <type>
+    <nc>Début</nc>
+    <nom>Début d'exercice</nom>
+    <ref>debut_exo</ref>
+    <parent ref="exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
     <nc>Question</nc>
     <nom>Question d'exercice</nom>
     <ref>question_exo</ref>
-    <parent ref="exo"/>
+    <parent ref="debut_exo"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
@@ -206,10 +222,18 @@
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
   <type>
+    <nc>Introduction</nc>
+    <nom>Introduction de problème</nom>
+    <ref>intro_pb_exo</ref>
+    <parent ref="pb_exo"/>
+    <restriction code="modification|suppression"/>
+    <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
+  </type>
+  <type>
     <nc>Partie</nc>
     <nom>Partie de problème</nom>
     <ref>partie_pb_exo</ref>
-    <parent ref="pb_exo"/>
+    <parent ref="intro_pb_exo"/>
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="exercice" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
@@ -294,7 +318,7 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="source" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-   <!-- type - texte -->
+  <!-- type - texte -->
   <type>
     <nc>Texte</nc>
     <nom>Texte principale</nom>
@@ -303,7 +327,7 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-    <type>
+  <type>
     <nc>Titre</nc>
     <nom>Titre</nom>
     <ref>titre_txt</ref>
@@ -311,7 +335,7 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-    <type>
+  <type>
     <nc>Correction</nc>
     <nom>Correction</nom>
     <ref>correction_txt</ref>
@@ -319,10 +343,46 @@
     <restriction code="modification|suppression"/>
     <type_permission id_1_cible="texte_cible" code="visible|attribuable" restriction="modification|suppression"/>
   </type>
-  <!-- Donnecard -->
+  <!-- donnee_card -->
   <donnee_card>
     <id_donnee ref="date_defaut"/>
     <cible type="cible">classe</cible>
     <card type="enum">nbr_default_date_classe</card>
   </donnee_card>
+  <!-- donnee_cible -->
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">question_cours_exo</id_cible>
+    <valeur type="enum">arabe_suivant_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">question_cours_exo</id_cible>
+    <valeur type="enum">arabe_suivant_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">question_exo</id_cible>
+    <valeur type="enum">arabe_suivant_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">ss_question_exo</id_cible>
+    <valeur type="enum">minuscule_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">partie_pb_exo</id_cible>
+    <valeur type="enum">romain_suivant_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">question_pb_exo</id_cible>
+    <valeur type="enum">arabe_suivant_style_num</valeur>
+  </donnee_cible>
+  <donnee_cible>
+    <id_donnee ref="style_num"/>
+    <id_cible cible="type">ss_question_pb_exo</id_cible>
+    <valeur type="enum">minuscule_style_num</valeur>
+  </donnee_cible>
 </entities>

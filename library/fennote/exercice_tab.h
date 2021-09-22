@@ -53,7 +53,7 @@ public slots:
 class find_exercice_tab : public mps::fenetre::abstract_tab_module_with_bdd {
     Q_OBJECT
 protected:
-    model_exo::read_exercice_model *m_model;               //!< Model.
+    model_exo::find_exercice_model *m_model;               //!< Model.
     //mps::model_base::find_model
     mps::widget::node_view *m_view;             //!< Vue.
     QPushButton *m_select_bouton;               //!< Bouton de sélection.

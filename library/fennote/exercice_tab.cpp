@@ -40,7 +40,7 @@ find_exercice_tab::find_exercice_tab(bdd_note & bd, tab_index pair, QWidget * pa
     : abstract_tab_module_with_bdd(bd,pair,parent) {
     //model-view
     m_view = new mps::widget::node_view(std::make_unique<mps::widget::rounded_arc_painter>());
-    m_model = new model_exo::read_exercice_model(static_cast<idt>(pair.second), bdd(),this);
+    m_model = new model_exo::find_exercice_model(static_cast<idt>(pair.second), bdd(),this);
     m_view->set_model(m_model);
     auto delegate = new mps::delegate::standard_node_delegate(this);
     m_view->set_delegate(delegate);
