@@ -49,7 +49,7 @@ find_exercice_tab::find_exercice_tab(bdd_note & bd, tab_index pair, QWidget * pa
     connect(m_select_bouton,&QPushButton::clicked,this,[this](){
         if(m_view->selection_model()->has_selection())
             emit open_tab_requested({info_tab_note::Edit_Exercice_Tab_Id,
-                                     m_view->selection_model()->current_index().data(mps::model_base::Id_Role).toInt()});
+                                     m_bdd.get_id_root<exercice>(m_view->selection_model()->current_index().data(mps::model_base::Id_Role).toUInt())});
     });
 
     // Calque
