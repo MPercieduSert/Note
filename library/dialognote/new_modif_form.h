@@ -133,6 +133,7 @@ protected:
     QVBoxLayout *m_main_layout;             //!< Calque Principale.
 
 public:
+    using entity_of_form = annee;
     //! Constructeur.
     annee_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -197,6 +198,7 @@ protected:
     QVBoxLayout *m_fin_layout;                  //!< Calque du choix du fin des cours.
 
 public:
+    using entity_of_form = classe;
     //! Constructeur.
     classe_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -258,6 +260,7 @@ protected:
     QVBoxLayout *m_pour_layout;             //!< Calque du groupe du choix de la destination du controle.
 
 public:
+    using entity_of_form = controle;
     //! Constructeur.
     controle_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -302,6 +305,7 @@ protected:
     mps::widget::check_list *m_te_list;     //!< Liste des types d'établissement.
 
 public:
+    using entity_of_form = etablissement;
     //! Constructeur.
     etablissement_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -354,6 +358,7 @@ protected:
 
 
 public:
+    using entity_of_form = groupe;
     //! Constructeur.
     groupe_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -397,6 +402,7 @@ protected:
     QVBoxLayout *m_niv_suiv_layout;          //!< Calque du choix des niveaux suivants.
 
 public:
+    using entity_of_form = niveau;
     //! Constructeur.
     niveau_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -429,6 +435,7 @@ protected:
     mps::widget::select_in_list_box *m_niv_select;                 //!< Sélection des niveaux.
 
 public:
+    using entity_of_form = type_etablissement;
     //! Constructeur.
     type_etablissement_new_modif_form(mps::b2d::bdd & bdd, bool new_ent, QWidget *parent = nullptr);
 
@@ -485,6 +492,7 @@ protected:
     };
 
 public:
+    using entity_of_form = type_controle;
     //! Constructeur.
     type_controle_new_modif_form(mps::b2d::bdd &bdd, bool new_ent, QWidget *parent = nullptr);
 
