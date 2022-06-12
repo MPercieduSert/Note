@@ -8,8 +8,8 @@
 #include "bdd_predef.h"
 
 namespace note_mps {
-/*! \ingroup groupe_managerInv
- * \brief Base de donnée de l'application inventaire.
+/*! \ingroup groupe_managerNote
+ * \brief Base de donnée de l'application note.
  */
 class bdd_note : public mps::b2d::bdd_predef {
 public:

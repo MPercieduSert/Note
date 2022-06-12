@@ -12,7 +12,7 @@
 
 namespace note_mps {
 /*! \ingroup groupe_fen_note
- * \brief Fenêtre à onglet de l'application inventaire.
+ * \brief Fenêtre à onglet de l'application note.
  */
 class tab_note : public mps::fenetre::predef_tab {
 public:

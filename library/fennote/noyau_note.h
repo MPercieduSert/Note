@@ -13,7 +13,7 @@
  */
 
 namespace note_mps {
-/*! \ingroup groupe_fenInv
+/*! \ingroup groupe_fenNote
  * \brief Noyau de l'application note.
  *
  * Noyau de l'application note:

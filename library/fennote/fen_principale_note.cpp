@@ -50,13 +50,13 @@ void fen_principale_note::create_menu_new_modif() {
     auto * classeMenu = m_new_modif_menu->addMenu(tr("Classe"));
     connect_action_to_new_modif_dialog<classe_new_modif_form>(classeMenu->addAction(tr("Créer")),true);
     connect_action_to_new_modif_dialog<classe_new_modif_form>(classeMenu->addAction(tr("Modifier")),false);
-    connect_action_to_ppen_tab(classeMenu->addAction(tr("Liste des éléves")),{info_tab_note::Classe_Eleve_Tab_Id,0});
+    connect_action_to_open_tab(classeMenu->addAction(tr("Liste des éléves")),{info_tab_note::Classe_Eleve_Tab_Id,0});
     //controle
     auto * ctrl= m_new_modif_menu->addMenu(tr("Controle"));
     connect_action_to_new_modif_dialog<controle_new_modif_form>(ctrl->addAction(tr("Créer")),true);
     connect_action_to_new_modif_dialog<controle_new_modif_form>(ctrl->addAction(tr("Modifier")),false);
     // eleve
-    connect_action_to_ppen_tab(m_new_modif_menu->addAction(tr("Eleve")),
+    connect_action_to_open_tab(m_new_modif_menu->addAction(tr("Eleve")),
         {info_tab_note::Eleves_Tab_Id,mps::fenetre::abstract_tab_module::No_Id});
     // Établissement
     auto * etabMenu = m_new_modif_menu->addMenu(tr("Établissement"));
@@ -64,20 +64,20 @@ void fen_principale_note::create_menu_new_modif() {
     connect_action_to_new_modif_dialog<etablissement_new_modif_form>(etabMenu->addAction(tr("Modifier")),false);
     // exercice
     auto * exerciceMenu = m_new_modif_menu->addMenu(tr("Exercice"));
-    connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Créer")),{info_tab_note::Edit_Exercice_Tab_Id,0});
-    connect_action_to_ppen_tab(exerciceMenu->addAction(tr("Chercher")),{info_tab_note::Find_Exercice_Tab_Id,0});
+    connect_action_to_open_tab(exerciceMenu->addAction(tr("Créer")),{info_tab_note::Edit_Exercice_Tab_Id,0});
+    connect_action_to_open_tab(exerciceMenu->addAction(tr("Chercher")),{info_tab_note::Find_Exercice_Tab_Id,0});
     // Groupe
     auto * gr_menu = m_new_modif_menu->addMenu(tr("Groupe"));
     connect_action_to_new_modif_dialog<groupe_new_modif_form>(gr_menu->addAction(tr("Créer")),true);
     connect_action_to_new_modif_dialog<groupe_new_modif_form>(gr_menu->addAction(tr("Modifier")),false);
-    connect_action_to_ppen_tab(gr_menu->addAction(tr("Liste des éléves")),{info_tab_note::Groupe_Tab_Id,0});
+    connect_action_to_open_tab(gr_menu->addAction(tr("Liste des éléves")),{info_tab_note::Groupe_Tab_Id,0});
     // Niveau
     auto * niveauMenu = m_new_modif_menu->addMenu(tr("Niveau"));
     connect_action_to_new_modif_dialog<niveau_new_modif_form>(niveauMenu->addAction((tr("Créer"))),true);
     connect_action_to_new_modif_dialog<niveau_new_modif_form>(niveauMenu->addAction((tr("Modifier"))),false);
     // Type
     //auto * grType = m_new_modif_menu->addMenu(tr("Type"));
-    connect_action_to_ppen_tab(m_new_modif_menu->addAction(tr("Type")),{mps::fenetre::predef_tab::Gestion_Type_Tab_Id,0});
+    connect_action_to_open_tab(m_new_modif_menu->addAction(tr("Type")),{mps::fenetre::predef_tab::Gestion_Type_Tab_Id,0});
     // Source
     auto * sourceMenu = m_new_modif_menu->addMenu(tr("Source"));
     connect_action_to_new_modif_dialog<mps::dialogue::source_new_modif_form>(sourceMenu->addAction((tr("Créer"))),true);

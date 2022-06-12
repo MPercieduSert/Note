@@ -21,7 +21,7 @@
 
 namespace note_mps {
 /*! \ingroup groupe_dialog_note
- * \brief Formulaire de création des annees.
+ * \brief Onglet de gestion des éléves.
  */
 class eleves_tab : public mps::fenetre::abstract_tab_tableau {
     Q_OBJECT
@@ -56,7 +56,7 @@ public:
 };
 
 /*! \ingroup groupe_dialog_note
- * \brief Formulaire de création des annees.
+ * \brief Onglet d'affectation des éléves.
  */
 class classe_eleve_tab: public mps::fenetre::abstract_tab_tableau {
     Q_OBJECT

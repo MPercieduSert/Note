@@ -117,7 +117,7 @@ using eaid = mps::entities::entity_ids<info_entity_note::Classe,mps::attribut::i
                    Nbr_Att = eaid::Nbr_Att,
                    Id_An = Id_1,
                    Id_Etab = Id_2,
-                   Id_Niveau = Id_3,
+                   Id_Niveau = Id_3
                    };
 
     using eaid::entity_id;

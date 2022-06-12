@@ -22,7 +22,7 @@
 #define DEFAULT_ANNEE "conf/parametre/initialisation/anneeDefaut"
 
 namespace note_mps {
-/*! \ingroup groupe_managerInv
+/*! \ingroup groupe_managerNote
  * \brief Gestionnaire du fichier de configuration.
  *
  * Gestionnaire du fichier de configuration enregistré sous la forme d'un document XML. Tous les noeuds ont des chemins uniques.
